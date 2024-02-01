@@ -1,0 +1,190 @@
+.base {
+    font-size: 32px;
+    color: rgb(40, 24, 24);
+    background-color: rgba(254, 236, 229, 0.9);
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    -unity-text-outline-color: rgb(56, 56, 56);
+    border-left-color: rgb(25, 16, 17);
+    border-right-color: rgb(25, 16, 17);
+    border-top-color: rgb(25, 16, 17);
+    border-bottom-color: rgb(25, 16, 17);
+    border-left-width: 3px;
+    border-right-width: 3px;
+    border-top-width: 3px;
+    border-bottom-width: 3px;
+}
+
+.tooltip {
+    padding: 5px;
+    background-color: rgba(254, 236, 229, 0.6);
+}
+
+.button {
+    width: 500px;
+    height: 150px;
+}
+
+.button:hover {
+    transition-duration: 0.5s;
+    transition-timing-function: ease-out-elastic;
+    scale: 1.05 1.05;
+}
+
+.button:active {
+    background-color: rgb(239, 222, 215);
+}
+
+.button-corto {
+    font-size: 48px;
+}
+
+.button-largo {
+    font-size: 32px;
+}
+
+.iniciativa-nombre-jugador {
+    width: 210px;
+    height: 100%;
+}
+
+.button-combat-action {
+    width: 100px;
+    height: 100px;
+}
+
+.fase-down {
+    position: absolute;
+    bottom: 0;
+    flex-direction: row;
+    height: 315px;
+    translate: -250px 100%;
+    transition-timing-function: ease-in;
+    transition-duration: 0.2s;
+}
+
+.fase-1 {
+    transition-timing-function: ease-in;
+    translate: -240px 0;
+    transition-duration: 0.2s;
+}
+
+.fase-2 {
+    translate: -170px 0;
+    transition-timing-function: ease-in;
+    transition-duration: 0.2s;
+}
+
+.fase-3 {
+    translate: -100px 0;
+    transition-timing-function: ease-in;
+    transition-duration: 0.2s;
+}
+
+.fase-4 {
+    translate: -30px 0;
+    transition-timing-function: ease-in;
+    transition-duration: 0.2s;
+}
+
+.fase-5 {
+    translate: 40px 0;
+    transition-duration: 0.2s;
+    transition-timing-function: ease-in;
+}
+
+.fase-6 {
+    translate: 110px 0;
+    transition-duration: 0.2s;
+    transition-timing-function: ease-in;
+}
+
+.fase-7 {
+    translate: 180px 0;
+    transition-duration: 0.2s;
+    transition-timing-function: ease-in;
+}
+
+.fase-8 {
+    translate: 250px 0;
+    transition-duration: 0.2s;
+    transition-timing-function: ease-in;
+}
+
+.fase-9 {
+    translate: 320px 0;
+    transition-duration: 0.2s;
+    transition-timing-function: ease-in;
+}
+
+.fase-10 {
+    translate: 390px 0;
+    transition-duration: 0.2s;
+    transition-timing-function: ease-in;
+    display: none;
+}
+
+.numero-fase {
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    width: 70px;
+    font-size: 24px;
+    -unity-text-align: middle-center;
+    transition-duration: 0.2s;
+    transition-timing-function: ease-in;
+}
+
+.ini-element {
+    white-space: normal;
+    font-size: 24px;
+}
+
+.label {
+    background-color: rgba(254, 236, 229, 0.6);
+    color: rgb(40, 24, 24);
+}
+
+.label-main {
+    font-size: 120px;
+    -unity-text-align: middle-center;
+    width: 1000px;
+    height: 300px;
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 125px;
+    margin-bottom: 0;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    justify-content: center;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    -unity-background-scale-mode: scale-and-crop;
+    border-left-color: rgb(25, 16, 17);
+    border-right-color: rgb(25, 16, 17);
+    border-top-color: rgb(25, 16, 17);
+    border-bottom-color: rgb(25, 16, 17);
+    border-left-width: 3px;
+    border-right-width: 3px;
+    border-top-width: 3px;
+    border-bottom-width: 3px;
+    -unity-font: url('project://database/Assets/NotMyFolders/UI%20Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss?fileID=2230732570650464555&guid=527ab2e1a07ca3849a62250d4426de9d&type=3#NotInter-Regular');
+    -unity-font-style: normal;
+    -unity-font-definition: initial;
+}
+
+.test {
+    background-color: rgb(241, 223, 216);
+    white-space: normal;
+}

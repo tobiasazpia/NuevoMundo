@@ -1,0 +1,2 @@
+Ambar - Combates: 96, winrate: 56%
+Bargo - Combates: 96, winrate: 44%

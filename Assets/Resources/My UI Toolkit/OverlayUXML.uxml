@@ -1,0 +1,438 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/Resources/Styles/MainMenu.uss?fileID=7433441132597879392&amp;guid=684bd9ff380959a4383f12bbf8944812&amp;type=3#MainMenu" />
+    <ui:VisualElement name="PantallaInicial" style="background-color: rgba(222, 0, 0, 0); width: 100%; height: 100%; flex-direction: column; background-image: resource(&apos;Images/Backgrounds/NM pajaros 16-9&apos;); -unity-background-scale-mode: scale-and-crop; -unity-slice-left: 0; -unity-slice-top: 0; -unity-slice-right: 0; -unity-slice-bottom: 0; -unity-font-definition: initial; -unity-font: url(&apos;project://database/Assets/NotMyFolders/UI%20Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss?fileID=2230732570650464555&amp;guid=527ab2e1a07ca3849a62250d4426de9d&amp;type=3#NotInter-Regular&apos;); display: flex;">
+        <ui:VisualElement name="CerrarContenedor" style="flex-direction: row-reverse;">
+            <ui:Button text="Cerrar" display-tooltip-when-elided="true" name="PrincipalCerrar" class="base button button-corto" />
+        </ui:VisualElement>
+        <ui:VisualElement name="TituloContenedor" style="background-color: rgba(75, 190, 0, 0); width: 100%; height: 65%; min-height: 0; -unity-text-align: middle-center; justify-content: space-around; align-items: center;">
+            <ui:Label text="Nuevo Mundo" display-tooltip-when-elided="true" name="Titulo" enable-rich-text="false" class="base label label-main" />
+        </ui:VisualElement>
+        <ui:VisualElement name="BotonesModos" style="background-color: rgba(75, 190, 0, 0); width: 100%; height: 35%; flex-direction: row; justify-content: space-around; align-items: center; padding-left: 125px; padding-right: 125px;">
+            <ui:Button text="Roguelike" display-tooltip-when-elided="true" name="PrincipalRoguelike" class="base button button-corto" style="background-color: rgb(241, 223, 216);" />
+            <ui:Button text="Escarmuza" display-tooltip-when-elided="true" name="PrincipalEscarmuza" class="base button button-corto" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+    <ui:VisualElement name="PantallaEscarmuza" style="position: absolute; display: none; width: 100%; height: 100%; background-image: resource(&apos;Images/Backgrounds/NM Aztec Battle 16-9&apos;);">
+        <ui:VisualElement name="TituloContenedor" style="background-color: rgba(75, 190, 0, 0); width: 100%; height: 65%; min-height: 0; -unity-text-align: middle-center; justify-content: space-around; align-items: center;">
+            <ui:Label text="Escarmuza" display-tooltip-when-elided="true" name="Titulo" class="label label-main base" style="font-size: 120px; -unity-text-align: middle-center; width: 1000px; height: 300px; margin-left: 0; margin-right: 0; margin-top: 275px; margin-bottom: 0; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; justify-content: center; background-color: rgba(254, 236, 229, 0.63); color: rgb(40, 24, 24); border-top-left-radius: 20px; border-bottom-left-radius: 20px; border-top-right-radius: 20px; border-bottom-right-radius: 20px; -unity-background-scale-mode: scale-and-crop; border-left-color: rgb(25, 16, 17); border-right-color: rgb(25, 16, 17); border-top-color: rgb(25, 16, 17); border-bottom-color: rgb(25, 16, 17); border-left-width: 3px; border-right-width: 3px; border-top-width: 3px; border-bottom-width: 3px; -unity-font: url(&apos;project://database/Assets/NotMyFolders/UI%20Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss?fileID=2230732570650464555&amp;guid=527ab2e1a07ca3849a62250d4426de9d&amp;type=3#NotInter-Regular&apos;); -unity-font-style: normal;" />
+        </ui:VisualElement>
+        <ui:VisualElement name="Botones" style="background-color: rgba(75, 190, 0, 0); width: 100%; height: 35%; flex-direction: row; justify-content: space-around; align-items: center; padding-left: 125px; padding-right: 125px;">
+            <ui:Button text="Preparar" display-tooltip-when-elided="true" name="Preparar" class="base button button-corto" />
+            <ui:Button text="Simular" display-tooltip-when-elided="true" name="Simular" class="base button button-corto" />
+            <ui:Button text="Jugar" display-tooltip-when-elided="true" name="Jugar" class="base button button-corto" />
+        </ui:VisualElement>
+        <ui:Button text="Menu Pruncipal" display-tooltip-when-elided="true" name="AtrasEscarmuza" class="base button button-corto" style="position: absolute; top: 32px; left: 1384px;" />
+    </ui:VisualElement>
+    <ui:VisualElement name="PantallaRoguelikeIni" style="position: absolute; display: none; align-items: center; justify-content: space-around; height: 100%; width: 100%; background-image: resource(&apos;Images/Backgrounds/NM Gate 16-9&apos;);">
+        <ui:Label text="&#x9;Bienvenido al Nuevo Mundo aventurero, estas por embarcarte en una serie de combates para provar tu valia! Como se llama tu heroe?" display-tooltip-when-elided="true" name="mRoguelikeIni" enable-rich-text="false" class="label-texto" style="font-size: 48px; -unity-text-align: middle-left; width: 90%; height: 150px; margin-left: 100px; margin-right: 100px; margin-top: 300px; margin-bottom: 0; padding-left: 25px; padding-right: 25px; padding-top: 25px; padding-bottom: 25px; justify-content: center; background-color: rgb(238, 221, 214); color: rgb(40, 24, 24); border-top-left-radius: 20px; border-bottom-left-radius: 20px; border-top-right-radius: 20px; border-bottom-right-radius: 20px; -unity-background-scale-mode: scale-and-crop; border-left-color: rgb(25, 16, 17); border-right-color: rgb(25, 16, 17); border-top-color: rgb(25, 16, 17); border-bottom-color: rgb(25, 16, 17); border-left-width: 3px; border-right-width: 3px; border-top-width: 3px; border-bottom-width: 3px; -unity-font: url(&apos;project://database/Assets/NotMyFolders/UI%20Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss?fileID=2230732570650464555&amp;guid=527ab2e1a07ca3849a62250d4426de9d&amp;type=3#NotInter-Regular&apos;); -unity-font-style: normal; white-space: normal;" />
+        <ui:Button text="Menu Pruncipal" display-tooltip-when-elided="true" name="AtrasRoguelikeIni" class="button base button-corto" style="position: absolute; top: 32px; left: 1384px;" />
+        <ui:TextField picking-mode="Ignore" text="tu nombre..." max-length="100" is-delayed="true" name="NombreInput" class="base" style="margin-left: 100px; margin-right: 100px; margin-top: 0; margin-bottom: 400px; font-size: 48px; overflow: visible; flex-direction: row; align-items: center; justify-content: center; width: 50%; height: 75px;" />
+    </ui:VisualElement>
+    <ui:VisualElement name="PantallaRoguelikeArma" style="position: absolute; display: none; align-items: center; justify-content: space-around; height: 100%; width: 100%; background-image: resource(&apos;Images/Backgrounds/NM Gate 16-9&apos;);">
+        <ui:Label text="&#x9;¿Con que vas a empezar?" display-tooltip-when-elided="true" name="mRoguelikeArma" enable-rich-text="true" class="base" style="font-size: 48px; -unity-text-align: middle-left; width: 50%; height: 150px; margin-left: 100px; margin-right: 100px; margin-top: 300px; margin-bottom: 0; padding-left: 25px; padding-right: 25px; padding-top: 25px; padding-bottom: 25px; justify-content: center; background-color: rgb(238, 221, 214); color: rgb(40, 24, 24); border-top-left-radius: 20px; border-bottom-left-radius: 20px; border-top-right-radius: 20px; border-bottom-right-radius: 20px; -unity-background-scale-mode: scale-and-crop; border-left-color: rgb(25, 16, 17); border-right-color: rgb(25, 16, 17); border-top-color: rgb(25, 16, 17); border-bottom-color: rgb(25, 16, 17); border-left-width: 3px; border-right-width: 3px; border-top-width: 3px; border-bottom-width: 3px; -unity-font: url(&apos;project://database/Assets/NotMyFolders/UI%20Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss?fileID=2230732570650464555&amp;guid=527ab2e1a07ca3849a62250d4426de9d&amp;type=3#NotInter-Regular&apos;); -unity-font-style: normal; white-space: normal; align-items: center;" />
+        <ui:Button text="Menu Pruncipal" display-tooltip-when-elided="true" name="AtrasRoguelikeArma" class="base button button-corto" style="position: absolute; top: 32px; left: 1384px;" />
+        <ui:VisualElement name="Botones" style="background-color: rgba(75, 190, 0, 0); width: 100%; height: 35%; flex-direction: row; justify-content: space-around; align-items: center; padding-left: 125px; padding-right: 125px;">
+            <ui:Button text="arma1" display-tooltip-when-elided="true" name="Arma1" class="button button-largo base test" />
+            <ui:Button text="arma2" display-tooltip-when-elided="true" name="Arma2" class="base button button-largo" style="background-color: rgb(241, 223, 216); white-space: normal;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+    <ui:VisualElement name="PantallaRoguelikeListo" style="position: absolute; display: none; align-items: center; justify-content: space-around; height: 100%; width: 100%; background-image: resource(&apos;Images/Backgrounds/NM Gate 16-9&apos;);">
+        <ui:Label text="mensaje de estamos listos" display-tooltip-when-elided="true" name="mRoguelikeListo" enable-rich-text="true" focusable="false" style="font-size: 48px; -unity-text-align: middle-left; width: 90%; height: 150px; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-left: 25px; padding-right: 25px; padding-top: 25px; padding-bottom: 25px; justify-content: center; background-color: rgb(238, 221, 214); color: rgb(40, 24, 24); border-top-left-radius: 20px; border-bottom-left-radius: 20px; border-top-right-radius: 20px; border-bottom-right-radius: 20px; -unity-background-scale-mode: scale-and-crop; border-left-color: rgb(25, 16, 17); border-right-color: rgb(25, 16, 17); border-top-color: rgb(25, 16, 17); border-bottom-color: rgb(25, 16, 17); border-left-width: 3px; border-right-width: 3px; border-top-width: 3px; border-bottom-width: 3px; -unity-font: url(&apos;project://database/Assets/NotMyFolders/UI%20Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss?fileID=2230732570650464555&amp;guid=527ab2e1a07ca3849a62250d4426de9d&amp;type=3#NotInter-Regular&apos;); -unity-font-style: normal; white-space: normal;" />
+        <ui:Button text="Menu Pruncipal" display-tooltip-when-elided="true" name="AtrasRoguelikeListo" class="base button button-corto" style="position: absolute; top: 32px; left: 1384px;" />
+        <ui:Button text="¡Empezemos!" display-tooltip-when-elided="true" name="Empezar" enable-rich-text="true" class="base button button-corto" />
+    </ui:VisualElement>
+    <ui:VisualElement name="PantallaRoguelikeUpgradeElegir" style="position: absolute; display: none; align-items: center; justify-content: space-around; height: 100%; width: 100%; background-image: resource(&apos;Images/Backgrounds/NM Gate 16-9&apos;);">
+        <ui:Label text="¡Sobreviviste al combate! ¿Como crece tu personaje?" display-tooltip-when-elided="true" name="mRoguelikeElegiText" enable-rich-text="false" style="font-size: 48px; -unity-text-align: middle-center; width: 90%; height: 150px; margin-left: 100px; margin-right: 100px; margin-top: 300px; margin-bottom: 0; padding-left: 25px; padding-right: 25px; padding-top: 25px; padding-bottom: 25px; justify-content: center; background-color: rgb(238, 221, 214); color: rgb(40, 24, 24); border-top-left-radius: 20px; border-bottom-left-radius: 20px; border-top-right-radius: 20px; border-bottom-right-radius: 20px; -unity-background-scale-mode: scale-and-crop; border-left-color: rgb(25, 16, 17); border-right-color: rgb(25, 16, 17); border-top-color: rgb(25, 16, 17); border-bottom-color: rgb(25, 16, 17); border-left-width: 3px; border-right-width: 3px; border-top-width: 3px; border-bottom-width: 3px; -unity-font: url(&apos;project://database/Assets/NotMyFolders/UI%20Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss?fileID=2230732570650464555&amp;guid=527ab2e1a07ca3849a62250d4426de9d&amp;type=3#NotInter-Regular&apos;); -unity-font-style: normal; white-space: normal;" />
+        <ui:VisualElement name="RoguelikeOpciones" style="flex-direction: row; justify-content: space-around; width: 100%;">
+            <ui:Button text="Button" display-tooltip-when-elided="true" name="ButtonUpgrade1" class="button-main-menu button base button-largo" style="white-space: normal;" />
+            <ui:Button text="Button" display-tooltip-when-elided="true" name="ButtonUpgrade2" class="button-main-menu base button button-largo" style="white-space: normal;" />
+            <ui:Button text="Button" display-tooltip-when-elided="true" name="ButtonUpgrade3" class="button-main-menu base button-largo button" style="white-space: normal;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+    <ui:VisualElement name="PantallaRoguelikeUpgradeRevisar" style="position: absolute; display: none; align-items: center; justify-content: space-around; height: 100%; width: 100%; background-image: resource(&apos;Images/Backgrounds/NM Gate 16-9&apos;);">
+        <ui:Label text="Tu Equipo" display-tooltip-when-elided="true" name="mRoguelikeRevisar" enable-rich-text="false" style="font-size: 48px; -unity-text-align: middle-center; width: 20%; height: 150px; justify-content: center; background-color: rgb(238, 221, 214); color: rgb(40, 24, 24); border-top-left-radius: 20px; border-bottom-left-radius: 20px; border-top-right-radius: 20px; border-bottom-right-radius: 20px; -unity-background-scale-mode: scale-and-crop; border-left-color: rgb(25, 16, 17); border-right-color: rgb(25, 16, 17); border-top-color: rgb(25, 16, 17); border-bottom-color: rgb(25, 16, 17); border-left-width: 3px; border-right-width: 3px; border-top-width: 3px; border-bottom-width: 3px; -unity-font: url(&apos;project://database/Assets/NotMyFolders/UI%20Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss?fileID=2230732570650464555&amp;guid=527ab2e1a07ca3849a62250d4426de9d&amp;type=3#NotInter-Regular&apos;); -unity-font-style: normal; white-space: normal; margin-left: 0; margin-right: 0; margin-top: 10px; margin-bottom: 0;" />
+        <ui:VisualElement name="Party" style="flex-direction: row; width: 100%; height: 70%; justify-content: space-around; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0;">
+            <ui:VisualElement name="RoguelikePersonaje1" class="button-main-menu base" style="height: auto; width: 100%; margin-left: 20px; margin-right: 20px; margin-top: 20px; margin-bottom: 20px; padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 10px;">
+                <ui:VisualElement name="PerEncabezado" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
+                    <ui:Label text="Nombre" display-tooltip-when-elided="true" name="PerNombre" />
+                    <ui:Label text="Tipo" display-tooltip-when-elided="true" name="PerTipo" />
+                    <ui:Label text="Arma" display-tooltip-when-elided="true" name="PerArma" />
+                </ui:VisualElement>
+                <ui:VisualElement name="PerHab" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
+                    <ui:VisualElement name="ABcont" style="flex-direction: row;">
+                        <ui:Label text="Ataque Básico" display-tooltip-when-elided="true" name="PerAB" />
+                        <ui:Label text="0" display-tooltip-when-elided="true" name="ABValue" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="DBcont" style="flex-direction: row;">
+                        <ui:Label text="Defensa Básica" display-tooltip-when-elided="true" name="PerDB" />
+                        <ui:Label text="0" display-tooltip-when-elided="true" name="DBValue" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement name="PerAtr" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
+                    <ui:VisualElement name="ManaCont" style="flex-direction: row;">
+                        <ui:Label text="Maña" display-tooltip-when-elided="true" name="PerMana" />
+                        <ui:Label text="0" display-tooltip-when-elided="true" name="ManaValue" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="MusculoCont" style="flex-direction: row;">
+                        <ui:Label text="Músculo" display-tooltip-when-elided="true" name="PerMusculo" />
+                        <ui:Label text="0" display-tooltip-when-elided="true" name="MusculoValue" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="IngenioCont" style="flex-direction: row;">
+                        <ui:Label text="Ingenio" display-tooltip-when-elided="true" name="PerIngenio" />
+                        <ui:Label text="0" display-tooltip-when-elided="true" name="IngenioValue" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="BrioCont" style="flex-direction: row;">
+                        <ui:Label text="Brío" display-tooltip-when-elided="true" name="PerBrio" />
+                        <ui:Label text="0" display-tooltip-when-elided="true" name="BrioValue" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="DonaireCont" style="flex-direction: row;">
+                        <ui:Label text="Donaire" display-tooltip-when-elided="true" name="PerDonaire" />
+                        <ui:Label text="0" display-tooltip-when-elided="true" name="DonaireValue" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="RoguelikePersonaje2" class="button-main-menu base" style="height: auto; width: 100%; margin-left: 20px; margin-right: 20px; margin-top: 20px; margin-bottom: 20px; padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 10px;">
+                <ui:VisualElement name="PerEncabezado" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
+                    <ui:Label text="Nombre" display-tooltip-when-elided="true" name="PerNombre" />
+                    <ui:Label text="Tipo" display-tooltip-when-elided="true" name="PerTipo" />
+                    <ui:Label text="Arma" display-tooltip-when-elided="true" name="PerArma" />
+                </ui:VisualElement>
+                <ui:VisualElement name="PerHab" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
+                    <ui:VisualElement name="ABcont" style="flex-direction: row;">
+                        <ui:Label text="Ataque Básico" display-tooltip-when-elided="true" name="PerAB" />
+                        <ui:Label text="0" display-tooltip-when-elided="true" name="ABValue" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="DBcont" style="flex-direction: row;">
+                        <ui:Label text="Defensa Básica" display-tooltip-when-elided="true" name="PerDB" />
+                        <ui:Label text="0" display-tooltip-when-elided="true" name="DBValue" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement name="PerAtr" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
+                    <ui:VisualElement name="ManaCont" style="flex-direction: row;">
+                        <ui:Label text="Maña" display-tooltip-when-elided="true" name="PerMana" />
+                        <ui:Label text="0" display-tooltip-when-elided="true" name="ManaValue" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="MusculoCont" style="flex-direction: row;">
+                        <ui:Label text="Músculo" display-tooltip-when-elided="true" name="PerMusculo" />
+                        <ui:Label text="0" display-tooltip-when-elided="true" name="MusculoValue" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="IngenioCont" style="flex-direction: row;">
+                        <ui:Label text="Ingenio" display-tooltip-when-elided="true" name="PerIngenio" />
+                        <ui:Label text="0" display-tooltip-when-elided="true" name="IngenioValue" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="BrioCont" style="flex-direction: row;">
+                        <ui:Label text="Brío" display-tooltip-when-elided="true" name="PerBrio" />
+                        <ui:Label text="0" display-tooltip-when-elided="true" name="BrioValue" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="DonaireCont" style="flex-direction: row;">
+                        <ui:Label text="Donaire" display-tooltip-when-elided="true" name="PerDonaire" />
+                        <ui:Label text="0" display-tooltip-when-elided="true" name="DonaireValue" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="RoguelikePersonaje3" class="button-main-menu base" style="height: auto; width: 100%; margin-left: 20px; margin-right: 20px; margin-top: 20px; margin-bottom: 20px; padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 10px;">
+                <ui:VisualElement name="PerEncabezado" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
+                    <ui:Label text="Nombre" display-tooltip-when-elided="true" name="PerNombre" />
+                    <ui:Label text="Tipo" display-tooltip-when-elided="true" name="PerTipo" />
+                    <ui:Label text="Arma" display-tooltip-when-elided="true" name="PerArma" />
+                </ui:VisualElement>
+                <ui:VisualElement name="PerHab" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
+                    <ui:VisualElement name="ABcont" style="flex-direction: row;">
+                        <ui:Label text="Ataque Básico" display-tooltip-when-elided="true" name="PerAB" />
+                        <ui:Label text="0" display-tooltip-when-elided="true" name="ABValue" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="DBcont" style="flex-direction: row;">
+                        <ui:Label text="Defensa Básica" display-tooltip-when-elided="true" name="PerDB" />
+                        <ui:Label text="0" display-tooltip-when-elided="true" name="DBValue" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement name="PerAtr" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
+                    <ui:VisualElement name="ManaCont" style="flex-direction: row;">
+                        <ui:Label text="Maña" display-tooltip-when-elided="true" name="PerMana" />
+                        <ui:Label text="0" display-tooltip-when-elided="true" name="ManaValue" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="MusculoCont" style="flex-direction: row;">
+                        <ui:Label text="Músculo" display-tooltip-when-elided="true" name="PerMusculo" />
+                        <ui:Label text="0" display-tooltip-when-elided="true" name="MusculoValue" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="IngenioCont" style="flex-direction: row;">
+                        <ui:Label text="Ingenio" display-tooltip-when-elided="true" name="PerIngenio" />
+                        <ui:Label text="0" display-tooltip-when-elided="true" name="IngenioValue" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="BrioCont" style="flex-direction: row;">
+                        <ui:Label text="Brío" display-tooltip-when-elided="true" name="PerBrio" />
+                        <ui:Label text="0" display-tooltip-when-elided="true" name="BrioValue" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="DonaireCont" style="flex-direction: row;">
+                        <ui:Label text="Donaire" display-tooltip-when-elided="true" name="PerDonaire" />
+                        <ui:Label text="0" display-tooltip-when-elided="true" name="DonaireValue" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:Button text="Continuar" display-tooltip-when-elided="true" name="ButtonRevisarContinuar" class="button-main-menu base button button-corto" style="margin-bottom: 10px;" />
+    </ui:VisualElement>
+    <ui:VisualElement name="PantallaRoguelikeUpgradeAnticipar" style="position: absolute; display: none; align-items: center; justify-content: space-around; height: 100%; width: 100%; background-image: resource(&apos;Images/Backgrounds/NM Gate 16-9&apos;);">
+        <ui:Label text="texto" display-tooltip-when-elided="true" name="mRoguelikeAnticipar" enable-rich-text="false" style="font-size: 48px; -unity-text-align: middle-left; width: 90%; height: 150px; margin-left: 100px; margin-right: 100px; margin-top: 300px; margin-bottom: 0; padding-left: 25px; padding-right: 25px; padding-top: 25px; padding-bottom: 25px; justify-content: center; background-color: rgb(238, 221, 214); color: rgb(40, 24, 24); border-top-left-radius: 20px; border-bottom-left-radius: 20px; border-top-right-radius: 20px; border-bottom-right-radius: 20px; -unity-background-scale-mode: scale-and-crop; border-left-color: rgb(25, 16, 17); border-right-color: rgb(25, 16, 17); border-top-color: rgb(25, 16, 17); border-bottom-color: rgb(25, 16, 17); border-left-width: 3px; border-right-width: 3px; border-top-width: 3px; border-bottom-width: 3px; -unity-font: url(&apos;project://database/Assets/NotMyFolders/UI%20Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss?fileID=2230732570650464555&amp;guid=527ab2e1a07ca3849a62250d4426de9d&amp;type=3#NotInter-Regular&apos;); -unity-font-style: normal; white-space: normal;" />
+        <ui:Button text="¡Siguiente Nivel!" display-tooltip-when-elided="true" name="ButtonRoguelikeSiguienteNivel" class="base button button-corto" />
+    </ui:VisualElement>
+    <ui:VisualElement name="PantallaRoguelikeFinal" style="position: absolute; display: none; align-items: center; justify-content: space-around; height: 100%; width: 100%; background-image: resource(&apos;Images/Backgrounds/NM Gate 16-9&apos;);">
+        <ui:Label text="texto despedida&#10;" display-tooltip-when-elided="true" name="mRoguelikeFinal" enable-rich-text="false" style="font-size: 48px; -unity-text-align: middle-center; width: 20%; height: 150px; justify-content: center; background-color: rgb(238, 221, 214); color: rgb(40, 24, 24); border-top-left-radius: 20px; border-bottom-left-radius: 20px; border-top-right-radius: 20px; border-bottom-right-radius: 20px; -unity-background-scale-mode: scale-and-crop; border-left-color: rgb(25, 16, 17); border-right-color: rgb(25, 16, 17); border-top-color: rgb(25, 16, 17); border-bottom-color: rgb(25, 16, 17); border-left-width: 3px; border-right-width: 3px; border-top-width: 3px; border-bottom-width: 3px; -unity-font: url(&apos;project://database/Assets/NotMyFolders/UI%20Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss?fileID=2230732570650464555&amp;guid=527ab2e1a07ca3849a62250d4426de9d&amp;type=3#NotInter-Regular&apos;); -unity-font-style: normal; white-space: normal; margin-left: 0; margin-right: 0; margin-top: 10px; margin-bottom: 0;" />
+        <ui:VisualElement name="Party" style="flex-direction: row; width: 100%; height: 70%; justify-content: space-around; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0;">
+            <ui:VisualElement name="RoguelikePersonaje1" class="button-main-menu base" style="height: auto; width: 100%; margin-left: 20px; margin-right: 20px; margin-top: 20px; margin-bottom: 20px; padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 10px;">
+                <ui:VisualElement name="PerEncabezado" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
+                    <ui:Label text="Nombre" display-tooltip-when-elided="true" name="PerNombre" />
+                    <ui:Label text="Tipo" display-tooltip-when-elided="true" name="PerTipo" />
+                    <ui:Label text="Arma" display-tooltip-when-elided="true" name="PerArma" />
+                </ui:VisualElement>
+                <ui:VisualElement name="PerHab" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
+                    <ui:VisualElement name="ABcont" style="flex-direction: row;">
+                        <ui:Label text="Ataque Básico" display-tooltip-when-elided="true" name="PerAB" />
+                        <ui:Label text="0" display-tooltip-when-elided="true" name="ABValue" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="DBcont" style="flex-direction: row;">
+                        <ui:Label text="Defensa Básica" display-tooltip-when-elided="true" name="PerDB" />
+                        <ui:Label text="0" display-tooltip-when-elided="true" name="DBValue" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement name="PerAtr" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
+                    <ui:VisualElement name="ManaCont" style="flex-direction: row;">
+                        <ui:Label text="Maña" display-tooltip-when-elided="true" name="PerMana" />
+                        <ui:Label text="0" display-tooltip-when-elided="true" name="ManaValue" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="MusculoCont" style="flex-direction: row;">
+                        <ui:Label text="Músculo" display-tooltip-when-elided="true" name="PerMusculo" />
+                        <ui:Label text="0" display-tooltip-when-elided="true" name="MusculoValue" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="IngenioCont" style="flex-direction: row;">
+                        <ui:Label text="Ingenio" display-tooltip-when-elided="true" name="PerIngenio" />
+                        <ui:Label text="0" display-tooltip-when-elided="true" name="IngenioValue" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="BrioCont" style="flex-direction: row;">
+                        <ui:Label text="Brío" display-tooltip-when-elided="true" name="PerBrio" />
+                        <ui:Label text="0" display-tooltip-when-elided="true" name="BrioValue" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="DonaireCont" style="flex-direction: row;">
+                        <ui:Label text="Donaire" display-tooltip-when-elided="true" name="PerDonaire" />
+                        <ui:Label text="0" display-tooltip-when-elided="true" name="DonaireValue" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="RoguelikePersonaje2" class="button-main-menu base" style="height: auto; width: 100%; margin-left: 20px; margin-right: 20px; margin-top: 20px; margin-bottom: 20px; padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 10px;">
+                <ui:VisualElement name="PerEncabezado" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
+                    <ui:Label text="Nombre" display-tooltip-when-elided="true" name="PerNombre" />
+                    <ui:Label text="Tipo" display-tooltip-when-elided="true" name="PerTipo" />
+                    <ui:Label text="Arma" display-tooltip-when-elided="true" name="PerArma" />
+                </ui:VisualElement>
+                <ui:VisualElement name="PerHab" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
+                    <ui:VisualElement name="ABcont" style="flex-direction: row;">
+                        <ui:Label text="Ataque Básico" display-tooltip-when-elided="true" name="PerAB" />
+                        <ui:Label text="0" display-tooltip-when-elided="true" name="ABValue" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="DBcont" style="flex-direction: row;">
+                        <ui:Label text="Defensa Básica" display-tooltip-when-elided="true" name="PerDB" />
+                        <ui:Label text="0" display-tooltip-when-elided="true" name="DBValue" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement name="PerAtr" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
+                    <ui:VisualElement name="ManaCont" style="flex-direction: row;">
+                        <ui:Label text="Maña" display-tooltip-when-elided="true" name="PerMana" />
+                        <ui:Label text="0" display-tooltip-when-elided="true" name="ManaValue" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="MusculoCont" style="flex-direction: row;">
+                        <ui:Label text="Músculo" display-tooltip-when-elided="true" name="PerMusculo" />
+                        <ui:Label text="0" display-tooltip-when-elided="true" name="MusculoValue" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="IngenioCont" style="flex-direction: row;">
+                        <ui:Label text="Ingenio" display-tooltip-when-elided="true" name="PerIngenio" />
+                        <ui:Label text="0" display-tooltip-when-elided="true" name="IngenioValue" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="BrioCont" style="flex-direction: row;">
+                        <ui:Label text="Brío" display-tooltip-when-elided="true" name="PerBrio" />
+                        <ui:Label text="0" display-tooltip-when-elided="true" name="BrioValue" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="DonaireCont" style="flex-direction: row;">
+                        <ui:Label text="Donaire" display-tooltip-when-elided="true" name="PerDonaire" />
+                        <ui:Label text="0" display-tooltip-when-elided="true" name="DonaireValue" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="RoguelikePersonaje3" class="button-main-menu base" style="height: auto; width: 100%; margin-left: 20px; margin-right: 20px; margin-top: 20px; margin-bottom: 20px; padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 10px;">
+                <ui:VisualElement name="PerEncabezado" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
+                    <ui:Label text="Nombre" display-tooltip-when-elided="true" name="PerNombre" />
+                    <ui:Label text="Tipo" display-tooltip-when-elided="true" name="PerTipo" />
+                    <ui:Label text="Arma" display-tooltip-when-elided="true" name="PerArma" />
+                </ui:VisualElement>
+                <ui:VisualElement name="PerHab" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
+                    <ui:VisualElement name="ABcont" style="flex-direction: row;">
+                        <ui:Label text="Ataque Básico" display-tooltip-when-elided="true" name="PerAB" />
+                        <ui:Label text="0" display-tooltip-when-elided="true" name="ABValue" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="DBcont" style="flex-direction: row;">
+                        <ui:Label text="Defensa Básica" display-tooltip-when-elided="true" name="PerDB" />
+                        <ui:Label text="0" display-tooltip-when-elided="true" name="DBValue" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement name="PerAtr" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
+                    <ui:VisualElement name="ManaCont" style="flex-direction: row;">
+                        <ui:Label text="Maña" display-tooltip-when-elided="true" name="PerMana" />
+                        <ui:Label text="0" display-tooltip-when-elided="true" name="ManaValue" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="MusculoCont" style="flex-direction: row;">
+                        <ui:Label text="Músculo" display-tooltip-when-elided="true" name="PerMusculo" />
+                        <ui:Label text="0" display-tooltip-when-elided="true" name="MusculoValue" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="IngenioCont" style="flex-direction: row;">
+                        <ui:Label text="Ingenio" display-tooltip-when-elided="true" name="PerIngenio" />
+                        <ui:Label text="0" display-tooltip-when-elided="true" name="IngenioValue" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="BrioCont" style="flex-direction: row;">
+                        <ui:Label text="Brío" display-tooltip-when-elided="true" name="PerBrio" />
+                        <ui:Label text="0" display-tooltip-when-elided="true" name="BrioValue" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="DonaireCont" style="flex-direction: row;">
+                        <ui:Label text="Donaire" display-tooltip-when-elided="true" name="PerDonaire" />
+                        <ui:Label text="0" display-tooltip-when-elided="true" name="DonaireValue" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:Button text="Continuar" display-tooltip-when-elided="true" name="ButtonFinalReintentar" class="button-main-menu base button button-corto" style="margin-bottom: 10px;" />
+    </ui:VisualElement>
+    <ui:VisualElement name="PantallaCombate" style="position: absolute; display: none; align-items: center; justify-content: none; height: 100%; width: 100%; background-color: rgba(0, 0, 0, 0);">
+        <ui:VisualElement name="Instrucciones" style="width: 100%; height: 70%;">
+            <ui:Label text="Label" display-tooltip-when-elided="true" name="Texto" class="button-main-menu base" style="white-space: normal; margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px; padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 10px; font-size: 32px; height: 250px; width: 500px;" />
+            <ui:VisualElement name="BotonesInput" style="flex-direction: column;">
+                <ui:VisualElement name="MenuAccion" style="flex-direction: row; display: none;">
+                    <ui:Button display-tooltip-when-elided="true" name="ButtonMarcial" tooltip="Habilidades Marciales" class="button-main-menu button-combat-action button base" style="display: none; background-image: resource(&apos;Images/Icons/Marcial-Icon&apos;);" />
+                    <ui:Button display-tooltip-when-elided="true" name="ButtonArcana" tooltip="Habilidades Arcanas" class="button-main-menu button-combat-action button base" style="display: none; background-image: resource(&apos;Images/Icons/Arcana-Icon&apos;);" />
+                    <ui:Button display-tooltip-when-elided="true" name="ButtonMover" tooltip="Movimiento" class="button-main-menu button-combat-action button base" style="background-image: resource(&apos;Images/Icons/Run Icon&apos;); display: none;" />
+                    <ui:Button display-tooltip-when-elided="true" name="ButtonGuardar" tooltip="Guardar Acción" class="button-main-menu button-combat-action button base" style="background-image: resource(&apos;Images/Icons/Wait-Icon-2&apos;); display: none;" />
+                </ui:VisualElement>
+                <ui:VisualElement name="MenuMarcial" style="flex-direction: row; display: none;">
+                    <ui:Button display-tooltip-when-elided="true" name="ButtonAtacar" tooltip="Ataque Básico" class="button-main-menu button-combat-action button base" style="display: none; background-image: resource(&apos;Images/Icons/Attack-Icon&apos;);" />
+                    <ui:Button display-tooltip-when-elided="true" name="ButtonRecargar" tooltip="Recargar" class="button-main-menu button-combat-action button base" style="display: none; background-image: resource(&apos;Images/Icons/Reload-Icon&apos;);" />
+                    <ui:Button display-tooltip-when-elided="true" name="ButtonAtacarImpro" tooltip="Ataque Básico con Arma Improvisada" class="button-main-menu button-combat-action button base" style="display: none; background-image: resource(&apos;Images/Icons/improvisada-Icon&apos;);" />
+                    <ui:Button display-tooltip-when-elided="true" name="ButtonConseguirImpro" tooltip="Buscar Arma Improvisada" class="button-main-menu button-combat-action button base" style="display: none; background-image: resource(&apos;Images/Icons/find-Icon&apos;);" />
+                    <ui:Button display-tooltip-when-elided="true" name="ButtonMarcialAtras" tooltip="Atras" class="button-main-menu button-combat-action button base" style="background-image: resource(&apos;Images/Icons/icon-backup&apos;); display: none;" />
+                </ui:VisualElement>
+                <ui:VisualElement name="MenuArcana" style="flex-direction: row; display: none;">
+                    <ui:Button display-tooltip-when-elided="true" name="ButtonArcanaAtras" tooltip="Atras" class="button-main-menu button-combat-action button base" style="background-image: resource(&apos;Images/Icons/icon-backup&apos;); display: flex;" />
+                </ui:VisualElement>
+                <ui:VisualElement name="MenuMovimiento" style="flex-direction: row; display: none;">
+                    <ui:Button display-tooltip-when-elided="true" name="ButtonMoverImpro" tooltip="Carga con arma improvisada" class="button-main-menu button-combat-action button base" style="display: none; background-image: resource(&apos;Images/Icons/improvisada-Icon&apos;);" />
+                    <ui:Button display-tooltip-when-elided="true" name="ButtonMoverAgro" tooltip="Carga" class="button-main-menu button-combat-action button base" style="background-image: resource(&apos;Images/Icons/Charge-Icon&apos;); display: none;" />
+                    <ui:Button display-tooltip-when-elided="true" name="ButtonMoverPrec" tooltip="Movimiento precavido" class="button-main-menu button-combat-action button base" style="background-image: resource(&apos;Images/Icons/Prowl-Icon&apos;); display: none;" />
+                    <ui:Button display-tooltip-when-elided="true" name="ButtonMoverAtras" tooltip="Atras" class="button-main-menu button-combat-action button base" style="background-image: resource(&apos;Images/Icons/icon-backup&apos;); display: none;" />
+                </ui:VisualElement>
+                <ui:VisualElement name="MenuBackOnly" style="flex-direction: row; display: none;">
+                    <ui:Button display-tooltip-when-elided="true" name="ButtonAtrasSolo" tooltip="Atras" class="button-main-menu button-combat-action button base" style="background-image: resource(&apos;Images/Icons/icon-backup&apos;); display: flex;" />
+                </ui:VisualElement>
+                <ui:VisualElement name="MenuReaccion" style="flex-direction: row; display: flex;">
+                    <ui:Button display-tooltip-when-elided="true" name="ButtonIntervenir" tooltip="Intervenir" class="button-main-menu button-combat-action button base" style="background-image: resource(&apos;Images/Icons/stop-icon&apos;); display: none;" />
+                    <ui:Button display-tooltip-when-elided="true" name="ButtonNoIntervenir" tooltip="No intervenir" class="button-main-menu button-combat-action button base" style="background-image: resource(&apos;Images/Icons/Wait-Icon-2&apos;); display: none;" />
+                </ui:VisualElement>
+                <ui:VisualElement name="MenuIntervenir" style="flex-direction: row; display: flex;">
+                    <ui:Button display-tooltip-when-elided="true" name="ButtonDefender" tooltip="Defensa Básica" class="button-main-menu button-combat-action button base" style="background-image: resource(&apos;Images/Icons/Defend-Icon&apos;); display: none;" />
+                    <ui:Button display-tooltip-when-elided="true" name="ButtonDefenderImpro" tooltip="Defensa Básica lanzando arma improvisada" class="button-main-menu button-combat-action button base" style="display: none; background-image: resource(&apos;Images/Icons/improvisada-Icon&apos;);" />
+                    <ui:Button display-tooltip-when-elided="true" name="ButtonIntervenirAtras" tooltip="Atras" class="button-main-menu button-combat-action button base" style="background-image: resource(&apos;Images/Icons/icon-backup&apos;); display: none;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="Iniciativa" class="base" style="width: 50%; height: 30%; font-size: 24px;">
+            <ui:Label text="Ronda:" display-tooltip-when-elided="true" name="IniRonda" style="margin-left: 2px; margin-right: 4px; margin-top: 4px; margin-bottom: 2px; padding-left: 2px; padding-right: 4px; padding-top: 4px; padding-bottom: 2px; font-size: 24px;" />
+            <ui:VisualElement name="IniJugador1" style="flex-direction: row; display: none;">
+                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador1Nombre" class="iniciativa-nombre-jugador ini-element" />
+                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador1Fase1" class="numero-fase" />
+                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador1Fase2" class="numero-fase" />
+                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador1Fase3" class="numero-fase" />
+                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador1Fase4" class="numero-fase" />
+                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador1Fase5" class="numero-fase" />
+                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador1Fase6" class="numero-fase" />
+                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador1Fase7" class="numero-fase" />
+                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador1Fase8" class="numero-fase" />
+                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador1Fase9" class="numero-fase" />
+                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador1Fase10" class="numero-fase" />
+            </ui:VisualElement>
+            <ui:VisualElement name="IniJugador2" style="flex-direction: row; display: none;">
+                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador2Nombre" class="iniciativa-nombre-jugador ini-element" style="white-space: normal;" />
+                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador2Fase1" class="numero-fase" />
+                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador2Fase2" class="numero-fase" />
+                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador2Fase3" class="numero-fase" />
+                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador2Fase4" class="numero-fase" />
+                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador2Fase5" class="numero-fase" />
+                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador2Fase6" class="numero-fase" />
+                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador2Fase7" class="numero-fase" />
+                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador2Fase8" class="numero-fase" />
+                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador2Fase9" class="numero-fase" />
+                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador2Fase10" class="numero-fase" />
+            </ui:VisualElement>
+            <ui:VisualElement name="IniJugador3" style="flex-direction: row; display: none;">
+                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador3Nombre" class="iniciativa-nombre-jugador ini-element" style="white-space: normal;" />
+                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador3Fase1" class="numero-fase" />
+                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador3Fase2" class="numero-fase" />
+                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador3Fase3" class="numero-fase" />
+                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador3Fase4" class="numero-fase" />
+                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador3Fase5" class="numero-fase" />
+                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador3Fase6" class="numero-fase" />
+                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador3Fase7" class="numero-fase" />
+                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador3Fase8" class="numero-fase" />
+                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador3Fase9" class="numero-fase" />
+                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador3Fase10" class="numero-fase" />
+            </ui:VisualElement>
+            <ui:VisualElement name="IniJugador4" style="flex-direction: row; display: none;">
+                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador4Nombre" class="iniciativa-nombre-jugador ini-element" style="white-space: normal;" />
+                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador4Fase1" class="numero-fase" />
+                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador4Fase2" class="numero-fase" />
+                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador4Fase3" class="numero-fase" />
+                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador4Fase4" class="numero-fase" />
+                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador4Fase5" class="numero-fase" />
+                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador4Fase6" class="numero-fase" />
+                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador4Fase7" class="numero-fase" />
+                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador4Fase8" class="numero-fase" />
+                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador4Fase9" class="numero-fase" />
+                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador4Fase10" class="numero-fase" />
+            </ui:VisualElement>
+            <ui:VisualElement name="IniJugador5" style="flex-direction: row; display: none;">
+                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador5Nombre" class="iniciativa-nombre-jugador ini-element" style="white-space: normal;" />
+                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador5Fase1" class="numero-fase" />
+                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador5Fase2" class="numero-fase" />
+                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador5Fase3" class="numero-fase" />
+                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador5Fase4" class="numero-fase" />
+                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador5Fase5" class="numero-fase" />
+                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador5Fase6" class="numero-fase" />
+                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador5Fase7" class="numero-fase" />
+                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador5Fase8" class="numero-fase" />
+                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador5Fase9" class="numero-fase" />
+                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador5Fase10" class="numero-fase" />
+            </ui:VisualElement>
+            <ui:VisualElement name="IniJugador6" style="flex-direction: row; display: none;">
+                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador6Nombre" class="iniciativa-nombre-jugador ini-element" style="white-space: normal;" />
+                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador6Fase1" class="numero-fase" />
+                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador6Fase2" class="numero-fase" />
+                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador6Fase3" class="numero-fase" />
+                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador6Fase4" class="numero-fase" />
+                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador6Fase5" class="numero-fase" />
+                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador6Fase6" class="numero-fase" />
+                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador6Fase7" class="numero-fase" />
+                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador6Fase8" class="numero-fase" />
+                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador6Fase9" class="numero-fase" />
+                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador6Fase10" class="numero-fase" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="IndicadorFaseContainer" class="fase-down" style="left: 925px; display: flex;">
+            <ui:VisualElement name="FasesAnteriores" class="button-main-menu base" style="width: 700px; height: auto; position: relative; bottom: auto; background-color: rgba(56, 56, 56, 0); display: none;">
+                <ui:Label text="Anteriores&#10;" display-tooltip-when-elided="true" name="FaseTitulo" style="font-size: 32px;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="FaseActual" class="button-main-menu base" style="width: 100px; height: auto; position: relative; bottom: auto; background-color: rgba(56, 56, 56, 0);">
+                <ui:Label text="Fase" display-tooltip-when-elided="true" name="FaseTitulo" style="font-size: 32px; -unity-text-align: upper-center;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="FasesPosteriores" class="base" style="width: 700px; height: auto; position: relative; bottom: auto; background-color: rgba(56, 56, 56, 0); display: none;">
+                <ui:Label text="Posteriores&#10;" display-tooltip-when-elided="true" name="FaseTitulo" style="font-size: 32px;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+    <ui:VisualElement name="TooltipLayer" style="position: absolute;">
+        <ui:Label text="tooltip" display-tooltip-when-elided="true" name="tooltip" class="base tooltip" style="display: none;" />
+    </ui:VisualElement>
+</ui:UXML>
