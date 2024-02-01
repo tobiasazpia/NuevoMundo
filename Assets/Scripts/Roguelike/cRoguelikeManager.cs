@@ -9,6 +9,7 @@ public class cRoguelikeManager : MonoBehaviour
     public List<cPersonajeFlyweight> party;
     public int nivel;
     public cRoguelikeCombate rC;
+    public UIRoguelikeEnd uiRE;
 
     // Start is called before the first frame update
     void Start()

@@ -188,3 +188,35 @@
     background-color: rgb(241, 223, 216);
     white-space: normal;
 }
+
+.label-texto {
+    font-size: 48px;
+    -unity-text-align: middle-left;
+    width: 90%;
+    height: 150px;
+    margin-left: 100px;
+    margin-right: 100px;
+    padding-left: 25px;
+    padding-right: 25px;
+    padding-top: 25px;
+    padding-bottom: 25px;
+    justify-content: center;
+    background-color: rgb(238, 221, 214);
+    color: rgb(40, 24, 24);
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    -unity-background-scale-mode: scale-and-crop;
+    border-left-color: rgb(25, 16, 17);
+    border-right-color: rgb(25, 16, 17);
+    border-top-color: rgb(25, 16, 17);
+    border-bottom-color: rgb(25, 16, 17);
+    border-left-width: 3px;
+    border-right-width: 3px;
+    border-top-width: 3px;
+    border-bottom-width: 3px;
+    -unity-font: url('project://database/Assets/NotMyFolders/UI%20Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss?fileID=2230732570650464555&guid=527ab2e1a07ca3849a62250d4426de9d&type=3#NotInter-Regular');
+    -unity-font-style: normal;
+    white-space: normal;
+}

@@ -24,7 +24,7 @@
         <ui:Button text="Menu Pruncipal" display-tooltip-when-elided="true" name="AtrasEscarmuza" class="base button button-corto" style="position: absolute; top: 32px; left: 1384px;" />
     </ui:VisualElement>
     <ui:VisualElement name="PantallaRoguelikeIni" style="position: absolute; display: none; align-items: center; justify-content: space-around; height: 100%; width: 100%; background-image: resource(&apos;Images/Backgrounds/NM Gate 16-9&apos;);">
-        <ui:Label text="&#x9;Bienvenido al Nuevo Mundo aventurero, estas por embarcarte en una serie de combates para provar tu valia! Como se llama tu heroe?" display-tooltip-when-elided="true" name="mRoguelikeIni" enable-rich-text="false" class="label-texto" style="font-size: 48px; -unity-text-align: middle-left; width: 90%; height: 150px; margin-left: 100px; margin-right: 100px; margin-top: 300px; margin-bottom: 0; padding-left: 25px; padding-right: 25px; padding-top: 25px; padding-bottom: 25px; justify-content: center; background-color: rgb(238, 221, 214); color: rgb(40, 24, 24); border-top-left-radius: 20px; border-bottom-left-radius: 20px; border-top-right-radius: 20px; border-bottom-right-radius: 20px; -unity-background-scale-mode: scale-and-crop; border-left-color: rgb(25, 16, 17); border-right-color: rgb(25, 16, 17); border-top-color: rgb(25, 16, 17); border-bottom-color: rgb(25, 16, 17); border-left-width: 3px; border-right-width: 3px; border-top-width: 3px; border-bottom-width: 3px; -unity-font: url(&apos;project://database/Assets/NotMyFolders/UI%20Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss?fileID=2230732570650464555&amp;guid=527ab2e1a07ca3849a62250d4426de9d&amp;type=3#NotInter-Regular&apos;); -unity-font-style: normal; white-space: normal;" />
+        <ui:Label text="&#x9;Bienvenido al Nuevo Mundo aventurero, estas por embarcarte en una serie de combates para provar tu valia! Como se llama tu heroe?" display-tooltip-when-elided="true" name="mRoguelikeIni" enable-rich-text="false" class="label-texto" style="margin-top: 300px;" />
         <ui:Button text="Menu Pruncipal" display-tooltip-when-elided="true" name="AtrasRoguelikeIni" class="button base button-corto" style="position: absolute; top: 32px; left: 1384px;" />
         <ui:TextField picking-mode="Ignore" text="tu nombre..." max-length="100" is-delayed="true" name="NombreInput" class="base" style="margin-left: 100px; margin-right: 100px; margin-top: 0; margin-bottom: 400px; font-size: 48px; overflow: visible; flex-direction: row; align-items: center; justify-content: center; width: 50%; height: 75px;" />
     </ui:VisualElement>
@@ -177,9 +177,9 @@
         <ui:Button text="¡Siguiente Nivel!" display-tooltip-when-elided="true" name="ButtonRoguelikeSiguienteNivel" class="base button button-corto" />
     </ui:VisualElement>
     <ui:VisualElement name="PantallaRoguelikeFinal" style="position: absolute; display: none; align-items: center; justify-content: space-around; height: 100%; width: 100%; background-image: resource(&apos;Images/Backgrounds/NM Gate 16-9&apos;);">
-        <ui:Label text="texto despedida&#10;" display-tooltip-when-elided="true" name="mRoguelikeFinal" enable-rich-text="false" style="font-size: 48px; -unity-text-align: middle-center; width: 20%; height: 150px; justify-content: center; background-color: rgb(238, 221, 214); color: rgb(40, 24, 24); border-top-left-radius: 20px; border-bottom-left-radius: 20px; border-top-right-radius: 20px; border-bottom-right-radius: 20px; -unity-background-scale-mode: scale-and-crop; border-left-color: rgb(25, 16, 17); border-right-color: rgb(25, 16, 17); border-top-color: rgb(25, 16, 17); border-bottom-color: rgb(25, 16, 17); border-left-width: 3px; border-right-width: 3px; border-top-width: 3px; border-bottom-width: 3px; -unity-font: url(&apos;project://database/Assets/NotMyFolders/UI%20Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss?fileID=2230732570650464555&amp;guid=527ab2e1a07ca3849a62250d4426de9d&amp;type=3#NotInter-Regular&apos;); -unity-font-style: normal; white-space: normal; margin-left: 0; margin-right: 0; margin-top: 10px; margin-bottom: 0;" />
+        <ui:Label text="texto despedida&#10;" display-tooltip-when-elided="true" name="mRoguelikeFinal" enable-rich-text="false" class="base label label-texto" />
         <ui:VisualElement name="Party" style="flex-direction: row; width: 100%; height: 70%; justify-content: space-around; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0;">
-            <ui:VisualElement name="RoguelikePersonaje1" class="button-main-menu base" style="height: auto; width: 100%; margin-left: 20px; margin-right: 20px; margin-top: 20px; margin-bottom: 20px; padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 10px;">
+            <ui:VisualElement name="RoguelikePersonajeFinal1" class="button-main-menu base" style="height: auto; width: 100%; margin-left: 20px; margin-right: 20px; margin-top: 20px; margin-bottom: 20px; padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 10px;">
                 <ui:VisualElement name="PerEncabezado" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
                     <ui:Label text="Nombre" display-tooltip-when-elided="true" name="PerNombre" />
                     <ui:Label text="Tipo" display-tooltip-when-elided="true" name="PerTipo" />
@@ -218,7 +218,7 @@
                     </ui:VisualElement>
                 </ui:VisualElement>
             </ui:VisualElement>
-            <ui:VisualElement name="RoguelikePersonaje2" class="button-main-menu base" style="height: auto; width: 100%; margin-left: 20px; margin-right: 20px; margin-top: 20px; margin-bottom: 20px; padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 10px;">
+            <ui:VisualElement name="RoguelikePersonajeFinal2" class="button-main-menu base" style="height: auto; width: 100%; margin-left: 20px; margin-right: 20px; margin-top: 20px; margin-bottom: 20px; padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 10px;">
                 <ui:VisualElement name="PerEncabezado" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
                     <ui:Label text="Nombre" display-tooltip-when-elided="true" name="PerNombre" />
                     <ui:Label text="Tipo" display-tooltip-when-elided="true" name="PerTipo" />
@@ -257,7 +257,7 @@
                     </ui:VisualElement>
                 </ui:VisualElement>
             </ui:VisualElement>
-            <ui:VisualElement name="RoguelikePersonaje3" class="button-main-menu base" style="height: auto; width: 100%; margin-left: 20px; margin-right: 20px; margin-top: 20px; margin-bottom: 20px; padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 10px;">
+            <ui:VisualElement name="RoguelikePersonajeFinal3" class="button-main-menu base" style="height: auto; width: 100%; margin-left: 20px; margin-right: 20px; margin-top: 20px; margin-bottom: 20px; padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 10px;">
                 <ui:VisualElement name="PerEncabezado" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
                     <ui:Label text="Nombre" display-tooltip-when-elided="true" name="PerNombre" />
                     <ui:Label text="Tipo" display-tooltip-when-elided="true" name="PerTipo" />

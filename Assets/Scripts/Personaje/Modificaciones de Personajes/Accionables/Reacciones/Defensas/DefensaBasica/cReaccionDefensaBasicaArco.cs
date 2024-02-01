@@ -10,9 +10,12 @@ public class cReaccionDefensaBasicaArco : cReaccionDefensaBasica
         if (c.HayEnemigosEnMelee(personaje))
         {
             numeroDeDados -= 1;
-            if (personaje.zonaActual == c.personajeActivo.zonaActual && c.personajeObjetivo.nombre == personaje.nombre)
+            if (c.atacando)
             {
-                numeroDeDados -= 1;
+                if (personaje.zonaActual == c.personajeActivo.zonaActual && c.personajeObjetivo.nombre == personaje.nombre)
+                {
+                    numeroDeDados -= 1;
+                }
             }
         }
         return numeroDeDados;

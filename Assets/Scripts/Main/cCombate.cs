@@ -65,6 +65,8 @@ public class cCombate : MonoBehaviour
 
     public PlayerInput py;
 
+    //public AudioSource music;
+
     //State ID
     public const int EMPEZAR = 0;
     public const int SIN_RONDA = 1;
@@ -144,6 +146,9 @@ public class cCombate : MonoBehaviour
         enemigosEnRango = new List<cPersonaje>();
         zonasLimtrofesConEnemigos = new List<int>();
         zonas = new List<cZona>();
+
+        //music.loop = true;
+        //music.Play();
     }
 
     // Update is called once per frame
@@ -202,14 +207,11 @@ public class cCombate : MonoBehaviour
                     }
                     else
                     {
-                        UIInterface.GoRoguelike(); //perdimos, vamos a rogulike ini
-                        rM.nivel = 1;
-                        Debug.Log("party: " + rM.party.Count);
-                        rM.party.Clear();
-                        Debug.Log("party: " + rM.party.Count);
-                        Debug.Log("iniciativa: " + uiC.iniciativa.Count);
                         uiC.iniciativa.Clear();
-                        Debug.Log("iniciativa: " + uiC.iniciativa.Count);
+                        UIInterface.GoRoguelikeEnd(); //perdimos, vamos a rogulike ini
+                        rM.uiRE.fillText(rM.nivel);
+                        rM.nivel = 1;
+                        rM.party.Clear();
                     }
                 }
                 else UIInterface.GoEscarmuza();

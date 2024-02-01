@@ -82,74 +82,16 @@ public class UIRoguelikeUpgrade : MonoBehaviour
         upgrades[boton].text = text;
     }
 
-    private void FillPlayer(cPersonajeFlyweight p, VisualElement vE)
-    {
-        //Buscar elementos UI
-        Debug.Log("Tratando de asignar " + vE.name + ", hijos " + vE.childCount);
-        VisualElement encabezado = vE.ElementAt(0);
-        VisualElement habilidades = vE.ElementAt(1);
-        VisualElement atributos = vE.ElementAt(2);
-
-        Label nombre = encabezado.ElementAt(0) as Label;
-        Label tipo = encabezado.ElementAt(1) as Label;
-        Label arma = encabezado.ElementAt(2) as Label;
-
-        int numeroDeHabilidades = 2;
-        Label[] habValores = new Label[numeroDeHabilidades];
-        for (int i = 0; i < numeroDeHabilidades; i++)
-        {
-            habValores[i] = habilidades.ElementAt(i).ElementAt(1) as Label;
-        }
-
-        int numeroDeAtributos = 5;
-        Label[] atrValores = new Label[numeroDeAtributos];
-        for (int i = 0; i < numeroDeAtributos; i++)
-        {
-            atrValores[i] = atributos.ElementAt(i).ElementAt(1) as Label;
-        }
-
-        //Asignar valores
-        nombre.text = p.nombre;
-        if (p.esMaton) tipo.text = "(matones)";
-        else tipo.text = "(heroe)";
-        arma.text = cArma.GetString(p.arma);
-
-        habValores[0].text = p.hab.ataqueBasico.ToString();
-        habValores[1].text = p.hab.defensaBasica.ToString();
-
-        atrValores[0].text = p.atr.maña.ToString();
-        atrValores[1].text = p.atr.musculo.ToString();
-        atrValores[2].text = p.atr.ingenio.ToString();
-        atrValores[3].text = p.atr.brio.ToString();
-        atrValores[4].text = p.atr.donaire.ToString();
-    }
-
-    private void NoPlayer(VisualElement vE)
-    {
-        VisualElement encabezado = vE.ElementAt(0);
-        VisualElement habilidades = vE.ElementAt(1);
-        VisualElement atributos = vE.ElementAt(2);
-
-        Label nombre = encabezado.ElementAt(0) as Label;
-        Label tipo = encabezado.ElementAt(1) as Label;
-        Label arma = encabezado.ElementAt(2) as Label;
-
-        //Asignar valores
-        nombre.text = " - ";
-        tipo.text = " - ";
-        arma.text = " - ";
-    }
-
     public void RevisarParty()
     {
         int i = 0;
         for (; i < rU.rM.party.Count; i++)
         {
-            FillPlayer(rU.rM.party[i], personajes[i]);
+            UIInterface.FillPlayer(rU.rM.party[i], personajes[i]);
         }
         for (; i < 3; i++)
         {
-            NoPlayer(personajes[i]);
+            UIInterface.NoPlayer(personajes[i]);
         }
     }
 
