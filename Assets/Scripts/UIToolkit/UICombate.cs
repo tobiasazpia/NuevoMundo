@@ -48,6 +48,10 @@ public class UICombate : MonoBehaviour
     private Label texto;
     private Label ronda;
 
+    private VisualElement pPause;
+    private Button bReanudar;
+    private Button bSalir;
+
     public List<List<Label>> iniciativa;
     public bool esperandoZona;
     public bool esperandoPersonaje;
@@ -99,6 +103,10 @@ public class UICombate : MonoBehaviour
         bIntervenirAtras = root.Q<Button>("ButtonIntervenirAtras");
 
         bAtrasSolo = root.Q<Button>("ButtonAtrasSolo");
+
+        pPause = root.Q<VisualElement>("PantallaPausa");
+        bReanudar = root.Q<Button>("PausaReanudar");
+        bSalir = root.Q<Button>("PausaMenu");
 
         tooltip = root.Q<Label>("tooltip");
 
@@ -157,6 +165,9 @@ public class UICombate : MonoBehaviour
 
         bAtrasSolo.RegisterCallback<ClickEvent>(OnAtrasClicked);
         RegisterTooltip(bAtrasSolo);
+
+        bReanudar.RegisterCallback<ClickEvent>(OnReanudarClicked);
+        bSalir.RegisterCallback<ClickEvent>(OnSalirClicked);
 
         texto = root.Q<Label>("Texto");
         ronda = root.Q<Label>("IniRonda");
@@ -611,6 +622,29 @@ public class UICombate : MonoBehaviour
     {
         DejarDePedirIntervencion();
         PedirReaccion(combate.personajeInterversor);
+    }
+
+    private void OnReanudarClicked(ClickEvent evt)
+    {
+        Reanudar();
+    }
+
+    public void Reanudar()
+    {
+        pPause.style.display = DisplayStyle.None;
+        combate.Reanudar();
+    }
+
+    private void OnSalirClicked(ClickEvent evt)
+    {
+        combate.LimpiarCombate();
+        pPause.style.display = DisplayStyle.None;
+        UIInterface.GoMainMenu();
+    }
+
+    public void Pause()
+    {
+        pPause.style.display = DisplayStyle.Flex;
     }
 
     private void VolverAlCombate()

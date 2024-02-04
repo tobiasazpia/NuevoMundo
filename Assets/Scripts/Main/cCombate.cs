@@ -64,6 +64,7 @@ public class cCombate : MonoBehaviour
     public static event combate eventTerminoCombate;
 
     public PlayerInput py;
+    public bool pause = false;
 
     //public AudioSource music;
 
@@ -154,13 +155,34 @@ public class cCombate : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (esperandoOK)
+        if (!pause)
         {
-            if (py.actions["OK"].WasPressedThisFrame())
+            if (esperandoOK)
             {
-                AvanzarCombate();
+                if (py.actions["OK"].WasPressedThisFrame())
+                {
+                    AvanzarCombate();
+                }
+            }
+
+            if (py.actions["Pause"].WasPressedThisFrame())
+            {
+                pause = true;
+                uiC.Pause();
             }
         }
+        else
+        {
+            if (py.actions["Pause"].WasPressedThisFrame())
+            {
+                uiC.Reanudar();
+            }
+        }
+    }
+
+    public void Reanudar()
+    {
+        pause = false;
     }
 
     public void AvanzarCombate()
@@ -219,7 +241,7 @@ public class cCombate : MonoBehaviour
         }
     }
 
-    void LimpiarCombate()
+    public void LimpiarCombate()
     {
         foreach (var item in personajes)
         {
@@ -240,6 +262,7 @@ public class cCombate : MonoBehaviour
         personajes.Clear();
         zonas.Clear();
         uiC.ResetRonda();
+        pause = false;
     }
 
 
