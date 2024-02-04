@@ -244,7 +244,7 @@ public class UICombate : MonoBehaviour
             VisualElement fila = root.Q<VisualElement>(nombreFila);
             fila.style.display = DisplayStyle.Flex;
         }
-        for (; i < personajes.Count; i++)
+        for (; i < 6; i++)
         {
             string nombreFila = "IniJugador" + (i + 1);
             VisualElement fila = root.Q<VisualElement>(nombreFila);
@@ -638,13 +638,30 @@ public class UICombate : MonoBehaviour
     private void OnSalirClicked(ClickEvent evt)
     {
         combate.LimpiarCombate();
+        LeaveCombat();
         pPause.style.display = DisplayStyle.None;
         UIInterface.GoMainMenu();
+        if (combate.esRoguelike)
+        {
+            combate.rM.party.Clear();
+            combate.rM.nivel = 1;
+        }
     }
 
     public void Pause()
     {
         pPause.style.display = DisplayStyle.Flex;
+    }
+
+    public void LeaveCombat()
+    {
+        menuAccion.style.display = DisplayStyle.None;
+        menuMarcial.style.display = DisplayStyle.None;
+        menuArcana.style.display = DisplayStyle.None;
+        menuMover.style.display = DisplayStyle.None;
+        menuBackOnly.style.display = DisplayStyle.None;
+        menuReaccion.style.display = DisplayStyle.None;
+        menuIntervenir.style.display = DisplayStyle.None;
     }
 
     private void VolverAlCombate()

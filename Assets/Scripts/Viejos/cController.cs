@@ -25,8 +25,6 @@ public class cController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        py.actions["Select"].WasPressedThisFrame();
-        py.actions["Back"].WasPressedThisFrame();
         /*py.actions["Change Option Up"].WasPressedThisFrame();
         py.actions["Change Option Down"].WasPressedThisFrame();*/
 

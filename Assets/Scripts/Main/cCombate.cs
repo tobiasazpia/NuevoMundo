@@ -260,8 +260,13 @@ public class cCombate : MonoBehaviour
             Destroy(item.gameObject);
         }
         personajes.Clear();
+        acciones.Clear();
+        if (accionesActivas != null) accionesActivas.Clear();
+        if (accionesReactivas != null) accionesReactivas.Clear();
         zonas.Clear();
         uiC.ResetRonda();
+        List<cPersonaje> emptyL = new List<cPersonaje>();
+        uiC.SetNombres(emptyL);
         pause = false;
     }
 
