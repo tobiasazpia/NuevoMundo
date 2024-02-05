@@ -25,6 +25,7 @@ public struct sHabilidades
 
 public class cPersonaje : MonoBehaviour
 {
+    public bool mostrandoTactica;
     public bool hovered;
     public bool quiereActuar;
     public List<cAcciones> acciones = new List<cAcciones>();
@@ -914,11 +915,30 @@ public class cPersonaje : MonoBehaviour
     private void OnMouseEnter()
     {
         hovered = true;
+        c.uiC.MostrarInfoPerVital(this);
+    }
+
+    private void OnMouseDown()
+    {
+        if (!c.uiC.esperandoPersonaje)
+        {
+            if (mostrandoTactica)
+            {
+                c.uiC.MostrarInfoPerCompleta(this);
+                mostrandoTactica = false;
+            }
+            else
+            {
+                c.uiC.MostrarInfoPerTactica(this);
+                mostrandoTactica = true;
+            }
+        }
     }
 
     private void OnMouseExit()
     {
         hovered = false;
+        c.uiC.EsconderInfoPerVital();     
     }
 
 

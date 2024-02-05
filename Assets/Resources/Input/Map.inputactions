@@ -625,6 +625,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Deselect",
+                    "type": "Button",
+                    "id": "9f7f2541-fe86-484b-af5a-5e6a24941396",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -652,17 +661,6 @@
                 },
                 {
                     "name": "",
-                    "id": "b6b6bee8-e9f2-4337-81cc-d8b3b9b56704",
-                    "path": "<Mouse>/leftButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "OK",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "b8587120-a9d2-43db-9a6a-db92dd2c9ad9",
                     "path": "<Keyboard>/escape",
                     "interactions": "",
@@ -674,12 +672,12 @@
                 },
                 {
                     "name": "",
-                    "id": "e1fef5d9-b7e7-4cf8-9ad7-7eae18b6754d",
+                    "id": "b5adbfda-11e3-4ad2-b2ab-88669d383ea5",
                     "path": "<Mouse>/rightButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Pause",
+                    "action": "Deselect",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -702,6 +700,15 @@
                     "name": "Pause",
                     "type": "Button",
                     "id": "430ebe05-1ea4-4f61-bdf5-ff4aa706525e",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Deselect",
+                    "type": "Button",
+                    "id": "7906c1bc-9c46-4371-a1c1-75b61ee692a4",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -755,12 +762,12 @@
                 },
                 {
                     "name": "",
-                    "id": "a62e526e-db44-4548-a63e-f3910a1a5792",
+                    "id": "ee6a5232-305f-48bc-9cd4-b2f5144e8b66",
                     "path": "<Mouse>/rightButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Pause",
+                    "action": "Deselect",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

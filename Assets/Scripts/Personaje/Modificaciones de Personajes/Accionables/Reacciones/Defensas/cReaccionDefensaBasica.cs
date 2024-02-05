@@ -138,6 +138,7 @@ public class cReaccionDefensaBasica : cReaccionDefensa
 
     override public int DeterminarNumeroDeDados()
     {
+        Debug.Log("defensa bas det dados");
         int numeroDeDados = 3 + personaje.atr.ingenio + personaje.hab.defensaBasica;
 
         if (!c.atacando)
@@ -149,6 +150,7 @@ public class cReaccionDefensaBasica : cReaccionDefensa
             if (personaje.nombre == c.personajeObjetivo.nombre)
             {
                 numeroDeDados += personaje.arma.GetBonusDefensaPropia();
+                Debug.Log("agregamos bonus def propia que era " + personaje.arma.GetBonusDefensaPropia());
             }
             else
             {

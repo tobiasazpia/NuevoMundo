@@ -113,7 +113,7 @@ public abstract class cArma : MonoBehaviour
         {
             return "Armas Pesadas";
         }
-        else if (this is cArmasArco)
+        else if (this is cArmasFuego)
         {
             return "Armas de Fuego";
         }
@@ -145,9 +145,9 @@ public abstract class cArma : MonoBehaviour
         {
             return "Pesadas";
         }
-        else if (this is cArmasArco)
+        else if (this is cArmasFuego)
         {
-            return "uego";
+            return "Fuego";
         }
         else if (this is cArmasArco)
         {

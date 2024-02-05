@@ -300,6 +300,11 @@
         <ui:Button text="Continuar" display-tooltip-when-elided="true" name="ButtonFinalReintentar" class="button-main-menu base button button-corto" style="margin-bottom: 10px;" />
     </ui:VisualElement>
     <ui:VisualElement name="PantallaCombate" style="position: absolute; display: none; align-items: center; justify-content: none; height: 100%; width: 100%; background-color: rgba(0, 0, 0, 0);">
+        <ui:VisualElement name="ZonasInfo" style="position: absolute;">
+            <ui:Label text="Label" display-tooltip-when-elided="true" name="Zona1" class="base" style="display: none;" />
+            <ui:Label text="Label" display-tooltip-when-elided="true" name="Zona2" class="base" style="display: none;" />
+            <ui:Label text="Label" display-tooltip-when-elided="true" name="Zona3" class="base" style="display: none;" />
+        </ui:VisualElement>
         <ui:VisualElement name="Instrucciones" style="width: 100%; height: 70%;">
             <ui:Label text="Label" display-tooltip-when-elided="true" name="Texto" class="button-main-menu base" style="white-space: normal; margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px; padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 10px; font-size: 32px; height: 250px; width: 500px;" />
             <ui:VisualElement name="BotonesInput" style="flex-direction: column;">
@@ -429,6 +434,71 @@
             </ui:VisualElement>
             <ui:VisualElement name="FasesPosteriores" class="base" style="width: 700px; height: auto; position: relative; bottom: auto; background-color: rgba(56, 56, 56, 0); display: none;">
                 <ui:Label text="Posteriores&#10;" display-tooltip-when-elided="true" name="FaseTitulo" style="font-size: 32px;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="PersonajeInfo" style="position: absolute; display: flex; align-items: flex-start; left: auto; top: auto; right: auto; bottom: auto; flex-direction: column;">
+            <ui:VisualElement name="InfoVital" class="base" style="display: none; position: absolute; width: 300px; align-items: stretch;">
+                <ui:Label text="Nombre" display-tooltip-when-elided="true" name="InfoNombre" />
+                <ui:Label text="Her/Cant" display-tooltip-when-elided="true" name="InfoHerCant" />
+                <ui:Label text="Guardia" display-tooltip-when-elided="true" name="InfoGuardia" />
+            </ui:VisualElement>
+            <ui:VisualElement name="InfoTactica" class="base" style="display: none; position: absolute;">
+                <ui:VisualElement name="InfoVitalTact" style="display: flex;">
+                    <ui:Label text="Nombre" display-tooltip-when-elided="true" name="InfoTactNombre" />
+                    <ui:Label text="Her/Cant" display-tooltip-when-elided="true" name="InfoTactHerCant" />
+                    <ui:Label text="Guardia" display-tooltip-when-elided="true" name="InfoTactGuardia" />
+                </ui:VisualElement>
+                <ui:VisualElement name="InfoExtraTact">
+                    <ui:Label text="Arma" display-tooltip-when-elided="true" name="InfoTactArma" />
+                    <ui:Label text="Bonus" display-tooltip-when-elided="true" name="InfoTactBonus" />
+                    <ui:Label text="Daño" display-tooltip-when-elided="true" name="InfoTactDano" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="InfoCompleta" class="base" style="display: none; position: absolute; right: auto; left: 580px; flex-direction: column;">
+                <ui:VisualElement name="InfoVitalComp">
+                    <ui:Label text="Label" display-tooltip-when-elided="true" name="InfoCompNombre" />
+                    <ui:Label text="Label" display-tooltip-when-elided="true" name="InfoCompHerCant" />
+                    <ui:Label text="Label" display-tooltip-when-elided="true" name="InfoCompGuardia" />
+                </ui:VisualElement>
+                <ui:VisualElement name="InfoExtraComp">
+                    <ui:Label text="Label" display-tooltip-when-elided="true" name="InfoCompArma" />
+                    <ui:Label text="Label" display-tooltip-when-elided="true" name="InfoCompBonus" />
+                    <ui:Label text="Label" display-tooltip-when-elided="true" name="InfoCompDano" />
+                </ui:VisualElement>
+                <ui:VisualElement name="InfoEstComp" class="button-main-menu base" style="height: auto; width: 90%; margin-left: 20px; margin-right: 20px; margin-top: 20px; margin-bottom: 20px; padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 10px;">
+                    <ui:VisualElement name="PerHab" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
+                        <ui:VisualElement name="ABcont" style="flex-direction: row;">
+                            <ui:Label text="Ataque Básico" display-tooltip-when-elided="true" name="PerAB" />
+                            <ui:Label text="0" display-tooltip-when-elided="true" name="ABValue" />
+                        </ui:VisualElement>
+                        <ui:VisualElement name="DBcont" style="flex-direction: row;">
+                            <ui:Label text="Defensa Básica" display-tooltip-when-elided="true" name="PerDB" />
+                            <ui:Label text="0" display-tooltip-when-elided="true" name="DBValue" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                    <ui:VisualElement name="PerAtr" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
+                        <ui:VisualElement name="ManaCont" style="flex-direction: row;">
+                            <ui:Label text="Maña" display-tooltip-when-elided="true" name="PerMana" />
+                            <ui:Label text="0" display-tooltip-when-elided="true" name="ManaValue" />
+                        </ui:VisualElement>
+                        <ui:VisualElement name="MusculoCont" style="flex-direction: row;">
+                            <ui:Label text="Músculo" display-tooltip-when-elided="true" name="PerMusculo" />
+                            <ui:Label text="0" display-tooltip-when-elided="true" name="MusculoValue" />
+                        </ui:VisualElement>
+                        <ui:VisualElement name="IngenioCont" style="flex-direction: row;">
+                            <ui:Label text="Ingenio" display-tooltip-when-elided="true" name="PerIngenio" />
+                            <ui:Label text="0" display-tooltip-when-elided="true" name="IngenioValue" />
+                        </ui:VisualElement>
+                        <ui:VisualElement name="BrioCont" style="flex-direction: row;">
+                            <ui:Label text="Brío" display-tooltip-when-elided="true" name="PerBrio" />
+                            <ui:Label text="0" display-tooltip-when-elided="true" name="BrioValue" />
+                        </ui:VisualElement>
+                        <ui:VisualElement name="DonaireCont" style="flex-direction: row;">
+                            <ui:Label text="Donaire" display-tooltip-when-elided="true" name="PerDonaire" />
+                            <ui:Label text="0" display-tooltip-when-elided="true" name="DonaireValue" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>

@@ -17,11 +17,10 @@ public class cAccionRecargar : cAcciones
 
     override public void Ejecutar()
     {
-        Debug.Log("usando estoAAA");
         (personaje.arma as cArmasFuego).cargada = true;
-        Debug.Log("cargada: " + (personaje.arma as cArmasFuego).cargada);
-        personaje.GuardarGastarDado(c.accionesActivas); // Esto esta para que no pregunten denuevo en la misma fase si alguien hace algo y yo ya guarde
-        uiC.SetText(personaje.nombre + " se toma  un segundo para recargar su arma.");
+        string text = personaje.nombre + " se toma un segundo para recargar su arma.";
+        c.personajeActivo.GastarDado(c.faseActual, c.acciones, c.accionesActivas, c.accionesReactivas, text);
+        uiC.ActualizarIniciativa(c.personajes);
         c.EsperandoOkOn(true);
         c.stateID = cCombate.BUSCANDO_ACCION;
     }

@@ -5,6 +5,7 @@ using UnityEngine.UIElements;
 
 public class UICombate : MonoBehaviour
 {
+    public Camera cam;
     public cCombate combate; //idealmente esto no estaria aca, ya veremos com ose saca, pero por ahroa lo necesito para decirle que los botones manden 
 
     private VisualElement pCombate;
@@ -60,11 +61,31 @@ public class UICombate : MonoBehaviour
     bool hovering;
     float hoverTimer;
     const float timeTillTooltip = 0.75f;
+
+    VisualElement infoVital;
+    VisualElement infoTactica;
+    VisualElement infoCompleta;
+
+    Label infoVNombre;
+    Label infoVHerCan;
+    Label infoVGuardia;
+
+    Label infoTNombre;
+    Label infoTHerCan;
+    Label infoTGuardia;
+    Label infoTArma;
+    Label infoTBonus;
+    Label infoTDaño;
+
+   public Label zona1;
+   public Label zona2;
+   public Label zona3;
+
     // Start is called before the first frame update
     void Start()
     {
         var root = GetComponent<UIDocument>().rootVisualElement;
-
+  
         pCombate = root.Q<VisualElement>("PantallaCombate");
 
         fases = root.Q<VisualElement>("IndicadorFaseContainer");
@@ -109,6 +130,25 @@ public class UICombate : MonoBehaviour
         bSalir = root.Q<Button>("PausaMenu");
 
         tooltip = root.Q<Label>("tooltip");
+
+        infoVital = root.Q<VisualElement>("InfoVital");
+        infoTactica = root.Q<VisualElement>("InfoTactica");
+        infoCompleta = root.Q<VisualElement>("InfoCompleta");
+
+        infoVNombre = root.Q<Label>("InfoNombre");
+        infoVHerCan = root.Q<Label>("InfoHerCant");
+        infoVGuardia = root.Q<Label>("InfoGuardia");
+
+        infoTNombre = root.Q<Label>("InfoTactNombre");
+        infoTHerCan = root.Q<Label>("InfoTactHerCant");
+        infoTGuardia = root.Q<Label>("InfoTactGuardia");
+        infoTArma = root.Q<Label>("InfoTactArma");
+        infoTBonus = root.Q<Label>("InfoTactBonus");
+        infoTDaño = root.Q<Label>("InfoTactDano");
+
+        zona1   = root.Q<Label>("Zona1");
+        zona2   = root.Q<Label>("Zona2");
+        zona3 = root.Q<Label>("Zona3");
 
         bMarcial.RegisterCallback<ClickEvent>(OnMarcialClicked);
         bMarcial.RegisterCallback<MouseEnterEvent>(OnMouseEnterButton);
@@ -662,6 +702,7 @@ public class UICombate : MonoBehaviour
         menuBackOnly.style.display = DisplayStyle.None;
         menuReaccion.style.display = DisplayStyle.None;
         menuIntervenir.style.display = DisplayStyle.None;
+        Deseleccionar();
     }
 
     private void VolverAlCombate()
@@ -673,4 +714,83 @@ public class UICombate : MonoBehaviour
     {
         Debug.Log("mouse over");
     }
+
+    public void MostrarInfoPerVital(cPersonaje per)
+    {
+        infoVital.transform.position = WorldToUIToolkit(per.transform.position,-70-Screen.width/2,50);
+        infoVital.style.display = DisplayStyle.Flex;
+        LlenarInfoVital(per);
+    }
+
+    public void LlenarInfoVital(cPersonaje per)
+    {
+        infoVNombre.text = per.nombre;
+
+        if(per is cMatones)
+        {
+            infoVHerCan.text = "Cantidad: " + (per as cMatones).cantidad;
+        }
+        else
+        {
+            infoVHerCan.text = "Heridas: " + per.hDram;
+        }
+
+        infoVGuardia.text = "Guardia: " + per.GetGuardia();
+    }
+
+    public Vector3 WorldToUIToolkit(Vector3 world, float xOffset, float yOffset)
+    {
+        Vector3 temp = cam.WorldToViewportPoint(world);
+        return new Vector3(temp.x * Screen.width + xOffset, (1 - temp.y) * Screen.height + yOffset, 0);
+    } 
+
+    public void EsconderInfoPerVital()
+    {
+        infoVital.style.display = DisplayStyle.None;
+    }
+
+    public void Deseleccionar()
+    {
+        infoVital.style.display = DisplayStyle.None;
+        infoTactica.style.display = DisplayStyle.None;
+        infoCompleta.style.display = DisplayStyle.None;
+    }
+
+    public void MostrarInfoPerTactica(cPersonaje per)
+    {
+        infoVital.style.display = DisplayStyle.None;
+        infoCompleta.style.display = DisplayStyle.None;
+        infoTactica.style.display = DisplayStyle.Flex;
+        infoTactica.transform.position = WorldToUIToolkit(per.transform.position, -70 - Screen.width / 2, 50);
+        LlenarInfoTactica(per);
+    }
+
+    public void LlenarInfoTactica(cPersonaje per)
+    {
+        infoTNombre.text = infoVNombre.text;
+        infoTHerCan.text = infoVHerCan.text;
+        infoTGuardia.text = infoVGuardia.text;
+
+        infoTArma.text = per.arma.GetStringCorto();
+        infoTBonus.text = "Bonus: " + per.bonusPAtqBporDefB;
+        infoTDaño.text = "Daño: " + per.hSupe;
+    }
+
+        public void EsconderInfoPerTactica()
+    {
+        infoTactica.style.display = DisplayStyle.None;
+    }
+
+    public void MostrarInfoPerCompleta(cPersonaje per)
+    {
+        infoTactica.style.display = DisplayStyle.None;
+        infoCompleta.style.display = DisplayStyle.Flex;
+        UIInterface.FillPlayer(per,infoCompleta);
+    }
+
+    public void EsconderInfoPerCompleta()
+    {
+        infoCompleta.style.display = DisplayStyle.None;
+    }
+
 }

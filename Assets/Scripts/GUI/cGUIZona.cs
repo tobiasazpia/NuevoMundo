@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class cGUIZona : MonoBehaviour
 {
+    public cCombate c;
+
     public cZona z;
     public GUISkin guiSkin; // choose a guiStyle (Important!)
 
@@ -24,6 +26,7 @@ public class cGUIZona : MonoBehaviour
     Vector2 boxPosition;
     void Start()
     {
+        c = FindAnyObjectByType<cCombate>();
         guiSkin = Resources.Load("First GUI Skin") as GUISkin; // choose a guiStyle (Important!)
         if (messagePermanent)
         {
@@ -32,28 +35,31 @@ public class cGUIZona : MonoBehaviour
     }
     void OnGUI()
     {
-        if (messageDuration > 0)
-        {
-            if (!messagePermanent) // if you set this to false, you can simply use this script as a popup messenger, just set messageDuration to a value above 0
-            {
-                messageDuration -= Time.deltaTime;
-            }
+        //if (!c.pause)
+        //{
+        //    if (messageDuration > 0)
+        //    {
+        //        if (!messagePermanent) // if you set this to false, you can simply use this script as a popup messenger, just set messageDuration to a value above 0
+        //        {
+        //            messageDuration -= Time.deltaTime;
+        //        }
 
 
-            GUI.skin = guiSkin;
-            boxPosition = Camera.main.WorldToScreenPoint(transform.position);
-            if (GetComponent<Renderer>().isVisible)
-            {
-                boxPosition.y = Screen.height+50;//Screen.height - boxPosition.y;
-                boxPosition.x -= boxW * 0.1f;
-                boxPosition.y += boxH * 1.5f;
-                guiSkin.box.fontSize = fontSize;
+        //        GUI.skin = guiSkin;
+        //        boxPosition = Camera.main.WorldToScreenPoint(transform.position);
+        //        if (GetComponent<Renderer>().isVisible)
+        //        {
+        //            boxPosition.y = Screen.height + 50;//Screen.height - boxPosition.y;
+        //            boxPosition.x -= boxW * 0.1f;
+        //            boxPosition.y += boxH * 1.5f;
+        //            guiSkin.box.fontSize = fontSize;
 
-                GUI.contentColor = color;
+        //            GUI.contentColor = color;
 
-                Vector2 content = guiSkin.box.CalcSize(new GUIContent(text));
-                GUI.Box(new Rect(boxPosition.x - content.x / 2 * offsetX, boxPosition.y + offsetY, content.x, content.y), text);
-            }
-        }
+        //            Vector2 content = guiSkin.box.CalcSize(new GUIContent(text));
+        //            GUI.Box(new Rect(boxPosition.x - content.x / 2 * offsetX, boxPosition.y + offsetY, content.x, content.y), text);
+        //        }
+        //    }
+        //}
     }
 }

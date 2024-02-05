@@ -3247,6 +3247,7 @@ MonoBehaviour:
   rU: {fileID: 294005987}
   rM: {fileID: 294005985}
   py: {fileID: 723110688}
+  pause: 0
   ui: {fileID: 0}
   uiC: {fileID: 1418445422}
   auto: 0
@@ -16236,6 +16237,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe60ddb3423154848a1dd9d91bcc3315, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cam: {fileID: 963194227}
   combate: {fileID: 180730743}
   esperandoZona: 0
   esperandoPersonaje: 0

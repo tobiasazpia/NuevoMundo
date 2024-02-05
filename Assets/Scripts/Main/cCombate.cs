@@ -165,6 +165,11 @@ public class cCombate : MonoBehaviour
                 }
             }
 
+            if (py.actions["Deselect"].WasPressedThisFrame())
+            {
+                uiC.Deseleccionar();
+            }
+
             if (py.actions["Pause"].WasPressedThisFrame())
             {
                 pause = true;
@@ -243,6 +248,7 @@ public class cCombate : MonoBehaviour
 
     public void LimpiarCombate()
     {
+        uiC.Deseleccionar();
         foreach (var item in personajes)
         {
             for (int i = 0; i < item.dadosDeAccion.Length; i++)
@@ -260,7 +266,7 @@ public class cCombate : MonoBehaviour
             Destroy(item.gameObject);
         }
         personajes.Clear();
-        acciones.Clear();
+        if (acciones != null) acciones.Clear();
         if (accionesActivas != null) accionesActivas.Clear();
         if (accionesReactivas != null) accionesReactivas.Clear();
         zonas.Clear();
