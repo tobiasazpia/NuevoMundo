@@ -1034,7 +1034,7 @@ public class cCombate : MonoBehaviour
 
         //UI
         uiC.CombateSelected();
-        uiC.SetText("¡Nuevo Combate!");
+        uiC.SetText("¡Nuevo Combate! (barra espaciadora o Z para avanzar)");
         uiC.SetNombres(personajes);
         //Old Gui, por personaje
         SetUpGC();
