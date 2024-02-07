@@ -127,4 +127,11 @@ public static class cDieMath
         }
         return minValues;
     }
+
+    public static int MyRandomUpgrade()
+    {
+        int r = Random.Range(0, 100);
+        if (r == 99) r--;
+        return r;
+    }
 }

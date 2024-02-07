@@ -95,7 +95,7 @@ public class cCombate : MonoBehaviour
 
     //Input
     public bool esperandoObjetivo;         // Epserando eleccion de personaje
-    public bool esperandoZona;             // Esperando eleccion de zona
+    //public bool esperandoZona;             // Esperando eleccion de zona
     public bool esperandoAccion;           // Esperando eleccion de accion
     public bool esperandoReaccion;         // Esperando Si o No para ver si reacciona
     public bool esperandoCarga;            // Esperando Si o No para ver si carga
@@ -133,7 +133,8 @@ public class cCombate : MonoBehaviour
     public List<sAccion> accionesReactivas;
     public List<sAccion> acciones;
 
-    public bool perSeleccionado;
+    public string perSeleccionado;
+    public bool enCombate = false;
 
     private void OnEnable()
     {
@@ -147,7 +148,7 @@ public class cCombate : MonoBehaviour
         enemigosEnRango = new List<cPersonaje>();
         zonasLimtrofesConEnemigos = new List<int>();
         zonas = new List<cZona>();
-
+        py.SwitchCurrentActionMap("EsperandoOk");
         //music.loop = true;
         //music.Play();
     }
@@ -155,32 +156,36 @@ public class cCombate : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!pause)
+        if (enCombate)
         {
-            if (esperandoOK)
+            if (!pause)
             {
+
                 if (py.actions["OK"].WasPressedThisFrame())
                 {
+                    Debug.Log("ok pressed");
                     AvanzarCombate();
                 }
-            }
 
-            if (py.actions["Deselect"].WasPressedThisFrame())
-            {
-                uiC.Deseleccionar();
-            }
+                if (py.actions["Deselect"].WasPressedThisFrame())
+                {
+                    Debug.Log("deselect pressed");
+                    uiC.Deseleccionar();
+                }
 
-            if (py.actions["Pause"].WasPressedThisFrame())
-            {
-                pause = true;
-                uiC.Pause();
+                if (py.actions["Pause"].WasPressedThisFrame())
+                {
+                    Debug.Log("pause pressed");
+                    pause = true;
+                    uiC.Pause();
+                }
             }
-        }
-        else
-        {
-            if (py.actions["Pause"].WasPressedThisFrame())
+            else
             {
-                uiC.Reanudar();
+                if (py.actions["Pause"].WasPressedThisFrame())
+                {
+                    uiC.Reanudar();
+                }
             }
         }
     }
@@ -192,7 +197,8 @@ public class cCombate : MonoBehaviour
 
     public void AvanzarCombate()
     {
-        EsperandoOkOn(false);
+        //EsperandoOkOn(false);
+        Debug.Log("state: " + stateID);
         switch (stateID)
         {
             //El combate hace todo el set up, y cuando esta listo para empezar, entra en iniciando ronda
@@ -248,6 +254,7 @@ public class cCombate : MonoBehaviour
 
     public void LimpiarCombate()
     {
+        enCombate = false;
         uiC.Deseleccionar();
         foreach (var item in personajes)
         {
@@ -453,8 +460,20 @@ public class cCombate : MonoBehaviour
                 {
                     foreach (var item in personajes)
                     {
-                        Debug.Log("guard false 7");
                         item.guardando = false;
+                    }
+                }
+                else
+                {
+                    foreach (var item in personajes)
+                    {
+                        foreach (var dado in item.dadosDeAccion)
+                        {
+                            if (dado == faseActual)
+                            {
+                                item.guardando = false;
+                            }
+                        }
                     }
                 }
             }
@@ -491,10 +510,8 @@ public class cCombate : MonoBehaviour
                     break;
                 case cPersonaje.AC_ATACAR:
                     PedirObjetivoDeAtaque();
-                    Debug.Log("atacando normal");
                     break;
                 case cPersonaje.AC_ATACARIMPRO:
-                    Debug.Log("atacando impro");
                     PedirObjetivoDeAtaque();
                     break;
                 case cPersonaje.AC_MOVAGRE:
@@ -532,6 +549,7 @@ public class cCombate : MonoBehaviour
 
     public void ResolverAccion()
     {
+        Debug.Log("Resolver Accion");
         personajeActivo.Accionar(GetNombreDeAccion(accionActiva));
         if (stateID != RESOLVIENDO_ACCION && stateID != PREGUNTANDO_REACCION) cEventManager.StartPersonajeActuoEvent(personajeActivo);
     }
@@ -783,8 +801,9 @@ public class cCombate : MonoBehaviour
         //No se que hacen estos
         auto = false;
         esperandoAccion = true;
+        Debug.Log("Soft A");
         esperandoObjetivo = false;
-        esperandoZona = false;
+       // esperandoZona = false;
         esperandoCarga = false;
 
         //ui
@@ -817,6 +836,7 @@ public class cCombate : MonoBehaviour
     void PedirObjetivoDeMovimiento()
     {
         uiC.SetText(personajeActivo.nombre + ": a donde vamos?");
+        EsperandoOkOn(false);
         //Ver que zonas son legales
         if (movPrec)
         {
@@ -837,7 +857,7 @@ public class cCombate : MonoBehaviour
                 zonas[i].objetivoValidoParaJugadorActivo = true;
             }
         }
-        esperandoZona = true;
+        //esperandoZona = true;
         uiC.esperandoZona = true;
     }
 
@@ -1012,14 +1032,16 @@ public class cCombate : MonoBehaviour
         esperandoAccion = false;
         esperandoCarga = false;
         esperandoObjetivo = false;
+        Debug.Log("Soft B");
         esperandoReaccion = false;
-        esperandoZona = false;
+        //esperandoZona = false;
     }
 
     //Funcion de entrada al combate, llamada por roguelike y escarmuza managers, y pasando quienes van a integrar el combate
     //Mas adelante tambien van a pasar las zonas que va a tener este
     public void NuevoCombate(List<cPersonajeFlyweight> combatientes)
     {
+        enCombate = true;
         InstanciarZonas(); //Funcion temporal, mientras no estemos pasando dinamicamente zonas distintas para cada combate
         InstanciarCombatientes(combatientes); // Trasnforma a los flywight en personajes posta
 
@@ -1042,9 +1064,12 @@ public class cCombate : MonoBehaviour
 
     public void EsperandoOkOn(bool on)
     {
+        //Me parece que le problema es esto...
+        //voy a probar de remover esteo de switchear entre action maps
+        // y que qeude que durante combate hay 3 acciones, avanzar (z / barra), seleccionar (click iz) y desseleccioanr (click der)
         esperandoOK = on;
-        if (on) py.SwitchCurrentActionMap("EsperandoOk");
-        else py.SwitchCurrentActionMap("EsperandoSelect");
+        //if (on) py.SwitchCurrentActionMap("EsperandoOk");
+        //else py.SwitchCurrentActionMap("EsperandoSelect");
     }
 
     public void InstanciarZonas()
@@ -1138,14 +1163,10 @@ public class cCombate : MonoBehaviour
             //    if (!(per.arma as cArmasFuego).cargada) return false;
             //}
 
-            Debug.Log("rango en zona este en rango");
             foreach (var item in zonas[per.zonaActual].zonasEnRango)
             {
-                Debug.Log("zona en rango: " + item);
-                Debug.Log("zona que buscamos: " + (zona));
                 if (item == zona)
                 {
-                    Debug.Log("return true, deberia tener reaccion disponible");
                     return true;
                 }
             }

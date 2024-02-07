@@ -39,16 +39,13 @@ public class cAccionAtaqueBasicoFuego : cAccionAtaqueBasico
         }
         else
         {
-            Debug.Log("usando estaao");
             posiblesReacciones.Clear();
             uiC.DejarDePedirReaccion();
             //if (mostrarMensaje2)
             //{
                 uiC.SetText("¡Nadie detuvo el ataque, da en blanco! " + personaje.nombre + " aprovecha para recargar su arma.");
                 ab_state++; //Saltear Daño siempre (unica diferencia con ataque basico normal)
-                Debug.Log("ab state= "+ ab_state);
                 (personaje.arma as cArmasFuego).cargada = true;
-                Debug.Log("cargada: " + (personaje.arma as cArmasFuego).cargada);
                 mostrarMensaje1 = true;
             //}
             //else
@@ -64,10 +61,10 @@ public class cAccionAtaqueBasicoFuego : cAccionAtaqueBasico
     {
         c.atacando = true;
         intentaronDetenerlo = false;
+        c.jugadorDef = 0;
         dadosATirar = DeterminarNumeroDeDados();
         string text = "¡" + personaje.nombre + " usa su " + nombre + " contra " + c.personajeObjetivo.nombre + "! Tira " + dadosATirar + " dados contra su guardia de " + c.personajeObjetivo.GetGuardia() + ", descargando su arma.";
         (personaje.arma as cArmasFuego).cargada = false;
-        Debug.Log("cargada: " + (personaje.arma as cArmasFuego).cargada);
         c.personajeActivo.GastarDado(c.faseActual, c.acciones, c.accionesActivas, c.accionesReactivas, text);
         uiC.ActualizarIniciativa(c.personajes);
     }

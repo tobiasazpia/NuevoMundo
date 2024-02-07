@@ -38,70 +38,71 @@ public class cAccionAtaqueBasico : cAccionAtaque
         switch (ab_state)
         {
             case AB_DETERMINANDO_DADOS:
-                Debug.Log("ab_state 0");
+                //Debug.Log("ab_state 0");
                 DeterminadoDados();
                 break;
             case AB_TIRANDO:
-                Debug.Log("ab_state 1");
+                //Debug.Log("ab_state 1");
                 Tirando();
                 break;
             case AB_DEFENSAS:
-                Debug.Log("ab_state 2");
+                //Debug.Log("ab_state 2");
                 Defensas();
                 break;
             case AB_DAÑO:
-                Debug.Log("ab_state 3");
+                //Debug.Log("ab_state 3");
                 Daño();
                 break;
             case AB_HERIDAS:
-                Debug.Log("ab_state 4");
+                //Debug.Log("ab_state 4");
                 Heridas();
                 break;
             case AB_TERMINADO:
-                Debug.Log("ab_state 5");
+                //Debug.Log("ab_state 5");
                 Terminado();
                 break;
             case AB_ERROR:
-                Debug.Log("ab_state 6");
+                //Debug.Log("ab_state 6");
                 break;
             default:
                 break;
         }
         ab_state++;
-        Debug.Log("despues de ++ ab_state es:");
-        switch (ab_state)
-        {
-            case AB_DETERMINANDO_DADOS:
-                Debug.Log("ab_state 0");
-                break;
-            case AB_TIRANDO:
-                Debug.Log("ab_state 1");
-                break;
-            case AB_DEFENSAS:
-                Debug.Log("ab_state 2");
-                break;
-            case AB_DAÑO:
-                Debug.Log("ab_state 3");
-                break;
-            case AB_HERIDAS:
-                Debug.Log("ab_state 4");
-                break;
-            case AB_TERMINADO:
-                Debug.Log("ab_state 5");
-                break;
-            case AB_ERROR:
-                Debug.Log("ab_state -1");
-                break;
-            default:
-                break;
-        }
-        c.EsperandoOkOn(true);
+        //Debug.Log("despues de ++ ab_state es:" + ab_state);
+        //switch (ab_state)
+        //{
+        //    case AB_DETERMINANDO_DADOS:
+        //        Debug.Log("ab_state 0");
+        //        break;
+        //    case AB_TIRANDO:
+        //        Debug.Log("ab_state 1");
+        //        break;
+        //    case AB_DEFENSAS:
+        //        Debug.Log("ab_state 2");
+        //        break;
+        //    case AB_DAÑO:
+        //        Debug.Log("ab_state 3");
+        //        break;
+        //    case AB_HERIDAS:
+        //        Debug.Log("ab_state 4");
+        //        break;
+        //    case AB_TERMINADO:
+        //        Debug.Log("ab_state 5");
+        //        break;
+        //    case AB_ERROR:
+        //        Debug.Log("ab_state -1");
+        //        break;
+        //    default:
+        //        break;
+        //}
+        //c.EsperandoOkOn(true);
     }
 
     virtual protected void DeterminadoDados()
     {
         c.atacando = true;
         intentaronDetenerlo = false;
+        c.jugadorDef = 0;
         dadosATirar = DeterminarNumeroDeDados();
         string armasImprovisadas = "";
         if(personaje.arma is cArmasPelea)
@@ -190,7 +191,6 @@ public class cAccionAtaqueBasico : cAccionAtaque
         {
             text += item.nombre + "  ";
         }
-        Debug.Log("posibles reacciones sorteadas: " + text);
         if (posiblesReacciones.Count > 0)
         {
             c.personajeInterversor = posiblesReacciones[0];
@@ -281,6 +281,7 @@ public class cAccionAtaqueBasico : cAccionAtaque
         c.movPrec = false;
         c.movAgro = false;
         c.atacando = false;
+        c.jugadorDef = 0;
         personaje.bonusPAtqBporDefB = 0;
         //capaz hay que separar esto en 2 stages? chequeando muertes y chequeando si termino?
         if (c.personajeObjetivo is cMatones)
@@ -306,11 +307,8 @@ public class cAccionAtaqueBasico : cAccionAtaque
 
     override public int DeterminarNumeroDeDados()
     {
-        Debug.Log(c);
         personaje.totalDadosDelAtacante = personaje.dadosDelAtacantePorPrecavido + personaje.arma.GetDadosDelAtacanteMod();
         int numeroDeDados = 3 + personaje.atr.maña + personaje.hab.ataqueBasico + personaje.arma.GetBonusAtaque() + personaje.bonusPAtqBporDefB + c.personajeObjetivo.totalDadosDelAtacante;
-        Debug.Log("para el calculo sumamos: 3, maña: " + personaje.atr.maña + ", AB: " + personaje.hab.ataqueBasico + ", + bonus: " + personaje.arma.GetBonusAtaque() + ", DBbonus: " + personaje.bonusPAtqBporDefB + ", resta del otro: " + c.personajeObjetivo.totalDadosDelAtacante);
-        Debug.Log("el otro es: " + c.personajeObjetivo.nombre);
         if (c.movAgro) numeroDeDados -= 3;
         return numeroDeDados;
     }

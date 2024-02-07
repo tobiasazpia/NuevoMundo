@@ -61,7 +61,6 @@ public class cAccionMovimientoPrecavido : cAccionMovimiento
 
     public void Defensas()
     {
-        Debug.Log("mov prec defensas");
         if (mostrarMensaje1)
         {
             uiC.SetText("¿Intentara detenerlo alguien?");

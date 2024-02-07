@@ -19,6 +19,7 @@ public class cReaccionDefensaBasicaFuego : cReaccionDefensaBasica
         Debug.Log("tirando");
         tirada tr = cDieMath.TirarDados(dadosATirar);
         defensa = cDieMath.sumaDe3Mayores(tr);
+        c.jugadorDef = defensa;
         string resultado;
         if (c.atacando)
         {

@@ -237,7 +237,6 @@ public class UICombate : MonoBehaviour
 
     public void OnMouseEnterButton(MouseEnterEvent evt)
     {
-        Debug.Log("enter");
         hovering = true;
         //tooltip.transform.position = (evt.target as Button).transform.position;
         tooltip.transform.position = evt.mousePosition;
@@ -246,10 +245,18 @@ public class UICombate : MonoBehaviour
 
     public void OnMouseLeaveButton(MouseLeaveEvent evt)
     {
-        Debug.Log("leave");
         tooltip.style.display = DisplayStyle.None;
         hoverTimer = 0;
         hovering = false;
+    }
+
+    public void EsconderBotones()
+    {
+        bAtacar.style.display = DisplayStyle.None;
+        bMoverAgro.style.display = DisplayStyle.None;
+        bRecargar.style.display = DisplayStyle.None;
+        bEncontrarImprovisada.style.display = DisplayStyle.None;
+        bAtacarImprovisada.style.display = DisplayStyle.None;
     }
 
     public void CombateSelected()
@@ -320,6 +327,7 @@ public class UICombate : MonoBehaviour
         menuAccion.style.display = DisplayStyle.Flex;
         bMarcial.style.display = DisplayStyle.Flex;
         bMover.style.display = DisplayStyle.Flex;
+        EsconderBotones();
         VerQueBotonesPonemos(cAcciones.AC_CAT_GUARDAR, personaje.acciones);
     }
 
@@ -363,20 +371,29 @@ public class UICombate : MonoBehaviour
 
     private void VerQueBotonesPonemos(int categoria, List<cAcciones> acciones)
     {
+        Debug.Log("Ver que botones ponemos");
         foreach (var item in acciones)
         {
+            Debug.Log("Nombre de accion a revisar: " + item.nombre);
             if (item.categoria != categoria)
             {
                 item.boton.style.display = DisplayStyle.None;
+                Debug.Log("None");
             }
             else
             {
+                Debug.Log("Revisando legalidad");
                 item.RevisarLegalidad();
                 if (item.esLegal)
                 {
+                    Debug.Log("Legal");
                     item.boton.style.display = DisplayStyle.Flex;
                 }
-                else item.boton.style.display = DisplayStyle.None;
+                else
+                {
+                    item.boton.style.display = DisplayStyle.None;
+                    Debug.Log("No Legal ");
+                }
             }
         }
     }
@@ -489,9 +506,11 @@ public class UICombate : MonoBehaviour
     private void OnAtacarClicked(ClickEvent evt)
     {
         combate.accionActiva = cPersonaje.AC_ATACAR;
+        bAtacarImprovisada.style.display = DisplayStyle.None;
         menuMarcial.style.display = DisplayStyle.None;
         menuBackOnly.style.display = DisplayStyle.Flex;
-        esperandoPersonaje = true;
+        bEncontrarImprovisada.style.display = DisplayStyle.None;
+        combate.esperandoObjetivo = true;
         combate.movPrec = false;
         combate.movAgro = false;
         VolverAlCombate();
@@ -500,9 +519,11 @@ public class UICombate : MonoBehaviour
     private void OnImprovisadaClicked(ClickEvent evt)
     {
         combate.accionActiva = cPersonaje.AC_ATACARIMPRO;
+        bAtacarImprovisada.style.display = DisplayStyle.None;
         menuMarcial.style.display = DisplayStyle.None;
         menuBackOnly.style.display = DisplayStyle.Flex;
-        esperandoPersonaje = true;
+        bEncontrarImprovisada.style.display = DisplayStyle.None;
+        combate.esperandoObjetivo = true;
         combate.movPrec = false;
         combate.movAgro = false;
         VolverAlCombate();
@@ -512,6 +533,7 @@ public class UICombate : MonoBehaviour
     {
         combate.accionActiva = cPersonaje.AC_ENCONTRAR;
         menuMarcial.style.display = DisplayStyle.None;
+        bEncontrarImprovisada.style.display = DisplayStyle.None;
         combate.stateID = cCombate.RESOLVIENDO_ACCION;
         VolverAlCombate();
     }
@@ -520,6 +542,7 @@ public class UICombate : MonoBehaviour
     {
         combate.accionActiva = cPersonaje.AC_RECARGAR;
         menuMarcial.style.display = DisplayStyle.None;
+        bRecargar.style.display = DisplayStyle.None;
         combate.stateID = cCombate.RESOLVIENDO_ACCION;
         VolverAlCombate();
     }
@@ -604,7 +627,8 @@ public class UICombate : MonoBehaviour
     public void OnPersonajeClicked(cPersonaje p)
     {
         menuBackOnly.style.display = DisplayStyle.None;
-        esperandoPersonaje = false;
+        Debug.Log("Soft C");
+        combate.esperandoObjetivo = false;
         combate.personajeObjetivo = p;
         combate.atacando = true;
         combate.stateID = cCombate.RESOLVIENDO_ACCION;
@@ -717,9 +741,9 @@ public class UICombate : MonoBehaviour
 
     public void MostrarInfoPerVital(cPersonaje per)
     {
-        infoVital.transform.position = WorldToUIToolkit(per.transform.position,-70-Screen.width/2,50);
-        infoVital.style.display = DisplayStyle.Flex;
-        LlenarInfoVital(per);
+            infoVital.transform.position = WorldToUIToolkit(per.transform.position, -70 - Screen.width / 2, 50);
+            infoVital.style.display = DisplayStyle.Flex;
+            LlenarInfoVital(per);
     }
 
     public void LlenarInfoVital(cPersonaje per)
@@ -754,6 +778,7 @@ public class UICombate : MonoBehaviour
         infoVital.style.display = DisplayStyle.None;
         infoTactica.style.display = DisplayStyle.None;
         infoCompleta.style.display = DisplayStyle.None;
+        combate.perSeleccionado = null;
     }
 
     public void MostrarInfoPerTactica(cPersonaje per)
@@ -779,11 +804,12 @@ public class UICombate : MonoBehaviour
         public void EsconderInfoPerTactica()
     {
         infoTactica.style.display = DisplayStyle.None;
+        combate.perSeleccionado = null;
     }
 
     public void MostrarInfoPerCompleta(cPersonaje per)
     {
-        infoTactica.style.display = DisplayStyle.None;
+        EsconderInfoPerTactica();
         infoCompleta.style.display = DisplayStyle.Flex;
         UIInterface.FillPlayer(per,infoCompleta);
     }

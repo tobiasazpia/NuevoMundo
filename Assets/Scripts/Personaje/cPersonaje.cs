@@ -46,7 +46,7 @@ public class cPersonaje : MonoBehaviour
     public const int AC_ATRAS = 98;
     public const int AC_SINASIGNAR = 99;
     //Reacciones
-    public const int DB_DefensaBasica= 0;
+    public const int DB_DefensaBasica = 0;
     public const int DB_DefensaBasicaImpro = 1;
     public const int DB_ATRAS = 98;
     public const int DB_SINASIGNAR = 99;
@@ -234,284 +234,6 @@ public class cPersonaje : MonoBehaviour
         return extraNecesarioPara2doMaton;
     }
 
-    //Funcion llamada por combate cuando un Personaje ya decidio que va a actuar y tiene un objetivo decidido
-    public void Actuar(cPersonaje defensor, int faseActual, List<sAccion> acciones, List<sAccion> accionesActivas, List<sAccion> accionesReactivas, bool movAgro)
-    {
-        //Aca seria el punto de conecion para el refactoring
-        //onda, lo de arma de fuego estaria genial qeu se encargue el arma misma.
-        Debug.Log("Actuamos");
-        switch (c.accionActiva)
-        {
-            case AC_ATACAR:
-                Debug.Log("usando esDDASDAto");
-                c.ui.m = nombre + " quiere atacar!";
-                foreach (var p in c.personajes)
-                {
-                    Debug.Log("guard false 1");
-                    p.guardando = false;
-                }
-                if (arma is cArmasFuego)
-                {
-                    if (!(arma as cArmasFuego).cargada)
-                    {
-                        c.ui.m += "\nPero primero tiene que cargar su arma";
-                        (arma as cArmasFuego).cargada = true;
-                        Debug.Log("cargada: " + (arma as cArmasFuego).cargada);
-                        Debug.Log("DEPRECADO3");
-                        //AccionOReaccionGastarDado(faseActual, acciones, accionesActivas, accionesReactivas);
-                        c.ContinuarFase();
-                        break;
-                    }
-                }
-
-                dadosDelAtacantePorPrecavido = 0;
-                totalDadosDelAtacante = arma.GetDadosDelAtacanteMod() + dadosDelAtacantePorPrecavido;
-
-
-                //Esta "Logica Ataque" es basicamente Atauqe Basico
-                if (LogicaAtaque(defensor, faseActual, acciones, accionesActivas, accionesReactivas, movAgro))
-                {
-                    c.ui.m += "\nAlguien defendera?";
-                    c.stateID = cCombate.CHEQUEANDO_REACCION;
-                }
-                else
-                {
-                    c.movAgro = false;
-                    c.ContinuarFase();
-                }
-                break;
-            case AC_MOVAGRE:
-                foreach (var p in c.personajes)
-                {
-                    Debug.Log("guard false 2");
-                    p.guardando = false;
-                }
-                c.accionActiva = AC_ATACAR;
-                c.movAgro = true;
-                c.movPrec = false;
-                dadosDelAtacantePorPrecavido = 0;
-                totalDadosDelAtacante = arma.GetDadosDelAtacanteMod() + dadosDelAtacantePorPrecavido;
-                LogicaMovimiento(faseActual, acciones, accionesActivas, accionesReactivas);
-                break;
-            case AC_MOVPREC:
-                foreach (var p in c.personajes)
-                {
-                    Debug.Log("guard false 3");
-                    p.guardando = false;
-                }
-                c.movAgro = false;
-                c.movPrec = true;
-                dadosDelAtacantePorPrecavido = 0;
-                totalDadosDelAtacante = arma.GetDadosDelAtacanteMod() + dadosDelAtacantePorPrecavido;
-                LogicaMovimiento(faseActual, acciones, accionesActivas, accionesReactivas);
-                break;
-            case AC_GUARDAR:
-                transform.position = new Vector3(transform.position.x, 0, transform.position.z);
-                GuardarAccion(accionesActivas);
-                guardando = true;
-                Debug.Log("guard true 1");
-                break;
-            default:
-                break;
-        }
-    }
-
-    public void LogicaMovimiento(int faseActual, List<sAccion> acciones, List<sAccion> accionesActivas, List<sAccion> accionesReactivas)
-    {
-        c.atacando = false;
-        //aca se gasta super temprano el dado
-        Debug.Log("DEPRECADO2");
-        //AccionOReaccionGastarDado(faseActual, acciones, accionesActivas, accionesReactivas);
-        c.jugadorAtq = GetGuardia();
-        c.ui.m = nombre + " trata moverse de " + c.zonas[zonaActual].nombre + " a " + c.zonas[c.zonaObjetiva].nombre + " con su Guardia de " + GetGuardia();
-
-        c.stateID = cCombate.CHEQUEANDO_REACCION;
-        c.enemigosEnRango.Clear();
-        List<cPersonaje> temp = new List<cPersonaje>();
-        foreach (var p in c.personajes)
-        {
-            if (p.vivo && p.equipo != equipo)
-            {
-                if (p.zonaActual == zonaActual) // Cualquiera puede interrumpir
-                {
-                    temp.Add(p);
-                }
-                else if (p.arma.GetDeRango()) // solo los de rango pueden defender
-                {
-                    foreach (var z in c.zonas[p.zonaActual].zonasEnRango)
-                    {
-                        if (z == zonaActual)
-                        {
-                            temp.Add(p);
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-        temp.Sort((x, y) => y.valorDeIniciativa.CompareTo(x.valorDeIniciativa));
-        foreach (var item in temp)
-        {
-            c.enemigosEnRango.Add(item);
-        }
-        temp.Clear();
-    }
-
-    //Devuelve si el ataque emboco o no
-    public bool LogicaAtaque(cPersonaje defensor, int faseActual, List<sAccion> acciones, List<sAccion> accionesActivas, List<sAccion> accionesReactivas, bool movAgro)
-    {
-        Debug.Log("CREO QUE ESTO YA NO USAMOS");
-        c.atacando = true;
-        //AccionOReaccionGastarDado(faseActual, acciones, accionesActivas, accionesReactivas);
-        c.jugadorAtq = Atacar(defensor);
-        int numeroDeDados = 3 + atr.maña + hab.ataqueBasico + arma.GetBonusAtaque() + bonusPAtqBporDefB + defensor.totalDadosDelAtacante;
-
-        //Capaz hay qeu sumarle 1
-        //if (arma is cArmasLigeras)
-        //{
-        //    if (!(arma as cArmasLigeras).yaActuo[defensor.nombre])
-        //    {
-        //        Debug.Log(nombre + " gana bonus de yaActuo conta " + defensor.nombre);
-        //        numeroDeDados++;
-        //    }
-        //}
-
-        if (arma.GetDeRango())
-        {
-            if (c.enemigosEnMelee.Count > 0)
-            {
-                numeroDeDados -= 1;
-                if (zonaActual == defensor.zonaActual) numeroDeDados -= 1;
-            }
-        }
-        if (movAgro) numeroDeDados -= 3;
-        if (c.jugadorAtq >= defensor.GetGuardia())
-        {
-            //c.stateID = cCombate.CHEQUEANDO_REACCION;
-            c.enemigosEnRango.Clear();
-            c.enemigosEnRango.Add(defensor);
-            List<cPersonaje> temp = new List<cPersonaje>();
-            foreach (var p in c.personajes)
-            {
-                if (p.vivo && p.equipo == defensor.equipo && p.nombre != defensor.nombre)
-                {
-                    if (p.zonaActual == defensor.zonaActual || p.zonaActual == zonaActual) // Cualquiera puede defender
-                    {
-                        temp.Add(p);
-                    }
-                    else if (p.arma.GetDeRango()) // solo los de rango pueden defender
-                    {
-                        foreach (var z in c.zonas[p.zonaActual].zonasEnRango)
-                        {
-                            if (z == zonaActual)
-                            {
-                                temp.Add(p);
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
-            temp.Sort((x, y) => y.valorDeIniciativa.CompareTo(x.valorDeIniciativa));
-            foreach (var item in temp)
-            {
-                c.enemigosEnRango.Add(item);
-            }
-            temp.Clear();
-            return true;
-        }
-        c.ui.m += "\nAtaca con " + numeroDeDados + " dados contra la Guardia en " + defensor.GetGuardia() + " de " + defensor.nombre + " y saca " + c.jugadorAtq + ", fallando el ataque.";
-        c.Continuemos();
-        if (arma is cArmasFuego)
-        {
-            (arma as cArmasFuego).cargada = false;
-            Debug.Log("cargada: " + (arma as cArmasFuego).cargada);
-            c.ui.m += "\nSu arma de fuego queda descargada.";
-        }
-        return false;
-    }
-
-    int Atacar(cPersonaje defensor)
-    {
-        int numeroDeDados = 3 + atr.maña + hab.ataqueBasico + arma.GetBonusAtaque() + bonusPAtqBporDefB + defensor.totalDadosDelAtacante;
-        //Capaz hay qeu sumarle 1
-        //if (arma is cArmasLigeras)
-        //{
-        //    if (!(arma as cArmasLigeras).yaActuo[defensor.nombre])
-        //    {
-        //        Debug.Log(nombre + " gana bonus de yaActuo conta " + defensor.nombre);
-        //        numeroDeDados++;
-        //    }
-        //}
-
-        if (c.movAgro) numeroDeDados -= 3;
-        if (arma.GetDeRango())
-        {
-            if (c.enemigosEnMelee.Count > 0)
-            {
-                numeroDeDados -= 1;
-                if (zonaActual == defensor.zonaActual) numeroDeDados -= 1;
-            }
-        }
-        tirada tr = cDieMath.TirarDados(numeroDeDados);
-        return cDieMath.sumaDe3Mayores(tr);
-    }
-
-    public bool VaAReaccionar()
-    {
-        if (reaccion1Disponible)
-        {
-            if (ai is null) // Si es un jugador que decida
-            {
-                // Capaz estaria cool chequear la "acicon activa" para dar un mensaje mas concreto de si te defendes,
-                // defendes a un aliado, o interrumpis movimiento
-                c.ui.m = nombre;
-                if (c.accionActiva == AC_ATACAR)
-                {
-                    if (c.personajeObjetivo.nombre == nombre) c.ui.m += " tratas defenderte?\n\nZ - Si\nX - No";
-                    else c.ui.m += " tratas defender a " + c.personajeObjetivo.nombre + "?\n\nZ - Si\nX - No";
-                }
-                else
-                {
-                    c.ui.m += " tratas detener movimiento?\n\nZ - Si\nX - No";
-                }
-                c.personajeInterversor = this;
-                c.jugadorPuedeReaccionar = true;
-                c.esperandoReaccion = true;
-                c.auto = false;
-                return true;
-            }
-            else // Si no que decida a AI
-            {
-                bool exit = false;
-                if (arma is cArmasFuego && (!c.atacando || nombre != c.personajeObjetivo.nombre))
-                {
-                    if (!(arma as cArmasFuego).cargada)
-                    {
-                        c.ui.m = nombre + " no tiene el arma carga y no puede defender a otros ni detener movimiento";
-                        exit = true;
-                    }
-                }
-                if (!exit)
-                {
-                    if (ai.Reaccion(c.jugadorAtq))
-                    {
-                        c.ui.m = nombre + ": va a defender!";
-                        c.stateID = cCombate.A_DEFENDER;
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
-    }
-
-    public void EmbocarAtaque(cPersonaje defensor, int atq, int def)
-    {
-        defensor.RecibirGolpe(this, atq, def);
-        bonusPAtqBporDefB = 0;
-    }
-
     public virtual void RecibirGolpe(cPersonaje atacante, int atq, int def)
     {
         if (atacante.arma is cArmasFuego)
@@ -521,94 +243,7 @@ public class cPersonaje : MonoBehaviour
         else Heridas(c.daño);
     }
 
-    public void GuardarAccion(List<sAccion> accionesActivas)
-    {
-        GuardarGastarDado(accionesActivas);
-        c.ContinuarFase();
-    }
-
-    public bool Reaccion(int atq, int faseActual, List<sAccion> acciones, List<sAccion> accionesActivas, List<sAccion> accionesReactivas)
-    {
-        Debug.Log("DEPRECADO4");
-
-        bool def = Defensa(atq);
-        if (def)
-        {
-            //AccionOReaccionGastarDado(faseActual, acciones, accionesActivas, accionesReactivas);
-        }
-        else
-        {
-            if (arma is cArmasFuego)
-            {
-                (arma as cArmasFuego).cargada = false;
-                Debug.Log("cargada: " + (arma as cArmasFuego).cargada);
-                c.ui.m += "\nSu arma quedo descargada";
-            }
-            //RetrocederDadoDeAccion(faseActual, acciones, accionesActivas, accionesReactivas);
-        }
-        return def;
-    }
-
-    bool Defensa(int atq)
-    {
-        if (!c.atacando)
-        {
-            defensaBasicaDadosExtra = arma.GetBonusDetenerMovimiento();
-        }
-        else if (nombre == c.personajeObjetivo.nombre)
-        {
-            defensaBasicaDadosExtra = arma.GetBonusDefensaPropia();
-            if (arma is cArmasArco && c.personajeActivo.zonaActual == zonaActual)
-            {
-                defensaBasicaDadosExtra -= 1;
-            }
-        }
-        else
-        {
-            defensaBasicaDadosExtra = arma.GetBonusDefensaAjena();
-        }
-        int numeroDeDados = 3 + atr.ingenio + hab.defensaBasica + defensaBasicaDadosExtra;
-        //Capaz hay qeu sumarle 1
-        //if (arma is cArmasLigeras)
-        //{
-        //    if (!(arma as cArmasLigeras).yaActuo[c.personajeActivo.nombre])
-        //    {
-        //        Debug.Log(nombre + " gana bonus de yaActuo conta " + c.personajeActivo.nombre);
-        //        numeroDeDados++;
-        //    }
-        //}
-        if (arma.GetDeRango() && c.enemigosEnMelee.Count > 0)
-        {
-            numeroDeDados -= 1;
-        }
-        Debug.Log(" pachamos por aca?");
-        tirada tr = cDieMath.TirarDados(numeroDeDados);
-        int def = cDieMath.sumaDe3Mayores(tr);
-        if (c.atacando)
-        {
-            c.ui.m = (nombre + " defiende con " + numeroDeDados + " dados, y saca " + def + " contra el ataque de " + atq);
-        }
-        else
-        {
-            c.ui.m = (nombre + " interviene con " + numeroDeDados + " dados, y saca " + def + " contra la Guardia de " + atq);
-        }
-        if (def >= atq)
-        {
-            bonusPAtqBporDefB += def - atq;
-            return true;
-        }
-        if (c.atacando)
-        {
-            fallamosDefPor = atq - def;
-        }
-        else
-        {
-            fallamosDefPor = c.personajeActivo.GetGuardia() - def;
-        }
-        return false;
-    }
-
-        public void GastarDado(int faseActual, List<sAccion> acciones, List<sAccion> accionesActivas, List<sAccion> accionesReactivas, string text)
+    public void GastarDado(int faseActual, List<sAccion> acciones, List<sAccion> accionesActivas, List<sAccion> accionesReactivas, string text)
     {
         uiC.SetText(text + " " + nombre + " gasta su dado de la fase " + dadosDeAccion[0] + ".");
         //Remover Dado de Accion Valido Menor y determinar la fase que tenia
@@ -748,20 +383,10 @@ public class cPersonaje : MonoBehaviour
                     else
                     {
                         reaccion1Disponible = true;
-                        Debug.Log("aca 4");
                     }
                 }
             }
         }
-
-        //foreach (var per in c.personajes)
-        //{
-        //    if (per.arma is cArmasLigeras)
-        //    {
-        //        Debug.Log(nombre + " pasa a YA ACTUO");
-        //        (per.arma as cArmasLigeras).yaActuo[nombre] = true;
-        //    }
-        //}
 
         fallamosDefPor = 0;
         ReOrdenarDados(acciones);
@@ -801,7 +426,7 @@ public class cPersonaje : MonoBehaviour
         if (tiradaDeHeridasRes < hSupe)
         {
             int dif = hSupe - tiradaDeHeridasRes;
-            int hAdicionales = (dif / 30 ) + 1;
+            int hAdicionales = (dif / 30) + 1;
             hDram += hAdicionales;
             text += (" Falla la tirada por " + dif + ", y toma " + hAdicionales + " Heridas, para un total de " + hDram + ".");
             hSupe = 0;
@@ -816,7 +441,7 @@ public class cPersonaje : MonoBehaviour
     public void HeridoPorArmaDeFuego()
     {
         int hAd = hSupe / 30;
-       uiC.SetText(nombre + " recibio un disparo tomando 1 Herida, y por ya tener " + hSupe + " de daño toma " + hAd + " adicionales.");
+        uiC.SetText(nombre + " recibio un disparo tomando 1 Herida, y por ya tener " + hSupe + " de daño toma " + hAd + " adicionales.");
         hDram += 1 + hAd;
         hSupe = 0;
     }
@@ -894,33 +519,27 @@ public class cPersonaje : MonoBehaviour
 
     void OnMouseOver()
     {
-        if (py.actions["Select"].WasPressedThisFrame())
-        {
-            if (c.esperandoObjetivo && c.personajeActivo.equipo != equipo && vivo)
-            {
-                uiC.OnPersonajeClicked(this);
-            }
-            else
-            {
-                foreach (var item in c.personajes)
-                {
-                    item.selected = false;
-                }
-                selected = true;
-                c.perSeleccionado = true;
-            }
-        }
+        //if (py.actions["Select"].WasPressedThisFrame())
+        //{
+        //    if (c.esperandoObjetivo && c.personajeActivo.equipo != equipo && vivo)
+        //    {
+        //        uiC.OnPersonajeClicked(this);
+        //    }
+        //}
     }
 
     private void OnMouseEnter()
     {
         hovered = true;
-        c.uiC.MostrarInfoPerVital(this);
+        if (c.perSeleccionado != nombre)
+        {
+            c.uiC.MostrarInfoPerVital(this);
+        }
     }
 
     private void OnMouseDown()
     {
-        if (!c.uiC.esperandoPersonaje)
+        if (!c.esperandoObjetivo)
         {
             if (mostrandoTactica)
             {
@@ -930,7 +549,15 @@ public class cPersonaje : MonoBehaviour
             else
             {
                 c.uiC.MostrarInfoPerTactica(this);
+                c.perSeleccionado = nombre;
                 mostrandoTactica = true;
+            }
+        }
+        else
+        {
+            if (c.personajeActivo.equipo != equipo && vivo)
+            {
+                uiC.OnPersonajeClicked(this);
             }
         }
     }
@@ -938,7 +565,7 @@ public class cPersonaje : MonoBehaviour
     private void OnMouseExit()
     {
         hovered = false;
-        c.uiC.EsconderInfoPerVital();     
+        c.uiC.EsconderInfoPerVital();
     }
 
 

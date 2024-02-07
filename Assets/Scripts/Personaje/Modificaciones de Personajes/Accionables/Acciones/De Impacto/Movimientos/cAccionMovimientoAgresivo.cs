@@ -45,7 +45,7 @@ public class cAccionMovimientoAgresivo : cAccionMovimiento
                 break;
         }
         movag_state++;
-        c.EsperandoOkOn(ready);
+        c.EsperandoOkOn(true);
     }
 
     public void Inicio()
@@ -66,13 +66,11 @@ public class cAccionMovimientoAgresivo : cAccionMovimiento
 
     virtual public void Defensas()
     {
-        Debug.Log("mov agro defensas");
         if (mostrarMensaje1)
         {
             uiC.SetText("¿Intentara detenerlo alguien?");
             mostrarMensaje1 = false;
             mostrarMensaje2 = false;
-            Debug.Log("mov agro defensas a");
         }
 
         if (posiblesReacciones.Count > 0 && !intentaronDetenerlo)
@@ -81,16 +79,13 @@ public class cAccionMovimientoAgresivo : cAccionMovimiento
             c.personajeInterversor = posiblesReacciones[0];
             posiblesReacciones.RemoveAt(0);
             c.stateID = cCombate.PREGUNTANDO_REACCION;
-            Debug.Log("mov agro defensas b");
         }
         else
         {
-            Debug.Log("mov agro defensas c");
             posiblesReacciones.Clear();
             uiC.DejarDePedirReaccion();
             //if (mostrarMensaje2)
             //{
-            Debug.Log("mov agro defensas d");
             c.personajeActivo.zonaActual = c.zonaObjetiva;
             c.personajeActivo.transform.position = new Vector3(c.personajeActivo.zonaActual * 10 - 10, 0, c.personajeActivo.transform.position.z);
             c.personajeActivo.totalDadosDelAtacante = c.personajeActivo.dadosDelAtacantePorPrecavido + c.personajeActivo.arma.GetDadosDelAtacanteMod();
@@ -99,7 +94,6 @@ public class cAccionMovimientoAgresivo : cAccionMovimiento
                 uiC.SetText("Nadie detiene a " + c.personajeActivo.nombre + " y carga contra " + c.zonas[c.zonaObjetiva].nombre + " para atacar. ¿Pero a quien?");
                 c.esperandoObjetivo = true;
                 ready = false;
-                Debug.Log("mov agro defensas e");
             }
             else
             {
@@ -109,7 +103,6 @@ public class cAccionMovimientoAgresivo : cAccionMovimiento
                 c.accionActiva = cPersonaje.AC_ATACAR;
                 uiC.RegistrarAccion();
                 c.EsperandoOkOn(true);
-                Debug.Log("mov agro defensas f");
             }
             //}
             //else
@@ -133,18 +126,15 @@ public class cAccionMovimientoAgresivo : cAccionMovimiento
                 {
                     if (p.arma is cArmasFuego)
                     {
-                        Debug.Log("return true, f");
                         if (c.ZonaEsteEnRangoDePersonaje(p, c.personajeActivo.zonaActual) && (p.arma as cArmasFuego).cargada) posiblesReaccionesSinObjetivo.Add(p);
                     }
                     else
                     {
-                        Debug.Log("agregando reacciones");
                         if (c.ZonaEsteEnRangoDePersonaje(p, c.personajeActivo.zonaActual)) posiblesReaccionesSinObjetivo.Add(p);
                     }
                 }
                 else if (p.zonaActual == c.personajeActivo.zonaActual)
                 {
-                    Debug.Log("return true,add");
                     posiblesReaccionesSinObjetivo.Add(p);
                 }
                 else if (p.arma is cArmasPelea)
@@ -173,7 +163,6 @@ public class cAccionMovimientoAgresivo : cAccionMovimiento
         {
             text += item.nombre + "  ";
         }
-        Debug.Log("posibles reacciones sorteadas: " + text);
         if (posiblesReacciones.Count > 0)
         {
             c.personajeInterversor = posiblesReacciones[0];
@@ -185,7 +174,6 @@ public class cAccionMovimientoAgresivo : cAccionMovimiento
     {
         if (x.dadosDeAccion[0] > y.dadosDeAccion[0])
         {
-            Debug.Log(y.nombre + "actuaria antes por dado bajo");
             return -1;
         }
         if (x.dadosDeAccion[0] < y.dadosDeAccion[0])

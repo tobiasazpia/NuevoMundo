@@ -47,6 +47,7 @@ public class UIInterface : MonoBehaviour
 
     static public void GoEscarmuza()
     {
+        Debug.Log("go escarmuza");
         SetCurrent(pEscarmuza);
     }
 
@@ -68,7 +69,6 @@ public class UIInterface : MonoBehaviour
     static public void FillPlayer(cPersonajeFlyweight p, VisualElement vE)
     {
         //Buscar elementos UI
-        Debug.Log("Tratando de asignar " + vE.name + ", hijos " + vE.childCount);
         VisualElement encabezado = vE.ElementAt(0);
         VisualElement habilidades = vE.ElementAt(1);
         VisualElement atributos = vE.ElementAt(2);

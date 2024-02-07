@@ -58,6 +58,7 @@ public class cZona : MonoBehaviour
             //seleccionar
             if (py.actions["Select"].WasPressedThisFrame())
             {
+                Debug.Log("zona cliked: ");
                 uiC.OnZonaclicked(index);
             }
         }

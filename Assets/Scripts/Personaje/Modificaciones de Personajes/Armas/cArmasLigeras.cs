@@ -48,8 +48,6 @@ public class cArmasLigeras : cArma
 
     public bool perYaActuo(cPersonaje per)
     {
-        Debug.Log("en perYaActuo, con " + per.nombre);
-        Debug.Log("cantidad en lsita: " + personajesQueActuaron.Count);
         return personajesQueActuaron.Contains(per.nombre);
     }
 

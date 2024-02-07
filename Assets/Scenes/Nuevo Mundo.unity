@@ -3253,7 +3253,6 @@ MonoBehaviour:
   auto: 0
   time: 0
   esperandoObjetivo: 0
-  esperandoZona: 0
   esperandoAccion: 0
   esperandoReaccion: 0
   esperandoCarga: 0
@@ -3279,6 +3278,7 @@ MonoBehaviour:
   reaccionActiva: 0
   zonaObjetiva: 0
   perSeleccionado: 0
+  enCombate: 0
 --- !u!4 &180730744
 Transform:
   m_ObjectHideFlags: 0
@@ -4573,6 +4573,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   combate: {fileID: 180730743}
+  rM: {fileID: 294005985}
   templatesMatones: []
   templatesPersonajes: []
 --- !u!114 &294005985
@@ -8539,7 +8540,7 @@ MonoBehaviour:
   m_ActionEvents: []
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
-  m_DefaultActionMap: Navegando Menu
+  m_DefaultActionMap: f9cd6973-2927-47d7-9162-859cac854734
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
 --- !u!114 &723110689
@@ -10578,6 +10579,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   combate: {fileID: 180730743}
+  rM: {fileID: 0}
   templatesMatones: []
   templatesPersonajes: []
 --- !u!1 &963194225

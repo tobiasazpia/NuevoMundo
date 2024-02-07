@@ -20,9 +20,18 @@ public abstract class cAI : MonoBehaviour
     {
         // Trata de atacar siempre que puede, decidiendo al azar a quien.
         // Si no puede trata de hacer un movimiento agresivo, y si tampco puede hace un movimiento precavido a una zona al azar
+        if (p.arma is cArmasFuego)
+        {
+            if (!(p.arma as cArmasFuego).cargada) return cPersonaje.AC_RECARGAR;
+        }
+
         if (enemigosEnRango.Count > 0)
         {
             p.c.personajeObjetivo = enemigosEnRango[Random.Range(0, enemigosEnRango.Count)];
+            if (p.arma is cArmasPelea)
+            {
+                if ((p.arma as cArmasPelea).armaImprovisadaActiva) return cPersonaje.AC_ATACARIMPRO;
+            }
             return cPersonaje.AC_ATACAR;
         }
 
@@ -43,6 +52,10 @@ public abstract class cAI : MonoBehaviour
                 }
             }
             p.c.personajeObjetivo = enemigosEnRango[Random.Range(0, enemigosEnRango.Count)];
+            if (p.arma is cArmasPelea)
+            {
+                if ((p.arma as cArmasPelea).armaImprovisadaActiva) return cPersonaje.AC_MOVIMPRO;
+            }
             return cPersonaje.AC_MOVAGRE;
         }
 

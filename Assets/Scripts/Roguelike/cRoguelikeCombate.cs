@@ -6,6 +6,7 @@ public class cRoguelikeCombate : MonoBehaviour
 {
     //Se encarga de generar un combate con la data roguelike manager entre la party, y unos enemigos generados a partir del nivel en el que estamos
     public cCombate combate;
+    public cRoguelikeManager rM;
     List<cPersonajeFlyweight> enemigos;
     public List<cPersonajeFlyweight> templatesMatones;
     public List<cPersonajeFlyweight> templatesPersonajes;
@@ -36,19 +37,15 @@ public class cRoguelikeCombate : MonoBehaviour
         {
             presupuesto = AgregarEnemigo(presupuesto);
         } while (presupuesto > 5 && enemigos.Count < 3);
-        Debug.Log("Party: " + party.Count);
         combatientes.AddRange(party);
-        Debug.Log("Enemigos: " + enemigos.Count);
         combatientes.AddRange(enemigos);
         combate.esRoguelike = true;
         combate.NuevoCombate(combatientes);
-        Debug.Log("combatientes: " + combatientes.Count + ", enemigos: " + enemigos.Count);
         foreach (var item in enemigos)
         {
             Destroy(item);
         }
         enemigos.Clear();
-        Debug.Log("combatientes: " + combatientes.Count + ", enemigos: " + enemigos.Count);
     }
 
     int AgregarEnemigo(int presupuesto)
@@ -63,7 +60,7 @@ public class cRoguelikeCombate : MonoBehaviour
         else
         {
             int tipoEnemigo = Random.Range(0, 2);
-            if(tipoEnemigo == 0)
+            if (tipoEnemigo == 0)
             {
                 ElegirMaton(nuevoEnemigo, ref presupuesto);
             }
@@ -78,9 +75,14 @@ public class cRoguelikeCombate : MonoBehaviour
     void ElegirMaton(cPersonajeFlyweight maton, ref int presupuesto)
     {
         maton.esMaton = true;
-        int select = Random.Range(0, templatesMatones.Count);
+        List<int> noDisp = MatonesNoDisponibles();
+        int index = Random.Range(0, templatesMatones.Count - noDisp.Count);
+        foreach (var item in noDisp)
+        {
+            if (index >= item) index++;
+        }
         maton.cantidad = Random.Range(1, presupuesto / 2 + 1);
-        maton.Copiar(templatesMatones[select]);
+        maton.Copiar(templatesMatones[index]);
         enemigos.Add(maton);
         presupuesto -= maton.cantidad * 3;
     }
@@ -88,13 +90,87 @@ public class cRoguelikeCombate : MonoBehaviour
 
     void ElegirPersonaje(cPersonajeFlyweight personaje, ref int presupuesto)
     {
+        List<int> noDisp = PersonajesNoDisponibles();
+        int index = Random.Range(0, templatesPersonajes.Count-noDisp.Count);
+        foreach (var item in noDisp)
+        {
+            if (index >= item) index++;
+        }
         personaje.esMaton = false;
-        personaje.Copiar(templatesPersonajes[Random.Range(0, templatesPersonajes.Count)]);
+        personaje.Copiar(templatesPersonajes[index]);
         enemigos.Add(personaje);
         presupuesto -= 14;
     }
 
-    void LlenarTemplateDeMatones()
+    List<int> PersonajesNoDisponibles()
+    {
+        List<int> perIndex = new List<int>();
+        perIndex.AddRange(PersonajesYaEnEquipo());
+        for (int i = 0; i < enemigos.Count; i++)
+        {
+            if (!enemigos[i].esMaton)
+            {
+                for (int j = 0; j < templatesPersonajes.Count; j++)
+                {
+                    if (enemigos[i].nombre == templatesPersonajes[j].nombre) perIndex.Add(j);
+                }
+            }
+        }
+        perIndex.Sort();
+        return perIndex;
+    }
+
+    public List<int> PersonajesYaEnEquipo()
+    {
+        List<int> perIndex = new List<int>();
+        for (int i = 1; i < rM.party.Count; i++)
+        {
+            if (!rM.party[i].esMaton)
+            {
+                for (int j = 0; j < templatesPersonajes.Count; j++)
+                {
+                    if (rM.party[i].nombre == templatesPersonajes[j].nombre) perIndex.Add(j);
+                }
+            }
+        }
+        return perIndex;
+    }
+
+    public List<int> MatonesNoDisponibles()
+    {
+        List<int> perIndex = new List<int>();
+        perIndex.AddRange(MatonesYaEnEquipo());
+        for (int i = 0; i < enemigos.Count; i++)
+        {
+            if (enemigos[i].esMaton)
+            {
+                for (int j = 0; j < templatesMatones.Count; j++)
+                {
+                    if (enemigos[i].nombre == templatesMatones[j].nombre) perIndex.Add(j);
+                }
+            }
+        }
+        perIndex.Sort();
+        return perIndex;
+    }
+
+    public List<int> MatonesYaEnEquipo()
+    {
+        List<int> perIndex = new List<int>();
+        for (int i = 1; i < rM.party.Count; i++)
+        {
+            if (rM.party[i].esMaton)
+            {
+                for (int j = 0; j < templatesMatones.Count; j++)
+                {
+                    if (rM.party[i].nombre == templatesMatones[j].nombre) perIndex.Add(j);
+                }
+            }
+        }
+        return perIndex;
+    }
+
+        void LlenarTemplateDeMatones()
     {
         cPersonajeFlyweight campesinosLatios = gameObject.AddComponent<cPersonajeFlyweight>();
         campesinosLatios.nombre = "Campesinos Latios";
@@ -167,8 +243,8 @@ public class cRoguelikeCombate : MonoBehaviour
         couroneoImprudente.hab.ataqueBasico = 2;
         couroneoImprudente.hab.defensaBasica = 1;
         couroneoImprudente.atr.musculo = 1;
-        templatesPersonajes.Add(couroneoImprudente);  
-        
+        templatesPersonajes.Add(couroneoImprudente);
+
         //Guardian Yvyro
         //Con mi sistema de Cr, vale 14
         cPersonajeFlyweight guardianDeYsyry = gameObject.AddComponent<cPersonajeFlyweight>();
@@ -179,12 +255,12 @@ public class cRoguelikeCombate : MonoBehaviour
         guardianDeYsyry.atr.donaire = 1;
         guardianDeYsyry.atr.ingenio = 1;
         templatesPersonajes.Add(guardianDeYsyry);
-        
+
         //Guardian Yvyro
         //Con mi sistema de Cr, vale 14
         cPersonajeFlyweight pistoleroDeOzcolto = gameObject.AddComponent<cPersonajeFlyweight>();
         pistoleroDeOzcolto.nombre = "Pistolero de Ozcolto";
-        pistoleroDeOzcolto.arma = cArma.ARCO;
+        pistoleroDeOzcolto.arma = cArma.FUEGO;
         pistoleroDeOzcolto.iA = cAI.FULL_AGGRO;
         pistoleroDeOzcolto.hab.ataqueBasico = 2;
         pistoleroDeOzcolto.atr.maña = 2;
