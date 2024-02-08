@@ -341,7 +341,7 @@ public class cRoguelikeUpgrade : MonoBehaviour
         Debug.Log("tipo:");
         bool esMaton = rM.party[upgradeNormales[slot].objetivoDeUpgrade].esMaton;
         List<int> counts = new List<int>();
-        int max = 20;
+        int max = 10;
         int upgradeHabs = 0;
         int updradeHabsObj = -1;
         foreach (var item in upgradeNormales)
@@ -368,7 +368,6 @@ public class cRoguelikeUpgrade : MonoBehaviour
         if (esMaton)
         {
             counts.Add(rM.party[upgradeNormales[slot].objetivoDeUpgrade].cantidad);
-            max = 30;
         }
         Debug.Log("C");
         List<int> weighted = WeightearElementos(counts, max);
@@ -453,6 +452,7 @@ public class cRoguelikeUpgrade : MonoBehaviour
         int weightsSum = 0;
         for (int i = 0; i < weighted.Count; i++)
         {
+            if(i+1== weighted.Count) return i;//si es la ultima opcion, es el resultado
             Debug.Log("for loop i: " + i);
             weightsSum += weighted[i];
             Debug.Log("new weight: " + weighted[i]);
@@ -497,7 +497,7 @@ public class cRoguelikeUpgrade : MonoBehaviour
             Debug.Log("Weight: " + (maxValue - item));
             ret.Add((maxValue - item) * 100 / total);
         }
-        if (ret[ret.Count - 1] == 99) ret[ret.Count - 1] = 100;
+       // if (ret[ret.Count - 1] == 99) ret[ret.Count - 1] = 100;
         return ret;
     }
 

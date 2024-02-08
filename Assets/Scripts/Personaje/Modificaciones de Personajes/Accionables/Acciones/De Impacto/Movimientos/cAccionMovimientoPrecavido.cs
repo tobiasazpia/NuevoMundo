@@ -28,6 +28,7 @@ public class cAccionMovimientoPrecavido : cAccionMovimiento
 
     override public void Ejecutar()
     {
+        Debug.Log("mov prec state: " + mov_state);
         switch (mov_state)
         {
             case MOV_INICIO:
@@ -40,10 +41,12 @@ public class cAccionMovimientoPrecavido : cAccionMovimiento
                 Terminando();
                 break;
             default:
+                Debug.Log("default mov prec state ");
+                //c.stateID = cCombate.BUSCANDO_ACCION;
                 break;
         }
         mov_state++;
-        c.EsperandoOkOn(true);
+        //c.EsperandoOkOn(true);
     }
 
     public void Inicio()

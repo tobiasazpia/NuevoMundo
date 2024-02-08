@@ -371,28 +371,22 @@ public class UICombate : MonoBehaviour
 
     private void VerQueBotonesPonemos(int categoria, List<cAcciones> acciones)
     {
-        Debug.Log("Ver que botones ponemos");
         foreach (var item in acciones)
         {
-            Debug.Log("Nombre de accion a revisar: " + item.nombre);
             if (item.categoria != categoria)
             {
                 item.boton.style.display = DisplayStyle.None;
-                Debug.Log("None");
             }
             else
             {
-                Debug.Log("Revisando legalidad");
                 item.RevisarLegalidad();
                 if (item.esLegal)
                 {
-                    Debug.Log("Legal");
                     item.boton.style.display = DisplayStyle.Flex;
                 }
                 else
                 {
                     item.boton.style.display = DisplayStyle.None;
-                    Debug.Log("No Legal ");
                 }
             }
         }
@@ -481,6 +475,7 @@ public class UICombate : MonoBehaviour
 
     private void OnMarcialClicked(ClickEvent evt)
     {
+        Debug.Log(combate.personajeActivo.name + " esta en zona " + combate.personajeActivo.zonaActual);
         combate.accionActiva = cPersonaje.AC_MARCIAL;
         menuAccion.style.display = DisplayStyle.None;
         menuMarcial.style.display = DisplayStyle.Flex;

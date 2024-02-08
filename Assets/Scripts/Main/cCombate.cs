@@ -95,7 +95,7 @@ public class cCombate : MonoBehaviour
 
     //Input
     public bool esperandoObjetivo;         // Epserando eleccion de personaje
-    //public bool esperandoZona;             // Esperando eleccion de zona
+    public bool esperandoZona;             // Esperando eleccion de zona
     public bool esperandoAccion;           // Esperando eleccion de accion
     public bool esperandoReaccion;         // Esperando Si o No para ver si reacciona
     public bool esperandoCarga;            // Esperando Si o No para ver si carga
@@ -161,7 +161,7 @@ public class cCombate : MonoBehaviour
             if (!pause)
             {
 
-                if (py.actions["OK"].WasPressedThisFrame())
+                if (py.actions["OK"].WasPressedThisFrame() && !esperandoObjetivo && !esperandoZona)
                 {
                     Debug.Log("ok pressed");
                     AvanzarCombate();
@@ -198,7 +198,7 @@ public class cCombate : MonoBehaviour
     public void AvanzarCombate()
     {
         //EsperandoOkOn(false);
-        Debug.Log("state: " + stateID);
+        Debug.Log("combat state: " + stateID);
         switch (stateID)
         {
             //El combate hace todo el set up, y cuando esta listo para empezar, entra en iniciando ronda
@@ -209,6 +209,7 @@ public class cCombate : MonoBehaviour
                 TirarIniciativa();
                 break;
             case BUSCANDO_ACCION: // A PreguntandoAccion o si no hay, Terminando Ronda
+                Debug.Log("buscando accion");
                 BuscarAccion();
                 break;
             case PREGUNTANDO_ACCION: // ResolviendoAccion
@@ -254,6 +255,7 @@ public class cCombate : MonoBehaviour
 
     public void LimpiarCombate()
     {
+        Debug.Log("limpiar combate");
         enCombate = false;
         uiC.Deseleccionar();
         foreach (var item in personajes)
@@ -524,9 +526,6 @@ public class cCombate : MonoBehaviour
                     movAgro = false;
                     PedirObjetivoDeMovimiento();
                     break;
-                case cPersonaje.AC_ATRAS:
-                    PedirAtras();
-                    break;
                 case cPersonaje.AC_MOVIMPRO:
                     movPrec = false;
                     movAgro = true;
@@ -549,9 +548,13 @@ public class cCombate : MonoBehaviour
 
     public void ResolverAccion()
     {
-        Debug.Log("Resolver Accion");
+        Debug.Log("Resolver Accion, Accion Activa: " + GetNombreDeAccion(accionActiva));
         personajeActivo.Accionar(GetNombreDeAccion(accionActiva));
-        if (stateID != RESOLVIENDO_ACCION && stateID != PREGUNTANDO_REACCION) cEventManager.StartPersonajeActuoEvent(personajeActivo);
+        if (stateID != RESOLVIENDO_ACCION && stateID != PREGUNTANDO_REACCION)
+        {
+            Debug.Log("personaje actuo event");
+            cEventManager.StartPersonajeActuoEvent(personajeActivo);
+        }
     }
 
     public string GetNombreDeAccion(int numero)
@@ -761,41 +764,6 @@ public class cCombate : MonoBehaviour
         }
     }
 
-    public void ContinuarFase()
-    {
-        if (personajeActivo != null) personajeActivo.transform.position = new Vector3(personajeActivo.transform.position.x, 0, personajeActivo.transform.position.z);
-        //Realizar la accion activa del jugador con mas Iniciativa
-        sAccion accionCandidata;
-        if (accionesActivas.Count > 0)
-        {
-            accionCandidata = accionesActivas[0];
-            for (int i = 1; i < accionesActivas.Count; i++)
-            {
-                if (accionesActivas[i].per.valorDeIniciativa > accionCandidata.per.valorDeIniciativa)
-                {
-                    accionCandidata = accionesActivas[i];
-                }
-            }
-            personajeActivo = accionCandidata.per;
-            if (!personajeActivo.guardando) personajeActivo.transform.position = new Vector3(personajeActivo.transform.position.x, 2, personajeActivo.transform.position.z);
-            stateID = A_DECIDIR;
-        }
-        else
-        {
-            faseActual++;
-            uiC.IrAFase(faseActual);
-            if (faseActual == 10)
-            {
-                foreach (var p in personajes)
-                {
-                    Debug.Log("guard false 6");
-                    p.guardando = false;
-                }
-            }
-            ContinuarRonda();
-        }
-    }
-
     void PedirAccion()
     {
         //No se que hacen estos
@@ -803,7 +771,7 @@ public class cCombate : MonoBehaviour
         esperandoAccion = true;
         Debug.Log("Soft A");
         esperandoObjetivo = false;
-       // esperandoZona = false;
+        esperandoZona = false;
         esperandoCarga = false;
 
         //ui
@@ -857,80 +825,8 @@ public class cCombate : MonoBehaviour
                 zonas[i].objetivoValidoParaJugadorActivo = true;
             }
         }
-        //esperandoZona = true;
+        esperandoZona = true;
         uiC.esperandoZona = true;
-    }
-
-    void PedirAtras()
-    {
-
-    }
-
-    void ContinuarRonda()
-    {
-        //Correr 10 fases 
-        if (faseActual < 11)
-        {
-            stateID = SIN_FASE;
-        }
-        else
-        {
-            FinDeRonda();
-        }
-    }
-
-    void FinDeRonda()
-    {
-        bool seguimos = MasDeUnEquipoEnPie();
-        if (!seguimos)
-        {
-            //if (!scoreCard.set)
-            //{
-            //    scoreCard.SetScorecard();
-            //}
-            int equipoVictorioso = -1;
-            for (int i = 0; i < personajes.Count; i++)
-            {
-                if (personajes[i].vivo)
-                {
-                    equipoVictorioso = personajes[i].equipo;
-                    break;
-                }
-            }
-            for (int i = 0; i < personajes.Count; i++)
-            {
-                //sScore sc = scoreCard.scores[personajes[i]];
-                //sc.combatesJugados++;
-                if (personajes[i].equipo == equipoVictorioso)
-                {
-                    if (personajes[i].vivo)
-                    {
-                        ui.m += "\n" + (personajes[i].nombre + " sobrevivio el combate y gano con el equipo " + equipoVictorioso + "!");
-                    }
-                    else
-                    {
-                        ui.m += "\n" + (personajes[i].nombre + " no sobrevivio pero su equipo el " + equipoVictorioso + " salio victorioso!");
-                    }
-                    //sc.wins++;
-                }
-                else
-                {
-                    //sc.loses++;
-                }
-                //scoreCard.scores[personajes[i]] = sc;
-            }
-            if (esRoguelike)
-            {
-                //ir al upgrade
-                roguelikeUpgrade.SetActive(true);
-            }
-            VaciarCombate();
-        }
-        // Si no termino, proxima ronda
-        else
-        {
-            stateID = SIN_RONDA;
-        }
     }
 
     public void RemoverPersonaje(cPersonaje p)
@@ -1027,16 +923,6 @@ public class cCombate : MonoBehaviour
         }
     }
 
-    public void Continuemos()
-    {
-        esperandoAccion = false;
-        esperandoCarga = false;
-        esperandoObjetivo = false;
-        Debug.Log("Soft B");
-        esperandoReaccion = false;
-        //esperandoZona = false;
-    }
-
     //Funcion de entrada al combate, llamada por roguelike y escarmuza managers, y pasando quienes van a integrar el combate
     //Mas adelante tambien van a pasar las zonas que va a tener este
     public void NuevoCombate(List<cPersonajeFlyweight> combatientes)
@@ -1131,27 +1017,28 @@ public class cCombate : MonoBehaviour
         }
     }
 
-    public void VaciarCombate()
-    {
-        foreach (var item in personajes)
-        {
-            Destroy(item.gameObject);
-        }
-        foreach (var item in zonas)
-        {
-            Destroy(item.gameObject);
-        }
-        personajes.Clear();
-        zonas.Clear();
-        play = false;
-        listos = false;
-        acciones.Clear();
-        accionesActivas.Clear();
-        accionesReactivas.Clear();
-        faseActual = 0;
-        rondaActual = 0;
-        uiC.SetText("");
-    }
+    //public void VaciarCombate()
+    //{
+    //    Debug.Log("vaciar combate");
+    //    foreach (var item in personajes)
+    //    {
+    //        Destroy(item.gameObject);
+    //    }
+    //    foreach (var item in zonas)
+    //    {
+    //        Destroy(item.gameObject);
+    //    }
+    //    personajes.Clear();
+    //    zonas.Clear();
+    //    play = false;
+    //    listos = false;
+    //    acciones.Clear();
+    //    accionesActivas.Clear();
+    //    accionesReactivas.Clear();
+    //    faseActual = 0;
+    //    rondaActual = 0;
+    //    uiC.SetText("");
+    //}
 
     public bool ZonaEsteEnRangoDePersonaje(cPersonaje per, int zona)
     {

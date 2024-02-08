@@ -60,6 +60,8 @@ public class cZona : MonoBehaviour
             {
                 Debug.Log("zona cliked: ");
                 uiC.OnZonaclicked(index);
+                uiC.combate.esperandoZona = false;
+                uiC.esperandoZona = false;
             }
         }
     }

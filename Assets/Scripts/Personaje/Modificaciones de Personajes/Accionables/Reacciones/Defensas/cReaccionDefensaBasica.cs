@@ -113,6 +113,7 @@ public class cReaccionDefensaBasica : cReaccionDefensa
             text = ("Tuvo exito por " + dif + ", y tirara " + personaje.bonusPAtqBporDefB + " dados adicionales en su proximo Ataque Basico y su Daño.");
             personaje.GastarDado(c.faseActual, c.acciones, c.accionesActivas, c.accionesReactivas, text);
             c.stateID = cCombate.BUSCANDO_ACCION;
+            Debug.Log("def exitosa");
             c.personajeActivo.GetAccionPorNumero(c.accionActiva).ResetState();
         }
         else

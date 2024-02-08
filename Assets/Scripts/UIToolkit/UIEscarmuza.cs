@@ -33,7 +33,6 @@ public class UIEscarmuza : MonoBehaviour
 
     public void EscarmuzaSelected()
     {
-        Debug.Log("escarmuza");
         UIInterface.SetCurrent(pEscarmuza);
     }
 

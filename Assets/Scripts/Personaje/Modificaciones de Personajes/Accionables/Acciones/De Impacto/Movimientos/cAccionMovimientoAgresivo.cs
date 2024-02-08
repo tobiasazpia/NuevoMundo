@@ -33,6 +33,7 @@ public class cAccionMovimientoAgresivo : cAccionMovimiento
 
     override public void Ejecutar()
     {
+        Debug.Log("mov agro state: " + movag_state);
         switch (movag_state)
         {
             case MOVAG_INICIO:
@@ -42,10 +43,11 @@ public class cAccionMovimientoAgresivo : cAccionMovimiento
                 Defensas();
                 break;
             default:
+                // c.stateID = cCombate.BUSCANDO_ACCION;
                 break;
         }
         movag_state++;
-        c.EsperandoOkOn(true);
+        //c.EsperandoOkOn(true);
     }
 
     public void Inicio()
@@ -72,7 +74,7 @@ public class cAccionMovimientoAgresivo : cAccionMovimiento
             mostrarMensaje1 = false;
             mostrarMensaje2 = false;
         }
-
+        //movag_state--; //probando sacarlo del if..?
         if (posiblesReacciones.Count > 0 && !intentaronDetenerlo)
         {
             movag_state--;
@@ -89,6 +91,7 @@ public class cAccionMovimientoAgresivo : cAccionMovimiento
             c.personajeActivo.zonaActual = c.zonaObjetiva;
             c.personajeActivo.transform.position = new Vector3(c.personajeActivo.zonaActual * 10 - 10, 0, c.personajeActivo.transform.position.z);
             c.personajeActivo.totalDadosDelAtacante = c.personajeActivo.dadosDelAtacantePorPrecavido + c.personajeActivo.arma.GetDadosDelAtacanteMod();
+            movag_state = MOVAG_INICIO - 1;
             if (c.personajeActivo.ai == null)
             {
                 uiC.SetText("Nadie detiene a " + c.personajeActivo.nombre + " y carga contra " + c.zonas[c.zonaObjetiva].nombre + " para atacar. ¿Pero a quien?");

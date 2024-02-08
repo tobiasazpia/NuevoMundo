@@ -43,7 +43,6 @@ public class cPersonaje : MonoBehaviour
     public const int AC_ATACARIMPRO = 9;
     public const int AC_MOVIMPRO = 10;
     public const int AC_DEFIMPRO = 11;
-    public const int AC_ATRAS = 98;
     public const int AC_SINASIGNAR = 99;
     //Reacciones
     public const int DB_DefensaBasica = 0;
