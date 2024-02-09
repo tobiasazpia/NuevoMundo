@@ -10,7 +10,6 @@ public class cZona : MonoBehaviour
     public string nombre;
     public int[] zonasLimitrofes;
     public int[] zonasEnRango;
-    public cGUIZona gz;
 
     public bool objetivoValidoParaJugadorActivo;
     public PlayerInput py;

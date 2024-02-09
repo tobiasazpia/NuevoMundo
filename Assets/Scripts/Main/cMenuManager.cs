@@ -51,16 +51,6 @@ public class cMenuManager : MonoBehaviour
         dDPersonajes = personajes.GetComponent<TMP_Dropdown>();
     }
 
-    private void OnEnable()
-    {
-        cCombate.eventTerminoCombate += TerminoCombate;
-    }
-
-    private void OnDisable()
-    {
-        cCombate.eventTerminoCombate -= TerminoCombate;
-    }
-
     //MAIN MENU
     public void OnClickedJugar()
     {

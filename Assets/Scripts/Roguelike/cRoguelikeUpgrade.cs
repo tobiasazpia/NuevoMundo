@@ -18,16 +18,13 @@ public class cRoguelikeUpgrade : MonoBehaviour
     cRoguelikeUpgradeData[] upgradeNormalesAlternativa = new cRoguelikeUpgradeData[3];
     bool[] esUpgradesuper = new bool[3];
 
-    int upgradesCombinacionesPosibles;
     int cantidadDeMatonesEnParty;
 
-    int upgradesCombinacionesHechas = 0;
     int upgradesMatonHechas = 0; // permanente
     int upgradesPJHechas = 0; // permanente
 
     private void OnEnable()
     {
-        upgradesCombinacionesHechas = 0;
         upgradesMatonHechas = 0;
 
         for (int i = 0; i < upgradeNormales.Length; i++)
@@ -77,7 +74,6 @@ public class cRoguelikeUpgrade : MonoBehaviour
         if (mod == 0)
         {
             Debug.Log("Todos Especiales!");
-            AveriguarUpgradesCombinacionesPosibles();
             for (int i = 0; i < 3; i++)
             {
                 esUpgradesuper[i] = true;
@@ -93,7 +89,6 @@ public class cRoguelikeUpgrade : MonoBehaviour
         else if (Random.Range(0, 3) == 0)
         {
             Debug.Log("Un Especial!");
-            AveriguarUpgradesCombinacionesPosibles();
             esUpgradesuper[0] = false;
             esUpgradesuper[2] = false;
             DefinirUpgradeNormal(0);
@@ -250,14 +245,6 @@ public class cRoguelikeUpgrade : MonoBehaviour
 
         if (upgrade[2] >= masChico) upgrade[2]++;
         if (upgrade[2] >= masGrande) upgrade[2]++;
-    }
-
-    public void AveriguarUpgradesCombinacionesPosibles()
-    {
-        if (cantidadDeMatonesEnParty > 0)
-            upgradesCombinacionesPosibles = 45;
-        else upgradesCombinacionesPosibles = 21;
-        upgradesCombinacionesPosibles *= rM.party.Count;
     }
 
     public void AveriguarMatonesEnParty()
@@ -479,7 +466,7 @@ public class cRoguelikeUpgrade : MonoBehaviour
         {
             int defaulValue = 0;
             if(valores.Count != 0) defaulValue = 100 / valores.Count; // estto no entiendo porque pasa
-
+            //en realida si total 0 es porque el per ya esta maxeado, nunca deberia pasar
             foreach (var item in valores)
             {
                 ret.Add(defaulValue);

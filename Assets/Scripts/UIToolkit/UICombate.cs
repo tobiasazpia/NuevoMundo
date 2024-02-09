@@ -349,7 +349,7 @@ public class UICombate : MonoBehaviour
         SetText(text);
         if (combate.personajeInterversor.arma is cArmasPelea)
         {
-            if (combate.personajeInterversor.zonaActual == combate.personajeActivo.zonaActual) // si la defensa podria hacerse melee, ni mostramos lo de improv
+            if (combate.personajeInterversor.GetZonaActual() == combate.personajeActivo.GetZonaActual()) // si la defensa podria hacerse melee, ni mostramos lo de improv
             {
                 bDefender.style.display = DisplayStyle.Flex;
             }
@@ -373,19 +373,24 @@ public class UICombate : MonoBehaviour
     {
         foreach (var item in acciones)
         {
+            Debug.Log("Viendo si " + item.nombre + " es legal");
             if (item.categoria != categoria)
             {
+                Debug.Log("no es de categoria " + categoria);
                 item.boton.style.display = DisplayStyle.None;
             }
             else
             {
+                Debug.Log("es de categoria");
                 item.RevisarLegalidad();
                 if (item.esLegal)
                 {
+                    Debug.Log("es legal, muestra");
                     item.boton.style.display = DisplayStyle.Flex;
                 }
                 else
                 {
+                    Debug.Log("no es legal, no muestra");
                     item.boton.style.display = DisplayStyle.None;
                 }
             }
@@ -475,7 +480,14 @@ public class UICombate : MonoBehaviour
 
     private void OnMarcialClicked(ClickEvent evt)
     {
-        Debug.Log(combate.personajeActivo.name + " esta en zona " + combate.personajeActivo.zonaActual);
+        Debug.Log(combate.personajeActivo.nombre + " esta en zona " + combate.personajeActivo.GetZonaActual());
+        foreach (var item in combate.personajes)
+        {
+            if(item.equipo != combate.personajeActivo.equipo && item.vivo)
+            {
+                Debug.Log("Enemigo " + item.nombre + " esta en zona " + item.GetZonaActual());
+            }
+        }
         combate.accionActiva = cPersonaje.AC_MARCIAL;
         menuAccion.style.display = DisplayStyle.None;
         menuMarcial.style.display = DisplayStyle.Flex;
@@ -627,6 +639,7 @@ public class UICombate : MonoBehaviour
         combate.personajeObjetivo = p;
         combate.atacando = true;
         combate.stateID = cCombate.RESOLVIENDO_ACCION;
+        //Capaz en estos ifs mandar el reset? digo, tendria sentido
         if (combate.accionActiva == cPersonaje.AC_MOVAGRE) combate.accionActiva = cPersonaje.AC_ATACAR;
         else if (combate.accionActiva == cPersonaje.AC_MOVIMPRO) combate.accionActiva = cPersonaje.AC_ATACARIMPRO;
 
@@ -636,20 +649,24 @@ public class UICombate : MonoBehaviour
 
     public void RegistrarAccion()
     {
+        Debug.Log("Registrando Accion, cantidad jguadores que ya actuaron esta ronda: " + combate.ultimosEnActuar.Count);
         //se actuo
         foreach (var item in combate.ultimosEnActuar)
         {
             if (item.nombre == combate.personajeActivo.nombre)
             {
+                Debug.Log("ya estaba en la lista, lo sacamos y...");
                 combate.ultimosEnActuar.Remove(combate.personajeActivo);
                 break;
             }
         }
+        Debug.Log("lo metemos");
         combate.ultimosEnActuar.Add(combate.personajeActivo);
         foreach (var item in combate.personajes)
         {
             item.guardando = false;
         }
+        Debug.Log("Cantidad jguadores que ya actuaron esta ronda: " + combate.ultimosEnActuar.Count);
     }
 
 

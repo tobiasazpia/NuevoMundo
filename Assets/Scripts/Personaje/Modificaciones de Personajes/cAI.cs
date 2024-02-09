@@ -45,7 +45,7 @@ public abstract class cAI : MonoBehaviour
             p.c.zonaObjetiva = zonasLimitrofesConEnemigos[Random.Range(0, numeroDeZonasConEnemigos)];
             foreach (var per in p.c.personajes)
             {
-                if (per.vivo && per.equipo != p.equipo && per.zonaActual == p.c.zonaObjetiva)
+                if (per.vivo && per.equipo != p.equipo && per.GetZonaActual() == p.c.zonaObjetiva)
                 {
                     enemigosEnRango.Add(per);
                     break;

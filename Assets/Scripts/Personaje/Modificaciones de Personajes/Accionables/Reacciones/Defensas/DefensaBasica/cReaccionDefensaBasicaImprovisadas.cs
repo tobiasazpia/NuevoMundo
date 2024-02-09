@@ -31,7 +31,7 @@ public class cReaccionDefensaBasicaImprovisadas : cReaccionDefensaBasica
             {
                 exito = false;
                 resultado = "no pudiendo detener";
-                if (personaje.zonaActual != c.personajeActivo.zonaActual)
+                if (personaje.GetZonaActual() != c.personajeActivo.GetZonaActual())
                 {
                     arma = " El arma improvisada queda destruida.";
                     (personaje.arma as cArmasPelea).PerderArmaImprovisada();

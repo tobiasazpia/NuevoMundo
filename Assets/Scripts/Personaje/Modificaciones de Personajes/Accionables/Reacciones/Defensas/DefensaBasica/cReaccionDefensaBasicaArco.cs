@@ -12,7 +12,7 @@ public class cReaccionDefensaBasicaArco : cReaccionDefensaBasica
             numeroDeDados -= 1;
             if (c.atacando)
             {
-                if (personaje.zonaActual == c.personajeActivo.zonaActual && c.personajeObjetivo.nombre == personaje.nombre)
+                if (personaje.GetZonaActual() == c.personajeActivo.GetZonaActual() && c.personajeObjetivo.nombre == personaje.nombre)
                 {
                     numeroDeDados -= 1;
                 }

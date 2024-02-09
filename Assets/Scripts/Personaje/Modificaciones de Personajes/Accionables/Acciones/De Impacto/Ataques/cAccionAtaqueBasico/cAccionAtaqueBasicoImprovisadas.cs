@@ -44,7 +44,7 @@ public class cAccionAtaqueBasicoImprovisadas : cAccionAtaqueBasico
         else
         {
             resultado = "fallando";
-            if (personaje.zonaActual != c.personajeObjetivo.zonaActual)
+            if (personaje.GetZonaActual() != c.personajeObjetivo.GetZonaActual())
             {
                 pierdeArma = " Pierde su arma improvisada por usarla a rango.";
                 (personaje.arma as cArmasPelea).PerderArmaImprovisada();

@@ -3248,11 +3248,11 @@ MonoBehaviour:
   rM: {fileID: 294005985}
   py: {fileID: 723110688}
   pause: 0
-  ui: {fileID: 0}
   uiC: {fileID: 1418445422}
   auto: 0
   time: 0
   esperandoObjetivo: 0
+  esperandoZona: 0
   esperandoAccion: 0
   esperandoReaccion: 0
   esperandoCarga: 0
@@ -8540,7 +8540,7 @@ MonoBehaviour:
   m_ActionEvents: []
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
-  m_DefaultActionMap: f9cd6973-2927-47d7-9162-859cac854734
+  m_DefaultActionMap: EsperandoOk
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
 --- !u!114 &723110689
@@ -10593,7 +10593,6 @@ GameObject:
   - component: {fileID: 963194228}
   - component: {fileID: 963194227}
   - component: {fileID: 963194226}
-  - component: {fileID: 963194230}
   - component: {fileID: 963194231}
   m_Layer: 0
   m_Name: Main Camera
@@ -10669,25 +10668,6 @@ Transform:
   m_Father: {fileID: 568271036}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 40, y: 0, z: 0}
---- !u!114 &963194230
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 963194225}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ba3367ce88adc4d4182f4ae25aae212a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  uiC: {fileID: 1418445422}
-  guiSkin: {fileID: 0}
-  color: {r: 1, g: 1, b: 1, a: 1}
-  text: 
-  c: {fileID: 0}
-  m: 
-  fontSize: 0
 --- !u!114 &963194231
 MonoBehaviour:
   m_ObjectHideFlags: 0

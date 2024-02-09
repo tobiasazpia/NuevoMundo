@@ -13,8 +13,8 @@ public class cAIAtacantePrecavido : cAI
         {
             if (p.c.personajeObjetivo.dadosDeAccion[0] > p.dadosDeAccion[1] || p.c.personajeObjetivo.hDram > 0 || p.bonusPAtqBporDefB > 9 || p.c.personajeObjetivo.dadosDeAccion[0] > 10)
             {
+                p.uiC.RegistrarAccion(); // esto estaba abajo del return hasta hace poco
                 return cPersonaje.AC_ATACAR;
-                p.uiC.RegistrarAccion();
             }
         }
         if (faseActual != 10) return cPersonaje.AC_GUARDAR; // Si nadie estaban tan dañado, ni estamos en la fase 10, guardamos

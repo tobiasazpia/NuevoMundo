@@ -55,7 +55,6 @@ public class cPersonaje : MonoBehaviour
     public bool selected = false;
 
     public cCombate c;
-    public GUIComponent gC;
 
     public cAI ai;
     public int aiCode;
@@ -96,7 +95,6 @@ public class cPersonaje : MonoBehaviour
     void Start()
     {
         c = GetComponentInParent<cCombate>();
-        gC = GetComponentInParent<GUIComponent>();
         py = GameObject.Find("Sesion").GetComponent<PlayerInput>();
         uiC = GameObject.Find("UI").GetComponent<UICombate>();
 
@@ -110,6 +108,18 @@ public class cPersonaje : MonoBehaviour
         {
             item.personaje = this;
         }
+    }
+
+    public int GetZonaActual()
+    {
+        return zonaActual;
+    }
+
+    public void SetZonaActual(int nuevaZona)
+    {
+        Debug.Log(nombre + "ZONA VIEJA: " + GetZonaActual());
+        zonaActual = nuevaZona;
+        Debug.Log(nombre + "ZONA NUEVA: " + GetZonaActual());
     }
 
     public cPersonaje NuevoPersonaje(cPersonajeFlyweight flyweight)
@@ -249,7 +259,7 @@ public class cPersonaje : MonoBehaviour
         int acFase = 11;
         for (int i = 0; i < acciones.Count; i++)
         {
-            if (acciones[i].per.nombre == nombre && acciones[i].fase <= faseActual)
+            if (acciones[i].per.nombre == nombre && acciones[i].fase <= faseActual && acciones[i].fase > 0)
             {
                 acFase = acciones[i].fase;
                 acciones.RemoveAt(i);
@@ -322,7 +332,7 @@ public class cPersonaje : MonoBehaviour
         acTemp.fase = 11;
         for (int i = 0; i < acciones.Count; i++)
         {
-            if (acciones[i].per.nombre == nombre && acciones[i].fase <= faseActual)
+            if (acciones[i].per.nombre == nombre && acciones[i].fase <= faseActual && acciones[i].fase > 0)
             {
                 acFase = acciones[i].fase;
                 acTemp.fase = acFase + fallamosDefPor;
@@ -471,7 +481,6 @@ public class cPersonaje : MonoBehaviour
         //Update Primera Escuela
         tirada tr = cDieMath.TirarDados(numeroDeDados, arma.GetDañoExpl());
         int dan = cDieMath.sumaDe3Mayores(tr);
-        c.ui.m = (nombre + ", con " + atr.musculo + " en Musculo y " + arma.GetMusMult() + " en su multiplicador de musculo, tira " + numeroDeDados + " dados, sacando " + dan);
         bonusPAtqBporDefB = 0;
         return dan;
     }
@@ -553,8 +562,8 @@ public class cPersonaje : MonoBehaviour
             }
         }
         else
-        {
-            if (c.personajeActivo.equipo != equipo && vivo)
+        {           
+            if (c.personajeActivo.equipo != equipo && vivo && c.ZonaEsteEnRangoDePersonaje(c.personajeActivo, GetZonaActual()))
             {
                 uiC.OnPersonajeClicked(this);
             }
@@ -567,15 +576,7 @@ public class cPersonaje : MonoBehaviour
         c.uiC.EsconderInfoPerVital();
     }
 
-
-    ///////////////////////////////////////
-    ///////////////////////////////////////
-    ///////////////////////////////////////
-    ///Consecuencias -- Cosas que le pasan
-    public void ConsecuenciaTirarIniciativa() { }
-    public void ConsecuenciaTirarHeridas() { }
-    public void ConsecuenciaHeridoPorArmaDeFuego() { }
-    ///Utilidades -- El resto, funciones menores
+    ///Utilidades -- funciones menores
     public void Accionar(string accion)
     {
         GetAccionPorNombre(accion).Ejecutar();

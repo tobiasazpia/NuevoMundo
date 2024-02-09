@@ -65,14 +65,14 @@ public class cAccionDeImpacto : cAcciones
     //                Debug.Log("de rango en llenando reacciones");
     //                if (p.arma is cArmasFuego)
     //                {
-    //                    if (c.ZonaEsteEnRangoDePersonaje(p, c.personajeActivo.zonaActual) && (p.arma as cArmasFuego).cargada) posiblesReaccionesSinObjetivo.Add(p);
+    //                    if (c.ZonaEsteEnRangoDePersonaje(p, c.personajeActivo.GetZonaActual()) && (p.arma as cArmasFuego).cargada) posiblesReaccionesSinObjetivo.Add(p);
     //                }
     //                else
     //                {
-    //                    if (c.ZonaEsteEnRangoDePersonaje(p, c.personajeActivo.zonaActual)) posiblesReaccionesSinObjetivo.Add(p);
+    //                    if (c.ZonaEsteEnRangoDePersonaje(p, c.personajeActivo.GetZonaActual())) posiblesReaccionesSinObjetivo.Add(p);
     //                }
     //            }
-    //            else if (p.zonaActual == c.personajeActivo.zonaActual || p.zonaActual == c.personajeObjetivo.zonaActual)// si es melee, y su zona es igual a la zona del objetivo o del atacante
+    //            else if (p.GetZonaActual() == c.personajeActivo.GetZonaActual() || p.GetZonaActual() == c.personajeObjetivo.GetZonaActual())// si es melee, y su zona es igual a la zona del objetivo o del atacante
     //            {
 
     //                posiblesReaccionesSinObjetivo.Add(p);

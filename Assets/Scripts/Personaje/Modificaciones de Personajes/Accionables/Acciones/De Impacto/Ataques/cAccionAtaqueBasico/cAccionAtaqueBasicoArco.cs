@@ -10,7 +10,7 @@ public class cAccionAtaqueBasicoArco : cAccionAtaqueBasico
         if (c.HayEnemigosEnMelee(personaje))
         {
             numeroDeDados -= 1;
-            if (personaje.zonaActual == c.personajeObjetivo.zonaActual)
+            if (personaje.GetZonaActual() == c.personajeObjetivo.GetZonaActual())
             {
                 numeroDeDados -= 1;
             }

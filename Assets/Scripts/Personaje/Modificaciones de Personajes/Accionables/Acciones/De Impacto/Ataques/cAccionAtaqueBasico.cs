@@ -35,6 +35,7 @@ public class cAccionAtaqueBasico : cAccionAtaque
 
     override public void Ejecutar()
     {
+        Debug.Log("ejecutando ataque basico, ab state: " + ab_state);
         switch (ab_state)
         {
             case AB_DETERMINANDO_DADOS:
@@ -100,8 +101,11 @@ public class cAccionAtaqueBasico : cAccionAtaque
 
     virtual protected void DeterminadoDados()
     {
+        Debug.Log("zona de atacante: " + personaje.GetZonaActual());
+        Debug.Log("zona de per activo: " + c.personajeActivo.GetZonaActual());
+        Debug.Log("zona de objetivo: " + c.personajeObjetivo.GetZonaActual());
         c.atacando = true;
-        intentaronDetenerlo = false;
+        intentaronDetenerlo = false;    
         c.jugadorDef = 0;
         dadosATirar = DeterminarNumeroDeDados();
         string armasImprovisadas = "";
@@ -170,14 +174,14 @@ public class cAccionAtaqueBasico : cAccionAtaque
                     Debug.Log("de rango en llenando reacciones");
                     if (p.arma is cArmasFuego)
                     {
-                        if(c.ZonaEsteEnRangoDePersonaje(p, c.personajeActivo.zonaActual) && (p.arma as cArmasFuego).cargada) posiblesReaccionesSinObjetivo.Add(p);
+                        if(c.ZonaEsteEnRangoDePersonaje(p, c.personajeActivo.GetZonaActual()) && (p.arma as cArmasFuego).cargada) posiblesReaccionesSinObjetivo.Add(p);
                     }
                     else
                     {
-                        if (c.ZonaEsteEnRangoDePersonaje(p, c.personajeActivo.zonaActual)) posiblesReaccionesSinObjetivo.Add(p);
+                        if (c.ZonaEsteEnRangoDePersonaje(p, c.personajeActivo.GetZonaActual())) posiblesReaccionesSinObjetivo.Add(p);
                     }
                 }
-                else if (p.zonaActual == c.personajeActivo.zonaActual || p.zonaActual == c.personajeObjetivo.zonaActual)// si es melee, y su zona es igual a la zona del objetivo o del atacante
+                else if (p.GetZonaActual() == c.personajeActivo.GetZonaActual() || p.GetZonaActual() == c.personajeObjetivo.GetZonaActual())// si es melee, y su zona es igual a la zona del objetivo o del atacante
                 {
 
                     posiblesReaccionesSinObjetivo.Add(p);
@@ -278,6 +282,7 @@ public class cAccionAtaqueBasico : cAccionAtaque
     {
         // esta logica va a estar en caulquier ataque, no solo en ataque basico...
         // pero banca, me gusta, podemos hacer una clase padre "Ataque" que tenga esta logica
+        ResetState();
         c.movPrec = false;
         c.movAgro = false;
         c.atacando = false;
@@ -301,7 +306,6 @@ public class cAccionAtaqueBasico : cAccionAtaque
         {
             uiC.SetText("Seguimos adelante.");
             c.stateID = cCombate.BUSCANDO_ACCION;
-            ab_state = AB_DETERMINANDO_DADOS - 1;
         }
     }
 
@@ -315,6 +319,7 @@ public class cAccionAtaqueBasico : cAccionAtaque
 
     override public void ResetState()
     {
+        Debug.Log("ab state reseteado");
         ab_state = AB_DETERMINANDO_DADOS - 1;
     }
 

@@ -46,7 +46,7 @@ public class cReaccionDefensaBasica : cReaccionDefensa
         dadosATirar = DeterminarNumeroDeDados();
         if (!c.atacando)
         {
-            if (personaje.zonaActual != c.personajeActivo.zonaActual && personaje.arma is cArmasPelea)
+            if (personaje.GetZonaActual() != c.personajeActivo.GetZonaActual() && personaje.arma is cArmasPelea)
             {
                 (personaje.arma as cArmasPelea).PerderArmaImprovisada();
                 armasImprovisadas = " " + personaje.nombre + " lanza su arma improvisada.";
@@ -55,7 +55,7 @@ public class cReaccionDefensaBasica : cReaccionDefensa
         }
         else
         {
-            if (personaje.zonaActual != c.personajeActivo.zonaActual && personaje.zonaActual != c.personajeObjetivo.zonaActual && personaje.arma is cArmasPelea)
+            if (personaje.GetZonaActual() != c.personajeActivo.GetZonaActual() && personaje.GetZonaActual() != c.personajeObjetivo.GetZonaActual() && personaje.arma is cArmasPelea)
             {
                 (personaje.arma as cArmasPelea).PerderArmaImprovisada();
                 armasImprovisadas = " " + personaje.nombre + " lanza su arma improvisada.";
@@ -114,7 +114,9 @@ public class cReaccionDefensaBasica : cReaccionDefensa
             personaje.GastarDado(c.faseActual, c.acciones, c.accionesActivas, c.accionesReactivas, text);
             c.stateID = cCombate.BUSCANDO_ACCION;
             Debug.Log("def exitosa");
+            Debug.Log("accion a ser reseteada: " + c.accionActiva + " de " + c.personajeActivo.nombre);
             c.personajeActivo.GetAccionPorNumero(c.accionActiva).ResetState();
+            c.accionActiva = -1;
         }
         else
         {

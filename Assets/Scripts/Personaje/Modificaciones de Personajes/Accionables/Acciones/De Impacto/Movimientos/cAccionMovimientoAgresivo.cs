@@ -10,11 +10,6 @@ public class cAccionMovimientoAgresivo : cAccionMovimiento
     public const int MOVAG_DEFENSAS = 1;
     public const int MOVAG_TERMINADO = 2;
 
-    public bool mostrarMensaje1;
-    public bool mostrarMensaje2;
-
-    public List<cPersonaje> posiblesReacciones;
-
     public bool ready = true;
     // Start is called before the first frame update
     void Start()
@@ -86,12 +81,10 @@ public class cAccionMovimientoAgresivo : cAccionMovimiento
         {
             posiblesReacciones.Clear();
             uiC.DejarDePedirReaccion();
-            //if (mostrarMensaje2)
-            //{
-            c.personajeActivo.zonaActual = c.zonaObjetiva;
-            c.personajeActivo.transform.position = new Vector3(c.personajeActivo.zonaActual * 10 - 10, 0, c.personajeActivo.transform.position.z);
+            c.personajeActivo.SetZonaActual(c.zonaObjetiva);
+            c.personajeActivo.transform.position = new Vector3(c.personajeActivo.GetZonaActual() * 10 - 10, 0, c.personajeActivo.transform.position.z);
             c.personajeActivo.totalDadosDelAtacante = c.personajeActivo.dadosDelAtacantePorPrecavido + c.personajeActivo.arma.GetDadosDelAtacanteMod();
-            movag_state = MOVAG_INICIO - 1;
+            ResetState();
             if (c.personajeActivo.ai == null)
             {
                 uiC.SetText("Nadie detiene a " + c.personajeActivo.nombre + " y carga contra " + c.zonas[c.zonaObjetiva].nombre + " para atacar. ¿Pero a quien?");
@@ -107,13 +100,6 @@ public class cAccionMovimientoAgresivo : cAccionMovimiento
                 uiC.RegistrarAccion();
                 c.EsperandoOkOn(true);
             }
-            //}
-            //else
-            //{
-            //    Debug.Log("mov agro defensas g");
-            //    movag_state--; //quedarse un cacho para mostrar mensaje
-            //    mostrarMensaje2 = true;
-            //}
         }
     }
 
@@ -129,14 +115,14 @@ public class cAccionMovimientoAgresivo : cAccionMovimiento
                 {
                     if (p.arma is cArmasFuego)
                     {
-                        if (c.ZonaEsteEnRangoDePersonaje(p, c.personajeActivo.zonaActual) && (p.arma as cArmasFuego).cargada) posiblesReaccionesSinObjetivo.Add(p);
+                        if (c.ZonaEsteEnRangoDePersonaje(p, c.personajeActivo.GetZonaActual()) && (p.arma as cArmasFuego).cargada) posiblesReaccionesSinObjetivo.Add(p);
                     }
                     else
                     {
-                        if (c.ZonaEsteEnRangoDePersonaje(p, c.personajeActivo.zonaActual)) posiblesReaccionesSinObjetivo.Add(p);
+                        if (c.ZonaEsteEnRangoDePersonaje(p, c.personajeActivo.GetZonaActual())) posiblesReaccionesSinObjetivo.Add(p);
                     }
                 }
-                else if (p.zonaActual == c.personajeActivo.zonaActual)
+                else if (p.GetZonaActual() == c.personajeActivo.GetZonaActual())
                 {
                     posiblesReaccionesSinObjetivo.Add(p);
                 }
@@ -144,11 +130,11 @@ public class cAccionMovimientoAgresivo : cAccionMovimiento
                 {
                     if ((p.arma as cArmasPelea).armaImprovisadaActiva)
                     {
-                        foreach (var item in c.zonas[p.zonaActual].zonasEnRango)
+                        foreach (var item in c.zonas[p.GetZonaActual()].zonasEnRango)
                         {
                             Debug.Log("zona en rango: " + item);
-                            Debug.Log("zona que buscamos: " + (c.personajeActivo.zonaActual));
-                            if (item == c.personajeActivo.zonaActual)
+                            Debug.Log("zona que buscamos: " + (c.personajeActivo.GetZonaActual()));
+                            if (item == c.personajeActivo.GetZonaActual())
                             {
                                 Debug.Log("return true, deberia tener reaccion disponible");
                                 posiblesReaccionesSinObjetivo.Add(p);

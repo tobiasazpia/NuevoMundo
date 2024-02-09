@@ -61,7 +61,6 @@ public class cCombate : MonoBehaviour
     public cRoguelikeManager rM;
 
     public delegate void combate();
-    public static event combate eventTerminoCombate;
 
     public PlayerInput py;
     public bool pause = false;
@@ -86,7 +85,6 @@ public class cCombate : MonoBehaviour
 
     // Otros GameObjects
     cScoreCard scoreCard;
-    public cPlanillaDeCombate ui;
     public UICombate uiC;
 
     //Simulacion
@@ -139,8 +137,6 @@ public class cCombate : MonoBehaviour
     private void OnEnable()
     {
         scoreCard = GetComponentInParent<cScoreCard>();
-        GameObject.Find("Main Camera").GetComponent<cPlanillaDeCombate>().c = this;
-        ui = GameObject.Find("Main Camera").GetComponent<cPlanillaDeCombate>();
         uiC.SetText("Nuevo Combate");
 
         personajes = new List<cPersonaje>();
@@ -167,13 +163,13 @@ public class cCombate : MonoBehaviour
                     AvanzarCombate();
                 }
 
-                if (py.actions["Deselect"].WasPressedThisFrame())
+                else if (py.actions["Deselect"].WasPressedThisFrame())
                 {
                     Debug.Log("deselect pressed");
                     uiC.Deseleccionar();
                 }
 
-                if (py.actions["Pause"].WasPressedThisFrame())
+                else if (py.actions["Pause"].WasPressedThisFrame())
                 {
                     Debug.Log("pause pressed");
                     pause = true;
@@ -268,17 +264,23 @@ public class cCombate : MonoBehaviour
         uiC.ActualizarIniciativa(personajes);
         foreach (var item in personajes)
         {
-            Destroy(item.gameObject);
-        }
-        foreach (var item in zonas)
-        {
-            Destroy(item.gameObject);
+            GameObject temp = item.gameObject;
+            Destroy(item);
+            Destroy(temp);
         }
         personajes.Clear();
+
+        foreach (var item in zonas)
+        {
+            GameObject temp = item.gameObject;
+            Destroy(item);
+            Destroy(temp);
+        }
+        zonas.Clear();
+
         if (acciones != null) acciones.Clear();
         if (accionesActivas != null) accionesActivas.Clear();
         if (accionesReactivas != null) accionesReactivas.Clear();
-        zonas.Clear();
         uiC.ResetRonda();
         List<cPersonaje> emptyL = new List<cPersonaje>();
         uiC.SetNombres(emptyL);
@@ -367,7 +369,7 @@ public class cCombate : MonoBehaviour
             {
                 foreach (var dado in per.dadosDeAccion)
                 {
-                    if (dado <= faseActual)
+                    if (dado <= faseActual && dado > 0)
                     {
                         encontramosAccion = true; //hay por lo menos una accion legal para hacer
                         stateID = PREGUNTANDO_ACCION;
@@ -439,6 +441,7 @@ public class cCombate : MonoBehaviour
             faseActual++;
             if (faseActual > 10)
             {
+                faseActual = -1;
                 stateID = TERMINANDO_RONDA;
                 AvanzarCombate();
             }
@@ -450,7 +453,7 @@ public class cCombate : MonoBehaviour
                 accionesReactivas = new List<sAccion>();
                 for (int i = 0; i < acciones.Count; i++)
                 {
-                    if (acciones[i].fase <= faseActual)
+                    if (acciones[i].fase <= faseActual && acciones[i].fase > 0)
                     {
                         accionesActivas.Add(acciones[i]);
                         accionesReactivas.Add(acciones[i]);
@@ -539,7 +542,7 @@ public class cCombate : MonoBehaviour
         {
             uiC.SetText("¿Que va a hacer " + personajeActivo.nombre + "?");
             BuscarZonasLimitrofesConEnemigos();
-            accionActiva = personajeActivo.ai.ElegirAccion(enemigosEnRango, zonasLimtrofesConEnemigos, zonas[personajeActivo.zonaActual].zonasLimitrofes, faseActual);
+            accionActiva = personajeActivo.ai.ElegirAccion(enemigosEnRango, zonasLimtrofesConEnemigos, zonas[personajeActivo.GetZonaActual()].zonasLimitrofes, faseActual);
             if (accionActiva != cPersonaje.AC_GUARDAR) uiC.RegistrarAccion();
             stateID = RESOLVIENDO_ACCION;
             EsperandoOkOn(true);
@@ -610,6 +613,14 @@ public class cCombate : MonoBehaviour
         {
             if (personajeInterversor.ai.Reaccion(jugadorAtq))
             {
+                reaccionActiva = cPersonaje.DB_DefensaBasica;
+                if (personajeInterversor.arma is cArmasPelea)
+                {
+                    if(personajeInterversor.GetZonaActual() != personajeActivo.GetZonaActual() && personajeInterversor.GetZonaActual() != personajeObjetivo.GetZonaActual())
+                    {
+                        reaccionActiva = cPersonaje.DB_DefensaBasicaImpro;
+                    }
+                }
                 uiC.SetText("¡" + personajeInterversor.nombre + " va a intervenir!");
                 stateID = cCombate.RESOLVIENDO_REACCION;
             }
@@ -626,7 +637,12 @@ public class cCombate : MonoBehaviour
     {
         //Prepara toda la data para terminar la ronda, y nos manda a EmpezarRonda
         cEventManager.StartFinDeRondaEvent();
+        ultimosEnActuar.Clear();
         acciones.Clear();
+        accionesActivas.Clear();
+        accionesReactivas.Clear();
+        accionActiva = -1;
+        reaccionActiva = -1;
         stateID = INICIANDO_RONDA;
         uiC.SetText("Se termino la ronda, pero a este combate todavia le falta mucho para llegar a su fin.");
         EsperandoOkOn(true);
@@ -665,7 +681,7 @@ public class cCombate : MonoBehaviour
 
     bool ChequearZonaValida(int z)
     {
-        foreach (var item in zonas[personajeActivo.zonaActual].zonasLimitrofes)
+        foreach (var item in zonas[personajeActivo.GetZonaActual()].zonasLimitrofes)
         {
             if (z == item) return true;
         }
@@ -683,9 +699,9 @@ public class cCombate : MonoBehaviour
     {
         foreach (var pers in personajes)
         {
-            foreach (var zona in zonas[personajeActivo.zonaActual].zonasLimitrofes)
+            foreach (var zona in zonas[personajeActivo.GetZonaActual()].zonasLimitrofes)
             {
-                if (zona == pers.zonaActual && pers.equipo != personajeActivo.equipo) return true;
+                if (zona == pers.GetZonaActual() && pers.equipo != personajeActivo.equipo) return true;
             }
         }
         return false;
@@ -696,7 +712,7 @@ public class cCombate : MonoBehaviour
         enemigosEnMelee.Clear();
         foreach (var p in personajes)
         {
-            if (p.vivo && p.equipo != personajeActivo.equipo && p.zonaActual == personajeActivo.zonaActual)
+            if (p.vivo && p.equipo != personajeActivo.equipo && p.GetZonaActual() == personajeActivo.GetZonaActual())
             {
                 enemigosEnMelee.Add(p);
             }
@@ -707,7 +723,7 @@ public class cCombate : MonoBehaviour
     {
         foreach (var p in personajes)
         {
-            if (p.vivo && p.equipo != per.equipo && p.zonaActual == per.zonaActual)
+            if (p.vivo && p.equipo != per.equipo && p.GetZonaActual() == per.GetZonaActual())
             {
                 return true;
             }
@@ -735,9 +751,9 @@ public class cCombate : MonoBehaviour
             {
                 if (p.vivo && p.equipo != personajeActivo.equipo)
                 {
-                    foreach (var z in zonas[personajeActivo.zonaActual].zonasEnRango)
+                    foreach (var z in zonas[personajeActivo.GetZonaActual()].zonasEnRango)
                     {
-                        if (p.zonaActual == z)
+                        if (p.GetZonaActual() == z)
                         {
                             enemigosEnRango.Add(p);
                             break;
@@ -751,11 +767,11 @@ public class cCombate : MonoBehaviour
     void BuscarZonasLimitrofesConEnemigos()
     {
         zonasLimtrofesConEnemigos.Clear();
-        foreach (var z in zonas[personajeActivo.zonaActual].zonasLimitrofes)
+        foreach (var z in zonas[personajeActivo.GetZonaActual()].zonasLimitrofes)
         {
             foreach (var p in personajes)
             {
-                if (p.vivo && p.equipo != personajeActivo.equipo && p.zonaActual == z)
+                if (p.vivo && p.equipo != personajeActivo.equipo && p.GetZonaActual() == z)
                 {
                     zonasLimtrofesConEnemigos.Add(z);
                     break;
@@ -810,7 +826,7 @@ public class cCombate : MonoBehaviour
         {
             for (int i = 0; i < zonas.Count; i++)
             {
-                zonas[i].objetivoValidoParaJugadorActivo = ChequearZonaValida(i) || zonas[i].index == personajeActivo.zonaActual; //por ahora es legal hacer un movmiento hacia el lugar donde estas parado. se me ocurre agregar una accion tipo "mantener" que sea pasar, pero tienen -2d al atacarte
+                zonas[i].objetivoValidoParaJugadorActivo = ChequearZonaValida(i) || zonas[i].index == personajeActivo.GetZonaActual(); //por ahora es legal hacer un movmiento hacia el lugar donde estas parado. se me ocurre agregar una accion tipo "mantener" que sea pasar, pero tienen -2d al atacarte
             }
         }
         else
@@ -831,6 +847,7 @@ public class cCombate : MonoBehaviour
 
     public void RemoverPersonaje(cPersonaje p)
     {
+        Debug.Log("Per o matones murio");
         p.vivo = false;
         for (int i = acciones.Count - 1; i >= 0; i--)
         {
@@ -846,6 +863,7 @@ public class cCombate : MonoBehaviour
                 accionesActivas.Remove(accionesActivas[i]);
             }
         }
+        Debug.Log("cantidad de reacciones que tenia: " + accionesReactivas.Count);
         for (int i = accionesReactivas.Count - 1; i >= 0; i--)
         {
             if (accionesReactivas[i].per.nombre == p.nombre)
@@ -855,7 +873,7 @@ public class cCombate : MonoBehaviour
         }
         for (int i = 0; i < p.dadosDeAccion.Length; i++)
         {
-            p.dadosDeAccion[i] = 11;
+            p.dadosDeAccion[i] = -1;
         }
         //Miedo de que este rompa cosas, pero por ahora queda
         // es algo redudndnate porque ya existe la varriable vivo, pero creo que este es mas limpio hasta tener una forma grafica de mostrar que murio.
@@ -882,18 +900,6 @@ public class cCombate : MonoBehaviour
         return false;
     }
 
-    public void SetUpGC()
-    {
-        if (personajes != null)
-        {
-            for (int i = 0; i < personajes.Count; i++)
-            {
-                personajes[i].gC = personajes[i].gameObject.AddComponent(typeof(GUIComponent)) as GUIComponent;
-                personajes[i].gC.p = personajes[i];
-            }
-        }
-    }
-
     void SetUpZonas(string[] zCode)
     {
         for (int i = 0; i < zCode.Length; i++)
@@ -917,9 +923,6 @@ public class cCombate : MonoBehaviour
             {
                 zonas[i].zonasEnRango[j] = int.Parse(words[j + 4 + nZLimitrofes]);
             }
-            zonas[i].gz = zonas[i].gameObject.AddComponent(typeof(cGUIZona)) as cGUIZona;
-            zonas[i].gz.z = zonas[i];
-            zonas[i].gz.text = zonas[i].nombre;
         }
     }
 
@@ -944,8 +947,6 @@ public class cCombate : MonoBehaviour
         uiC.CombateSelected();
         uiC.SetText("¡Nuevo Combate! (barra espaciadora o Z para avanzar)");
         uiC.SetNombres(personajes);
-        //Old Gui, por personaje
-        SetUpGC();
     }
 
     public void EsperandoOkOn(bool on)
@@ -1010,8 +1011,8 @@ public class cCombate : MonoBehaviour
                 default:
                     break;
             }
-            personajes[i].zonaActual = Random.Range(0, 3);
-            personajes[i].transform.position = new Vector3(personajes[i].zonaActual * 10 - 10, 0, i * 4.5f - 12);
+            personajes[i].SetZonaActual(Random.Range(0, 3));  
+            personajes[i].transform.position = new Vector3(personajes[i].GetZonaActual() * 10 - 10, 0, i * 4.5f - 12);
             personajes[i].SetAI(combatientes[i].iA);
             personajes[i].SetArma(combatientes[i].arma);
         }
@@ -1042,7 +1043,7 @@ public class cCombate : MonoBehaviour
 
     public bool ZonaEsteEnRangoDePersonaje(cPersonaje per, int zona)
     {
-        if (per.zonaActual == zona) return true;
+        if (per.GetZonaActual() == zona) return true;
         if (per.arma.GetDeRango())
         {
             //if (per.arma is cArmasFuego)
@@ -1050,7 +1051,7 @@ public class cCombate : MonoBehaviour
             //    if (!(per.arma as cArmasFuego).cargada) return false;
             //}
 
-            foreach (var item in zonas[per.zonaActual].zonasEnRango)
+            foreach (var item in zonas[per.GetZonaActual()].zonasEnRango)
             {
                 if (item == zona)
                 {
@@ -1062,7 +1063,7 @@ public class cCombate : MonoBehaviour
         {
             if ((per.arma as cArmasPelea).armaImprovisadaActiva)
             {
-                foreach (var item in zonas[per.zonaActual].zonasEnRango)
+                foreach (var item in zonas[per.GetZonaActual()].zonasEnRango)
                 {
                     Debug.Log("zona en rango: " + item);
                     Debug.Log("zona que buscamos: " + (zona));

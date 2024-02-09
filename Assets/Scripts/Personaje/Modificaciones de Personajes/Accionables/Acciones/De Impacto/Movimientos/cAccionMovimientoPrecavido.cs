@@ -10,11 +10,6 @@ public class cAccionMovimientoPrecavido : cAccionMovimiento
     public const int MOV_DEFENSAS = 1;
     public const int MOV_TERMINADO = 2;
 
-    public bool mostrarMensaje1;
-    public bool mostrarMensaje2;
-
-    public List<cPersonaje> posiblesReacciones;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -85,11 +80,11 @@ public class cAccionMovimientoPrecavido : cAccionMovimiento
             if (mostrarMensaje2)
             {
                 uiC.SetText("Nadie detiene a " + c.personajeActivo.nombre + " y se mueve a " + c.zonas[c.zonaObjetiva].nombre + ". Todos tiran -1d al atacar a " + c.personajeActivo.nombre + " hasta que vuelva a actuar.");
-                c.personajeActivo.zonaActual = c.zonaObjetiva;
-                c.personajeActivo.transform.position = new Vector3(c.personajeActivo.zonaActual * 10 - 10, 0, c.personajeActivo.transform.position.z);
+                c.personajeActivo.SetZonaActual(c.zonaObjetiva);
+                c.personajeActivo.transform.position = new Vector3(c.personajeActivo.GetZonaActual() * 10 - 10, 0, c.personajeActivo.transform.position.z);
                 c.personajeActivo.dadosDelAtacantePorPrecavido = -1;
                 c.personajeActivo.totalDadosDelAtacante = c.personajeActivo.dadosDelAtacantePorPrecavido + c.personajeActivo.arma.GetDadosDelAtacanteMod();
-                mov_state = MOV_INICIO - 1;
+                ResetState();
                 c.EsperandoOkOn(true);
                 c.stateID = cCombate.BUSCANDO_ACCION;
             }
@@ -118,14 +113,14 @@ public class cAccionMovimientoPrecavido : cAccionMovimiento
                 {
                     if (p.arma is cArmasFuego)
                     {
-                        if (c.ZonaEsteEnRangoDePersonaje(p, c.personajeActivo.zonaActual) && (p.arma as cArmasFuego).cargada) posiblesReaccionesSinObjetivo.Add(p);
+                        if (c.ZonaEsteEnRangoDePersonaje(p, c.personajeActivo.GetZonaActual()) && (p.arma as cArmasFuego).cargada) posiblesReaccionesSinObjetivo.Add(p);
                     }
                     else
                     {
-                        if (c.ZonaEsteEnRangoDePersonaje(p, c.personajeActivo.zonaActual)) posiblesReaccionesSinObjetivo.Add(p);
+                        if (c.ZonaEsteEnRangoDePersonaje(p, c.personajeActivo.GetZonaActual())) posiblesReaccionesSinObjetivo.Add(p);
                     }
                 }
-                else if (p.zonaActual == c.personajeActivo.zonaActual)
+                else if (p.GetZonaActual() == c.personajeActivo.GetZonaActual())
                 {
 
                     posiblesReaccionesSinObjetivo.Add(p);
@@ -134,11 +129,11 @@ public class cAccionMovimientoPrecavido : cAccionMovimiento
                 {
                     if ((p.arma as cArmasPelea).armaImprovisadaActiva)
                     {
-                        foreach (var item in c.zonas[p.zonaActual].zonasEnRango)
+                        foreach (var item in c.zonas[p.GetZonaActual()].zonasEnRango)
                         {
                             Debug.Log("zona en rango: " + item);
-                            Debug.Log("zona que buscamos: " + (c.personajeActivo.zonaActual));
-                            if (item == c.personajeActivo.zonaActual)
+                            Debug.Log("zona que buscamos: " + (c.personajeActivo.GetZonaActual()));
+                            if (item == c.personajeActivo.GetZonaActual())
                             {
                                 Debug.Log("return true, deberia tener reaccion disponible");
                                 posiblesReaccionesSinObjetivo.Add(p);
