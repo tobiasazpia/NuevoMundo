@@ -3227,6 +3227,7 @@ MonoBehaviour:
   personajePrefab: {fileID: 2424609038381635228, guid: 68ea9cdf0d0e7f640ba61e87ea17fd03, type: 3}
   matonPrefab: {fileID: 8554102824708118088, guid: 6f52cf707a9a5444eadece1efbe35e24, type: 3}
   zonaPrefab: {fileID: 5167863492410461071, guid: 23437c01f7551c644a122be8b5e21ffc, type: 3}
+  materialMuerto: {fileID: 0}
   materialEquipo1: {fileID: 2100000, guid: b038927ed26218446a4cc694aa5a523b, type: 2}
   materialEquipo2: {fileID: 2100000, guid: 8c64f88073aac8d488c7819c56fd0496, type: 2}
   materialEquipo3: {fileID: 2100000, guid: 96febcd5b101fd849814f5ad898e0e59, type: 2}
@@ -3304,7 +3305,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: a10e8caad03ca7748997a8df6328b2d2, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 48d109f64e950014faa854cffcb2a4b9, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0.25
   m_Pitch: 1
