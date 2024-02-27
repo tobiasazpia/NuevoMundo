@@ -299,14 +299,11 @@
         </ui:VisualElement>
         <ui:Button text="Continuar" display-tooltip-when-elided="true" name="ButtonFinalReintentar" class="button-main-menu base button button-corto" style="margin-bottom: 10px;" />
     </ui:VisualElement>
-    <ui:VisualElement name="PantallaCombate" style="position: absolute; display: none; align-items: center; justify-content: none; height: 100%; width: 100%; background-color: rgba(0, 0, 0, 0);">
-        <ui:VisualElement name="ZonasInfo" style="position: absolute;">
-            <ui:Label text="Label" display-tooltip-when-elided="true" name="Zona1" class="base" style="display: none;" />
-            <ui:Label text="Label" display-tooltip-when-elided="true" name="Zona2" class="base" style="display: none;" />
-            <ui:Label text="Label" display-tooltip-when-elided="true" name="Zona3" class="base" style="display: none;" />
-        </ui:VisualElement>
+    <ui:VisualElement name="PantallaCombate" style="position: absolute; display: none; align-items: center; justify-content: flex-start; height: 100%; width: 100%; background-color: rgba(0, 0, 0, 0);">
         <ui:VisualElement name="Instrucciones" style="width: 100%; height: 70%;">
-            <ui:Label text="Label" display-tooltip-when-elided="true" name="Texto" class="button-main-menu base" style="white-space: normal; margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px; padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 10px; font-size: 32px; height: 250px; width: 500px;" />
+            <ui:VisualElement style="flex-direction: row;">
+                <ui:Label text="Label" display-tooltip-when-elided="true" name="Texto" class="button-main-menu base" style="white-space: normal; margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px; padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 10px; font-size: 32px; height: 250px; width: 500px;" />
+            </ui:VisualElement>
             <ui:VisualElement name="BotonesInput" style="flex-direction: column;">
                 <ui:VisualElement name="MenuAccion" style="flex-direction: row; display: none;">
                     <ui:Button display-tooltip-when-elided="true" name="ButtonMarcial" tooltip="Habilidades Marciales" class="button-main-menu button-combat-action button base" style="display: none; background-image: resource(&apos;Images/Icons/Marcial-Icon&apos;);" />
@@ -344,85 +341,90 @@
                 </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>
-        <ui:VisualElement name="Iniciativa" class="base" style="width: 50%; height: 30%; font-size: 24px;">
-            <ui:Label text="Ronda:" display-tooltip-when-elided="true" name="IniRonda" style="margin-left: 2px; margin-right: 4px; margin-top: 4px; margin-bottom: 2px; padding-left: 2px; padding-right: 4px; padding-top: 4px; padding-bottom: 2px; font-size: 24px;" />
-            <ui:VisualElement name="IniJugador1" style="flex-direction: row; display: none;">
-                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador1Nombre" class="iniciativa-nombre-jugador ini-element" />
-                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador1Fase1" class="numero-fase" />
-                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador1Fase2" class="numero-fase" />
-                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador1Fase3" class="numero-fase" />
-                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador1Fase4" class="numero-fase" />
-                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador1Fase5" class="numero-fase" />
-                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador1Fase6" class="numero-fase" />
-                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador1Fase7" class="numero-fase" />
-                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador1Fase8" class="numero-fase" />
-                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador1Fase9" class="numero-fase" />
-                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador1Fase10" class="numero-fase" />
+        <ui:VisualElement name="BottomHalfContainer" style="flex-direction: row; width: 100%; height: 100%;">
+            <ui:VisualElement name="AvanzarContainer" style="width: 480px; flex-direction: column-reverse; align-items: center;">
+                <ui:Button text="Avanzar" display-tooltip-when-elided="true" name="ButtonAvanzar" class="base button" style="width: 80%; align-items: stretch; margin-bottom: 15px;" />
             </ui:VisualElement>
-            <ui:VisualElement name="IniJugador2" style="flex-direction: row; display: none;">
-                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador2Nombre" class="iniciativa-nombre-jugador ini-element" style="white-space: normal;" />
-                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador2Fase1" class="numero-fase" />
-                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador2Fase2" class="numero-fase" />
-                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador2Fase3" class="numero-fase" />
-                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador2Fase4" class="numero-fase" />
-                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador2Fase5" class="numero-fase" />
-                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador2Fase6" class="numero-fase" />
-                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador2Fase7" class="numero-fase" />
-                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador2Fase8" class="numero-fase" />
-                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador2Fase9" class="numero-fase" />
-                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador2Fase10" class="numero-fase" />
-            </ui:VisualElement>
-            <ui:VisualElement name="IniJugador3" style="flex-direction: row; display: none;">
-                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador3Nombre" class="iniciativa-nombre-jugador ini-element" style="white-space: normal;" />
-                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador3Fase1" class="numero-fase" />
-                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador3Fase2" class="numero-fase" />
-                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador3Fase3" class="numero-fase" />
-                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador3Fase4" class="numero-fase" />
-                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador3Fase5" class="numero-fase" />
-                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador3Fase6" class="numero-fase" />
-                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador3Fase7" class="numero-fase" />
-                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador3Fase8" class="numero-fase" />
-                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador3Fase9" class="numero-fase" />
-                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador3Fase10" class="numero-fase" />
-            </ui:VisualElement>
-            <ui:VisualElement name="IniJugador4" style="flex-direction: row; display: none;">
-                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador4Nombre" class="iniciativa-nombre-jugador ini-element" style="white-space: normal;" />
-                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador4Fase1" class="numero-fase" />
-                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador4Fase2" class="numero-fase" />
-                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador4Fase3" class="numero-fase" />
-                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador4Fase4" class="numero-fase" />
-                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador4Fase5" class="numero-fase" />
-                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador4Fase6" class="numero-fase" />
-                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador4Fase7" class="numero-fase" />
-                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador4Fase8" class="numero-fase" />
-                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador4Fase9" class="numero-fase" />
-                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador4Fase10" class="numero-fase" />
-            </ui:VisualElement>
-            <ui:VisualElement name="IniJugador5" style="flex-direction: row; display: none;">
-                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador5Nombre" class="iniciativa-nombre-jugador ini-element" style="white-space: normal;" />
-                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador5Fase1" class="numero-fase" />
-                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador5Fase2" class="numero-fase" />
-                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador5Fase3" class="numero-fase" />
-                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador5Fase4" class="numero-fase" />
-                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador5Fase5" class="numero-fase" />
-                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador5Fase6" class="numero-fase" />
-                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador5Fase7" class="numero-fase" />
-                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador5Fase8" class="numero-fase" />
-                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador5Fase9" class="numero-fase" />
-                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador5Fase10" class="numero-fase" />
-            </ui:VisualElement>
-            <ui:VisualElement name="IniJugador6" style="flex-direction: row; display: none;">
-                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador6Nombre" class="iniciativa-nombre-jugador ini-element" style="white-space: normal;" />
-                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador6Fase1" class="numero-fase" />
-                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador6Fase2" class="numero-fase" />
-                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador6Fase3" class="numero-fase" />
-                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador6Fase4" class="numero-fase" />
-                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador6Fase5" class="numero-fase" />
-                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador6Fase6" class="numero-fase" />
-                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador6Fase7" class="numero-fase" />
-                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador6Fase8" class="numero-fase" />
-                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador6Fase9" class="numero-fase" />
-                <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador6Fase10" class="numero-fase" />
+            <ui:VisualElement name="Iniciativa" class="base" style="width: 960px; height: 315px; font-size: 24px; margin-top: 315px;">
+                <ui:Label text="Ronda:" display-tooltip-when-elided="true" name="IniRonda" style="margin-left: 2px; margin-right: 4px; margin-top: 4px; margin-bottom: 2px; padding-left: 2px; padding-right: 4px; padding-top: 4px; padding-bottom: 2px; font-size: 24px;" />
+                <ui:VisualElement name="IniJugador1" style="flex-direction: row; display: none;">
+                    <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador1Nombre" class="iniciativa-nombre-jugador ini-element" />
+                    <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador1Fase1" class="numero-fase" />
+                    <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador1Fase2" class="numero-fase" />
+                    <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador1Fase3" class="numero-fase" />
+                    <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador1Fase4" class="numero-fase" />
+                    <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador1Fase5" class="numero-fase" />
+                    <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador1Fase6" class="numero-fase" />
+                    <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador1Fase7" class="numero-fase" />
+                    <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador1Fase8" class="numero-fase" />
+                    <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador1Fase9" class="numero-fase" />
+                    <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador1Fase10" class="numero-fase" />
+                </ui:VisualElement>
+                <ui:VisualElement name="IniJugador2" style="flex-direction: row; display: none;">
+                    <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador2Nombre" class="iniciativa-nombre-jugador ini-element" style="white-space: normal;" />
+                    <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador2Fase1" class="numero-fase" />
+                    <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador2Fase2" class="numero-fase" />
+                    <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador2Fase3" class="numero-fase" />
+                    <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador2Fase4" class="numero-fase" />
+                    <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador2Fase5" class="numero-fase" />
+                    <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador2Fase6" class="numero-fase" />
+                    <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador2Fase7" class="numero-fase" />
+                    <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador2Fase8" class="numero-fase" />
+                    <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador2Fase9" class="numero-fase" />
+                    <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador2Fase10" class="numero-fase" />
+                </ui:VisualElement>
+                <ui:VisualElement name="IniJugador3" style="flex-direction: row; display: none;">
+                    <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador3Nombre" class="iniciativa-nombre-jugador ini-element" style="white-space: normal;" />
+                    <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador3Fase1" class="numero-fase" />
+                    <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador3Fase2" class="numero-fase" />
+                    <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador3Fase3" class="numero-fase" />
+                    <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador3Fase4" class="numero-fase" />
+                    <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador3Fase5" class="numero-fase" />
+                    <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador3Fase6" class="numero-fase" />
+                    <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador3Fase7" class="numero-fase" />
+                    <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador3Fase8" class="numero-fase" />
+                    <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador3Fase9" class="numero-fase" />
+                    <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador3Fase10" class="numero-fase" />
+                </ui:VisualElement>
+                <ui:VisualElement name="IniJugador4" style="flex-direction: row; display: none;">
+                    <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador4Nombre" class="iniciativa-nombre-jugador ini-element" style="white-space: normal;" />
+                    <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador4Fase1" class="numero-fase" />
+                    <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador4Fase2" class="numero-fase" />
+                    <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador4Fase3" class="numero-fase" />
+                    <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador4Fase4" class="numero-fase" />
+                    <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador4Fase5" class="numero-fase" />
+                    <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador4Fase6" class="numero-fase" />
+                    <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador4Fase7" class="numero-fase" />
+                    <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador4Fase8" class="numero-fase" />
+                    <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador4Fase9" class="numero-fase" />
+                    <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador4Fase10" class="numero-fase" />
+                </ui:VisualElement>
+                <ui:VisualElement name="IniJugador5" style="flex-direction: row; display: none;">
+                    <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador5Nombre" class="iniciativa-nombre-jugador ini-element" style="white-space: normal;" />
+                    <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador5Fase1" class="numero-fase" />
+                    <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador5Fase2" class="numero-fase" />
+                    <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador5Fase3" class="numero-fase" />
+                    <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador5Fase4" class="numero-fase" />
+                    <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador5Fase5" class="numero-fase" />
+                    <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador5Fase6" class="numero-fase" />
+                    <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador5Fase7" class="numero-fase" />
+                    <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador5Fase8" class="numero-fase" />
+                    <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador5Fase9" class="numero-fase" />
+                    <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador5Fase10" class="numero-fase" />
+                </ui:VisualElement>
+                <ui:VisualElement name="IniJugador6" style="flex-direction: row; display: none;">
+                    <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador6Nombre" class="iniciativa-nombre-jugador ini-element" style="white-space: normal;" />
+                    <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador6Fase1" class="numero-fase" />
+                    <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador6Fase2" class="numero-fase" />
+                    <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador6Fase3" class="numero-fase" />
+                    <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador6Fase4" class="numero-fase" />
+                    <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador6Fase5" class="numero-fase" />
+                    <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador6Fase6" class="numero-fase" />
+                    <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador6Fase7" class="numero-fase" />
+                    <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador6Fase8" class="numero-fase" />
+                    <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador6Fase9" class="numero-fase" />
+                    <ui:Label text="Label" display-tooltip-when-elided="true" name="IniJugador6Fase10" class="numero-fase" />
+                </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement name="IndicadorFaseContainer" class="fase-down" style="left: 925px; display: flex;">
@@ -436,67 +438,72 @@
                 <ui:Label text="Posteriores&#10;" display-tooltip-when-elided="true" name="FaseTitulo" style="font-size: 32px;" />
             </ui:VisualElement>
         </ui:VisualElement>
-        <ui:VisualElement name="PersonajeInfo" style="position: absolute; display: flex; align-items: flex-start; left: auto; top: auto; right: auto; bottom: auto; flex-direction: column;">
-            <ui:VisualElement name="InfoVital" class="base" style="display: none; position: absolute; width: 300px; align-items: stretch;">
-                <ui:Label text="Nombre" display-tooltip-when-elided="true" name="InfoNombre" />
-                <ui:Label text="Her/Cant" display-tooltip-when-elided="true" name="InfoHerCant" />
-                <ui:Label text="Guardia" display-tooltip-when-elided="true" name="InfoGuardia" />
+    </ui:VisualElement>
+    <ui:VisualElement name="ZonasInfo" style="position: absolute;">
+        <ui:Label text="Label" display-tooltip-when-elided="true" name="Zona1" class="base" style="display: none;" />
+        <ui:Label text="Label" display-tooltip-when-elided="true" name="Zona2" class="base" style="display: none;" />
+        <ui:Label text="Label" display-tooltip-when-elided="true" name="Zona3" class="base" style="display: none;" />
+    </ui:VisualElement>
+    <ui:VisualElement name="PersonajeInfo" style="position: absolute; display: flex; align-items: flex-start; left: auto; top: auto; right: auto; bottom: auto; flex-direction: column;">
+        <ui:VisualElement name="InfoVital" class="base" style="display: none; position: absolute; width: 300px; align-items: stretch;">
+            <ui:Label text="Nombre" display-tooltip-when-elided="true" name="InfoNombre" />
+            <ui:Label text="Her/Cant" display-tooltip-when-elided="true" name="InfoHerCant" />
+            <ui:Label text="Guardia" display-tooltip-when-elided="true" name="InfoGuardia" />
+        </ui:VisualElement>
+        <ui:VisualElement name="InfoTactica" class="base" style="display: none; position: absolute;">
+            <ui:VisualElement name="InfoVitalTact" style="display: flex;">
+                <ui:Label text="Nombre" display-tooltip-when-elided="true" name="InfoTactNombre" />
+                <ui:Label text="Her/Cant" display-tooltip-when-elided="true" name="InfoTactHerCant" />
+                <ui:Label text="Guardia" display-tooltip-when-elided="true" name="InfoTactGuardia" />
             </ui:VisualElement>
-            <ui:VisualElement name="InfoTactica" class="base" style="display: none; position: absolute;">
-                <ui:VisualElement name="InfoVitalTact" style="display: flex;">
-                    <ui:Label text="Nombre" display-tooltip-when-elided="true" name="InfoTactNombre" />
-                    <ui:Label text="Her/Cant" display-tooltip-when-elided="true" name="InfoTactHerCant" />
-                    <ui:Label text="Guardia" display-tooltip-when-elided="true" name="InfoTactGuardia" />
-                </ui:VisualElement>
-                <ui:VisualElement name="InfoExtraTact">
-                    <ui:Label text="Arma" display-tooltip-when-elided="true" name="InfoTactArma" />
-                    <ui:Label text="Bonus" display-tooltip-when-elided="true" name="InfoTactBonus" />
-                    <ui:Label text="Daño" display-tooltip-when-elided="true" name="InfoTactDano" />
-                </ui:VisualElement>
+            <ui:VisualElement name="InfoExtraTact">
+                <ui:Label text="Arma" display-tooltip-when-elided="true" name="InfoTactArma" />
+                <ui:Label text="Bonus" display-tooltip-when-elided="true" name="InfoTactBonus" />
+                <ui:Label text="Daño" display-tooltip-when-elided="true" name="InfoTactDano" />
             </ui:VisualElement>
-            <ui:VisualElement name="InfoCompleta" class="base" style="display: none; position: absolute; right: auto; left: 580px; flex-direction: column;">
-                <ui:VisualElement name="InfoVitalComp">
-                    <ui:Label text="Label" display-tooltip-when-elided="true" name="InfoCompNombre" />
-                    <ui:Label text="Label" display-tooltip-when-elided="true" name="InfoCompHerCant" />
-                    <ui:Label text="Label" display-tooltip-when-elided="true" name="InfoCompGuardia" />
-                </ui:VisualElement>
-                <ui:VisualElement name="InfoExtraComp">
-                    <ui:Label text="Label" display-tooltip-when-elided="true" name="InfoCompArma" />
-                    <ui:Label text="Label" display-tooltip-when-elided="true" name="InfoCompBonus" />
-                    <ui:Label text="Label" display-tooltip-when-elided="true" name="InfoCompDano" />
-                </ui:VisualElement>
-                <ui:VisualElement name="InfoEstComp" class="button-main-menu base" style="height: auto; width: 90%; margin-left: 20px; margin-right: 20px; margin-top: 20px; margin-bottom: 20px; padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 10px;">
-                    <ui:VisualElement name="PerHab" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
-                        <ui:VisualElement name="ABcont" style="flex-direction: row;">
-                            <ui:Label text="Ataque Básico" display-tooltip-when-elided="true" name="PerAB" />
-                            <ui:Label text="0" display-tooltip-when-elided="true" name="ABValue" />
-                        </ui:VisualElement>
-                        <ui:VisualElement name="DBcont" style="flex-direction: row;">
-                            <ui:Label text="Defensa Básica" display-tooltip-when-elided="true" name="PerDB" />
-                            <ui:Label text="0" display-tooltip-when-elided="true" name="DBValue" />
-                        </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="InfoCompleta" class="base" style="display: none; position: absolute; right: auto; left: 1540px; flex-direction: column; top: 15px;">
+            <ui:VisualElement name="InfoVitalComp">
+                <ui:Label text="Label" display-tooltip-when-elided="true" name="InfoCompNombre" tooltip="Nombre" />
+                <ui:Label text="Label" display-tooltip-when-elided="true" name="InfoCompHerCant" tooltip="Heridas sufridas o cantida de matones vivos" />
+                <ui:Label text="Label" display-tooltip-when-elided="true" name="InfoCompGuardia" tooltip="La dificultad de golpearlo con un Ataque o Detener su Movimiento" />
+            </ui:VisualElement>
+            <ui:VisualElement name="InfoExtraComp">
+                <ui:Label text="Label" display-tooltip-when-elided="true" name="InfoCompArma" tooltip="Tipo de arma" />
+                <ui:Label text="Label" display-tooltip-when-elided="true" name="InfoCompBonus" tooltip="Dados adicionales para su proximo Ataque Basico" />
+                <ui:Label text="Label" display-tooltip-when-elided="true" name="InfoCompDano" tooltip="Daño acumulado para la proxima Herida" />
+            </ui:VisualElement>
+            <ui:VisualElement name="InfoEstComp" class="button-main-menu base" style="height: auto; width: 90%; margin-left: 20px; margin-right: 20px; margin-top: 20px; margin-bottom: 20px; padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 10px;">
+                <ui:VisualElement name="PerHab" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
+                    <ui:VisualElement name="ABcont" tooltip="Suma a tu Guardia y a los dados de Ataque Basico" style="flex-direction: row;">
+                        <ui:Label text="Ataque Básico" display-tooltip-when-elided="true" name="PerAB" />
+                        <ui:Label text="0" display-tooltip-when-elided="true" name="ABValue" />
                     </ui:VisualElement>
-                    <ui:VisualElement name="PerAtr" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
-                        <ui:VisualElement name="ManaCont" style="flex-direction: row;">
-                            <ui:Label text="Maña" display-tooltip-when-elided="true" name="PerMana" />
-                            <ui:Label text="0" display-tooltip-when-elided="true" name="ManaValue" />
-                        </ui:VisualElement>
-                        <ui:VisualElement name="MusculoCont" style="flex-direction: row;">
-                            <ui:Label text="Músculo" display-tooltip-when-elided="true" name="PerMusculo" />
-                            <ui:Label text="0" display-tooltip-when-elided="true" name="MusculoValue" />
-                        </ui:VisualElement>
-                        <ui:VisualElement name="IngenioCont" style="flex-direction: row;">
-                            <ui:Label text="Ingenio" display-tooltip-when-elided="true" name="PerIngenio" />
-                            <ui:Label text="0" display-tooltip-when-elided="true" name="IngenioValue" />
-                        </ui:VisualElement>
-                        <ui:VisualElement name="BrioCont" style="flex-direction: row;">
-                            <ui:Label text="Brío" display-tooltip-when-elided="true" name="PerBrio" />
-                            <ui:Label text="0" display-tooltip-when-elided="true" name="BrioValue" />
-                        </ui:VisualElement>
-                        <ui:VisualElement name="DonaireCont" style="flex-direction: row;">
-                            <ui:Label text="Donaire" display-tooltip-when-elided="true" name="PerDonaire" />
-                            <ui:Label text="0" display-tooltip-when-elided="true" name="DonaireValue" />
-                        </ui:VisualElement>
+                    <ui:VisualElement name="DBcont" tooltip="Suma a tu Guardia y a los dados de Defensa Basica" style="flex-direction: row;">
+                        <ui:Label text="Defensa Básica" display-tooltip-when-elided="true" name="PerDB" />
+                        <ui:Label text="0" display-tooltip-when-elided="true" name="DBValue" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement name="PerAtr" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
+                    <ui:VisualElement name="ManaCont" tooltip="Cada punto suma 1d a tus Ataques" style="flex-direction: row;">
+                        <ui:Label text="Maña" display-tooltip-when-elided="true" name="PerMana" />
+                        <ui:Label text="0" display-tooltip-when-elided="true" name="ManaValue" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="MusculoCont" tooltip="Cada punto suma 1d por tu Multiplicador de Músculo al daño de tus Ataques" style="flex-direction: row;">
+                        <ui:Label text="Músculo" display-tooltip-when-elided="true" name="PerMusculo" />
+                        <ui:Label text="0" display-tooltip-when-elided="true" name="MusculoValue" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="IngenioCont" tooltip="Cada punto suma 1d a tus Defensas" style="flex-direction: row;">
+                        <ui:Label text="Ingenio" display-tooltip-when-elided="true" name="PerIngenio" />
+                        <ui:Label text="0" display-tooltip-when-elided="true" name="IngenioValue" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="BrioCont" tooltip="Cada punto suma 3d a tu tirada de Heridas" style="flex-direction: row;">
+                        <ui:Label text="Brío" display-tooltip-when-elided="true" name="PerBrio" />
+                        <ui:Label text="0" display-tooltip-when-elided="true" name="BrioValue" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="DonaireCont" tooltip="Cada punto suma 3d a tu tirada de Iniciativa" style="flex-direction: row;">
+                        <ui:Label text="Donaire" display-tooltip-when-elided="true" name="PerDonaire" />
+                        <ui:Label text="0" display-tooltip-when-elided="true" name="DonaireValue" />
                     </ui:VisualElement>
                 </ui:VisualElement>
             </ui:VisualElement>
@@ -514,6 +521,6 @@
         </ui:VisualElement>
     </ui:VisualElement>
     <ui:VisualElement name="TooltipLayer" style="position: absolute;">
-        <ui:Label text="tooltip" display-tooltip-when-elided="true" name="tooltip" class="base tooltip" style="display: none;" />
+        <ui:Label text="tooltip" display-tooltip-when-elided="true" name="tooltip" class="base tooltip" style="display: none; flex-wrap: wrap; white-space: normal; width: auto; max-width: 250px;" />
     </ui:VisualElement>
 </ui:UXML>

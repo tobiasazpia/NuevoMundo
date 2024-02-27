@@ -27,6 +27,7 @@ public class cCombate : MonoBehaviour
     public GameObject matonPrefab;
     public GameObject zonaPrefab;
     /////Materiales
+    public Material materialMuerto;
     public Material materialEquipo1;
     public Material materialEquipo2;
     public Material materialEquipo3;
@@ -157,7 +158,7 @@ public class cCombate : MonoBehaviour
             if (!pause)
             {
 
-                if (py.actions["OK"].WasPressedThisFrame() && !esperandoObjetivo && !esperandoZona)
+                if (py.actions["OK"].WasPressedThisFrame() && !esperandoObjetivo && !esperandoZona && esperandoOK)
                 {
                     Debug.Log("ok pressed");
                     AvanzarCombate();
@@ -277,6 +278,7 @@ public class cCombate : MonoBehaviour
             Destroy(temp);
         }
         zonas.Clear();
+        ultimosEnActuar.Clear();
 
         if (acciones != null) acciones.Clear();
         if (accionesActivas != null) accionesActivas.Clear();
@@ -792,16 +794,19 @@ public class cCombate : MonoBehaviour
 
         //ui
         uiC.PedirAccion(personajeActivo);
+        EsperandoOkOn(false);
     }
 
     void PedirMarcial()
     {
+        EsperandoOkOn(false);
         uiC.PedirMarcial(personajeActivo);
     }
 
     void PedirArcana()
     {
         uiC.PedirArcana(personajeActivo);
+        EsperandoOkOn(false);
     }
 
 
@@ -809,12 +814,14 @@ public class cCombate : MonoBehaviour
     {
         //ui
         uiC.PedirMovimiento(personajeActivo);
+        EsperandoOkOn(false);
     }
 
     void PedirObjetivoDeAtaque()
     {
         uiC.SetText(personajeActivo.nombre + " va a atacar! A quien?");
         esperandoObjetivo = true;
+        EsperandoOkOn(false);
     }
 
     void PedirObjetivoDeMovimiento()
@@ -847,6 +854,7 @@ public class cCombate : MonoBehaviour
 
     public void RemoverPersonaje(cPersonaje p)
     {
+        ActualizarMaterialAIncapacitado(p);
         Debug.Log("Per o matones murio");
         p.vivo = false;
         for (int i = acciones.Count - 1; i >= 0; i--)
@@ -879,6 +887,16 @@ public class cCombate : MonoBehaviour
         // es algo redudndnate porque ya existe la varriable vivo, pero creo que este es mas limpio hasta tener una forma grafica de mostrar que murio.
         //personajes.Remove(p);
         //Destroy(p);
+    }
+
+    void ActualizarMaterialAIncapacitado(cPersonaje p)
+    {
+        Color pColor = p.GetComponent<MeshRenderer>().material.color;
+        p.GetComponent<MeshRenderer>().material.color = new Color(
+            pColor.r,
+            pColor.g,
+            pColor.b,
+            0.4f);
     }
 
     public bool MasDeUnEquipoEnPie()

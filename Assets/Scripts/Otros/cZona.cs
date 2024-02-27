@@ -39,9 +39,26 @@ public class cZona : MonoBehaviour
             default:
                 break;
         }
-        nombreUI.transform.position = uiC.WorldToUIToolkit(transform.position, -Screen.width/2, -Screen.height / 4);
+        //nombreUI.transform.position = uiC.WorldToUIToolkit(transform.position, -Screen.width/2, -Screen.height / 4);
+
+        nombreUI.RegisterCallback<GeometryChangedEvent>(OnGeoChanged);
+
+
     }
 
+    void OnGeoChanged(GeometryChangedEvent evt)
+    {
+        //nombreUI.schedule.Execute(unres).StartingIn(1);
+        unres();
+    }
+
+    void unres() {
+        nombreUI.UnregisterCallback<GeometryChangedEvent>(OnGeoChanged);
+        float wProp = 1920.0f / Screen.width;
+        Debug.Log("resst width" + nombreUI.resolvedStyle.width);
+        Debug.Log("wprop" + wProp);
+        uiC.MyWorldToScreen(transform.position, nombreUI, -nombreUI.resolvedStyle.width / 2.0f / wProp, Screen.height / 4);
+    }
     // Update is called once per frame
     void Update()
     {

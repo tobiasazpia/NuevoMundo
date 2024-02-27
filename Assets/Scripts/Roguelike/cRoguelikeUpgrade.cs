@@ -331,6 +331,7 @@ public class cRoguelikeUpgrade : MonoBehaviour
         int max = 10;
         int upgradeHabs = 0;
         int updradeHabsObj = -1;
+        List<int> upgradeCantObj = new List<int>();
         foreach (var item in upgradeNormales)
         {
             if (item.tipoDeUpgrade == 0)
@@ -344,6 +345,10 @@ public class cRoguelikeUpgrade : MonoBehaviour
                     if(updradeHabsObj == item.objetivoDeUpgrade) upgradeHabs++;
                 }
             }
+            if (item.tipoDeUpgrade == 2) // queres upgradear cantidad
+            {
+                upgradeCantObj.Add(item.objetivoDeUpgrade);
+            }
         }
         Debug.Log("ya upgradeamos habs este up: " + upgradeHabs + " veces");
         if (upgradeHabs < 2)
@@ -354,7 +359,8 @@ public class cRoguelikeUpgrade : MonoBehaviour
         counts.Add(CalcularPuntosEnAtributos(rM.party[upgradeNormales[slot].objetivoDeUpgrade]));
         if (esMaton)
         {
-            counts.Add(rM.party[upgradeNormales[slot].objetivoDeUpgrade].cantidad);
+            if (upgradeCantObj.Contains(upgradeNormales[slot].objetivoDeUpgrade)) counts.Add(10);
+            else counts.Add(rM.party[upgradeNormales[slot].objetivoDeUpgrade].cantidad);
         }
         Debug.Log("C");
         List<int> weighted = WeightearElementos(counts, max);

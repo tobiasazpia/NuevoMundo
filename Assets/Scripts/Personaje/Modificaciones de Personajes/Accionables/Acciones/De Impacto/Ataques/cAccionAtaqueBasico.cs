@@ -107,16 +107,20 @@ public class cAccionAtaqueBasico : cAccionAtaque
         c.atacando = true;
         intentaronDetenerlo = false;    
         c.jugadorDef = 0;
-        dadosATirar = DeterminarNumeroDeDados();
+
         string armasImprovisadas = "";
         if(personaje.arma is cArmasPelea)
         {
             if((personaje.arma as cArmasPelea).armaImprovisadaActiva)
             {
-                (personaje.arma as cArmasPelea).PerderArmaImprovisada();
+                (personaje.arma as cArmasPelea).PerderArmaImprovisada();               
                 armasImprovisadas = " Suelta su arma improvisada.";
             }
+            armaImpro();
         }
+
+        dadosATirar = DeterminarNumeroDeDados();
+
         string text = "¡" + personaje.nombre + " usa su " + nombre + " contra " + c.personajeObjetivo.nombre + "! Tira " + dadosATirar + " dados contra su guardia de " + c.personajeObjetivo.GetGuardia() + "." + armasImprovisadas;
         if (c.movAgro) {
             uiC.SetText(text);
@@ -126,6 +130,12 @@ public class cAccionAtaqueBasico : cAccionAtaque
             c.personajeActivo.GastarDado(c.faseActual, c.acciones, c.accionesActivas, c.accionesReactivas, text);
             uiC.ActualizarIniciativa(c.personajes);
         }
+    }
+
+    virtual protected void armaImpro()
+    {
+        Debug.Log("arma imrpvo basico");
+        (personaje.arma as cArmasPelea).ActualizarDataDeImprovisada(false);
     }
 
     virtual protected void Tirando()

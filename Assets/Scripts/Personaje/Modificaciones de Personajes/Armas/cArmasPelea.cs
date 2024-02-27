@@ -37,36 +37,35 @@ public class cArmasPelea : cArma
 
     }
 
+    public void ActualizarDataDeImprovisada(bool usaImpro)
+    {
+        if (usaImpro)
+        {
+            Debug.Log("tamaño de aimp " + tamañoDeArmaImprovisada);
+            musMult = tamañoDeArmaImprovisada+1;
+            dañoExplota = true;
+            basePara2doMaton = 9;
+            bonusAtaque = 0-tamañoDeArmaImprovisada;
+        }
+        else
+        {
+            musMult = 3;
+            dañoExplota = false;
+            basePara2doMaton = 12;
+            bonusAtaque = 0;
+        }
+        p.CalcularExtraParaMatones();
+    }
+
     public void PerderArmaImprovisada()
     {
         armaImprovisadaActiva = false;
-        musMult = 3;
-        dañoExplota = false;
-        basePara2doMaton = 12;
-        bonusAtaque = 0;
     }
 
     public void AdquirirArmaImprovisada(int tamaño)
     {
         armaImprovisadaActiva = true;
         tamañoDeArmaImprovisada = tamaño;
-        musMult = tamaño+1;
-        dañoExplota = true;
-        basePara2doMaton = 9;
-        bonusAtaque = -tamaño;
-    }
-
-    public void ChequearSiArmaImprovisadaSeDestruyo(int atq, int def)
-    {
-        if (atq < def)
-        {
-            armaImprovisadaActiva = false;
-            musMult = 3;
-            dañoExplota = false;
-            basePara2doMaton = 12;
-            bonusAtaque = 0;
-            deRango = false;
-        }
     }
 
     override public bool AccionesFase0()
@@ -90,8 +89,7 @@ public class cArmasPelea : cArma
                     break;
             }
             p.uiC.SetText(p.nombre + " busca un arma improvisada, y encuentra un " + armaINombre + ".");
-            (p.arma as cArmasPelea).armaImprovisadaActiva = true;
-            (p.arma as cArmasPelea).tamañoDeArmaImprovisada = armaI;
+            AdquirirArmaImprovisada(armaI);
             return false;
         }
         return true;

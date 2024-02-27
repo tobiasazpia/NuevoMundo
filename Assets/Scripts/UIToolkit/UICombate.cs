@@ -19,6 +19,8 @@ public class UICombate : MonoBehaviour
     private VisualElement menuIntervenir;
     private VisualElement fases;
 
+    private Button bAvanzar;
+
     private Button bMarcial;
     private Button bArcana;
     private Button bMover;
@@ -97,6 +99,7 @@ public class UICombate : MonoBehaviour
         menuReaccion = root.Q<VisualElement>("MenuReaccion");
         menuIntervenir = root.Q<VisualElement>("MenuIntervenir");
 
+        bAvanzar = root.Q<Button>("ButtonAvanzar");
 
         bMarcial = root.Q<Button>("ButtonMarcial");
         bArcana = root.Q<Button>("ButtonArcana");
@@ -150,34 +153,36 @@ public class UICombate : MonoBehaviour
         zona2   = root.Q<Label>("Zona2");
         zona3 = root.Q<Label>("Zona3");
 
+        bAvanzar.RegisterCallback<ClickEvent>(OnAvanzarClicked);
+
         bMarcial.RegisterCallback<ClickEvent>(OnMarcialClicked);
         bMarcial.RegisterCallback<MouseEnterEvent>(OnMouseEnterButton);
-        bMarcial.RegisterCallback<MouseLeaveEvent>(OnMouseLeaveButton);
+        bMarcial.RegisterCallback<MouseLeaveEvent>(OnMouseLeaveButtonOrElement);
         bArcana.RegisterCallback<ClickEvent>(OnArcanaClicked);
         bArcana.RegisterCallback<MouseEnterEvent>(OnMouseEnterButton);
-        bArcana.RegisterCallback<MouseLeaveEvent>(OnMouseLeaveButton);
+        bArcana.RegisterCallback<MouseLeaveEvent>(OnMouseLeaveButtonOrElement);
         bMover.RegisterCallback<ClickEvent>(OnMoverClicked);
         bMover.RegisterCallback<MouseEnterEvent>(OnMouseEnterButton);
-        bMover.RegisterCallback<MouseLeaveEvent>(OnMouseLeaveButton);
+        bMover.RegisterCallback<MouseLeaveEvent>(OnMouseLeaveButtonOrElement);
         bGuardar.RegisterCallback<ClickEvent>(OnGuardarClicked);
         bGuardar.RegisterCallback<MouseEnterEvent>(OnMouseEnterButton);
-        bGuardar.RegisterCallback<MouseLeaveEvent>(OnMouseLeaveButton);
+        bGuardar.RegisterCallback<MouseLeaveEvent>(OnMouseLeaveButtonOrElement);
 
         bAtacar.RegisterCallback<ClickEvent>(OnAtacarClicked);
         bAtacar.RegisterCallback<MouseEnterEvent>(OnMouseEnterButton);
-        bAtacar.RegisterCallback<MouseLeaveEvent>(OnMouseLeaveButton);
+        bAtacar.RegisterCallback<MouseLeaveEvent>(OnMouseLeaveButtonOrElement);
         bAtacarImprovisada.RegisterCallback<ClickEvent>(OnImprovisadaClicked);
         bAtacarImprovisada.RegisterCallback<MouseEnterEvent>(OnMouseEnterButton);
-        bAtacarImprovisada.RegisterCallback<MouseLeaveEvent>(OnMouseLeaveButton);
+        bAtacarImprovisada.RegisterCallback<MouseLeaveEvent>(OnMouseLeaveButtonOrElement);
         bEncontrarImprovisada.RegisterCallback<ClickEvent>(OnEncontrarClicked);
         bEncontrarImprovisada.RegisterCallback<MouseEnterEvent>(OnMouseEnterButton);
-        bEncontrarImprovisada.RegisterCallback<MouseLeaveEvent>(OnMouseLeaveButton);
+        bEncontrarImprovisada.RegisterCallback<MouseLeaveEvent>(OnMouseLeaveButtonOrElement);
         bRecargar.RegisterCallback<ClickEvent>(OnRecargarClicked);
         bRecargar.RegisterCallback<MouseEnterEvent>(OnMouseEnterButton);
-        bRecargar.RegisterCallback<MouseLeaveEvent>(OnMouseLeaveButton);
+        bRecargar.RegisterCallback<MouseLeaveEvent>(OnMouseLeaveButtonOrElement);
         bMarcialAtras.RegisterCallback<ClickEvent>(OnAtrasClicked);
         bMarcialAtras.RegisterCallback<MouseEnterEvent>(OnMouseEnterButton);
-        bMarcialAtras.RegisterCallback<MouseLeaveEvent>(OnMouseLeaveButton);
+        bMarcialAtras.RegisterCallback<MouseLeaveEvent>(OnMouseLeaveButtonOrElement);
 
         bArcanaAtras.RegisterCallback<ClickEvent>(OnAtrasClicked);
         RegisterTooltip(bArcanaAtras);
@@ -213,6 +218,68 @@ public class UICombate : MonoBehaviour
         ronda = root.Q<Label>("IniRonda");
 
         iniciativa = new List<List<Label>>();
+
+        //info Tooltips
+        //Label nombre = infoVital.ElementAt(0) as Label;
+        //Label herCan = infoVital.ElementAt(1) as Label;
+        //Label Guardia = infoVital.ElementAt(2) as Label;
+
+        //Label arma = infoTactica.ElementAt(0) as Label;
+        //Label bonus = infoTactica.ElementAt(1) as Label;
+        //Label daño = infoTactica.ElementAt(2) as Label;
+
+        for (int i = 0; i < 3; i++)
+        {
+            RegisterTooltip(infoCompleta.ElementAt(0).ElementAt(i));
+        }
+        for (int i = 0; i < 3; i++)
+        {
+            RegisterTooltip(infoCompleta.ElementAt(1).ElementAt(i));
+        }
+
+        VisualElement habilidades = infoCompleta.ElementAt(2).ElementAt(0);
+        VisualElement atributos = infoCompleta.ElementAt(2).ElementAt(1);
+
+        Debug.Log(atributos.name);
+         /////
+        int numeroDeHabilidades = 2;
+        Label[] habValores = new Label[numeroDeHabilidades];
+        for (int i = 0; i < numeroDeHabilidades; i++)
+        {
+            RegisterTooltip(habilidades.ElementAt(i));
+        }
+
+        int numeroDeAtributos = 5;
+        Label[] atrValores = new Label[numeroDeAtributos];
+        for (int i = 0; i < numeroDeAtributos; i++)
+        {
+            RegisterTooltip(atributos.ElementAt(i));
+        }
+
+        //Asignar valores
+        //nombre.text = p.nombre;
+        //if (p is cMatones)
+        //{
+        //    herCan.text = "Cantidad: " + (p as cMatones).cantidad;
+        //}
+        //else
+        //{
+        //    herCan.text = "Heridas: " + p.hDram;
+        //}
+
+        //Guardia.text = "Guardia: " + p.GetGuardia();
+        //bonus.text = "Bonus: " + p.bonusPAtqBporDefB;
+        //daño.text = "Daño: " + p.hSupe;
+        //arma.text = p.arma.GetString();
+
+        //habValores[0].text = p.hab.ataqueBasico.ToString();
+        //habValores[1].text = p.hab.defensaBasica.ToString();
+
+        //atrValores[0].text = p.atr.maña.ToString();
+        //atrValores[1].text = p.atr.musculo.ToString();
+        //atrValores[2].text = p.atr.ingenio.ToString();
+        //atrValores[3].text = p.atr.brio.ToString();
+        //atrValores[4].text = p.atr.donaire.ToString();
     }
 
     void Update()
@@ -232,7 +299,14 @@ public class UICombate : MonoBehaviour
     void RegisterTooltip(Button b)
     {
         b.RegisterCallback<MouseEnterEvent>(OnMouseEnterButton);
-        b.RegisterCallback<MouseLeaveEvent>(OnMouseLeaveButton);
+        b.RegisterCallback<MouseLeaveEvent>(OnMouseLeaveButtonOrElement);
+    }
+
+    void RegisterTooltip(VisualElement vE)
+    {
+        vE.RegisterCallback<MouseEnterEvent>(OnMouseEnterVE);
+        vE.RegisterCallback<MouseLeaveEvent>(OnMouseLeaveButtonOrElement);
+        Debug.Log("resgiter VE");
     }
 
     public void OnMouseEnterButton(MouseEnterEvent evt)
@@ -242,8 +316,16 @@ public class UICombate : MonoBehaviour
         tooltip.transform.position = evt.mousePosition;
         tooltip.text = (evt.target as Button).tooltip;
     }
+    
+    public void OnMouseEnterVE(MouseEnterEvent evt)
+    {
+        Debug.Log("enter VE");
+        hovering = true;
+        tooltip.transform.position = evt.mousePosition;
+        tooltip.text = (evt.target as VisualElement).tooltip;
+    }
 
-    public void OnMouseLeaveButton(MouseLeaveEvent evt)
+    public void OnMouseLeaveButtonOrElement(MouseLeaveEvent evt)
     {
         tooltip.style.display = DisplayStyle.None;
         hoverTimer = 0;
@@ -478,6 +560,12 @@ public class UICombate : MonoBehaviour
         fases.RemoveFromClassList("fase-" + fase.ToString());
     }
 
+    private void OnAvanzarClicked(ClickEvent evt)
+    {
+        if(!combate.esperandoObjetivo && !combate.esperandoZona && combate.esperandoOK) 
+            combate.AvanzarCombate();
+    }
+
     private void OnMarcialClicked(ClickEvent evt)
     {
         Debug.Log(combate.personajeActivo.nombre + " esta en zona " + combate.personajeActivo.GetZonaActual());
@@ -628,6 +716,7 @@ public class UICombate : MonoBehaviour
         //if(combate.movAgro) combate.accionActiva = cPersonaje.AC_MOVAGRE;
         //else combate.accionActiva = cPersonaje.AC_MOVPREC;
         RegistrarAccion();
+        combate.EsperandoOkOn(true);
         VolverAlCombate();
     }
 
@@ -642,7 +731,7 @@ public class UICombate : MonoBehaviour
         //Capaz en estos ifs mandar el reset? digo, tendria sentido
         if (combate.accionActiva == cPersonaje.AC_MOVAGRE) combate.accionActiva = cPersonaje.AC_ATACAR;
         else if (combate.accionActiva == cPersonaje.AC_MOVIMPRO) combate.accionActiva = cPersonaje.AC_ATACARIMPRO;
-
+        combate.EsperandoOkOn(true);
         RegistrarAccion();
         VolverAlCombate();
     }
@@ -738,7 +827,15 @@ public class UICombate : MonoBehaviour
         menuBackOnly.style.display = DisplayStyle.None;
         menuReaccion.style.display = DisplayStyle.None;
         menuIntervenir.style.display = DisplayStyle.None;
+        EsconderNombresDeZonas();
         Deseleccionar();
+    }
+
+    public void EsconderNombresDeZonas()
+    {
+        zona1.style.display = DisplayStyle.None;
+        zona2.style.display = DisplayStyle.None;
+        zona3.style.display = DisplayStyle.None;
     }
 
     private void VolverAlCombate()
@@ -753,8 +850,13 @@ public class UICombate : MonoBehaviour
 
     public void MostrarInfoPerVital(cPersonaje per)
     {
-            infoVital.transform.position = WorldToUIToolkit(per.transform.position, -70 - Screen.width / 2, 50);
-            infoVital.style.display = DisplayStyle.Flex;
+        Debug.Log("screen width: " + Screen.width);
+        //infoVital.transform.position = WorldToUIToolkit(per.transform.position, -(Screen.width/27) - Screen.width / 2, (Screen.height / 21));
+        float wProp = 1920.0f / Screen.width;
+        Debug.Log("wProp: " + wProp);
+        MyWorldToScreen(per.transform.position, infoVital, -Screen.width / 20.0f/wProp, -Screen.height / 20.0f);
+        //-Screen.width/20, -Screen.height / 20
+        infoVital.style.display = DisplayStyle.Flex;
             LlenarInfoVital(per);
     }
 
@@ -776,6 +878,7 @@ public class UICombate : MonoBehaviour
 
     public Vector3 WorldToUIToolkit(Vector3 world, float xOffset, float yOffset)
     {
+        //cam.WorldToScreenPoint
         Vector3 temp = cam.WorldToViewportPoint(world);
         return new Vector3(temp.x * Screen.width + xOffset, (1 - temp.y) * Screen.height + yOffset, 0);
     } 
@@ -798,8 +901,20 @@ public class UICombate : MonoBehaviour
         infoVital.style.display = DisplayStyle.None;
         infoCompleta.style.display = DisplayStyle.None;
         infoTactica.style.display = DisplayStyle.Flex;
-        infoTactica.transform.position = WorldToUIToolkit(per.transform.position, -70 - Screen.width / 2, 50);
+        //infoTactica.transform.position = WorldToUIToolkit(per.transform.position, -70 - Screen.width / 2, 50);
+        float wProp = 1920.0f / Screen.width;
+        MyWorldToScreen(per.transform.position, infoTactica, -Screen.width/20.0f/wProp, -Screen.height / 20.0f);
+        //-Screen.width/20, -Screen.height / 20
         LlenarInfoTactica(per);
+    }
+
+    public void MyWorldToScreen(Vector3 pos, VisualElement ui, float xOffset, float yOffset)
+    {
+        float wProp = 1920.0f / Screen.width; 
+        float hProp = 1080.0f / Screen.height;
+        Vector3 screen = Camera.main.WorldToViewportPoint(pos);
+        ui.style.left = (screen.x * Screen.width + xOffset)*wProp;
+        ui.style.top = (Screen.height * (1-screen.y) - yOffset)*hProp;
     }
 
     public void LlenarInfoTactica(cPersonaje per)

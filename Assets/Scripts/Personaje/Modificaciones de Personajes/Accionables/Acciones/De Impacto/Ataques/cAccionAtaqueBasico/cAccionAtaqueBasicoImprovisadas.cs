@@ -21,6 +21,11 @@ public class cAccionAtaqueBasicoImprovisadas : cAccionAtaqueBasico
         return numeroDeDados;
     }
 
+    override protected void armaImpro()
+    {
+        Debug.Log("arma imrpvo impro");
+        (personaje.arma as cArmasPelea).ActualizarDataDeImprovisada(true);
+    }
 
     override public void RevisarLegalidad()
     {

@@ -110,6 +110,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1f05bebeb94ce64c91cbd1c676237de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mostrandoTactica: 0
+  hovered: 0
   quiereActuar: 0
   acciones: []
   reacciones: []
@@ -117,7 +119,6 @@ MonoBehaviour:
   py: {fileID: 0}
   selected: 0
   c: {fileID: 0}
-  gC: {fileID: 0}
   ai: {fileID: 0}
   aiCode: 0
   arma: {fileID: 0}

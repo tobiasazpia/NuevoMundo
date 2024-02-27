@@ -19,7 +19,7 @@
 
 .tooltip {
     padding: 5px;
-    background-color: rgba(254, 236, 229, 0.6);
+    background-color: rgba(254, 236, 229, 0.8);
 }
 
 .button {
