@@ -195,7 +195,6 @@ public class cCombate : MonoBehaviour
     public void AvanzarCombate()
     {
         //EsperandoOkOn(false);
-        Debug.Log("combat state: " + stateID);
         switch (stateID)
         {
             //El combate hace todo el set up, y cuando esta listo para empezar, entra en iniciando ronda
@@ -206,7 +205,6 @@ public class cCombate : MonoBehaviour
                 TirarIniciativa();
                 break;
             case BUSCANDO_ACCION: // A PreguntandoAccion o si no hay, Terminando Ronda
-                Debug.Log("buscando accion");
                 BuscarAccion();
                 break;
             case PREGUNTANDO_ACCION: // ResolviendoAccion
@@ -703,7 +701,7 @@ public class cCombate : MonoBehaviour
         {
             foreach (var zona in zonas[personajeActivo.GetZonaActual()].zonasLimitrofes)
             {
-                if (zona == pers.GetZonaActual() && pers.equipo != personajeActivo.equipo) return true;
+                if (zona == pers.GetZonaActual() && pers.equipo != personajeActivo.equipo && pers.vivo) return true;
             }
         }
         return false;
@@ -787,14 +785,12 @@ public class cCombate : MonoBehaviour
         //No se que hacen estos
         auto = false;
         esperandoAccion = true;
-        Debug.Log("Soft A");
         esperandoObjetivo = false;
         esperandoZona = false;
         esperandoCarga = false;
 
         //ui
         uiC.PedirAccion(personajeActivo);
-        EsperandoOkOn(false);
     }
 
     void PedirMarcial()
@@ -1033,6 +1029,7 @@ public class cCombate : MonoBehaviour
             personajes[i].transform.position = new Vector3(personajes[i].GetZonaActual() * 10 - 10, 0, i * 4.5f - 12);
             personajes[i].SetAI(combatientes[i].iA);
             personajes[i].SetArma(combatientes[i].arma);
+            personajes[i].DescansoCompleto();
         }
     }
 

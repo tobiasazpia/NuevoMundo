@@ -8,7 +8,6 @@ public class cReaccionDefensaBasica : cReaccionDefensa
     public const int DB_TIRANDO = 1;
     public const int DB_CONSECUENCIAS = 2;
 
-    public int db_state;
     public int dadosATirar;
     public int defensa;
     public bool exito;
@@ -18,13 +17,15 @@ public class cReaccionDefensaBasica : cReaccionDefensa
     {
         GetObjets();
         nombre = "Defensa Basica";
+        reroleandoState = DB_TIRANDO;
     }
 
     override public void Ejecutar()
     {
-        switch (db_state)
+        switch (acc_state)
         {
             case DB_DETERMINANDO_DADOS:
+                uiC.acc = this;
                 DeterminadoDados();
                 break;
             case DB_TIRANDO:
@@ -36,7 +37,7 @@ public class cReaccionDefensaBasica : cReaccionDefensa
             default:
                 break;
         }
-        db_state++;
+        acc_state++;
         c.EsperandoOkOn(true);
     }
 
@@ -99,6 +100,7 @@ public class cReaccionDefensaBasica : cReaccionDefensa
             }
             uiC.SetText(personaje.nombre + " saca " + defensa + ", " + resultado + " el movimiento de " + c.personajeActivo.nombre +".");
         }
+        if (personaje.drama) uiC.PedirDrama();
     }
 
     public void Consecuencias()
@@ -134,7 +136,7 @@ public class cReaccionDefensaBasica : cReaccionDefensa
             c.personajeActivo.GetAccionPorNumero(c.accionActiva).ResetMensaje();
         }
         uiC.ActualizarIniciativa(c.personajes);
-        db_state = DB_DETERMINANDO_DADOS - 1;
+        acc_state = DB_DETERMINANDO_DADOS - 1;
     }
 
     override public int DeterminarNumeroDeDados()

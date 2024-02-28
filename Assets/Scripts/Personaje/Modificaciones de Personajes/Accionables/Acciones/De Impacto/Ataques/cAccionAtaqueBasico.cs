@@ -13,7 +13,6 @@ public class cAccionAtaqueBasico : cAccionAtaque
     public const int AB_TERMINADO = 5;
     public const int AB_ERROR = -1;
 
-    public int ab_state;
     public int dadosATirar;
 
     protected string textoAdicional = "";
@@ -25,6 +24,7 @@ public class cAccionAtaqueBasico : cAccionAtaque
         categoria = cAcciones.AC_CAT_MARCIAL;
         var root = GameObject.Find("UI").GetComponent<UIDocument>().rootVisualElement;
         boton = root.Q<Button>("ButtonAtacar");
+        reroleandoState = AB_TIRANDO;
     }
 
     override public void RevisarLegalidad()
@@ -35,11 +35,12 @@ public class cAccionAtaqueBasico : cAccionAtaque
 
     override public void Ejecutar()
     {
-        Debug.Log("ejecutando ataque basico, ab state: " + ab_state);
-        switch (ab_state)
+        Debug.Log("state " + acc_state);
+        switch (acc_state)
         {
             case AB_DETERMINANDO_DADOS:
                 //Debug.Log("ab_state 0");
+                uiC.acc = this;
                 DeterminadoDados();
                 break;
             case AB_TIRANDO:
@@ -68,7 +69,7 @@ public class cAccionAtaqueBasico : cAccionAtaque
             default:
                 break;
         }
-        ab_state++;
+        acc_state++;
         //Debug.Log("despues de ++ ab_state es:" + ab_state);
         //switch (ab_state)
         //{
@@ -127,9 +128,13 @@ public class cAccionAtaqueBasico : cAccionAtaque
         }
         else
         {
-            c.personajeActivo.GastarDado(c.faseActual, c.acciones, c.accionesActivas, c.accionesReactivas, text);
-            uiC.ActualizarIniciativa(c.personajes);
+            if (!reroleando)
+            {
+                c.personajeActivo.GastarDado(c.faseActual, c.acciones, c.accionesActivas, c.accionesReactivas, text);
+                uiC.ActualizarIniciativa(c.personajes);
+            }
         }
+        reroleando = false;
     }
 
     virtual protected void armaImpro()
@@ -154,6 +159,7 @@ public class cAccionAtaqueBasico : cAccionAtaque
             resultado = NoSuperamosGuardia();
         }
         uiC.SetText(c.personajeActivo.nombre + " saca " + c.jugadorAtq + ", " + resultado + " el ataque contra la guardia de " + c.personajeObjetivo.GetGuardia() + " de " + c.personajeObjetivo.nombre + "." + textoAdicional);
+        if (personaje.drama) uiC.PedirDrama();
     }
 
     virtual protected string SuperamosGuardia()
@@ -164,7 +170,7 @@ public class cAccionAtaqueBasico : cAccionAtaque
 
     virtual protected string NoSuperamosGuardia()
     {
-        ab_state = AB_TERMINADO - 1;
+        acc_state = AB_TERMINADO - 1;
         return "fallando";
     }
 
@@ -246,7 +252,7 @@ public class cAccionAtaqueBasico : cAccionAtaque
 
         if (posiblesReacciones.Count > 0 && !intentaronDetenerlo)
         {
-            ab_state--;
+            acc_state--;
             c.personajeInterversor = posiblesReacciones[0];
             posiblesReacciones.RemoveAt(0);
             c.stateID = cCombate.PREGUNTANDO_REACCION;
@@ -258,7 +264,7 @@ public class cAccionAtaqueBasico : cAccionAtaque
             //if (mostrarMensaje2)
             //{
                 uiC.SetText("¡Nadie detuvo el ataque, da en blanco!");
-                if (c.personajeObjetivo is cMatones) ab_state++; //Saltear Daño
+                if (c.personajeObjetivo is cMatones) acc_state++; //Saltear Daño
                 mostrarMensaje1 = true;
             //}
             //else
@@ -280,6 +286,7 @@ public class cAccionAtaqueBasico : cAccionAtaque
             c.daño = cDieMath.sumaDe3Mayores(tr);
             uiC.SetText(personaje.nombre + ", con sus " + personaje.atr.musculo + " en Musculo y multiplicador de " + personaje.arma.GetMusMult() + ", tira " + numeroDeDados + " dados ¡Haciendo " + c.daño + " de daño!");
             personaje.bonusPAtqBporDefB = 0;
+            //if (personaje.drama) uiC.PedirDrama();
         }
     }
 
@@ -330,7 +337,7 @@ public class cAccionAtaqueBasico : cAccionAtaque
     override public void ResetState()
     {
         Debug.Log("ab state reseteado");
-        ab_state = AB_DETERMINANDO_DADOS - 1;
+        acc_state = AB_DETERMINANDO_DADOS - 1;
     }
 
     override public void ResetMensaje()

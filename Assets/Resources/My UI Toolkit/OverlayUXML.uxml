@@ -339,6 +339,10 @@
                     <ui:Button display-tooltip-when-elided="true" name="ButtonDefenderImpro" tooltip="Defensa Básica lanzando arma improvisada" class="button-main-menu button-combat-action button base" style="display: none; background-image: resource(&apos;Images/Icons/improvisada-Icon&apos;);" />
                     <ui:Button display-tooltip-when-elided="true" name="ButtonIntervenirAtras" tooltip="Atras" class="button-main-menu button-combat-action button base" style="background-image: resource(&apos;Images/Icons/icon-backup&apos;); display: none;" />
                 </ui:VisualElement>
+                <ui:VisualElement name="MenuDrama" style="display: none; flex-direction: row;">
+                    <ui:Button display-tooltip-when-elided="true" name="ButtonDrama" tooltip="Gastar Drama para reintentar la tirada" class="button-main-menu button-combat-action button base" style="background-image: resource(&apos;Images/Icons/Drama-Icon&apos;); display: flex;" />
+                    <ui:Button display-tooltip-when-elided="true" name="ButtonNoDrama" tooltip="Guardar el drama para otra tirada" class="button-main-menu button-combat-action button base" style="background-image: resource(&apos;Images/Icons/Wait-Icon-2&apos;); display: flex;" />
+                </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>
         <ui:VisualElement name="BottomHalfContainer" style="flex-direction: row; width: 100%; height: 100%;">

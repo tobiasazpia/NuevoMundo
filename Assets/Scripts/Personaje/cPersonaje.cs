@@ -71,6 +71,7 @@ public class cPersonaje : MonoBehaviour
     public int fallamosDefPor;
     public int hSupe;
     public int hDram;
+    public bool drama;
     public int zonaActual;
     public int zonaInicial;
 
@@ -117,9 +118,7 @@ public class cPersonaje : MonoBehaviour
 
     public void SetZonaActual(int nuevaZona)
     {
-        Debug.Log(nombre + "ZONA VIEJA: " + GetZonaActual());
         zonaActual = nuevaZona;
-        Debug.Log(nombre + "ZONA NUEVA: " + GetZonaActual());
     }
 
     public cPersonaje NuevoPersonaje(cPersonajeFlyweight flyweight)
@@ -136,10 +135,12 @@ public class cPersonaje : MonoBehaviour
 
     public void SetAI(int aiCode)
     {
+        drama = false;
         switch (aiCode)
         {
             case cAI.PLAYER_CONTROLLED:
                 ai = null;
+                drama = true;
                 break;
             case cAI.FULL_AGGRO:
                 ai = gameObject.AddComponent(typeof(cAIFullAggro)) as cAIFullAggro;
@@ -445,6 +446,7 @@ public class cPersonaje : MonoBehaviour
             text += " " + nombre + " tuvo exito en la tirada de Heridas!";
         }
         uiC.SetText(text);
+        //if (drama) uiC.PedirDrama();
     }
 
     public void HeridoPorArmaDeFuego()
@@ -492,6 +494,7 @@ public class cPersonaje : MonoBehaviour
         int numeroDeDados = GetDadosBaseIniciativa() + atr.donaire * 3 + arma.GetBonusIniciativa();
         dadosDeAccion = RollDadosdeAccion(numeroDeDados);
         CalcularTotalDeIniciativa();
+        //if (drama) uiC.PedirDrama();
     }
 
     public virtual int GetDadosBaseIniciativa()
@@ -610,4 +613,13 @@ public class cPersonaje : MonoBehaviour
             }
         }
     }
+
+    public void DescansoCompleto()
+    {
+        if(ai == null) drama = true;
+        hDram = 0;
+        hSupe = 0;
+        vivo = true;
+    }
+
 }

@@ -54,7 +54,7 @@ public class cAccionAtaqueBasicoImprovisadas : cAccionAtaqueBasico
                 pierdeArma = " Pierde su arma improvisada por usarla a rango.";
                 (personaje.arma as cArmasPelea).PerderArmaImprovisada();
             }
-            ab_state = AB_TERMINADO - 1;
+            acc_state = AB_TERMINADO - 1;
         }
         uiC.SetText(c.personajeActivo.nombre + " saca " + c.jugadorAtq + ", " + resultado + " el ataque contra la guardia de " + c.personajeObjetivo.GetGuardia() + " de " + c.personajeObjetivo.nombre + "." + pierdeArma);
     }

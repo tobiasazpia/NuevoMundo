@@ -34,7 +34,7 @@ public class EscarmuzaManager : MonoBehaviour
         cPersonajeFlyweight a = gameObject.AddComponent(typeof(cPersonajeFlyweight)) as cPersonajeFlyweight;
         a.nombre = "Ariel";
         a.iA = cAI.PLAYER_CONTROLLED;
-        a.arma = cArma.PELEA;
+        a.arma = cArma.MEDIAS;
         a.equipo = 1;
         a.esMaton = false;
         //a.esMaton = true;

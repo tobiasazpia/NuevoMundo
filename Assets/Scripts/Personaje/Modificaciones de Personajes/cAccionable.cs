@@ -8,6 +8,9 @@ public class cAccionable : MonoBehaviour
     public string nombre;
     public Button boton;
     public bool esLegal;
+    public int acc_state;
+    public int reroleandoState;
+    public bool reroleando = false;
 
     public cPersonaje personaje;
 
@@ -27,5 +30,15 @@ public class cAccionable : MonoBehaviour
     virtual public int DeterminarNumeroDeDados()
     {
         return 0;
+    }
+
+    public void UsaDrama()
+    {
+        uiC.SetText("¡Usamos Drama! Vamos a volver a tirar los dados.");
+        acc_state = reroleandoState;
+        personaje.drama = false;
+        reroleando = true;
+        c.EsperandoOkOn(true);
+        Debug.Log("Drama usado");
     }
 }

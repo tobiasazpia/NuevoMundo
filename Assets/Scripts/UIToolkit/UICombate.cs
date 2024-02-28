@@ -5,6 +5,8 @@ using UnityEngine.UIElements;
 
 public class UICombate : MonoBehaviour
 {
+    public cAccionable acc;
+
     public Camera cam;
     public cCombate combate; //idealmente esto no estaria aca, ya veremos com ose saca, pero por ahroa lo necesito para decirle que los botones manden 
 
@@ -17,6 +19,7 @@ public class UICombate : MonoBehaviour
     private VisualElement menuBackOnly;
     private VisualElement menuReaccion;
     private VisualElement menuIntervenir;
+    private VisualElement menuDrama;
     private VisualElement fases;
 
     private Button bAvanzar;
@@ -47,6 +50,9 @@ public class UICombate : MonoBehaviour
     private Button bIntervenirAtras;
 
     private Button bAtrasSolo;
+
+    private Button bDrama;
+    private Button bNoDrama;
 
     private Label texto;
     private Label ronda;
@@ -98,6 +104,7 @@ public class UICombate : MonoBehaviour
         menuMover = root.Q<VisualElement>("MenuMovimiento");
         menuReaccion = root.Q<VisualElement>("MenuReaccion");
         menuIntervenir = root.Q<VisualElement>("MenuIntervenir");
+        menuDrama = root.Q<VisualElement>("MenuDrama");
 
         bAvanzar = root.Q<Button>("ButtonAvanzar");
 
@@ -125,6 +132,9 @@ public class UICombate : MonoBehaviour
         bDefenderImpro = root.Q<Button>("ButtonDefenderImpro");
         bDefender = root.Q<Button>("ButtonDefender");
         bIntervenirAtras = root.Q<Button>("ButtonIntervenirAtras");
+
+        bDrama = root.Q<Button>("ButtonDrama");
+        bNoDrama = root.Q<Button>("ButtonNoDrama");
 
         bAtrasSolo = root.Q<Button>("ButtonAtrasSolo");
 
@@ -208,6 +218,11 @@ public class UICombate : MonoBehaviour
         bIntervenirAtras.RegisterCallback<ClickEvent>(OnIntervenirAtrasClicked);
         RegisterTooltip(bIntervenirAtras);
 
+        bDrama.RegisterCallback<ClickEvent>(OnDramaClicked);
+        RegisterTooltip(bDrama);
+        bNoDrama.RegisterCallback<ClickEvent>(OnNoDramaClicked);
+        RegisterTooltip(bNoDrama);
+
         bAtrasSolo.RegisterCallback<ClickEvent>(OnAtrasClicked);
         RegisterTooltip(bAtrasSolo);
 
@@ -240,8 +255,6 @@ public class UICombate : MonoBehaviour
         VisualElement habilidades = infoCompleta.ElementAt(2).ElementAt(0);
         VisualElement atributos = infoCompleta.ElementAt(2).ElementAt(1);
 
-        Debug.Log(atributos.name);
-         /////
         int numeroDeHabilidades = 2;
         Label[] habValores = new Label[numeroDeHabilidades];
         for (int i = 0; i < numeroDeHabilidades; i++)
@@ -305,8 +318,7 @@ public class UICombate : MonoBehaviour
     void RegisterTooltip(VisualElement vE)
     {
         vE.RegisterCallback<MouseEnterEvent>(OnMouseEnterVE);
-        vE.RegisterCallback<MouseLeaveEvent>(OnMouseLeaveButtonOrElement);
-        Debug.Log("resgiter VE");
+        vE.RegisterCallback<MouseLeaveEvent>(OnMouseLeaveButtonOrElement);       
     }
 
     public void OnMouseEnterButton(MouseEnterEvent evt)
@@ -405,6 +417,7 @@ public class UICombate : MonoBehaviour
 
     public void PedirAccion(cPersonaje personaje)
     {
+        combate.EsperandoOkOn(false);
         SetText(personaje.nombre + ": que vas a hacer?");
         menuAccion.style.display = DisplayStyle.Flex;
         bMarcial.style.display = DisplayStyle.Flex;
@@ -416,7 +429,15 @@ public class UICombate : MonoBehaviour
     public void PedirReaccion(cPersonaje personaje)
     {
         menuReaccion.style.display = DisplayStyle.Flex;
-        string text = personaje.nombre + ": ¿Queres intervenir";
+        string text = personaje.nombre + ": ¿Queres intervenir contra ";
+        if (combate.atacando)
+        {
+            text += combate.jugadorAtq;
+        }
+        else
+        {
+            text += combate.personajeActivo.GetGuardia();
+        }
         bReaccionar.style.display = DisplayStyle.Flex;
         text += "?";
         SetText(text);
@@ -455,24 +476,19 @@ public class UICombate : MonoBehaviour
     {
         foreach (var item in acciones)
         {
-            Debug.Log("Viendo si " + item.nombre + " es legal");
             if (item.categoria != categoria)
             {
-                Debug.Log("no es de categoria " + categoria);
                 item.boton.style.display = DisplayStyle.None;
             }
             else
             {
-                Debug.Log("es de categoria");
                 item.RevisarLegalidad();
                 if (item.esLegal)
                 {
-                    Debug.Log("es legal, muestra");
                     item.boton.style.display = DisplayStyle.Flex;
                 }
                 else
                 {
-                    Debug.Log("no es legal, no muestra");
                     item.boton.style.display = DisplayStyle.None;
                 }
             }
@@ -504,6 +520,23 @@ public class UICombate : MonoBehaviour
         menuMover.style.display = DisplayStyle.Flex;
         VerQueBotonesPonemos(cAcciones.AC_CAT_MOVIMIENTO, personaje.acciones);
         bMoverAtras.style.display = DisplayStyle.Flex;
+    }
+
+    public void PedirDrama()
+    {
+        //To do:
+        // Ya hay varias opciones en las que usar drama
+        // la unica que probamos es el ataque basico normal
+        // pero falta el improvisado, el de fuego, el de arco, y el movimiento con carga
+        // la defensa basica
+        // y el daño, heridas e iniciativa
+        //en teoria deberia pedir drama siempre, y si no lo usan creo que ya deberian andar todas
+        //pero si lo usan va a ser un problema, porque daño, heridas e iniciativa no son "accionables"
+        // ni idea como vamos a vovler "un paso" para atras
+        //solucion temporal: que por ahora el drama sea solo para las tiradas de accion?
+        Debug.Log("pedir drama");
+        combate.EsperandoOkOn(false);
+        menuDrama.style.display = DisplayStyle.Flex;
     }
 
     public void DejarDePedirAccion()
@@ -703,6 +736,19 @@ public class UICombate : MonoBehaviour
         esperandoZona = true;
         combate.movAgro = true;
         combate.movPrec = false;
+        VolverAlCombate();
+    }
+
+    private void OnDramaClicked(ClickEvent evt)
+    {
+        acc.UsaDrama();
+        menuDrama.style.display = DisplayStyle.None;
+    }
+
+    private void OnNoDramaClicked(ClickEvent evt)
+    {
+        menuDrama.style.display = DisplayStyle.None;
+        combate.EsperandoOkOn(true);
         VolverAlCombate();
     }
 
