@@ -28,7 +28,6 @@ public class cAccionMovimientoAgresivo : cAccionMovimiento
 
     override public void Ejecutar()
     {
-        Debug.Log("mov agro state: " + movag_state);
         switch (movag_state)
         {
             case MOVAG_INICIO:
@@ -132,11 +131,8 @@ public class cAccionMovimientoAgresivo : cAccionMovimiento
                     {
                         foreach (var item in c.zonas[p.GetZonaActual()].zonasEnRango)
                         {
-                            Debug.Log("zona en rango: " + item);
-                            Debug.Log("zona que buscamos: " + (c.personajeActivo.GetZonaActual()));
                             if (item == c.personajeActivo.GetZonaActual())
                             {
-                                Debug.Log("return true, deberia tener reaccion disponible");
                                 posiblesReaccionesSinObjetivo.Add(p);
                                 break;
                             }

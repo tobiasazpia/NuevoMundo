@@ -12,7 +12,6 @@ public class cReaccionDefensaBasicaImprovisadas : cReaccionDefensaBasica
 
     override protected void Tirando()
     {
-        Debug.Log("tirando");
         tirada tr = cDieMath.TirarDados(dadosATirar);
         defensa = cDieMath.sumaDe3Mayores(tr);
         c.jugadorDef = defensa;

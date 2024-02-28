@@ -23,7 +23,6 @@ public class cAccionMovimientoPrecavido : cAccionMovimiento
 
     override public void Ejecutar()
     {
-        Debug.Log("mov prec state: " + mov_state);
         switch (mov_state)
         {
             case MOV_INICIO:
@@ -131,11 +130,8 @@ public class cAccionMovimientoPrecavido : cAccionMovimiento
                     {
                         foreach (var item in c.zonas[p.GetZonaActual()].zonasEnRango)
                         {
-                            Debug.Log("zona en rango: " + item);
-                            Debug.Log("zona que buscamos: " + (c.personajeActivo.GetZonaActual()));
                             if (item == c.personajeActivo.GetZonaActual())
                             {
-                                Debug.Log("return true, deberia tener reaccion disponible");
                                 posiblesReaccionesSinObjetivo.Add(p);
                             }
                         }

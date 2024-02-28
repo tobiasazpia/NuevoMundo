@@ -160,19 +160,16 @@ public class cCombate : MonoBehaviour
 
                 if (py.actions["OK"].WasPressedThisFrame() && !esperandoObjetivo && !esperandoZona && esperandoOK)
                 {
-                    Debug.Log("ok pressed");
                     AvanzarCombate();
                 }
 
                 else if (py.actions["Deselect"].WasPressedThisFrame())
                 {
-                    Debug.Log("deselect pressed");
                     uiC.Deseleccionar();
                 }
 
                 else if (py.actions["Pause"].WasPressedThisFrame())
                 {
-                    Debug.Log("pause pressed");
                     pause = true;
                     uiC.Pause();
                 }
@@ -250,7 +247,6 @@ public class cCombate : MonoBehaviour
 
     public void LimpiarCombate()
     {
-        Debug.Log("limpiar combate");
         enCombate = false;
         uiC.Deseleccionar();
         foreach (var item in personajes)
@@ -551,11 +547,9 @@ public class cCombate : MonoBehaviour
 
     public void ResolverAccion()
     {
-        Debug.Log("Resolver Accion, Accion Activa: " + GetNombreDeAccion(accionActiva));
         personajeActivo.Accionar(GetNombreDeAccion(accionActiva));
         if (stateID != RESOLVIENDO_ACCION && stateID != PREGUNTANDO_REACCION)
         {
-            Debug.Log("personaje actuo event");
             cEventManager.StartPersonajeActuoEvent(personajeActivo);
         }
     }
@@ -851,7 +845,6 @@ public class cCombate : MonoBehaviour
     public void RemoverPersonaje(cPersonaje p)
     {
         ActualizarMaterialAIncapacitado(p);
-        Debug.Log("Per o matones murio");
         p.vivo = false;
         for (int i = acciones.Count - 1; i >= 0; i--)
         {
@@ -867,7 +860,6 @@ public class cCombate : MonoBehaviour
                 accionesActivas.Remove(accionesActivas[i]);
             }
         }
-        Debug.Log("cantidad de reacciones que tenia: " + accionesReactivas.Count);
         for (int i = accionesReactivas.Count - 1; i >= 0; i--)
         {
             if (accionesReactivas[i].per.nombre == p.nombre)

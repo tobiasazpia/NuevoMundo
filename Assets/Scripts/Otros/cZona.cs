@@ -72,7 +72,6 @@ public class cZona : MonoBehaviour
             //seleccionar
             if (py.actions["Select"].WasPressedThisFrame())
             {
-                Debug.Log("zona cliked: ");
                 uiC.OnZonaclicked(index);
                 uiC.combate.esperandoZona = false;
                 uiC.esperandoZona = false;
@@ -88,5 +87,10 @@ public class cZona : MonoBehaviour
     private void OnMouseExit()
     {
         nombreUI.style.display = DisplayStyle.None;
+    }
+
+    void OnDisable()
+    {
+        unres();
     }
 }

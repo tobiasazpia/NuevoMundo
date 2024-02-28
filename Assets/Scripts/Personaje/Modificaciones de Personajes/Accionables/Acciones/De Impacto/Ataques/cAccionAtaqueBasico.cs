@@ -35,7 +35,6 @@ public class cAccionAtaqueBasico : cAccionAtaque
 
     override public void Ejecutar()
     {
-        Debug.Log("state " + acc_state);
         switch (acc_state)
         {
             case AB_DETERMINANDO_DADOS:
@@ -102,9 +101,6 @@ public class cAccionAtaqueBasico : cAccionAtaque
 
     virtual protected void DeterminadoDados()
     {
-        Debug.Log("zona de atacante: " + personaje.GetZonaActual());
-        Debug.Log("zona de per activo: " + c.personajeActivo.GetZonaActual());
-        Debug.Log("zona de objetivo: " + c.personajeObjetivo.GetZonaActual());
         c.atacando = true;
         intentaronDetenerlo = false;    
         c.jugadorDef = 0;
@@ -128,18 +124,17 @@ public class cAccionAtaqueBasico : cAccionAtaque
         }
         else
         {
-            if (!reroleando)
-            {
+            //if (!reroleando)
+            //{
                 c.personajeActivo.GastarDado(c.faseActual, c.acciones, c.accionesActivas, c.accionesReactivas, text);
                 uiC.ActualizarIniciativa(c.personajes);
-            }
+            //}
         }
         reroleando = false;
     }
 
     virtual protected void armaImpro()
     {
-        Debug.Log("arma imrpvo basico");
         (personaje.arma as cArmasPelea).ActualizarDataDeImprovisada(false);
     }
 
@@ -336,7 +331,6 @@ public class cAccionAtaqueBasico : cAccionAtaque
 
     override public void ResetState()
     {
-        Debug.Log("ab state reseteado");
         acc_state = AB_DETERMINANDO_DADOS - 1;
     }
 

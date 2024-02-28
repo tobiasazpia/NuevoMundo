@@ -39,6 +39,5 @@ public class cAccionable : MonoBehaviour
         personaje.drama = false;
         reroleando = true;
         c.EsperandoOkOn(true);
-        Debug.Log("Drama usado");
     }
 }

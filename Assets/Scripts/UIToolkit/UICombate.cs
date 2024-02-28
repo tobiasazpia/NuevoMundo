@@ -534,7 +534,6 @@ public class UICombate : MonoBehaviour
         //pero si lo usan va a ser un problema, porque daño, heridas e iniciativa no son "accionables"
         // ni idea como vamos a vovler "un paso" para atras
         //solucion temporal: que por ahora el drama sea solo para las tiradas de accion?
-        Debug.Log("pedir drama");
         combate.EsperandoOkOn(false);
         menuDrama.style.display = DisplayStyle.Flex;
     }
@@ -601,14 +600,6 @@ public class UICombate : MonoBehaviour
 
     private void OnMarcialClicked(ClickEvent evt)
     {
-        Debug.Log(combate.personajeActivo.nombre + " esta en zona " + combate.personajeActivo.GetZonaActual());
-        foreach (var item in combate.personajes)
-        {
-            if(item.equipo != combate.personajeActivo.equipo && item.vivo)
-            {
-                Debug.Log("Enemigo " + item.nombre + " esta en zona " + item.GetZonaActual());
-            }
-        }
         combate.accionActiva = cPersonaje.AC_MARCIAL;
         menuAccion.style.display = DisplayStyle.None;
         menuMarcial.style.display = DisplayStyle.Flex;
@@ -769,7 +760,6 @@ public class UICombate : MonoBehaviour
     public void OnPersonajeClicked(cPersonaje p)
     {
         menuBackOnly.style.display = DisplayStyle.None;
-        Debug.Log("Soft C");
         combate.esperandoObjetivo = false;
         combate.personajeObjetivo = p;
         combate.atacando = true;
@@ -784,24 +774,20 @@ public class UICombate : MonoBehaviour
 
     public void RegistrarAccion()
     {
-        Debug.Log("Registrando Accion, cantidad jguadores que ya actuaron esta ronda: " + combate.ultimosEnActuar.Count);
         //se actuo
         foreach (var item in combate.ultimosEnActuar)
         {
             if (item.nombre == combate.personajeActivo.nombre)
             {
-                Debug.Log("ya estaba en la lista, lo sacamos y...");
                 combate.ultimosEnActuar.Remove(combate.personajeActivo);
                 break;
             }
         }
-        Debug.Log("lo metemos");
         combate.ultimosEnActuar.Add(combate.personajeActivo);
         foreach (var item in combate.personajes)
         {
             item.guardando = false;
         }
-        Debug.Log("Cantidad jguadores que ya actuaron esta ronda: " + combate.ultimosEnActuar.Count);
     }
 
 
@@ -891,15 +877,12 @@ public class UICombate : MonoBehaviour
 
     private void OnMouseOver()
     {
-        Debug.Log("mouse over");
     }
 
     public void MostrarInfoPerVital(cPersonaje per)
     {
-        Debug.Log("screen width: " + Screen.width);
         //infoVital.transform.position = WorldToUIToolkit(per.transform.position, -(Screen.width/27) - Screen.width / 2, (Screen.height / 21));
         float wProp = 1920.0f / Screen.width;
-        Debug.Log("wProp: " + wProp);
         MyWorldToScreen(per.transform.position, infoVital, -Screen.width / 20.0f/wProp, -Screen.height / 20.0f);
         //-Screen.width/20, -Screen.height / 20
         infoVital.style.display = DisplayStyle.Flex;
