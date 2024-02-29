@@ -53,7 +53,7 @@ public class cRoguelikeUpgrade : MonoBehaviour
         }
 
         //cada 5 las tres son pj upgrade
-        if (rM.nivel % 5 == 0)
+        if (rM.nivel % 5 == 0 && rM.nivel < 14)
         {
             List<int> ilegales = rM.rC.PersonajesYaEnEquipo();
             Debug.Log("todos pjs");
@@ -93,11 +93,12 @@ public class cRoguelikeUpgrade : MonoBehaviour
         {
             Debug.Log("una doble");
             upgrades[0].tipoDeUpgrade = cRoguelikeUpgradeData.RU_SIMPLE;
+            upgrades[1].tipoDeUpgrade = cRoguelikeUpgradeData.RU_DOBLE;
             upgrades[2].tipoDeUpgrade = cRoguelikeUpgradeData.RU_SIMPLE;
             DefinirUpgrade(0, 1);
-            DefinirUpgrade(2, 1);
-            upgrades[1].tipoDeUpgrade = cRoguelikeUpgradeData.RU_DOBLE;
             DefinirUpgrade(1, 2);
+            DefinirUpgrade(2, 1);
+
             for (int i = 0; i < 3; i++)
             {
                 CambiarTexto(i, upgrades[i]);
@@ -215,20 +216,20 @@ public class cRoguelikeUpgrade : MonoBehaviour
         }
         weighted = WeightearElementos(counts, max);
 
-        switch (upgrades[slot].upgradesList[subUpgradeNum].subTipoDeUpgrade)
-        {
-            case 0:
-                Debug.Log("Hasta este, ab " + weighted[0] + " si no DB");
-                break;
-            case 1:
-                Debug.Log("Hasta este, maña " + weighted[0]);
-                Debug.Log("Hasta este, musuclo " + (weighted[0] + weighted[1]));
-                Debug.Log("Hasta este, ingenio " + (weighted[0] + weighted[1] + weighted[2]));
-                Debug.Log("Hasta este, brio " + (weighted[0] + weighted[1] + weighted[2] + weighted[3]) + "si no, donaire");
-                break;
-            default:
-                break;
-        }
+        //switch (upgrades[slot].upgradesList[subUpgradeNum].subTipoDeUpgrade)
+        //{
+        //    case 0:
+        //        Debug.Log("Hasta este, ab " + weighted[0] + " si no DB");
+        //        break;
+        //    case 1:
+        //        Debug.Log("Hasta este, maña " + weighted[0]);
+        //        Debug.Log("Hasta este, musuclo " + (weighted[0] + weighted[1]));
+        //        Debug.Log("Hasta este, ingenio " + (weighted[0] + weighted[1] + weighted[2]));
+        //        Debug.Log("Hasta este, brio " + (weighted[0] + weighted[1] + weighted[2] + weighted[3]) + "si no, donaire");
+        //        break;
+        //    default:
+        //        break;
+        //}
         upgrades[slot].upgradesList[subUpgradeNum].elementoAUpgradear = GetWeightedElement(weighted);
     }
 
@@ -240,59 +241,48 @@ public class cRoguelikeUpgrade : MonoBehaviour
 
     bool UpgradeYaSeleccionadoEnGeneral(int slot, int subUpgradeNum, int subTipo, int elemento)
     {
-        Debug.Log("Checkeando ya seleccion en general, Slot: " + slot + ", SubUp: " + subUpgradeNum + ", SubTipo: " + subTipo + "y Elemento: " + elemento);
+        //Debug.Log("Checkeando ya seleccion en general, Slot: " + slot + ", SubUp: " + subUpgradeNum + ", SubTipo: " + subTipo + "y Elemento: " + elemento);
         for (int i = slot; i >= 0; i--)
         {
             for (int j = 0; j < upgrades[i].upgradesList.Count; j++)
             {
-                if(slot != i || subUpgradeNum != j) /// es decir, que no se trata de este elemento
+                if (slot != i || subUpgradeNum != j) /// es decir, que no se trata de este elemento
                 {
                     if (upgrades[i].upgradesList[j].subTipoDeUpgrade == subTipo && upgrades[i].upgradesList[j].elementoAUpgradear == elemento)
                     {
-                        Debug.Log("true");
                         return true;
                     }
                 }
             }
         }
-        Debug.Log("false");
         return false;      
     }
 
     bool UpgradeYaSeleccionadoEstaUpgrade(int slot, int subUpgradeNum, int subTipo, int elemento)
     {
-        Debug.Log("Checkeando ya seleccion esta upgrade, Slot: " + slot + ", SubUp: " + subUpgradeNum + ", SubTipo: " + subTipo + "y Elemento: " + elemento);
         for (int i = subUpgradeNum; i >= 0; i--)
         {
             if (subUpgradeNum != i) /// es decir, que no se trata de este elemento
             {
                 if (upgrades[slot].upgradesList[i].subTipoDeUpgrade == subTipo && upgrades[slot].upgradesList[i].elementoAUpgradear == elemento)
                 {
-                    Debug.Log("true");
                     return true;
                 }
             }
         }
-        Debug.Log("false");
         return false;
     }
 
     int GetWeightedElement(List<int> weighted)
     {
         int r = cDieMath.MyRandomUpgrade();
-        Debug.Log("R salio: " + r);
-        Debug.Log("weight count: " + weighted.Count);
         int weightsSum = 0;
         for (int i = 0; i < weighted.Count; i++)
         {
             if (i + 1 == weighted.Count) return i;//si es la ultima opcion, es el resultado
-            Debug.Log("for loop i: " + i);
             weightsSum += weighted[i];
-            Debug.Log("new weight: " + weighted[i]);
-            Debug.Log("weightsSum: " + weightsSum);
             if (r < weightsSum)
             {
-                Debug.Log("retornado: " + i);
                 return i;
             }
         }
@@ -312,7 +302,7 @@ public class cRoguelikeUpgrade : MonoBehaviour
         if (total == 0)
         {
             int defaulValue = 0;
-            if (valores.Count != 0) defaulValue = 100 / valores.Count; // estto no entiendo porque pasa
+            if (valores.Count != 0) defaulValue = 100 / valores.Count; // esto no entiendo porque pasa
             //en realida si total 0 es porque el per ya esta maxeado, nunca deberia pasar
             foreach (var item in valores)
             {
@@ -360,10 +350,10 @@ public class cRoguelikeUpgrade : MonoBehaviour
         return val;
     }
 
-    public void NuevoPJ(int index)
+    public void NuevoPJ(int index, int lvl)
     {
         rM.party.Add(gameObject.AddComponent(typeof(cPersonajeFlyweight)) as cPersonajeFlyweight);
-        rM.party[rM.party.Count - 1].Copiar(rM.rC.templatesPersonajes[index]);
+        rM.party[rM.party.Count - 1].Copiar(rM.rC.templatesPersonajes[lvl][index]);
         rM.party[rM.party.Count - 1].equipo = 1;
         rM.party[rM.party.Count - 1].esMaton = false;
         rM.party[rM.party.Count - 1].iA = cAI.PLAYER_CONTROLLED;
@@ -372,7 +362,6 @@ public class cRoguelikeUpgrade : MonoBehaviour
     public void CambiarTexto(int index, cRoguelikeUpgradeData aUpgradear)
     {
         string text = "";
-        Debug.Log("amount of single upgrade: " + aUpgradear.upgradesList.Count);
         for (int i = 0; i < aUpgradear.upgradesList.Count; i++)
         {
             switch (aUpgradear.upgradesList[i].subTipoDeUpgrade)
@@ -424,7 +413,9 @@ public class cRoguelikeUpgrade : MonoBehaviour
 
     public void CambiarTextoUPJ(int index, cRoguelikeUpgradeData upgrade)
     {
-        cPersonajeFlyweight p = rM.rC.templatesPersonajes[upgrade.upgradesList[0].elementoAUpgradear];
+        int lvl = 2;
+        if (rM.nivel < 7) lvl = 1;
+        cPersonajeFlyweight p = rM.rC.templatesPersonajes[lvl][upgrade.upgradesList[0].elementoAUpgradear];
         string text = p.nombre + " ( " + cArma.GetString(p.arma) + " )";
         uiRU.SetUpgradeText(index, text);
     }
@@ -519,18 +510,14 @@ public class cRoguelikeUpgrade : MonoBehaviour
 
     public void UpgradeIndividual(cRoguelikeUpgradeData upgrade, int subUpgradeNum)
     {
-        Debug.Log("aplicando upgrade simple");
-        DBUpgrades();
-        DBSingleUpgrade(upgrade);
+        //DBUpgrades();
+        //DBSingleUpgrade(upgrade);
         switch (upgrade.upgradesList[subUpgradeNum].subTipoDeUpgrade)
         {
             case cRoguelikeUpgradeData.RUST_HAB: // habs
-                Debug.Log("habs");
-                Debug.Log(upgrade.upgradesList[subUpgradeNum].elementoAUpgradear);
                 switch (upgrade.upgradesList[subUpgradeNum].elementoAUpgradear)
                 {
                     case 0:
-                        Debug.Log("upgrade ab aplicado");
                         rM.party[upgrade.objetivoDeUpgrade].hab.ataqueBasico++;
                         break;
                     case 1:
@@ -541,8 +528,6 @@ public class cRoguelikeUpgrade : MonoBehaviour
                 }
                 break;
             case cRoguelikeUpgradeData.RUST_ATR: //atr
-                Debug.Log("atrs");
-                Debug.Log(upgrade.upgradesList[subUpgradeNum].elementoAUpgradear);
                 switch (upgrade.upgradesList[subUpgradeNum].elementoAUpgradear)
                 {
                     case 0:
@@ -571,7 +556,10 @@ public class cRoguelikeUpgrade : MonoBehaviour
 
     public void UpgradePJ(cRoguelikeUpgradeData upgrade)
     {
-        NuevoPJ(upgrade.upgradesList[0].elementoAUpgradear);
+        int lvl;
+        if (rM.nivel < 7) lvl = 1;
+        else lvl = 2;
+        NuevoPJ(upgrade.upgradesList[0].elementoAUpgradear,lvl);
     }
 
     void Listorti()

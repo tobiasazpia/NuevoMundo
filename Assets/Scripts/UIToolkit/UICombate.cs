@@ -85,15 +85,15 @@ public class UICombate : MonoBehaviour
     Label infoTBonus;
     Label infoTDaño;
 
-   public Label zona1;
-   public Label zona2;
-   public Label zona3;
+    public Label zona1;
+    public Label zona2;
+    public Label zona3;
 
     // Start is called before the first frame update
     void Start()
     {
         var root = GetComponent<UIDocument>().rootVisualElement;
-  
+
         pCombate = root.Q<VisualElement>("PantallaCombate");
 
         fases = root.Q<VisualElement>("IndicadorFaseContainer");
@@ -159,8 +159,8 @@ public class UICombate : MonoBehaviour
         infoTBonus = root.Q<Label>("InfoTactBonus");
         infoTDaño = root.Q<Label>("InfoTactDano");
 
-        zona1   = root.Q<Label>("Zona1");
-        zona2   = root.Q<Label>("Zona2");
+        zona1 = root.Q<Label>("Zona1");
+        zona2 = root.Q<Label>("Zona2");
         zona3 = root.Q<Label>("Zona3");
 
         bAvanzar.RegisterCallback<ClickEvent>(OnAvanzarClicked);
@@ -318,7 +318,7 @@ public class UICombate : MonoBehaviour
     void RegisterTooltip(VisualElement vE)
     {
         vE.RegisterCallback<MouseEnterEvent>(OnMouseEnterVE);
-        vE.RegisterCallback<MouseLeaveEvent>(OnMouseLeaveButtonOrElement);       
+        vE.RegisterCallback<MouseLeaveEvent>(OnMouseLeaveButtonOrElement);
     }
 
     public void OnMouseEnterButton(MouseEnterEvent evt)
@@ -328,7 +328,7 @@ public class UICombate : MonoBehaviour
         tooltip.transform.position = evt.mousePosition;
         tooltip.text = (evt.target as Button).tooltip;
     }
-    
+
     public void OnMouseEnterVE(MouseEnterEvent evt)
     {
         Debug.Log("enter VE");
@@ -594,7 +594,7 @@ public class UICombate : MonoBehaviour
 
     private void OnAvanzarClicked(ClickEvent evt)
     {
-        if(!combate.esperandoObjetivo && !combate.esperandoZona && combate.esperandoOK) 
+        if (!combate.esperandoObjetivo && !combate.esperandoZona && combate.esperandoOK)
             combate.AvanzarCombate();
     }
 
@@ -883,17 +883,17 @@ public class UICombate : MonoBehaviour
     {
         //infoVital.transform.position = WorldToUIToolkit(per.transform.position, -(Screen.width/27) - Screen.width / 2, (Screen.height / 21));
         float wProp = 1920.0f / Screen.width;
-        MyWorldToScreen(per.transform.position, infoVital, -Screen.width / 20.0f/wProp, -Screen.height / 20.0f);
+        MyWorldToScreen(per.transform.position, infoVital, -Screen.width / 20.0f / wProp, -Screen.height / 20.0f);
         //-Screen.width/20, -Screen.height / 20
         infoVital.style.display = DisplayStyle.Flex;
-            LlenarInfoVital(per);
+        LlenarInfoVital(per);
     }
 
     public void LlenarInfoVital(cPersonaje per)
     {
         infoVNombre.text = per.nombre;
 
-        if(per is cMatones)
+        if (per is cMatones)
         {
             infoVHerCan.text = "Cantidad: " + (per as cMatones).cantidad;
         }
@@ -910,7 +910,7 @@ public class UICombate : MonoBehaviour
         //cam.WorldToScreenPoint
         Vector3 temp = cam.WorldToViewportPoint(world);
         return new Vector3(temp.x * Screen.width + xOffset, (1 - temp.y) * Screen.height + yOffset, 0);
-    } 
+    }
 
     public void EsconderInfoPerVital()
     {
@@ -932,18 +932,18 @@ public class UICombate : MonoBehaviour
         infoTactica.style.display = DisplayStyle.Flex;
         //infoTactica.transform.position = WorldToUIToolkit(per.transform.position, -70 - Screen.width / 2, 50);
         float wProp = 1920.0f / Screen.width;
-        MyWorldToScreen(per.transform.position, infoTactica, -Screen.width/20.0f/wProp, -Screen.height / 20.0f);
+        MyWorldToScreen(per.transform.position, infoTactica, -Screen.width / 20.0f / wProp, -Screen.height / 20.0f);
         //-Screen.width/20, -Screen.height / 20
         LlenarInfoTactica(per);
     }
 
     public void MyWorldToScreen(Vector3 pos, VisualElement ui, float xOffset, float yOffset)
     {
-        float wProp = 1920.0f / Screen.width; 
+        float wProp = 1920.0f / Screen.width;
         float hProp = 1080.0f / Screen.height;
         Vector3 screen = Camera.main.WorldToViewportPoint(pos);
-        ui.style.left = (screen.x * Screen.width + xOffset)*wProp;
-        ui.style.top = (Screen.height * (1-screen.y) - yOffset)*hProp;
+        ui.style.left = (screen.x * Screen.width + xOffset) * wProp;
+        ui.style.top = (Screen.height * (1 - screen.y) - yOffset) * hProp;
     }
 
     public void LlenarInfoTactica(cPersonaje per)
@@ -957,7 +957,7 @@ public class UICombate : MonoBehaviour
         infoTDaño.text = "Daño: " + per.hSupe;
     }
 
-        public void EsconderInfoPerTactica()
+    public void EsconderInfoPerTactica()
     {
         infoTactica.style.display = DisplayStyle.None;
         combate.perSeleccionado = null;
@@ -967,7 +967,7 @@ public class UICombate : MonoBehaviour
     {
         EsconderInfoPerTactica();
         infoCompleta.style.display = DisplayStyle.Flex;
-        UIInterface.FillPlayer(per,infoCompleta);
+        UIInterface.FillPlayer(per, infoCompleta);
     }
 
     public void EsconderInfoPerCompleta()

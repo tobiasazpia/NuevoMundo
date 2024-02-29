@@ -248,7 +248,7 @@ public class cCombate : MonoBehaviour
     public void LimpiarCombate()
     {
         enCombate = false;
-        uiC.Deseleccionar();
+        uiC.LeaveCombat();
         foreach (var item in personajes)
         {
             for (int i = 0; i < item.dadosDeAccion.Length; i++)
@@ -277,9 +277,11 @@ public class cCombate : MonoBehaviour
         if (acciones != null) acciones.Clear();
         if (accionesActivas != null) accionesActivas.Clear();
         if (accionesReactivas != null) accionesReactivas.Clear();
+
         uiC.ResetRonda();
         List<cPersonaje> emptyL = new List<cPersonaje>();
         uiC.SetNombres(emptyL);
+
         pause = false;
     }
 

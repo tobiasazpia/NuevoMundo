@@ -13,7 +13,6 @@ public class cPersonajeFlyweight : MonoBehaviour
     public int equipo;
     public bool esMaton;
     public int cantidad;
-
     public int modGuardiaDeMaton;
 
     // Start is called before the first frame update

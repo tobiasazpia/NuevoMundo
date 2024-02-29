@@ -74,8 +74,7 @@ public class UIInterface : MonoBehaviour
         VisualElement atributos = vE.ElementAt(2);
 
         Label nombre = encabezado.ElementAt(0) as Label;
-        Label tipo = encabezado.ElementAt(1) as Label;
-        Label arma = encabezado.ElementAt(2) as Label;
+        Label arma = encabezado.ElementAt(1) as Label;
 
         int numeroDeHabilidades = 2;
         Label[] habValores = new Label[numeroDeHabilidades];
@@ -93,8 +92,6 @@ public class UIInterface : MonoBehaviour
 
         //Asignar valores
         nombre.text = p.nombre;
-        if (p.esMaton) tipo.text = "(matones)";
-        else tipo.text = "(heroe)";
         arma.text = cArma.GetString(p.arma);
 
         habValores[0].text = p.hab.ataqueBasico.ToString();
@@ -166,16 +163,12 @@ public class UIInterface : MonoBehaviour
     static public void NoPlayer(VisualElement vE)
     {
         VisualElement encabezado = vE.ElementAt(0);
-        VisualElement habilidades = vE.ElementAt(1);
-        VisualElement atributos = vE.ElementAt(2);
 
         Label nombre = encabezado.ElementAt(0) as Label;
-        Label tipo = encabezado.ElementAt(1) as Label;
-        Label arma = encabezado.ElementAt(2) as Label;
+        Label arma = encabezado.ElementAt(1) as Label;
 
         //Asignar valores
         nombre.text = " - ";
-        tipo.text = " - ";
         arma.text = " - ";
     }
 

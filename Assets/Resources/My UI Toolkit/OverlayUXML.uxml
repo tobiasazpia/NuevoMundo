@@ -55,7 +55,6 @@
             <ui:VisualElement name="RoguelikePersonaje1" class="button-main-menu base" style="height: auto; width: 100%; margin-left: 20px; margin-right: 20px; margin-top: 20px; margin-bottom: 20px; padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 10px;">
                 <ui:VisualElement name="PerEncabezado" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
                     <ui:Label text="Nombre" display-tooltip-when-elided="true" name="PerNombre" />
-                    <ui:Label text="Tipo" display-tooltip-when-elided="true" name="PerTipo" />
                     <ui:Label text="Arma" display-tooltip-when-elided="true" name="PerArma" />
                 </ui:VisualElement>
                 <ui:VisualElement name="PerHab" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
@@ -94,7 +93,6 @@
             <ui:VisualElement name="RoguelikePersonaje2" class="button-main-menu base" style="height: auto; width: 100%; margin-left: 20px; margin-right: 20px; margin-top: 20px; margin-bottom: 20px; padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 10px;">
                 <ui:VisualElement name="PerEncabezado" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
                     <ui:Label text="Nombre" display-tooltip-when-elided="true" name="PerNombre" />
-                    <ui:Label text="Tipo" display-tooltip-when-elided="true" name="PerTipo" />
                     <ui:Label text="Arma" display-tooltip-when-elided="true" name="PerArma" />
                 </ui:VisualElement>
                 <ui:VisualElement name="PerHab" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
@@ -133,7 +131,6 @@
             <ui:VisualElement name="RoguelikePersonaje3" class="button-main-menu base" style="height: auto; width: 100%; margin-left: 20px; margin-right: 20px; margin-top: 20px; margin-bottom: 20px; padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 10px;">
                 <ui:VisualElement name="PerEncabezado" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
                     <ui:Label text="Nombre" display-tooltip-when-elided="true" name="PerNombre" />
-                    <ui:Label text="Tipo" display-tooltip-when-elided="true" name="PerTipo" />
                     <ui:Label text="Arma" display-tooltip-when-elided="true" name="PerArma" />
                 </ui:VisualElement>
                 <ui:VisualElement name="PerHab" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
@@ -182,7 +179,6 @@
             <ui:VisualElement name="RoguelikePersonajeFinal1" class="button-main-menu base" style="height: auto; width: 100%; margin-left: 20px; margin-right: 20px; margin-top: 20px; margin-bottom: 20px; padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 10px;">
                 <ui:VisualElement name="PerEncabezado" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
                     <ui:Label text="Nombre" display-tooltip-when-elided="true" name="PerNombre" />
-                    <ui:Label text="Tipo" display-tooltip-when-elided="true" name="PerTipo" />
                     <ui:Label text="Arma" display-tooltip-when-elided="true" name="PerArma" />
                 </ui:VisualElement>
                 <ui:VisualElement name="PerHab" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
@@ -221,7 +217,6 @@
             <ui:VisualElement name="RoguelikePersonajeFinal2" class="button-main-menu base" style="height: auto; width: 100%; margin-left: 20px; margin-right: 20px; margin-top: 20px; margin-bottom: 20px; padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 10px;">
                 <ui:VisualElement name="PerEncabezado" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
                     <ui:Label text="Nombre" display-tooltip-when-elided="true" name="PerNombre" />
-                    <ui:Label text="Tipo" display-tooltip-when-elided="true" name="PerTipo" />
                     <ui:Label text="Arma" display-tooltip-when-elided="true" name="PerArma" />
                 </ui:VisualElement>
                 <ui:VisualElement name="PerHab" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
@@ -260,7 +255,6 @@
             <ui:VisualElement name="RoguelikePersonajeFinal3" class="button-main-menu base" style="height: auto; width: 100%; margin-left: 20px; margin-right: 20px; margin-top: 20px; margin-bottom: 20px; padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 10px;">
                 <ui:VisualElement name="PerEncabezado" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
                     <ui:Label text="Nombre" display-tooltip-when-elided="true" name="PerNombre" />
-                    <ui:Label text="Tipo" display-tooltip-when-elided="true" name="PerTipo" />
                     <ui:Label text="Arma" display-tooltip-when-elided="true" name="PerArma" />
                 </ui:VisualElement>
                 <ui:VisualElement name="PerHab" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">

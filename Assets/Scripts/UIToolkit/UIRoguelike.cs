@@ -60,7 +60,7 @@ public class UIRoguelike : MonoBehaviour
         bArma2.RegisterCallback<ClickEvent>(onBArma2Clicked);
         bEmpezar.RegisterCallback<ClickEvent>(onBEmpezarClicked);
 
-        tNombre.RegisterCallback<ChangeEvent<string>>(OnEndEditingName);
+        tNombre.RegisterCallback<KeyDownEvent>(OnEndEditingName);
     }
 
     public void RoguelikeSelected()
@@ -92,26 +92,29 @@ public class UIRoguelike : MonoBehaviour
         rM.EmpezarCombate();
     }
 
-    private void OnEndEditingName(ChangeEvent<string> evt)
+    private void OnEndEditingName(KeyDownEvent evt)
     {
-        nombreJugador = evt.newValue;
+        if (evt.keyCode == KeyCode.Return)
+        {
+            nombreJugador = tNombre.text;
 
-        choices[0] = new int[3];
-        choices[0][0] = Random.Range(0, 6);
-        choices[0][1] = Random.Range(0, 5);
-        choices[0][2] = Random.Range(0, 2);
+            choices[0] = new int[3];
+            choices[0][0] = Random.Range(0, 6);
+            choices[0][1] = Random.Range(0, 5);
+            choices[0][2] = Random.Range(0, 2);
 
-        choices[1] = new int[3];
-        choices[1][0] = Random.Range(0, 5);
-        if (choices[1][0] >= choices[0][0]) choices[1][0]++;
-        choices[1][1] = Random.Range(0, 4);
-        if (choices[1][1] >= choices[0][1]) choices[1][1]++;
-        choices[1][2] = Random.Range(0, 2);
+            choices[1] = new int[3];
+            choices[1][0] = Random.Range(0, 5);
+            if (choices[1][0] >= choices[0][0]) choices[1][0]++;
+            choices[1][1] = Random.Range(0, 4);
+            if (choices[1][1] >= choices[0][1]) choices[1][1]++;
+            choices[1][2] = Random.Range(0, 2);
 
-        bArma1.text = cArma.GetString(choices[0][0]) + " - " + cArma.GetHabilidadString(choices[0][2]) + " - " + cPersonaje.GetAtritbutoString(choices[0][1]);
-        bArma2.text = cArma.GetString(choices[1][0]) + " - " + cArma.GetHabilidadString(choices[1][2]) + " - " + cPersonaje.GetAtritbutoString(choices[1][1]);
+            bArma1.text = cArma.GetString(choices[0][0]) + " - " + cArma.GetHabilidadString(choices[0][2]) + " - " + cPersonaje.GetAtritbutoString(choices[0][1]);
+            bArma2.text = cArma.GetString(choices[1][0]) + " - " + cArma.GetHabilidadString(choices[1][2]) + " - " + cPersonaje.GetAtritbutoString(choices[1][1]);
 
-        UIInterface.SetCurrent(pRoguelikeArma);
+            UIInterface.SetCurrent(pRoguelikeArma);
+        }
     }
 
     private void ARoguelikeListo(string armaNombre)
