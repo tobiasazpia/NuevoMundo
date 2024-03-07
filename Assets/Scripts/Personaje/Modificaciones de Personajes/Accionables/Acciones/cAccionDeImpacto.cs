@@ -14,7 +14,7 @@ public class cAccionDeImpacto : cAcciones
     {
         if (mostrarMensaje1)
         {
-            uiC.SetText("¿Intentara detenerlo alguien?");
+            uiC.SetText("¿Intentará detenerlo alguien?");
             mostrarMensaje1 = false;
             mostrarMensaje2 = false;
         }

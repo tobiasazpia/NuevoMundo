@@ -47,7 +47,6 @@ public class UIInterface : MonoBehaviour
 
     static public void GoEscarmuza()
     {
-        Debug.Log("go escarmuza");
         SetCurrent(pEscarmuza);
     }
 
@@ -66,7 +65,7 @@ public class UIInterface : MonoBehaviour
         SetCurrent(pUpgrade);
     }
 
-    static public void FillPlayer(cPersonajeFlyweight p, VisualElement vE)
+    static public void FillPlayer(cPersonajeFlyweight p, VisualElement vE, bool isEnd)
     {
         //Buscar elementos UI
         VisualElement encabezado = vE.ElementAt(0);
@@ -75,12 +74,31 @@ public class UIInterface : MonoBehaviour
 
         Label nombre = encabezado.ElementAt(0) as Label;
         Label arma = encabezado.ElementAt(1) as Label;
+        UIRoguelikeUpgrade.ArmaTooltip(p.arma,arma);
+        Debug.Log("arma tooltip 1" + arma.tooltip);
+        if (!isEnd)
+        {
+            VisualElement herCont = encabezado.ElementAt(2);
+            VisualElement dramaCont = encabezado.ElementAt(3);
+
+            (herCont.ElementAt(1) as Label).text = p.heridas.ToString();
+            if (p.drama)
+            {
+                (dramaCont.ElementAt(1) as Label).text = "Sí";
+            }
+            else
+            {
+                (dramaCont.ElementAt(1) as Label).text = "No";
+            }
+
+        }
 
         int numeroDeHabilidades = 2;
         Label[] habValores = new Label[numeroDeHabilidades];
         for (int i = 0; i < numeroDeHabilidades; i++)
         {
             habValores[i] = habilidades.ElementAt(i).ElementAt(1) as Label;
+            
         }
 
         int numeroDeAtributos = 5;
@@ -104,6 +122,42 @@ public class UIInterface : MonoBehaviour
         atrValores[4].text = p.atr.donaire.ToString();
     }
 
+    static public void FillPlayerBasics(cPersonajeFlyweight p, VisualElement vE)
+    {
+        VisualElement encabezado = vE.ElementAt(0);
+
+        Label nombre = encabezado.ElementAt(0) as Label;
+
+        VisualElement herCont = encabezado.ElementAt(1).ElementAt(0);
+        VisualElement dramaCont = encabezado.ElementAt(1).ElementAt(1);
+
+        nombre.text = p.nombre;
+        (herCont.ElementAt(1) as Label).text = p.heridas.ToString();
+        if (p.drama)
+        {
+            (dramaCont.ElementAt(1) as Label).text = "Sí";
+        }
+        else
+        {
+            (dramaCont.ElementAt(1) as Label).text = "No";
+        }
+
+    }
+    
+    static public void NoPlayerBasics(VisualElement vE)
+    {
+        VisualElement encabezado = vE.ElementAt(0);
+
+        Label nombre = encabezado.ElementAt(0) as Label;
+
+        VisualElement herCont = encabezado.ElementAt(1).ElementAt(0);
+        VisualElement dramaCont = encabezado.ElementAt(1).ElementAt(1);
+
+        nombre.text = "-";
+        (herCont.ElementAt(1) as Label).text = "-";
+        (dramaCont.ElementAt(1) as Label).text = "-";
+    }
+
     static public void FillPlayer(cPersonaje p, VisualElement vE)
     {
         VisualElement vital = vE.ElementAt(0);
@@ -112,9 +166,12 @@ public class UIInterface : MonoBehaviour
 
         Label nombre = vital.ElementAt(0) as Label;
         Label herCan = vital.ElementAt(1) as Label;
-        Label Guardia = vital.ElementAt(2) as Label;
+        Label drama = vital.ElementAt(2) as Label;
+        Label Guardia = vital.ElementAt(3) as Label;
 
         Label arma = tactica.ElementAt(0) as Label;
+        UIRoguelikeUpgrade.ArmaTooltip(p.armaCode, arma);
+        Debug.Log("arma tooltip 2" + arma.tooltip);
         Label bonus = tactica.ElementAt(1) as Label;
         Label daño = tactica.ElementAt(2) as Label;
 
@@ -137,18 +194,31 @@ public class UIInterface : MonoBehaviour
 
         //Asignar valores
         nombre.text = p.nombre;
-        if(p is cMatones)
+        if (p is cMatones)
         {
-            herCan.text = "Cantidad: " + (p as cMatones).cantidad;
+            herCan.text = "Cantidad: " + (p as cMatones).Cantidad;
         }
         else
         {
-            herCan.text = "Heridas: " + p.hDram;
+            herCan.text = "Heridas: " + p.Heridas;
         }
         Guardia.text = "Guardia: " + p.GetGuardia();
-        bonus.text = "Bonus: " + p.bonusPAtqBporDefB;
-        daño.text = "Daño: " +p.hSupe;
+        bonus.text = "Bonus: " + p.BonusPAtqBporDefB;
+        if (p is cMatones) daño.style.display = DisplayStyle.None;
+        else
+        {
+            daño.style.display = DisplayStyle.Flex;
+            daño.text = "Daño: " + p.Daño;
+        }
         arma.text = p.arma.GetString();
+        if (p.Drama)
+        {
+            drama.text = "Drama - Sí";
+        }
+        else
+        {
+            drama.text = "Drama - No";
+        }
 
         habValores[0].text = p.hab.ataqueBasico.ToString();
         habValores[1].text = p.hab.defensaBasica.ToString();
@@ -170,6 +240,26 @@ public class UIInterface : MonoBehaviour
         //Asignar valores
         nombre.text = " - ";
         arma.text = " - ";
+    }
+
+    static public string NombreDePersonajeEnNegrita(cPersonaje per)
+    {
+        return "<b>" + per.nombre + "</b>";
+    }
+
+    static public string IntEnNegrita(int num)
+    {
+        return "<b>" + num + "</b>";
+    }
+
+    static public string IntExitoso(int num)
+    {
+        return "<b><color=#15942eff>" + num + "</color></b>";
+    }
+
+    static public string IntFallido(int num)
+    {
+        return "<b><color=red>" + num + "</color></b>";
     }
 
     static public void QuitGame()

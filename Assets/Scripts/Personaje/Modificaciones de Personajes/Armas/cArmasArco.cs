@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class cArmasArco : cArma
 {
+    public static new string Descripcion = "Resalta atacando desde lejos, protegiendo aliados y controlando enemigos.";
+    public static new string Reglas = "Multiplicador de Musculo: 0, Base para Matones adicionales: 9. Rango: puede atacar y defender otras zonas, pero tiene -1d al tener enemigos en su misma zona. +2d a defender a otros y a detener movimiento. -1d si defiende de o ataca a un enemigo en su misma zona.";
     // Start is called before the first frame update
     void Start()
     {

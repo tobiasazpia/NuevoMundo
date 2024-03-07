@@ -52,16 +52,16 @@ public class cReaccionDefensaBasica : cReaccionDefensa
                 (personaje.arma as cArmasPelea).PerderArmaImprovisada();
                 armasImprovisadas = " " + personaje.nombre + " lanza su arma improvisada.";
             }
-            uiC.SetText(personaje.nombre + " trata de intervenir con " + dadosATirar + " dados contra la guardia de " + c.personajeActivo.nombre + " de " + c.personajeActivo.GetGuardia() + "." + armasImprovisadas);
+            uiC.SetText(UIInterface.NombreDePersonajeEnNegrita(personaje) + " trata de intervenir con " + dadosATirar + " dados contra la guardia de " + UIInterface.NombreDePersonajeEnNegrita(c.personajeActivo) + " de " + c.personajeActivo.GetGuardia() + "." + armasImprovisadas);
         }
         else
         {
             if (personaje.GetZonaActual() != c.personajeActivo.GetZonaActual() && personaje.GetZonaActual() != c.personajeObjetivo.GetZonaActual() && personaje.arma is cArmasPelea)
             {
                 (personaje.arma as cArmasPelea).PerderArmaImprovisada();
-                armasImprovisadas = " " + personaje.nombre + " lanza su arma improvisada.";
+                armasImprovisadas = " " + UIInterface.NombreDePersonajeEnNegrita(personaje) + " lanza su arma improvisada.";
             }
-            uiC.SetText(personaje.nombre + " trata de defender con " + dadosATirar + " dados contra el ataque de " + c.personajeActivo.nombre + " de " + c.jugadorAtq +"." + armasImprovisadas);
+            uiC.SetText(UIInterface.NombreDePersonajeEnNegrita(personaje) + " trata de defender con " + dadosATirar + " dados contra el ataque de " + UIInterface.NombreDePersonajeEnNegrita(c.personajeActivo) + " de " + UIInterface.IntEnNegrita(c.jugadorAtq) +"." + armasImprovisadas);
         }
     }
 
@@ -70,51 +70,66 @@ public class cReaccionDefensaBasica : cReaccionDefensa
         tirada tr = cDieMath.TirarDados(dadosATirar);
         defensa = cDieMath.sumaDe3Mayores(tr);
         c.jugadorDef = defensa;
+        string def;
         string resultado;
-        c.personajeActivo.bonusPAtqBporDefB = 0;
+        uiC.perCambio = c.personajeActivo.nombre;
+        c.personajeActivo.BonusPAtqBporDefB = 0;
         if (c.atacando)
         {
-            if (defensa >= c.jugadorAtq)
+            exito = defensa >= c.jugadorAtq;
+            if (exito)
             {
-                exito = true;
                 resultado = "deteniendo";
+                def = UIInterface.IntExitoso(defensa);
             }
             else
             {
-                exito = false;
                 resultado = "no pudiendo detener";
+                def = UIInterface.IntFallido(defensa);
             }
-            uiC.SetText(personaje.nombre + " saca " + defensa + ", " + resultado + " el ataque de " + c.jugadorAtq + ".");
+            uiC.SetText(UIInterface.NombreDePersonajeEnNegrita(personaje) + " saca " + def + ", " + resultado + " el ataque de " +  UIInterface.IntEnNegrita(c.jugadorAtq) + ".");
         }
         else
         {
-            if (defensa >= c.personajeActivo.GetGuardia())
+            exito = defensa >= c.personajeActivo.GetGuardia();
+            if (exito)
             {
                 resultado = "deteniendo";
-                exito = true;
+                def = UIInterface.IntExitoso(defensa);
             }
             else
             {
-                exito = false;
                 resultado = "no pudiendo detener";
+                def = UIInterface.IntFallido(defensa);
             }
-            uiC.SetText(personaje.nombre + " saca " + defensa + ", " + resultado + " el movimiento de " + c.personajeActivo.nombre +".");
+            uiC.SetText(UIInterface.NombreDePersonajeEnNegrita(personaje) + " saca " + def + ", " + resultado + " el movimiento de " + UIInterface.NombreDePersonajeEnNegrita(c.personajeActivo) +".");
         }
-        if (personaje.drama) uiC.PedirDrama();
+        if (personaje.Drama && !exito) uiC.PedirDrama();
     }
 
     public void Consecuencias()
     {
         string text = "";
+        string curar = "";
         if (exito)
         {
+            
             int dif = 0;
-            if(c.atacando) dif = defensa - c.jugadorAtq;
+            if (c.atacando) { 
+                dif = defensa - c.jugadorAtq;
+                if(c.personajeObjetivo.Daño > 0)
+                {
+                    c.personajeObjetivo.Daño = 0;
+                    curar = " " + UIInterface.NombreDePersonajeEnNegrita(c.personajeObjetivo) + " puede tomar un respiro y se recupera de su daño.";
+                }
+            }
             else dif = defensa - c.personajeActivo.GetGuardia();
-            personaje.bonusPAtqBporDefB += dif;
-            text = ("Tuvo exito por " + dif + ", y tirara " + personaje.bonusPAtqBporDefB + " dados adicionales en su proximo Ataque Basico y su Daño.");
+            uiC.perCambio = personaje.nombre;
+            personaje.BonusPAtqBporDefB += dif;
+            text = ("Tuvo éxito por " + dif + ", y tirará " + UIInterface.IntExitoso(personaje.BonusPAtqBporDefB) + " dados adicionales en su proximo Ataque Básico y su Daño.") + curar;
             personaje.GastarDado(c.faseActual, c.acciones, c.accionesActivas, c.accionesReactivas, text);
             c.stateID = cCombate.BUSCANDO_ACCION;
+            cEventManager.StartPersonajeActuoEvent(c.personajeActivo);
             c.personajeActivo.GetAccionPorNumero(c.accionActiva).ResetState();
             c.accionActiva = -1;
         }
@@ -133,6 +148,7 @@ public class cReaccionDefensaBasica : cReaccionDefensa
             c.personajeActivo.GetAccionPorNumero(c.accionActiva).intentaronDetenerlo = true;
             c.personajeActivo.GetAccionPorNumero(c.accionActiva).ResetMensaje();
         }
+        cEventManager.StartPersonajeActuoEvent(personaje);
         uiC.ActualizarIniciativa(c.personajes);
         acc_state = DB_DETERMINANDO_DADOS - 1;
     }

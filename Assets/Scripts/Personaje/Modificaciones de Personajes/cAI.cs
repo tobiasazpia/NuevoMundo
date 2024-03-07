@@ -79,17 +79,17 @@ public abstract class cAI : MonoBehaviour
             }
             else
             {
-                if (menosVida.hDram < per.hDram)
+                if (menosVida.Heridas < per.Heridas)
                 {
                     menosVida = per;
                 }
-                else if (menosVida.hDram == per.hDram)
+                else if (menosVida.Heridas == per.Heridas)
                 {
-                    if (menosVida.hSupe < per.hSupe)
+                    if (menosVida.Daño < per.Daño)
                     {
                         menosVida = per;
                     }
-                    else if (menosVida.hSupe == per.hSupe)
+                    else if (menosVida.Daño == per.Daño)
                     {
                         cPersonaje[] pl = { menosVida, per };
                         menosVida = pl[Random.Range(0, 2)];

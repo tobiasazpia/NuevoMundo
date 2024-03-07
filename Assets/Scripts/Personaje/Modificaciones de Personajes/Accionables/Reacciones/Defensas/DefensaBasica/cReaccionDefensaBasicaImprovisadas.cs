@@ -17,18 +17,20 @@ public class cReaccionDefensaBasicaImprovisadas : cReaccionDefensaBasica
         c.jugadorDef = defensa;
         string resultado;
         string arma = "";
+        string def;
         if (c.atacando)
         {
-            if (defensa >= c.jugadorAtq)
+            exito = defensa >= c.jugadorAtq;
+            if (exito)
             {
-                exito = true;
+                def = UIInterface.IntExitoso(defensa);
                 resultado = "deteniendo";
                     arma = " El arma improvisada queda destruida.";
                 (personaje.arma as cArmasPelea).PerderArmaImprovisada();
             }
             else
             {
-                exito = false;
+                def = UIInterface.IntFallido(defensa);
                 resultado = "no pudiendo detener";
                 if (personaje.GetZonaActual() != c.personajeActivo.GetZonaActual())
                 {
@@ -36,22 +38,24 @@ public class cReaccionDefensaBasicaImprovisadas : cReaccionDefensaBasica
                     (personaje.arma as cArmasPelea).PerderArmaImprovisada();
                 }
             }
-            uiC.SetText(personaje.nombre + " saca " + defensa + ", " + resultado + " el ataque de " + c.jugadorAtq + "." + arma);
+            uiC.SetText(UIInterface.NombreDePersonajeEnNegrita(personaje) + " saca " + def + ", " + resultado + " el ataque de " + UIInterface.IntEnNegrita(c.jugadorAtq) + "." + arma);
         }
         else
         {
             arma = " Perdio su arma al lanzarla.";
-            if (defensa >= c.personajeActivo.GetGuardia())
+            exito = defensa >= c.personajeActivo.GetGuardia();
+            if (exito)
             {
                 resultado = "deteniendo";
-                exito = true;
+                def = UIInterface.IntExitoso(defensa);
             }
             else
             {
-                exito = false;
+                def = UIInterface.IntFallido(defensa);
                 resultado = "no pudiendo detener";
             }
-            uiC.SetText(personaje.nombre + " saca " + defensa + ", " + resultado + " el movimiento de " + c.personajeActivo.nombre + "." + arma);
+            uiC.SetText(UIInterface.NombreDePersonajeEnNegrita(personaje) + " saca " + def + ", " + resultado + " el movimiento de " + UIInterface.NombreDePersonajeEnNegrita(c.personajeActivo) + "." + arma);
         }
+        if (personaje.Drama && !exito) uiC.PedirDrama();
     }
 }

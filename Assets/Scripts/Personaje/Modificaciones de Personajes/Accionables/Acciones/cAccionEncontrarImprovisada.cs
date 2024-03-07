@@ -5,6 +5,10 @@ using UnityEngine.UIElements;
 
 public class cAccionEncontrarImprovisada : cAcciones
 {
+    const string ABImproTooltipBase = "Ataque Básico con Arma Improvisada";
+    const string MovImproTooltipBase = "Carga con Arma Improvisada";
+    const string DBImproTooltipBase = "Defensa Básica con Arma Improvisada";
+
     protected void Start()
     {
         GetObjets();
@@ -20,18 +24,20 @@ public class cAccionEncontrarImprovisada : cAcciones
         switch (armaI)
         {
             case 0:
-                armaINombre = "arma improvisada pequeña";
+                armaINombre = "arma improvisada <b>pequeña</b>";
                 break;
             case 1:
-                armaINombre = "arma improvisada mediana";
+                armaINombre = "arma improvisada <b>mediana</b>";
                 break;
             case 2:
-                armaINombre = "arma improvisada grande";
+                armaINombre = "arma improvisada <b>grande</b>";
                 break;
             default:
                 break;
         }
-        string text = (personaje.nombre + " busca un arma improvisada, y encuentra un " + armaINombre + ".");
+        string text = (UIInterface.NombreDePersonajeEnNegrita(personaje) + " busca un arma improvisada, y encuentra un " + armaINombre + ".");
+
+        uiC.MostrarArmaEnTooltip(ABImproTooltipBase, DBImproTooltipBase, MovImproTooltipBase,armaI);
         (personaje.arma as cArmasPelea).AdquirirArmaImprovisada(armaI);
         c.EsperandoOkOn(true);
         c.stateID = cCombate.BUSCANDO_ACCION;

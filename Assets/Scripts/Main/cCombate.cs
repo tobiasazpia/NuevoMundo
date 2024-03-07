@@ -223,6 +223,24 @@ public class cCombate : MonoBehaviour
                 TerminarCombate();
                 break;
             default:
+                if (esRoguelike)
+                {
+                    if (equipoVictorioso == 1)
+                    {
+                        for (int i = 0; i < rM.party.Count; i++)
+                        {
+                            if(personajes[i].Heridas > 2)
+                            {
+                                Debug.Log(rM.party[i].name + " revive, y con drama!");
+                                personajes[i].Heridas = 2;
+                                personajes[i].Drama = true;
+                            }
+                            rM.party[i].heridas = personajes[i].Heridas;
+                            Debug.Log(rM.party[i].name + " tiene drama?" + personajes[i].Drama + ". tendria uqe empezar el proximo combate asi");
+                            rM.party[i].drama = personajes[i].Drama;
+                        }
+                    }
+                }
                 LimpiarCombate();
                 if (esRoguelike)
                 {
@@ -329,7 +347,7 @@ public class cCombate : MonoBehaviour
                 }
 
                 uiC.ActualizarIniciativa(personajes);
-                uiC.SetText("Tirando Iniciativa: " + per.nombre);
+                uiC.SetText("Tirando Iniciativa: " + UIInterface.NombreDePersonajeEnNegrita(per));
                 nadieEstabaDisponible = false;
                 break;
             }
@@ -512,10 +530,12 @@ public class cCombate : MonoBehaviour
                 case cPersonaje.AC_RECARGAR:
                     break;
                 case cPersonaje.AC_ATACAR:
-                    PedirObjetivoDeAtaque();
+                    if (enemigosEnRango.Count > 1) PedirObjetivoDeAtaque();
+                    else Ataque(enemigosEnRango[0]);
                     break;
                 case cPersonaje.AC_ATACARIMPRO:
-                    PedirObjetivoDeAtaque();
+                    if (enemigosEnRango.Count > 1) PedirObjetivoDeAtaque();
+                    else Ataque(enemigosEnRango[0]) ;
                     break;
                 case cPersonaje.AC_MOVAGRE:
                     movPrec = false;
@@ -538,7 +558,7 @@ public class cCombate : MonoBehaviour
         }
         else // es ai
         {
-            uiC.SetText("¿Que va a hacer " + personajeActivo.nombre + "?");
+            uiC.SetText("¿Que va a hacer " + UIInterface.NombreDePersonajeEnNegrita(personajeActivo) + "?");
             BuscarZonasLimitrofesConEnemigos();
             accionActiva = personajeActivo.ai.ElegirAccion(enemigosEnRango, zonasLimtrofesConEnemigos, zonas[personajeActivo.GetZonaActual()].zonasLimitrofes, faseActual);
             if (accionActiva != cPersonaje.AC_GUARDAR) uiC.RegistrarAccion();
@@ -549,8 +569,9 @@ public class cCombate : MonoBehaviour
 
     public void ResolverAccion()
     {
-        personajeActivo.Accionar(GetNombreDeAccion(accionActiva));
-        if (stateID != RESOLVIENDO_ACCION && stateID != PREGUNTANDO_REACCION)
+        string accion = GetNombreDeAccion(accionActiva);
+        personajeActivo.Accionar(accion);
+        if (stateID != RESOLVIENDO_ACCION && stateID != PREGUNTANDO_REACCION && accion != "Guardar")
         {
             cEventManager.StartPersonajeActuoEvent(personajeActivo);
         }
@@ -617,12 +638,12 @@ public class cCombate : MonoBehaviour
                         reaccionActiva = cPersonaje.DB_DefensaBasicaImpro;
                     }
                 }
-                uiC.SetText("¡" + personajeInterversor.nombre + " va a intervenir!");
+                uiC.SetText("¡" + UIInterface.NombreDePersonajeEnNegrita(personajeInterversor) + " va a intervenir!");
                 stateID = cCombate.RESOLVIENDO_REACCION;
             }
             else
             {
-                uiC.SetText(personajeInterversor.nombre + " no intervendra.");
+                uiC.SetText(UIInterface.NombreDePersonajeEnNegrita(personajeInterversor) + " no intervendra.");
                 stateID = cCombate.RESOLVIENDO_ACCION;
             }
             EsperandoOkOn(true);
@@ -727,7 +748,7 @@ public class cCombate : MonoBehaviour
         return false;
     }
 
-    void BuscarEnemigosEnRango()
+    public void BuscarEnemigosEnRango()
     {
         bool rango = false;
         if (personajeActivo.arma is cArmasPelea)
@@ -811,14 +832,14 @@ public class cCombate : MonoBehaviour
 
     void PedirObjetivoDeAtaque()
     {
-        uiC.SetText(personajeActivo.nombre + " va a atacar! A quien?");
+        uiC.SetText(UIInterface.NombreDePersonajeEnNegrita(personajeActivo) + " va a atacar! A quien?");
         esperandoObjetivo = true;
         EsperandoOkOn(false);
     }
 
     void PedirObjetivoDeMovimiento()
     {
-        uiC.SetText(personajeActivo.nombre + ": a donde vamos?");
+        uiC.SetText(UIInterface.NombreDePersonajeEnNegrita(personajeActivo) + ": a donde vamos?");
         EsperandoOkOn(false);
         //Ver que zonas son legales
         if (movPrec)
@@ -848,6 +869,11 @@ public class cCombate : MonoBehaviour
     {
         ActualizarMaterialAIncapacitado(p);
         p.vivo = false;
+        p.guardando = false;
+        p.quiereActuar = false;
+        p.reaccion1Disponible = false;
+        p.reaccion2Disponible = false;
+        p.zonaActual = -1;
         for (int i = acciones.Count - 1; i >= 0; i--)
         {
             if (acciones[i].per.nombre == p.nombre)
@@ -986,15 +1012,21 @@ public class cCombate : MonoBehaviour
                 nuevoPer = Instantiate(matonPrefab, new Vector3(1, -1, 0), Quaternion.identity);
                 cMatones script = nuevoPer.GetComponent<cMatones>();
                 script.cantidadInicial = combatientes[i].cantidad;
-                script.cantidad = script.cantidadInicial;
+                script.Cantidad = script.cantidadInicial;
                 script.modGuardiaDeMaton = combatientes[i].modGuardiaDeMaton;
                 personajes.Add(script.NuevoPersonaje(combatientes[i]));
+                (personajes[i] as cMatones).OnCantidadChange += uiC.CantidadChangeHandler;
             }
             else
             {
                 nuevoPer = Instantiate(personajePrefab, new Vector3(1, -1, 0), Quaternion.identity);
                 personajes.Add(nuevoPer.GetComponent<cPersonaje>().NuevoPersonaje(combatientes[i]));
+                personajes[i].OnHeridasChange += uiC.HeridasChangeHandler;
+                personajes[i].OnDañoChange += uiC.DañoChangeHandler;
+                personajes[i].OnDramaChange += uiC.DramaChangeHandler;
+
             }
+            personajes[i].OnABBonusChange += uiC.ABBonusChangeChangeHandler;    
             nuevoPer.transform.parent = this.transform;
             switch (combatientes[i].equipo)
             {
@@ -1021,9 +1053,13 @@ public class cCombate : MonoBehaviour
             }
             personajes[i].SetZonaActual(Random.Range(0, 3));  
             personajes[i].transform.position = new Vector3(personajes[i].GetZonaActual() * 10 - 10, 0, i * 4.5f - 12);
+
+            if (combatientes[i].iA != cAI.PLAYER_CONTROLLED) personajes[i].Drama = false;
+            else personajes[i].Drama = combatientes[i].drama;
             personajes[i].SetAI(combatientes[i].iA);
             personajes[i].SetArma(combatientes[i].arma);
-            personajes[i].DescansoCompleto();
+            personajes[i].Heridas = combatientes[i].heridas;
+            if (personajes[i].Heridas > 2) personajes[i].vivo = false;
         }
     }
 
@@ -1074,11 +1110,8 @@ public class cCombate : MonoBehaviour
             {
                 foreach (var item in zonas[per.GetZonaActual()].zonasEnRango)
                 {
-                    Debug.Log("zona en rango: " + item);
-                    Debug.Log("zona que buscamos: " + (zona));
                     if (item == zona)
                     {
-                        Debug.Log("return true, deberia tener reaccion disponible");
                         return true;
                     }
                 }
@@ -1086,5 +1119,19 @@ public class cCombate : MonoBehaviour
 
         }
         return false;
+    }
+
+    public void Ataque(cPersonaje objetivo)
+    {
+        uiC.HideAtras();
+        esperandoObjetivo = false;
+        personajeObjetivo = objetivo;
+        atacando = true;
+        stateID = cCombate.RESOLVIENDO_ACCION;
+        //Capaz en estos ifs mandar el reset? digo, tendria sentido
+        if (accionActiva == cPersonaje.AC_MOVAGRE) accionActiva = cPersonaje.AC_ATACAR;
+        else if (accionActiva == cPersonaje.AC_MOVIMPRO) accionActiva = cPersonaje.AC_ATACARIMPRO;
+        EsperandoOkOn(true);
+        AvanzarCombate();
     }
 }

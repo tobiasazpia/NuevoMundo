@@ -21,45 +21,49 @@ public class cReaccionDefensaBasicaFuego : cReaccionDefensaBasica
         defensa = cDieMath.sumaDe3Mayores(tr);
         c.jugadorDef = defensa;
         string resultado;
+        string def;
         if (c.atacando)
         {
-            if (defensa >= c.jugadorAtq)
+            exito = defensa >= c.jugadorAtq;
+            if (exito)
             {
-                exito = true;
+                def = UIInterface.IntExitoso(defensa);
                 resultado = "deteniendo";
             }
             else
             {
-                exito = false;
+                def = UIInterface.IntFallido(defensa);
                 resultado = "no pudiendo detener";
             }
-            uiC.SetText(personaje.nombre + " saca " + defensa + ", " + resultado + " el ataque de " + c.jugadorAtq + ".");
+            uiC.SetText(UIInterface.NombreDePersonajeEnNegrita(personaje) + " saca " + def + ", " + resultado + " el ataque de " + UIInterface.IntEnNegrita(c.jugadorAtq) + ".");
         }
         else
         {
             string arma = "";
             Debug.Log("usando estaaao");
-            if (defensa >= c.personajeActivo.GetGuardia())
+            exito = defensa >= c.personajeActivo.GetGuardia();
+            if (exito)
             {
                 resultado = "deteniendo";
-                exito = true;
+                def = UIInterface.IntExitoso(defensa);
                 if (!(personaje.arma as cArmasFuego).cargada)
                 {
-                    arma = personaje.nombre + " aprovecha para recargar su arma.";
+                    arma = UIInterface.NombreDePersonajeEnNegrita(personaje) + " aprovecha para recargar su arma.";
                     (personaje.arma as cArmasFuego).cargada = true;
                 }
             }
             else
             {
-                exito = false;
                 resultado = "no pudiendo detener";
+                def = UIInterface.IntFallido(defensa);
                 if (c.personajeObjetivo.nombre != personaje.nombre)
                 {
-                    arma = " El arma de " + personaje.nombre + " queda descargada.";
+                    arma = " El arma de " + UIInterface.NombreDePersonajeEnNegrita(personaje) + " queda descargada.";
                     (personaje.arma as cArmasFuego).cargada = false;
                 }
             }
-            uiC.SetText(personaje.nombre + " saca " + defensa + ", " + resultado + " el movimiento de " + c.personajeActivo.nombre + "." + arma);
+            uiC.SetText(UIInterface.NombreDePersonajeEnNegrita(personaje) + " saca " + def + ", " + resultado + " el movimiento de " + UIInterface.NombreDePersonajeEnNegrita(c.personajeActivo) + "." + arma);
         }
+        if (personaje.Drama && !exito) uiC.PedirDrama();
     }
 }

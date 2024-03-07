@@ -4,6 +4,9 @@ using UnityEngine;
 
 public abstract class cArma : MonoBehaviour
 {
+    public static string Reglas;
+    public static string Descripcion;
+
     public cPersonaje p; // Personaje con esta arma. Capaz mejor al revez, que el personaje tenga un puntero a su arma
     public List<cAcciones> acciones = new List<cAcciones>();
     public List<cReacciones> reacciones = new List<cReacciones>();

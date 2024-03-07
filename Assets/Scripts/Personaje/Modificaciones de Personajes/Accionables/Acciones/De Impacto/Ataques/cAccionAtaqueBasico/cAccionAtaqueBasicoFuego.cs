@@ -43,7 +43,7 @@ public class cAccionAtaqueBasicoFuego : cAccionAtaqueBasico
             uiC.DejarDePedirReaccion();
             //if (mostrarMensaje2)
             //{
-                uiC.SetText("¡Nadie detuvo el ataque, da en blanco! " + personaje.nombre + " aprovecha para recargar su arma.");
+                uiC.SetText("¡Nadie detuvo el ataque, da en blanco! " + UIInterface.NombreDePersonajeEnNegrita(personaje) + " aprovecha para recargar su arma.");
                 acc_state++; //Saltear Daño siempre (unica diferencia con ataque basico normal)
                 (personaje.arma as cArmasFuego).cargada = true;
                 mostrarMensaje1 = true;
@@ -63,13 +63,10 @@ public class cAccionAtaqueBasicoFuego : cAccionAtaqueBasico
         intentaronDetenerlo = false;
         c.jugadorDef = 0;
         dadosATirar = DeterminarNumeroDeDados();
-        string text = "¡" + personaje.nombre + " usa su " + nombre + " contra " + c.personajeObjetivo.nombre + "! Tira " + dadosATirar + " dados contra su guardia de " + c.personajeObjetivo.GetGuardia() + ", descargando su arma.";
+        string text = "¡" + UIInterface.NombreDePersonajeEnNegrita(personaje) + " usa su " + nombre + " contra " + UIInterface.NombreDePersonajeEnNegrita(c.personajeObjetivo) + "! Tira " + dadosATirar + " dados contra su guardia de " + UIInterface.IntEnNegrita(c.personajeObjetivo.GetGuardia()) + ", descargando su arma.";
         (personaje.arma as cArmasFuego).cargada = false;
-        if (!reroleando)
-        {
-            c.personajeActivo.GastarDado(c.faseActual, c.acciones, c.accionesActivas, c.accionesReactivas, text);
-            uiC.ActualizarIniciativa(c.personajes);
-        }
+        c.personajeActivo.GastarDado(c.faseActual, c.acciones, c.accionesActivas, c.accionesReactivas, text);
+        uiC.ActualizarIniciativa(c.personajes);
     }
 
     override protected string NoSuperamosGuardia()

@@ -3307,7 +3307,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 48d109f64e950014faa854cffcb2a4b9, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.25
+  m_Volume: 0.03
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -4575,8 +4575,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   combate: {fileID: 180730743}
   rM: {fileID: 294005985}
-  templatesMatones: []
-  templatesPersonajes: []
 --- !u!114 &294005985
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10581,8 +10579,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   combate: {fileID: 180730743}
   rM: {fileID: 0}
-  templatesMatones: []
-  templatesPersonajes: []
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -16194,6 +16190,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4051679443326f94f8aab2c2f7f8cc72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  py: {fileID: 723110688}
   rM: {fileID: 294005985}
 --- !u!114 &1418445421
 MonoBehaviour:
@@ -16220,6 +16217,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe60ddb3423154848a1dd9d91bcc3315, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  perCambio: 
+  acc: {fileID: 0}
   cam: {fileID: 963194227}
   combate: {fileID: 180730743}
   esperandoZona: 0
@@ -16250,6 +16249,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rU: {fileID: 294005987}
+  py: {fileID: 723110688}
 --- !u!114 &1418445425
 MonoBehaviour:
   m_ObjectHideFlags: 0

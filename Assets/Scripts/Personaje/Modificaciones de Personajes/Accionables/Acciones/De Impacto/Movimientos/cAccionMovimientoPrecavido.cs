@@ -50,7 +50,7 @@ public class cAccionMovimientoPrecavido : cAccionMovimiento
             p.guardando = false;
         }
         LlenarAccionesPosibles();
-        string text = (personaje.nombre + " trata de moverse a " + c.zonas[c.zonaObjetiva].nombre + ".");
+        string text = (UIInterface.NombreDePersonajeEnNegrita(personaje) + " trata de moverse a " + c.zonas[c.zonaObjetiva].nombre + ".");
         c.personajeActivo.GastarDado(c.faseActual, c.acciones, c.accionesActivas, c.accionesReactivas, text);
         uiC.ActualizarIniciativa(c.personajes);
         mostrarMensaje1 = true;
@@ -78,7 +78,7 @@ public class cAccionMovimientoPrecavido : cAccionMovimiento
             uiC.DejarDePedirReaccion();
             if (mostrarMensaje2)
             {
-                uiC.SetText("Nadie detiene a " + c.personajeActivo.nombre + " y se mueve a " + c.zonas[c.zonaObjetiva].nombre + ". Todos tiran -1d al atacar a " + c.personajeActivo.nombre + " hasta que vuelva a actuar.");
+                uiC.SetText("Nadie detiene a " + UIInterface.NombreDePersonajeEnNegrita(c.personajeActivo) + " y se mueve a " + c.zonas[c.zonaObjetiva].nombre + ". Todos tiran -1d al atacar a " + UIInterface.NombreDePersonajeEnNegrita(c.personajeActivo) + " hasta que vuelva a actuar.");
                 c.personajeActivo.SetZonaActual(c.zonaObjetiva);
                 c.personajeActivo.transform.position = new Vector3(c.personajeActivo.GetZonaActual() * 10 - 10, 0, c.personajeActivo.transform.position.z);
                 c.personajeActivo.dadosDelAtacantePorPrecavido = -1;

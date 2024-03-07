@@ -28,7 +28,7 @@ public class cRoguelikeManager : MonoBehaviour
         rC.ArmarCombate(party, nivel);
     }
 
-    public void AgregarMiembroALaParty(string nombre, int[] eleccion, bool esMaton)
+    public void AgregarMiembroALaParty(string nombre, int[] eleccion)
     {
         cPersonajeFlyweight jugador = gameObject.AddComponent(typeof(cPersonajeFlyweight)) as cPersonajeFlyweight;
         jugador.equipo = 1;
@@ -36,7 +36,8 @@ public class cRoguelikeManager : MonoBehaviour
 
         jugador.nombre = nombre;
         jugador.arma = eleccion[0];
-        jugador.esMaton = esMaton;
+        jugador.esMaton = false;
+        jugador.drama = true;
 
         switch (eleccion[1])
         {

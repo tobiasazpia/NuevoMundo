@@ -5,17 +5,32 @@ using UnityEngine;
 public class cMatones : cPersonaje
 {
     public int cantidadInicial;
-    public int cantidad;
+
+    private int m_Cantidad;
+    public int Cantidad
+    {
+        get { return m_Cantidad; }
+        set
+        {
+            if (m_Cantidad == value) return;
+            m_Cantidad = value;
+            if (OnCantidadChange != null)
+                OnCantidadChange(m_Cantidad);
+        }
+    }
+    public delegate void OnCantidadChangeDelegate(int newVal);
+    public event OnCantidadChangeDelegate OnCantidadChange;
+
     public int modGuardiaDeMaton;
 
     public override int GetDadosBaseIniciativa()
     {
-        return cantidad;
+        return Cantidad;
     }
 
     public override int[] RollDadosdeAccion(int numeroDeDados)
     {
-        return cDieMath.tomarXMenores(cDieMath.TirarDados(numeroDeDados), cantidad);
+        return cDieMath.tomarXMenores(cDieMath.TirarDados(numeroDeDados), Cantidad);
     }
 
     public override void RecibirGolpe(cPersonaje atacante, int atq, int def)
@@ -28,25 +43,26 @@ public class cMatones : cPersonaje
         int muertos = 1;
         int dif = atq - Mathf.Max(GetGuardia(),def);
         muertos += dif / extraNecesario;
-        string text = "Necesitaba pasarse por " + extraNecesario + " y se paso por " + dif + ", asi que ";
-
-        cantidad -= muertos;
-        cantidad = Mathf.Max(cantidad, 0);
+        string text = "Necesitaba pasarse por " + UIInterface.IntEnNegrita(extraNecesario) + " y se paso por ";
+        uiC.perCambio = nombre;
+        int cantPrevia = Cantidad;
+        Cantidad -= muertos;
+        Cantidad = Mathf.Max(Cantidad, 0);
         if (muertos > 1)
         {
-           text += "se lleva a multiples enemigos! Caen " + muertos + " matones";
+           text += UIInterface.IntExitoso(dif) + ", asi que se lleva a multiples enemigos! Caen " + UIInterface.IntEnNegrita(Mathf.Min(muertos,cantPrevia)) + " matones";
         }
         else
         {
-            text += "se lleva a un maton a la tumba";
+            text += UIInterface.IntFallido(dif) + ", asi que se lleva a un maton a la tumba";
         }
-        text += " dejando " + (c.personajeObjetivo as cMatones).cantidad+ " en pie.";
+        text += " dejando " + (c.personajeObjetivo as cMatones).Cantidad+ " en pie.";
         uiC.SetText(text);
     }
 
     public void CapazNoHayMasMatones()
     {
-        if (cantidad <= 0)
+        if (Cantidad <= 0)
         {
             //HAY QUE PONER UN MENSAJE
             uiC.SetText(nombre + " ya no tiene matones en pie! Quedan fuera del combate");
@@ -59,7 +75,8 @@ public class cMatones : cPersonaje
     public override void ResetHP()
     {
         vivo = true;
-        cantidad = cantidadInicial;
+        uiC.perCambio = nombre;
+        Cantidad = cantidadInicial;
     }
     public override void CalcularGuardia()
     {

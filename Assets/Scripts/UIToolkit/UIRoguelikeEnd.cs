@@ -27,7 +27,6 @@ public class UIRoguelikeEnd : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
     public void fillText(int nivel)
     {
         texto.text = "Esta aventura llego a su fin, llegaste hasta el nivel " + nivel;
@@ -35,7 +34,7 @@ public class UIRoguelikeEnd : MonoBehaviour
         int i = 0;
         for (; i < rM.party.Count; i++)
         {
-            UIInterface.FillPlayer(rM.party[i], personajes[i]);
+            UIInterface.FillPlayer(rM.party[i], personajes[i],true);
         }
         for (; i < 3; i++)
         {

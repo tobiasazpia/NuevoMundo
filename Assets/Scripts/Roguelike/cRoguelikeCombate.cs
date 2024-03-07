@@ -5,6 +5,7 @@ using UnityEngine;
 public class cRoguelikeCombate : MonoBehaviour
 {
     //Se encarga de generar un combate con la data roguelike manager entre la party, y unos enemigos generados a partir del nivel en el que estamos
+    const int MAX_LVL = 3;
     public cCombate combate;
     public cRoguelikeManager rM;
     List<cPersonajeFlyweight> enemigos;
@@ -33,11 +34,9 @@ public class cRoguelikeCombate : MonoBehaviour
         //manda a generar enemigos para armar el equipo
         List<cPersonajeFlyweight> combatientes = new List<cPersonajeFlyweight>();
         int presupuesto = nivel * 5;
-        Debug.Log("presupuesto: " + presupuesto);
         do
         {
             presupuesto = AgregarEnemigo(presupuesto);
-            Debug.Log("enemigo agregado, nuevo presupuesto: " + presupuesto);
         } while (presupuesto > 5 && enemigos.Count < 3);
         combatientes.AddRange(party);
         combatientes.AddRange(enemigos);
@@ -59,9 +58,13 @@ public class cRoguelikeCombate : MonoBehaviour
         int accionesMaximas = 13;
         int accionesAdicionalesPosibles = accionesMaximas - cantidaDeAcciones;
         int lvl = ElegirNivel(presupuesto);
+        // el problema esta es el edge case en el que elegimos un nivel y un tipo (maton o personaje), solo para darnos cuenta despues de que no hay ninguna eleccion valida con esos parametros
+        //es bastante comun porque solo hay un pj y un maton lvl 0
+        Debug.Log("Agregando Enemigo - lvl: " + lvl + ", mas acciones posibles: " + accionesAdicionalesPosibles + " y presupuesto: " + presupuesto);
 
-        if (presupuesto < 14)
+        if (presupuesto < 8*(lvl+1))
         {
+            Debug.Log("Presupuesto solo alcanza para matones");
             ElegirMaton(nuevoEnemigo, ref presupuesto, lvl, accionesAdicionalesPosibles);
         }
         else
@@ -69,10 +72,12 @@ public class cRoguelikeCombate : MonoBehaviour
             int tipoEnemigo = Random.Range(0, 2);
             if (tipoEnemigo == 0 || accionesAdicionalesPosibles < 3)
             {
+                Debug.Log("salio matoens");
                 ElegirMaton(nuevoEnemigo, ref presupuesto, lvl, accionesAdicionalesPosibles);
             }
             else
             {
+                Debug.Log("salio pjs");
                 ElegirPersonaje(nuevoEnemigo, ref presupuesto, lvl);
             }
         }
@@ -92,53 +97,130 @@ public class cRoguelikeCombate : MonoBehaviour
 
     int ElegirNivel(int presupuesto)
     {
-        return presupuesto / 10;
+        return Mathf.Min(Random.Range(0, (presupuesto / 10) + 1),MAX_LVL);
     }
 
     void ElegirMaton(cPersonajeFlyweight maton, ref int presupuesto, int lvl, int accFaltantes)
     {
         maton.esMaton = true;
         List<int> noDisp = MatonesNoDisponibles(lvl);
-        noDisp.Sort();
-        int index = Random.Range(0, templatesMatones[lvl].Count - noDisp.Count);
+
         foreach (var item in noDisp)
         {
-            if (index >= item) index++;
+            Debug.Log("en NoDisp: " + noDisp);
         }
-        int valorDeUnMaton = 2 * (lvl + 1);
-        maton.cantidad = Random.Range(1, Mathf.Min( (presupuesto / valorDeUnMaton) +1,11,accFaltantes+1));
+
+        int initialLvl = lvl;
+        bool bajando = true;
+        while(noDisp.Count == templatesMatones[lvl].Count)
+        {
+            //entonces lvl no valido, hay que cambiarlo
+            if (bajando)
+            {
+                if (lvl - 1 >= 0)
+                {
+                    lvl -= 1;
+                    noDisp = MatonesNoDisponibles(lvl);
+                }
+                else
+                {
+                    bajando = false;
+                    lvl = initialLvl + 1;
+                }
+            }
+            else
+            {
+                lvl += 1;
+                noDisp = MatonesNoDisponibles(lvl);
+            }
+        }
+
+        noDisp.Sort();
+        Debug.Log("lvl matones count: " + templatesMatones[lvl].Count + ", noDisp Count: " + noDisp.Count);
+        int index = Random.Range(0, templatesMatones[lvl].Count - noDisp.Count);
+        Debug.Log("index pre adjust: " + index);
+        foreach (var item in noDisp)
+        {
+            if (index >= item)
+            {
+                Debug.Log("adjusted");
+                index++;
+            }
+        }
+
+        //index valido check
+
+        Debug.Log("index post adjust: " + index);
+        int valorDeUnMaton = 1 + 2 * (lvl + 1);
+        Debug.Log("valorDeUnMaton: " + valorDeUnMaton);
+        maton.cantidad = Random.Range(1, Mathf.Min((presupuesto / valorDeUnMaton) + 1, 11, accFaltantes + 1));
+        Debug.Log("cantidad: " + maton.cantidad);
         maton.Copiar(templatesMatones[lvl][index]);
         enemigos.Add(maton);
         presupuesto -= maton.cantidad * valorDeUnMaton;
+        Debug.Log("Nuevo Presupuesto: " + presupuesto);
     }
 
 
     void ElegirPersonaje(cPersonajeFlyweight personaje, ref int presupuesto, int lvl)
     {
         List<int> noDisp = PersonajesNoDisponibles(lvl);
+
+        int initialLvl = lvl;
+        bool bajando = true;
+        while (noDisp.Count == templatesMatones[lvl].Count)
+        {
+            //entonces lvl no valido, hay que cambiarlo
+            if (bajando)
+            {
+                if (lvl - 1 >= 0)
+                {
+                    lvl -= 1;
+                    noDisp = PersonajesNoDisponibles(lvl);
+                }
+                else
+                {
+                    bajando = false;
+                    lvl = initialLvl + 1;
+                }
+            }
+            else
+            {
+                lvl += 1;
+                noDisp = PersonajesNoDisponibles(lvl);
+            }
+        }
+
         noDisp.Sort();
+        Debug.Log("lvl personajes count: " + templatesPersonajes[lvl].Count + ", noDisp Count: " + noDisp.Count);
         int index = Random.Range(0, templatesPersonajes[lvl].Count - noDisp.Count);
+        Debug.Log("index pre adjust: " + index);
         foreach (var item in noDisp)
         {
-            if (index >= item) index++;
+            if (index >= item)
+            {
+                Debug.Log("adjusted");
+                index++;
+            }
         }
+        Debug.Log("index post adjust: " + index);
         personaje.esMaton = false;
         personaje.Copiar(templatesPersonajes[lvl][index]);
         enemigos.Add(personaje);
-        presupuesto -= 8*(lvl+1);
+        presupuesto -= 4 + 8 * (lvl + 1);
+        Debug.Log("Nuevo Presupuesto: " + presupuesto);
     }
 
     List<int> PersonajesNoDisponibles(int lvl)
     {
-        List<int> perIndex = new List<int>();
-        perIndex.AddRange(PersonajesYaEnEquipo());
+        List<int> perIndex = PersonajesYaEnEquipo(lvl);
         for (int i = 0; i < enemigos.Count; i++)
         {
             if (!enemigos[i].esMaton)
             {
                 for (int j = 0; j < templatesPersonajes[lvl].Count; j++)
                 {
-                        if (rM.party[i].nombre == templatesPersonajes[lvl][j].nombre) perIndex.Add(j);
+                    if (enemigos[i].nombre == templatesPersonajes[lvl][j].nombre) perIndex.Add(j);
                 }
             }
         }
@@ -146,18 +228,20 @@ public class cRoguelikeCombate : MonoBehaviour
         return perIndex;
     }
 
-    public List<int> PersonajesYaEnEquipo()
+    public List<int> PersonajesYaEnEquipo(int lvl)
     {
         List<int> perIndex = new List<int>();
-        for (int i = 1; i < rM.party.Count; i++)
+
+        for (int i = 1; i < rM.party.Count; i++) // Cada miembro de la party
         {
-            for (int j = 0; j < templatesPersonajes.Count; j++)
-            {
-                for (int k = 0; k < templatesPersonajes[j].Count; k++)
+                for (int k = 0; k < templatesPersonajes[lvl].Count; k++) // Cada personaje
                 {
-                    if (rM.party[i].nombre == templatesPersonajes[j][k].nombre) perIndex.Add(j);
+                if (rM.party[i].nombre == templatesPersonajes[lvl][k].nombre)
+                {
+                    Debug.Log("agregamos a " + templatesPersonajes[lvl][k].nombre + ", indice: " + k);
+                    perIndex.Add(k);
                 }
-            }
+                }
         }
         return perIndex;
     }
@@ -274,7 +358,7 @@ public class cRoguelikeCombate : MonoBehaviour
         templatesMatones[lvl].Add(defensaDeUmivarko);
 
         cPersonajeFlyweight batallonLatio = gameObject.AddComponent<cPersonajeFlyweight>();
-        batallonLatio.nombre = "Guradia Real de Urqualia";
+        batallonLatio.nombre = "Batallon Latio";
         batallonLatio.arma = cArma.FUEGO;
         batallonLatio.iA = cAI.FULL_AGGRO;
         batallonLatio.hab.ataqueBasico = 4;
@@ -299,7 +383,7 @@ public class cRoguelikeCombate : MonoBehaviour
         templatesMatones.Add(l);
 
         cPersonajeFlyweight guradiaRealDeUrqualia = gameObject.AddComponent<cPersonajeFlyweight>();
-        guradiaRealDeUrqualia.nombre = "Guradia Real de Urqualia";
+        guradiaRealDeUrqualia.nombre = "Guardia Real de Urqualia";
         guradiaRealDeUrqualia.arma = cArma.MEDIAS;
         guradiaRealDeUrqualia.iA = cAI.SMART_DEFENSIVO;
         guradiaRealDeUrqualia.hab.ataqueBasico = 5;
@@ -308,7 +392,7 @@ public class cRoguelikeCombate : MonoBehaviour
         guradiaRealDeUrqualia.atr.musculo = 2;
         guradiaRealDeUrqualia.atr.ingenio = 2;
         guradiaRealDeUrqualia.atr.brio = 2;
-        guradiaRealDeUrqualia.atr.donaire = 2;
+        guradiaRealDeUrqualia.atr.donaire = 2;  
         templatesMatones[lvl].Add(guradiaRealDeUrqualia);
     }
 
@@ -336,7 +420,7 @@ public class cRoguelikeCombate : MonoBehaviour
         templatesPersonajes.Add(l);
 
         cPersonajeFlyweight sombraEnEntrenamiento = gameObject.AddComponent<cPersonajeFlyweight>();
-        sombraEnEntrenamiento.nombre = "Marinero Gebedeno";
+        sombraEnEntrenamiento.nombre = "Sombra en Entrenamiento";
         sombraEnEntrenamiento.arma = cArma.LIGERAS;
         sombraEnEntrenamiento.iA = cAI.SMART_DEFENSIVO;
         sombraEnEntrenamiento.hab.defensaBasica = 3;

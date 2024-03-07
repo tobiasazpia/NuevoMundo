@@ -64,7 +64,7 @@ public class NuevoPersonajeMenuController : MonoBehaviour
             GameObject temp = Instantiate(matonPrefab, new Vector3(0, 0, 0), Quaternion.identity);
             temp.transform.parent = GameObject.Find("Sesion").transform;
             temp.GetComponent<cMatones>().cantidadInicial = int.Parse(cantidad.text);
-            temp.GetComponent<cMatones>().cantidad = int.Parse(cantidad.text);
+            temp.GetComponent<cMatones>().Cantidad = int.Parse(cantidad.text);
             p = temp.GetComponent<cMatones>();
         }
 

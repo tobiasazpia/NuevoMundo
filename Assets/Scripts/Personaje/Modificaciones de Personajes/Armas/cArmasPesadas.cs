@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class cArmasPesadas : cArma
 {
+    public static new string Descripcion = "Destaca en el frente del combate, pero depende de su Músculo y es fácil de atacar.";
+    public static new string Reglas = "Multiplicador de Musculo: 3, Base para Matones adicionales: 9. +2d a detener movimiento. -2 a tu Guardia.";
     // Start is called before the first frame update
     void Start()
     {

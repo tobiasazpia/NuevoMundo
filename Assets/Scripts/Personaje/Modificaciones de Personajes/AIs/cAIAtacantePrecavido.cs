@@ -8,10 +8,11 @@ public class cAIAtacantePrecavido : cAI
 
     public override int ElegirAccion(List<cPersonaje> enemigosEnRango, List<int> zonasLimitrofesConEnemigos, int[] zonasLimitrofes, int faseActual)
     {
+        //Tengo que reworkear esta AI en algun momento
         p.c.personajeObjetivo = PersonajeMasDañado(enemigosEnRango);
         if (p.c.personajeObjetivo != null)
         {
-            if (p.c.personajeObjetivo.dadosDeAccion[0] > p.dadosDeAccion[1] || p.c.personajeObjetivo.hDram > 0 || p.bonusPAtqBporDefB > 9 || p.c.personajeObjetivo.dadosDeAccion[0] > 10)
+            if (p.c.personajeObjetivo.dadosDeAccion[0] > p.dadosDeAccion[0] || p.c.personajeObjetivo.Heridas > 0 || p.BonusPAtqBporDefB > 9 || p.c.personajeObjetivo.dadosDeAccion[0] > 10 || p.c.personajeObjetivo.dadosDeAccion[0] < 0)
             {
                 p.uiC.RegistrarAccion(); // esto estaba abajo del return hasta hace poco
                 return cPersonaje.AC_ATACAR;
@@ -26,7 +27,7 @@ public class cAIAtacantePrecavido : cAI
     {
         if (!enPeligro)
         {
-            enPeligro = (p.hDram > 1);
+            enPeligro = (p.Heridas > 1);
         }
         int dadosExtrasDefensa = p.atr.ingenio + p.hab.defensaBasica + p.defensaBasicaDadosExtra;
         if (atq < 20 + dadosExtrasDefensa || enPeligro)

@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class cArmasLigeras : cArma
 {
+    public static new string Descripcion = "Autosuficiente y veloz, le gusta actuar antes que los demas.";
+    public static new string Reglas = "Multiplicador de Musculo: 1, Base para Matones adicionales: 9. +2d a la Inicitiva, +1 al Defenderse a si mismo, -1d a defender a otros y a detener movimiento. +1d al actuar contra quien todavia lo haya hecho, o al reaccionar contra quien este actuando por primera vez esta ronda.";
+
     public List<string> personajesQueActuaron;
     // Start is called before the first frame update
     void Start()
@@ -38,16 +41,31 @@ public class cArmasLigeras : cArma
 
     private void PersonajeActuo(cPersonaje perQueActuo)
     {
-        if (!personajesQueActuaron.Contains(perQueActuo.nombre)) personajesQueActuaron.Add(perQueActuo.nombre);
+        if (!personajesQueActuaron.Contains(perQueActuo.nombre))
+        {
+            personajesQueActuaron.Add(perQueActuo.nombre);
+            Debug.Log(perQueActuo.nombre + " actuo.");
+        }
+        Debug.Log("personajes que ya actuaron:");
+        foreach (var item in personajesQueActuaron)
+        {
+            Debug.Log(item);
+        }
     }
 
     private void NadieActuo()
     {
+        Debug.Log("Vaciamos pers que ya actuaron");
         personajesQueActuaron.Clear();
     }
 
     public bool perYaActuo(cPersonaje per)
     {
+        Debug.Log("personajes que ya actuaron:");
+        foreach (var item in personajesQueActuaron)
+        {
+            Debug.Log(item);
+        }
         return personajesQueActuaron.Contains(per.nombre);
     }
 

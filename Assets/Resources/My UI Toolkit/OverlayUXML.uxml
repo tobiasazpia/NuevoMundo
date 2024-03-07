@@ -24,7 +24,7 @@
         <ui:Button text="Menu Pruncipal" display-tooltip-when-elided="true" name="AtrasEscarmuza" class="base button button-corto" style="position: absolute; top: 32px; left: 1384px;" />
     </ui:VisualElement>
     <ui:VisualElement name="PantallaRoguelikeIni" style="position: absolute; display: none; align-items: center; justify-content: space-around; height: 100%; width: 100%; background-image: resource(&apos;Images/Backgrounds/NM Gate 16-9&apos;);">
-        <ui:Label text="&#x9;Bienvenido al Nuevo Mundo aventurero, estas por embarcarte en una serie de combates para provar tu valia! Como se llama tu heroe?" display-tooltip-when-elided="true" name="mRoguelikeIni" enable-rich-text="false" class="label-texto" style="margin-top: 300px;" />
+        <ui:Label text="&#x9;Bienvenido al Nuevo Mundo aventurero ¡Estás por embarcarte en una serie de combates para provar tu valía! ¿Como se llamará tu héroe?" display-tooltip-when-elided="true" name="mRoguelikeIni" enable-rich-text="false" class="label-texto" style="margin-top: 300px;" />
         <ui:Button text="Menu Pruncipal" display-tooltip-when-elided="true" name="AtrasRoguelikeIni" class="button base button-corto" style="position: absolute; top: 32px; left: 1384px;" />
         <ui:TextField picking-mode="Ignore" text="tu nombre..." max-length="100" is-delayed="true" name="NombreInput" class="base" style="margin-left: 100px; margin-right: 100px; margin-top: 0; margin-bottom: 400px; font-size: 48px; overflow: visible; flex-direction: row; align-items: center; justify-content: center; width: 50%; height: 75px;" />
     </ui:VisualElement>
@@ -41,50 +41,151 @@
         <ui:Button text="Menu Pruncipal" display-tooltip-when-elided="true" name="AtrasRoguelikeListo" class="base button button-corto" style="position: absolute; top: 32px; left: 1384px;" />
         <ui:Button text="¡Empezemos!" display-tooltip-when-elided="true" name="Empezar" enable-rich-text="true" class="base button button-corto" />
     </ui:VisualElement>
-    <ui:VisualElement name="PantallaRoguelikeUpgradeElegir" style="position: absolute; display: none; align-items: center; justify-content: space-around; height: 100%; width: 100%; background-image: resource(&apos;Images/Backgrounds/NM Gate 16-9&apos;);">
-        <ui:Label text="¡Sobreviviste al combate! ¿Como crece tu personaje?" display-tooltip-when-elided="true" name="mRoguelikeElegiText" enable-rich-text="false" style="font-size: 48px; -unity-text-align: middle-center; width: 90%; height: 150px; margin-left: 100px; margin-right: 100px; margin-top: 300px; margin-bottom: 0; padding-left: 25px; padding-right: 25px; padding-top: 25px; padding-bottom: 25px; justify-content: center; background-color: rgb(238, 221, 214); color: rgb(40, 24, 24); border-top-left-radius: 20px; border-bottom-left-radius: 20px; border-top-right-radius: 20px; border-bottom-right-radius: 20px; -unity-background-scale-mode: scale-and-crop; border-left-color: rgb(25, 16, 17); border-right-color: rgb(25, 16, 17); border-top-color: rgb(25, 16, 17); border-bottom-color: rgb(25, 16, 17); border-left-width: 3px; border-right-width: 3px; border-top-width: 3px; border-bottom-width: 3px; -unity-font: url(&apos;project://database/Assets/NotMyFolders/UI%20Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss?fileID=2230732570650464555&amp;guid=527ab2e1a07ca3849a62250d4426de9d&amp;type=3#NotInter-Regular&apos;); -unity-font-style: normal; white-space: normal;" />
-        <ui:VisualElement name="RoguelikeOpciones" style="flex-direction: row; justify-content: space-around; width: 100%;">
+    <ui:VisualElement name="PantallaRoguelikeUpgradeElegir" style="position: absolute; display: none; align-items: center; justify-content: flex-start; height: 100%; width: 100%; background-image: resource(&apos;Images/Backgrounds/NM Gate 16-9&apos;);">
+        <ui:VisualElement name="PartyElegir" style="flex-direction: row; width: 100%; height: 18%; justify-content: space-around; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; margin-top: 50px;">
+            <ui:Button display-tooltip-when-elided="true" enable-rich-text="false" name="RPerElegir1" class="base button">
+                <ui:VisualElement name="PerEncabezado" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
+                    <ui:Label text="Nombre" display-tooltip-when-elided="true" name="PerNombre" />
+                    <ui:VisualElement style="flex-direction: row; justify-content: space-between;">
+                        <ui:VisualElement name="Heridascont" style="flex-direction: row;">
+                            <ui:Label text="Heridas" display-tooltip-when-elided="true" name="PerHeridas" />
+                            <ui:Label text="0" display-tooltip-when-elided="true" name="HeridasValue" />
+                        </ui:VisualElement>
+                        <ui:VisualElement name="Dramacont" style="flex-direction: row;">
+                            <ui:Label text="Drama -" display-tooltip-when-elided="true" name="PerDrama" />
+                            <ui:Label text="No" display-tooltip-when-elided="true" name="DramaValue" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+            </ui:Button>
+            <ui:Button display-tooltip-when-elided="true" enable-rich-text="false" name="RPerElegir2" class="base button">
+                <ui:VisualElement name="PerEncabezado" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
+                    <ui:Label text="Nombre" display-tooltip-when-elided="true" name="PerNombre" />
+                    <ui:VisualElement style="flex-direction: row; justify-content: space-between;">
+                        <ui:VisualElement name="Heridascont" style="flex-direction: row;">
+                            <ui:Label text="Heridas" display-tooltip-when-elided="true" name="PerHeridas" />
+                            <ui:Label text="0" display-tooltip-when-elided="true" name="HeridasValue" />
+                        </ui:VisualElement>
+                        <ui:VisualElement name="Dramacont" style="flex-direction: row;">
+                            <ui:Label text="Drama -" display-tooltip-when-elided="true" name="PerDrama" />
+                            <ui:Label text="No" display-tooltip-when-elided="true" name="DramaValue" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+            </ui:Button>
+            <ui:Button display-tooltip-when-elided="true" enable-rich-text="false" name="RPerElegir3" class="base button">
+                <ui:VisualElement name="PerEncabezado" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
+                    <ui:Label text="Nombre" display-tooltip-when-elided="true" name="PerNombre" />
+                    <ui:VisualElement style="flex-direction: row; justify-content: space-between;">
+                        <ui:VisualElement name="Heridascont" style="flex-direction: row;">
+                            <ui:Label text="Heridas" display-tooltip-when-elided="true" name="PerHeridas" />
+                            <ui:Label text="0" display-tooltip-when-elided="true" name="HeridasValue" />
+                        </ui:VisualElement>
+                        <ui:VisualElement name="Dramacont" style="flex-direction: row;">
+                            <ui:Label text="Drama -" display-tooltip-when-elided="true" name="PerDrama" />
+                            <ui:Label text="No" display-tooltip-when-elided="true" name="DramaValue" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+            </ui:Button>
+        </ui:VisualElement>
+        <ui:Label text="¡Sobreviviste al combate! ¿Como crece tu party?" display-tooltip-when-elided="true" name="mRoguelikeElegiText" enable-rich-text="false" style="font-size: 48px; -unity-text-align: middle-center; width: 90%; height: 150px; margin-left: 100px; margin-right: 100px; margin-top: 100px; margin-bottom: 100px; padding-left: 25px; padding-right: 25px; padding-top: 25px; padding-bottom: 25px; justify-content: center; background-color: rgb(238, 221, 214); color: rgb(40, 24, 24); border-top-left-radius: 20px; border-bottom-left-radius: 20px; border-top-right-radius: 20px; border-bottom-right-radius: 20px; -unity-background-scale-mode: scale-and-crop; border-left-color: rgb(25, 16, 17); border-right-color: rgb(25, 16, 17); border-top-color: rgb(25, 16, 17); border-bottom-color: rgb(25, 16, 17); border-left-width: 3px; border-right-width: 3px; border-top-width: 3px; border-bottom-width: 3px; -unity-font: url(&apos;project://database/Assets/NotMyFolders/UI%20Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss?fileID=2230732570650464555&amp;guid=527ab2e1a07ca3849a62250d4426de9d&amp;type=3#NotInter-Regular&apos;); -unity-font-style: normal; white-space: normal;" />
+        <ui:VisualElement name="RoguelikeOpciones" style="flex-direction: row; justify-content: space-around; width: 100%; margin-top: 200px;">
             <ui:Button text="Button" display-tooltip-when-elided="true" name="ButtonUpgrade1" class="button-main-menu button base button-largo" style="white-space: normal;" />
             <ui:Button text="Button" display-tooltip-when-elided="true" name="ButtonUpgrade2" class="button-main-menu base button button-largo" style="white-space: normal;" />
             <ui:Button text="Button" display-tooltip-when-elided="true" name="ButtonUpgrade3" class="button-main-menu base button-largo button" style="white-space: normal;" />
         </ui:VisualElement>
+        <ui:VisualElement name="ElegirInfo" class="button-main-menu base" style="height: auto; width: auto; margin-left: 20px; margin-right: 20px; margin-top: 20px; margin-bottom: 20px; padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 10px; position: absolute; display: none; top: 0; left: 0;">
+            <ui:VisualElement name="PerEncabezado" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
+                <ui:Label text="Nombre" display-tooltip-when-elided="true" name="PerNombre" tooltip="Su nombre." />
+                <ui:Label text="Arma" display-tooltip-when-elided="true" name="PerArma" />
+                <ui:VisualElement name="Heridascont" tooltip="Si toma 3 heridas no podrá participar del resto del combate." style="flex-direction: row;">
+                    <ui:Label text="Heridas" display-tooltip-when-elided="true" name="PerHeridas" />
+                    <ui:Label text="0" display-tooltip-when-elided="true" name="HeridasValue" />
+                </ui:VisualElement>
+                <ui:VisualElement name="Dramacont" tooltip="Puede usarlo para reintentar tiradas." style="flex-direction: row;">
+                    <ui:Label text="Drama -" display-tooltip-when-elided="true" name="PerDrama" />
+                    <ui:Label text="No" display-tooltip-when-elided="true" name="DramaValue" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="PerHab" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
+                <ui:VisualElement name="ABcont" tooltip="Suma a tu Guardia y a los dados de Ataque Basico" style="flex-direction: row;">
+                    <ui:Label text="Ataque Básico" display-tooltip-when-elided="true" name="PerAB" />
+                    <ui:Label text="0" display-tooltip-when-elided="true" name="ABValue" />
+                </ui:VisualElement>
+                <ui:VisualElement name="DBcont" tooltip="Suma a tu Guardia y a los dados de Defensa Basica" style="flex-direction: row;">
+                    <ui:Label text="Defensa Básica" display-tooltip-when-elided="true" name="PerDB" />
+                    <ui:Label text="0" display-tooltip-when-elided="true" name="DBValue" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="PerAtr" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
+                <ui:VisualElement name="ManaCont" tooltip="Cada punto suma 1d a tus Ataques" style="flex-direction: row;">
+                    <ui:Label text="Maña" display-tooltip-when-elided="true" name="PerMana" />
+                    <ui:Label text="0" display-tooltip-when-elided="true" name="ManaValue" />
+                </ui:VisualElement>
+                <ui:VisualElement name="MusculoCont" tooltip="Cada punto suma 1d por tu Multiplicador de Músculo al daño de tus Ataques" style="flex-direction: row;">
+                    <ui:Label text="Músculo" display-tooltip-when-elided="true" name="PerMusculo" />
+                    <ui:Label text="0" display-tooltip-when-elided="true" name="MusculoValue" />
+                </ui:VisualElement>
+                <ui:VisualElement name="IngenioCont" tooltip="Cada punto suma 1d a tus Defensas" style="flex-direction: row;">
+                    <ui:Label text="Ingenio" display-tooltip-when-elided="true" name="PerIngenio" />
+                    <ui:Label text="0" display-tooltip-when-elided="true" name="IngenioValue" />
+                </ui:VisualElement>
+                <ui:VisualElement name="BrioCont" tooltip="Cada punto suma 3d a tu tirada de Heridas" style="flex-direction: row;">
+                    <ui:Label text="Brío" display-tooltip-when-elided="true" name="PerBrio" />
+                    <ui:Label text="0" display-tooltip-when-elided="true" name="BrioValue" />
+                </ui:VisualElement>
+                <ui:VisualElement name="DonaireCont" tooltip="Cada punto suma 3d a tu tirada de Iniciativa" style="flex-direction: row;">
+                    <ui:Label text="Donaire" display-tooltip-when-elided="true" name="PerDonaire" />
+                    <ui:Label text="0" display-tooltip-when-elided="true" name="DonaireValue" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
     </ui:VisualElement>
     <ui:VisualElement name="PantallaRoguelikeUpgradeRevisar" style="position: absolute; display: none; align-items: center; justify-content: space-around; height: 100%; width: 100%; background-image: resource(&apos;Images/Backgrounds/NM Gate 16-9&apos;);">
         <ui:Label text="Tu Equipo" display-tooltip-when-elided="true" name="mRoguelikeRevisar" enable-rich-text="false" style="font-size: 48px; -unity-text-align: middle-center; width: 20%; height: 150px; justify-content: center; background-color: rgb(238, 221, 214); color: rgb(40, 24, 24); border-top-left-radius: 20px; border-bottom-left-radius: 20px; border-top-right-radius: 20px; border-bottom-right-radius: 20px; -unity-background-scale-mode: scale-and-crop; border-left-color: rgb(25, 16, 17); border-right-color: rgb(25, 16, 17); border-top-color: rgb(25, 16, 17); border-bottom-color: rgb(25, 16, 17); border-left-width: 3px; border-right-width: 3px; border-top-width: 3px; border-bottom-width: 3px; -unity-font: url(&apos;project://database/Assets/NotMyFolders/UI%20Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss?fileID=2230732570650464555&amp;guid=527ab2e1a07ca3849a62250d4426de9d&amp;type=3#NotInter-Regular&apos;); -unity-font-style: normal; white-space: normal; margin-left: 0; margin-right: 0; margin-top: 10px; margin-bottom: 0;" />
-        <ui:VisualElement name="Party" style="flex-direction: row; width: 100%; height: 70%; justify-content: space-around; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0;">
+        <ui:VisualElement style="flex-direction: row; width: 90%;">
             <ui:VisualElement name="RoguelikePersonaje1" class="button-main-menu base" style="height: auto; width: 100%; margin-left: 20px; margin-right: 20px; margin-top: 20px; margin-bottom: 20px; padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 10px;">
                 <ui:VisualElement name="PerEncabezado" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
-                    <ui:Label text="Nombre" display-tooltip-when-elided="true" name="PerNombre" />
-                    <ui:Label text="Arma" display-tooltip-when-elided="true" name="PerArma" />
+                    <ui:Label text="Nombre" display-tooltip-when-elided="true" name="PerNombre" tooltip="Su nombre." />
+                    <ui:Label text="Label" display-tooltip-when-elided="true" name="PerArma" />
+                    <ui:VisualElement name="Heridascont" tooltip="Si llega a 3 durante un combate no podrá continuar en el." style="flex-direction: row;">
+                        <ui:Label text="Heridas" display-tooltip-when-elided="true" name="PerHeridas" />
+                        <ui:Label text="0" display-tooltip-when-elided="true" name="HeridasValue" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="Dramacont" tooltip="Puede usar su Drama para reintentar una tirada." style="flex-direction: row;">
+                        <ui:Label text="Drama -" display-tooltip-when-elided="true" name="PerDrama" />
+                        <ui:Label text="No" display-tooltip-when-elided="true" name="DramaValue" />
+                    </ui:VisualElement>
                 </ui:VisualElement>
                 <ui:VisualElement name="PerHab" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
-                    <ui:VisualElement name="ABcont" style="flex-direction: row;">
+                    <ui:VisualElement name="ABcont" tooltip="Suma a tu Guardia y a los dados de Ataque Basico" style="flex-direction: row;">
                         <ui:Label text="Ataque Básico" display-tooltip-when-elided="true" name="PerAB" />
                         <ui:Label text="0" display-tooltip-when-elided="true" name="ABValue" />
                     </ui:VisualElement>
-                    <ui:VisualElement name="DBcont" style="flex-direction: row;">
+                    <ui:VisualElement name="DBcont" tooltip="Suma a tu Guardia y a los dados de Defensa Basica" style="flex-direction: row;">
                         <ui:Label text="Defensa Básica" display-tooltip-when-elided="true" name="PerDB" />
                         <ui:Label text="0" display-tooltip-when-elided="true" name="DBValue" />
                     </ui:VisualElement>
                 </ui:VisualElement>
                 <ui:VisualElement name="PerAtr" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
-                    <ui:VisualElement name="ManaCont" style="flex-direction: row;">
+                    <ui:VisualElement name="ManaCont" tooltip="Cada punto suma 1d a tus Ataques" style="flex-direction: row;">
                         <ui:Label text="Maña" display-tooltip-when-elided="true" name="PerMana" />
                         <ui:Label text="0" display-tooltip-when-elided="true" name="ManaValue" />
                     </ui:VisualElement>
-                    <ui:VisualElement name="MusculoCont" style="flex-direction: row;">
+                    <ui:VisualElement name="MusculoCont" tooltip="Cada punto suma 1d por tu Multiplicador de Músculo al daño de tus Ataques" style="flex-direction: row;">
                         <ui:Label text="Músculo" display-tooltip-when-elided="true" name="PerMusculo" />
                         <ui:Label text="0" display-tooltip-when-elided="true" name="MusculoValue" />
                     </ui:VisualElement>
-                    <ui:VisualElement name="IngenioCont" style="flex-direction: row;">
+                    <ui:VisualElement name="IngenioCont" tooltip="Cada punto suma 1d a tus Defensas" style="flex-direction: row;">
                         <ui:Label text="Ingenio" display-tooltip-when-elided="true" name="PerIngenio" />
                         <ui:Label text="0" display-tooltip-when-elided="true" name="IngenioValue" />
                     </ui:VisualElement>
-                    <ui:VisualElement name="BrioCont" style="flex-direction: row;">
+                    <ui:VisualElement name="BrioCont" tooltip="Cada punto suma 3d a tu tirada de Heridas" style="flex-direction: row;">
                         <ui:Label text="Brío" display-tooltip-when-elided="true" name="PerBrio" />
                         <ui:Label text="0" display-tooltip-when-elided="true" name="BrioValue" />
                     </ui:VisualElement>
-                    <ui:VisualElement name="DonaireCont" style="flex-direction: row;">
+                    <ui:VisualElement name="DonaireCont" tooltip="Cada punto suma 3d a tu tirada de Iniciativa" style="flex-direction: row;">
                         <ui:Label text="Donaire" display-tooltip-when-elided="true" name="PerDonaire" />
                         <ui:Label text="0" display-tooltip-when-elided="true" name="DonaireValue" />
                     </ui:VisualElement>
@@ -92,37 +193,45 @@
             </ui:VisualElement>
             <ui:VisualElement name="RoguelikePersonaje2" class="button-main-menu base" style="height: auto; width: 100%; margin-left: 20px; margin-right: 20px; margin-top: 20px; margin-bottom: 20px; padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 10px;">
                 <ui:VisualElement name="PerEncabezado" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
-                    <ui:Label text="Nombre" display-tooltip-when-elided="true" name="PerNombre" />
-                    <ui:Label text="Arma" display-tooltip-when-elided="true" name="PerArma" />
+                    <ui:Label text="Nombre" display-tooltip-when-elided="true" name="PerNombre" tooltip="Su nombre." />
+                    <ui:Label text="Label" display-tooltip-when-elided="true" name="PerArma" />
+                    <ui:VisualElement name="Heridascont" tooltip="Si llega a 3 durante un combate no podrá continuar en el." style="flex-direction: row;">
+                        <ui:Label text="Heridas" display-tooltip-when-elided="true" name="PerHeridas" />
+                        <ui:Label text="0" display-tooltip-when-elided="true" name="HeridasValue" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="Dramacont" tooltip="Puede usar su Drama para reintentar una tirada." style="flex-direction: row;">
+                        <ui:Label text="Drama -" display-tooltip-when-elided="true" name="PerDrama" />
+                        <ui:Label text="No" display-tooltip-when-elided="true" name="DramaValue" />
+                    </ui:VisualElement>
                 </ui:VisualElement>
                 <ui:VisualElement name="PerHab" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
-                    <ui:VisualElement name="ABcont" style="flex-direction: row;">
+                    <ui:VisualElement name="ABcont" tooltip="Suma a tu Guardia y a los dados de Ataque Basico" style="flex-direction: row;">
                         <ui:Label text="Ataque Básico" display-tooltip-when-elided="true" name="PerAB" />
                         <ui:Label text="0" display-tooltip-when-elided="true" name="ABValue" />
                     </ui:VisualElement>
-                    <ui:VisualElement name="DBcont" style="flex-direction: row;">
+                    <ui:VisualElement name="DBcont" tooltip="Suma a tu Guardia y a los dados de Defensa Basica" style="flex-direction: row;">
                         <ui:Label text="Defensa Básica" display-tooltip-when-elided="true" name="PerDB" />
                         <ui:Label text="0" display-tooltip-when-elided="true" name="DBValue" />
                     </ui:VisualElement>
                 </ui:VisualElement>
                 <ui:VisualElement name="PerAtr" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
-                    <ui:VisualElement name="ManaCont" style="flex-direction: row;">
+                    <ui:VisualElement name="ManaCont" tooltip="Cada punto suma 1d a tus Ataques" style="flex-direction: row;">
                         <ui:Label text="Maña" display-tooltip-when-elided="true" name="PerMana" />
                         <ui:Label text="0" display-tooltip-when-elided="true" name="ManaValue" />
                     </ui:VisualElement>
-                    <ui:VisualElement name="MusculoCont" style="flex-direction: row;">
+                    <ui:VisualElement name="MusculoCont" tooltip="Cada punto suma 1d por tu Multiplicador de Músculo al daño de tus Ataques" style="flex-direction: row;">
                         <ui:Label text="Músculo" display-tooltip-when-elided="true" name="PerMusculo" />
                         <ui:Label text="0" display-tooltip-when-elided="true" name="MusculoValue" />
                     </ui:VisualElement>
-                    <ui:VisualElement name="IngenioCont" style="flex-direction: row;">
+                    <ui:VisualElement name="IngenioCont" tooltip="Cada punto suma 1d a tus Defensas" style="flex-direction: row;">
                         <ui:Label text="Ingenio" display-tooltip-when-elided="true" name="PerIngenio" />
                         <ui:Label text="0" display-tooltip-when-elided="true" name="IngenioValue" />
                     </ui:VisualElement>
-                    <ui:VisualElement name="BrioCont" style="flex-direction: row;">
+                    <ui:VisualElement name="BrioCont" tooltip="Cada punto suma 3d a tu tirada de Heridas" style="flex-direction: row;">
                         <ui:Label text="Brío" display-tooltip-when-elided="true" name="PerBrio" />
                         <ui:Label text="0" display-tooltip-when-elided="true" name="BrioValue" />
                     </ui:VisualElement>
-                    <ui:VisualElement name="DonaireCont" style="flex-direction: row;">
+                    <ui:VisualElement name="DonaireCont" tooltip="Cada punto suma 3d a tu tirada de Iniciativa" style="flex-direction: row;">
                         <ui:Label text="Donaire" display-tooltip-when-elided="true" name="PerDonaire" />
                         <ui:Label text="0" display-tooltip-when-elided="true" name="DonaireValue" />
                     </ui:VisualElement>
@@ -130,37 +239,45 @@
             </ui:VisualElement>
             <ui:VisualElement name="RoguelikePersonaje3" class="button-main-menu base" style="height: auto; width: 100%; margin-left: 20px; margin-right: 20px; margin-top: 20px; margin-bottom: 20px; padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 10px;">
                 <ui:VisualElement name="PerEncabezado" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
-                    <ui:Label text="Nombre" display-tooltip-when-elided="true" name="PerNombre" />
-                    <ui:Label text="Arma" display-tooltip-when-elided="true" name="PerArma" />
+                    <ui:Label text="Nombre" display-tooltip-when-elided="true" name="PerNombre" tooltip="Su nombre." />
+                    <ui:Label text="Label" display-tooltip-when-elided="true" name="PerArma" />
+                    <ui:VisualElement name="Heridascont" tooltip="Si llega a 3 durante un combate no podrá continuar en el." style="flex-direction: row;">
+                        <ui:Label text="Heridas" display-tooltip-when-elided="true" name="PerHeridas" />
+                        <ui:Label text="0" display-tooltip-when-elided="true" name="HeridasValue" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="Dramacont" tooltip="Puede usar su Drama para reintentar una tirada." style="flex-direction: row;">
+                        <ui:Label text="Drama -" display-tooltip-when-elided="true" name="PerDrama" />
+                        <ui:Label text="No" display-tooltip-when-elided="true" name="DramaValue" />
+                    </ui:VisualElement>
                 </ui:VisualElement>
                 <ui:VisualElement name="PerHab" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
-                    <ui:VisualElement name="ABcont" style="flex-direction: row;">
+                    <ui:VisualElement name="ABcont" tooltip="Suma a tu Guardia y a los dados de Ataque Basico" style="flex-direction: row;">
                         <ui:Label text="Ataque Básico" display-tooltip-when-elided="true" name="PerAB" />
                         <ui:Label text="0" display-tooltip-when-elided="true" name="ABValue" />
                     </ui:VisualElement>
-                    <ui:VisualElement name="DBcont" style="flex-direction: row;">
+                    <ui:VisualElement name="DBcont" tooltip="Suma a tu Guardia y a los dados de Defensa Basica" style="flex-direction: row;">
                         <ui:Label text="Defensa Básica" display-tooltip-when-elided="true" name="PerDB" />
                         <ui:Label text="0" display-tooltip-when-elided="true" name="DBValue" />
                     </ui:VisualElement>
                 </ui:VisualElement>
                 <ui:VisualElement name="PerAtr" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
-                    <ui:VisualElement name="ManaCont" style="flex-direction: row;">
+                    <ui:VisualElement name="ManaCont" tooltip="Cada punto suma 1d a tus Ataques" style="flex-direction: row;">
                         <ui:Label text="Maña" display-tooltip-when-elided="true" name="PerMana" />
                         <ui:Label text="0" display-tooltip-when-elided="true" name="ManaValue" />
                     </ui:VisualElement>
-                    <ui:VisualElement name="MusculoCont" style="flex-direction: row;">
+                    <ui:VisualElement name="MusculoCont" tooltip="Cada punto suma 1d por tu Multiplicador de Músculo al daño de tus Ataques" style="flex-direction: row;">
                         <ui:Label text="Músculo" display-tooltip-when-elided="true" name="PerMusculo" />
                         <ui:Label text="0" display-tooltip-when-elided="true" name="MusculoValue" />
                     </ui:VisualElement>
-                    <ui:VisualElement name="IngenioCont" style="flex-direction: row;">
+                    <ui:VisualElement name="IngenioCont" tooltip="Cada punto suma 1d a tus Defensas" style="flex-direction: row;">
                         <ui:Label text="Ingenio" display-tooltip-when-elided="true" name="PerIngenio" />
                         <ui:Label text="0" display-tooltip-when-elided="true" name="IngenioValue" />
                     </ui:VisualElement>
-                    <ui:VisualElement name="BrioCont" style="flex-direction: row;">
+                    <ui:VisualElement name="BrioCont" tooltip="Cada punto suma 3d a tu tirada de Heridas" style="flex-direction: row;">
                         <ui:Label text="Brío" display-tooltip-when-elided="true" name="PerBrio" />
                         <ui:Label text="0" display-tooltip-when-elided="true" name="BrioValue" />
                     </ui:VisualElement>
-                    <ui:VisualElement name="DonaireCont" style="flex-direction: row;">
+                    <ui:VisualElement name="DonaireCont" tooltip="Cada punto suma 3d a tu tirada de Iniciativa" style="flex-direction: row;">
                         <ui:Label text="Donaire" display-tooltip-when-elided="true" name="PerDonaire" />
                         <ui:Label text="0" display-tooltip-when-elided="true" name="DonaireValue" />
                     </ui:VisualElement>
@@ -296,7 +413,7 @@
     <ui:VisualElement name="PantallaCombate" style="position: absolute; display: none; align-items: center; justify-content: flex-start; height: 100%; width: 100%; background-color: rgba(0, 0, 0, 0);">
         <ui:VisualElement name="Instrucciones" style="width: 100%; height: 70%;">
             <ui:VisualElement style="flex-direction: row;">
-                <ui:Label text="Label" display-tooltip-when-elided="true" name="Texto" class="button-main-menu base" style="white-space: normal; margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px; padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 10px; font-size: 32px; height: 250px; width: 500px;" />
+                <ui:Label text="Label" display-tooltip-when-elided="true" name="Texto" class="button-main-menu base" style="white-space: normal; margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px; padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 10px; font-size: 32px; height: 300px; width: 500px;" />
             </ui:VisualElement>
             <ui:VisualElement name="BotonesInput" style="flex-direction: column;">
                 <ui:VisualElement name="MenuAccion" style="flex-direction: row; display: none;">
@@ -446,12 +563,14 @@
         <ui:VisualElement name="InfoVital" class="base" style="display: none; position: absolute; width: 300px; align-items: stretch;">
             <ui:Label text="Nombre" display-tooltip-when-elided="true" name="InfoNombre" />
             <ui:Label text="Her/Cant" display-tooltip-when-elided="true" name="InfoHerCant" />
+            <ui:Label text="Guardia" display-tooltip-when-elided="true" name="InfoDrama" />
             <ui:Label text="Guardia" display-tooltip-when-elided="true" name="InfoGuardia" />
         </ui:VisualElement>
         <ui:VisualElement name="InfoTactica" class="base" style="display: none; position: absolute;">
             <ui:VisualElement name="InfoVitalTact" style="display: flex;">
                 <ui:Label text="Nombre" display-tooltip-when-elided="true" name="InfoTactNombre" />
                 <ui:Label text="Her/Cant" display-tooltip-when-elided="true" name="InfoTactHerCant" />
+                <ui:Label text="Guardia" display-tooltip-when-elided="true" name="InfoTactDrama" />
                 <ui:Label text="Guardia" display-tooltip-when-elided="true" name="InfoTactGuardia" />
             </ui:VisualElement>
             <ui:VisualElement name="InfoExtraTact">
@@ -462,8 +581,9 @@
         </ui:VisualElement>
         <ui:VisualElement name="InfoCompleta" class="base" style="display: none; position: absolute; right: auto; left: 1540px; flex-direction: column; top: 15px;">
             <ui:VisualElement name="InfoVitalComp">
-                <ui:Label text="Label" display-tooltip-when-elided="true" name="InfoCompNombre" tooltip="Nombre" />
-                <ui:Label text="Label" display-tooltip-when-elided="true" name="InfoCompHerCant" tooltip="Heridas sufridas o cantida de matones vivos" />
+                <ui:Label text="Label" display-tooltip-when-elided="true" name="InfoCompNombre" tooltip="Su nombre." />
+                <ui:Label text="Label" display-tooltip-when-elided="true" name="InfoCompHerCant" tooltip="Heridas sufridas o cantidad de matones vivos" />
+                <ui:Label text="Label" display-tooltip-when-elided="true" name="InfoCompDrama" tooltip="Si tiene Drama para repetir una tirada." />
                 <ui:Label text="Label" display-tooltip-when-elided="true" name="InfoCompGuardia" tooltip="La dificultad de golpearlo con un Ataque o Detener su Movimiento" />
             </ui:VisualElement>
             <ui:VisualElement name="InfoExtraComp">
@@ -519,6 +639,6 @@
         </ui:VisualElement>
     </ui:VisualElement>
     <ui:VisualElement name="TooltipLayer" style="position: absolute;">
-        <ui:Label text="tooltip" display-tooltip-when-elided="true" name="tooltip" class="base tooltip" style="display: none; flex-wrap: wrap; white-space: normal; width: auto; max-width: 250px;" />
+        <ui:Label text="tooltip" display-tooltip-when-elided="true" name="tooltip" class="base tooltip" style="display: none; flex-wrap: wrap; white-space: normal; width: auto; max-width: 526px;" />
     </ui:VisualElement>
 </ui:UXML>

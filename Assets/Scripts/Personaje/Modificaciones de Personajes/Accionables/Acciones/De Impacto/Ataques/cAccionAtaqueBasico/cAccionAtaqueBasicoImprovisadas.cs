@@ -16,6 +16,7 @@ public class cAccionAtaqueBasicoImprovisadas : cAccionAtaqueBasico
 
     override public int DeterminarNumeroDeDados()
     {
+        armaImpro();
         int numeroDeDados = base.DeterminarNumeroDeDados();
         numeroDeDados -= (personaje.arma as cArmasPelea).tamañoDeArmaImprovisada;
         return numeroDeDados;
@@ -23,7 +24,6 @@ public class cAccionAtaqueBasicoImprovisadas : cAccionAtaqueBasico
 
     override protected void armaImpro()
     {
-        Debug.Log("arma imrpvo impro");
         (personaje.arma as cArmasPelea).ActualizarDataDeImprovisada(true);
     }
 
@@ -34,13 +34,20 @@ public class cAccionAtaqueBasicoImprovisadas : cAccionAtaqueBasico
 
     override protected void Tirando()
     {
+        Debug.Log("tirando ara arma imrpov");
+        Debug.Log("Mus ult: " + personaje.arma.musMult);
+        Debug.Log("bonus a: " + personaje.arma.bonusAtaque);
+        Debug.Log("explota: " + personaje.arma.dañoExplota);
         mostrarMensaje1 = true;
         tirada tr = cDieMath.TirarDados(dadosATirar);
         c.jugadorAtq = cDieMath.sumaDe3Mayores(tr);
         string resultado;
         string pierdeArma = "";
-        if (c.jugadorAtq >= c.personajeObjetivo.GetGuardia())
+        bool exito = c.jugadorAtq >= c.personajeObjetivo.GetGuardia();
+        string atq;
+        if (exito)
         {
+            atq = UIInterface.IntExitoso(c.jugadorAtq);
             resultado = "acierta";
             LlenarReaccionesPosibles();
             pierdeArma = " Su arma improvisada se destruye en el impacto.";
@@ -48,6 +55,7 @@ public class cAccionAtaqueBasicoImprovisadas : cAccionAtaqueBasico
         }
         else
         {
+            atq = UIInterface.IntFallido(c.jugadorAtq);
             resultado = "fallando";
             if (personaje.GetZonaActual() != c.personajeObjetivo.GetZonaActual())
             {
@@ -56,7 +64,27 @@ public class cAccionAtaqueBasicoImprovisadas : cAccionAtaqueBasico
             }
             acc_state = AB_TERMINADO - 1;
         }
-        uiC.SetText(c.personajeActivo.nombre + " saca " + c.jugadorAtq + ", " + resultado + " el ataque contra la guardia de " + c.personajeObjetivo.GetGuardia() + " de " + c.personajeObjetivo.nombre + "." + pierdeArma);
+        uiC.SetText(UIInterface.NombreDePersonajeEnNegrita(c.personajeActivo) + " saca " + atq + ", " + resultado + " el ataque contra la guardia de " + UIInterface.IntEnNegrita(c.personajeObjetivo.GetGuardia()) + " de " + UIInterface.NombreDePersonajeEnNegrita(c.personajeObjetivo) + "." + pierdeArma);
+        if (personaje.Drama && !exito) uiC.PedirDrama();
     }
 
+    override protected void DeterminadoDados()
+    {
+        c.atacando = true;
+        intentaronDetenerlo = false;
+        c.jugadorDef = 0;
+
+        dadosATirar = DeterminarNumeroDeDados();
+
+        string text = "¡" + UIInterface.NombreDePersonajeEnNegrita(personaje) + " usa su " + nombre + " contra " + UIInterface.NombreDePersonajeEnNegrita(c.personajeObjetivo) + "! Tira " + dadosATirar + " dados contra su guardia de " + UIInterface.IntEnNegrita(c.personajeObjetivo.GetGuardia()) + ".";
+        if (c.movAgro)
+        {
+            uiC.SetText(text);
+        }
+        else
+        {
+            c.personajeActivo.GastarDado(c.faseActual, c.acciones, c.accionesActivas, c.accionesReactivas, text);
+            uiC.ActualizarIniciativa(c.personajes);
+        }
+    }
 }

@@ -11,7 +11,7 @@ public class cAISmartDef : cAI
         p.c.personajeObjetivo = PersonajeMasDañado(enemigosEnRango);
         if (p.c.personajeObjetivo != null)
         {
-            if (p.c.personajeObjetivo.hDram > 0 || p.bonusPAtqBporDefB > 9)
+            if (p.c.personajeObjetivo.Heridas > 0 || p.BonusPAtqBporDefB > 9)
             {
                 p.uiC.RegistrarAccion();
                 return cPersonaje.AC_ATACAR;
@@ -26,7 +26,7 @@ public class cAISmartDef : cAI
     {
         if (!enPeligro)
         {
-            enPeligro = (p.hDram > 1);
+            enPeligro = (p.Heridas > 1);
         }
         int dadosExtrasDefensa = p.atr.ingenio + p.hab.defensaBasica + p.defensaBasicaDadosExtra;
         if (atq < 25 + dadosExtrasDefensa || enPeligro)

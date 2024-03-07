@@ -10,7 +10,6 @@ public class cAccionable : MonoBehaviour
     public bool esLegal;
     public int acc_state;
     public int reroleandoState;
-    public bool reroleando = false;
 
     public cPersonaje personaje;
 
@@ -36,8 +35,8 @@ public class cAccionable : MonoBehaviour
     {
         uiC.SetText("¡Usamos Drama! Vamos a volver a tirar los dados.");
         acc_state = reroleandoState;
-        personaje.drama = false;
-        reroleando = true;
+        uiC.perCambio = personaje.nombre;
+        personaje.Drama = false;
         c.EsperandoOkOn(true);
     }
 }

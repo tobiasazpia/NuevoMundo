@@ -52,11 +52,11 @@ public class cAccionAtaqueBasico : cAccionAtaque
                 break;
             case AB_DAÑO:
                 //Debug.Log("ab_state 3");
-                Daño();
+                TiramosDaño();
                 break;
             case AB_HERIDAS:
                 //Debug.Log("ab_state 4");
-                Heridas();
+                TiramosHeridas();
                 break;
             case AB_TERMINADO:
                 //Debug.Log("ab_state 5");
@@ -118,19 +118,15 @@ public class cAccionAtaqueBasico : cAccionAtaque
 
         dadosATirar = DeterminarNumeroDeDados();
 
-        string text = "¡" + personaje.nombre + " usa su " + nombre + " contra " + c.personajeObjetivo.nombre + "! Tira " + dadosATirar + " dados contra su guardia de " + c.personajeObjetivo.GetGuardia() + "." + armasImprovisadas;
+        string text = "¡" + UIInterface.NombreDePersonajeEnNegrita(personaje) + " usa su " + nombre + " contra " + UIInterface.NombreDePersonajeEnNegrita(c.personajeObjetivo) + "! Tira " + dadosATirar + " dados contra su guardia de " + UIInterface.IntEnNegrita(c.personajeObjetivo.GetGuardia()) + "." + armasImprovisadas;
         if (c.movAgro) {
             uiC.SetText(text);
         }
         else
         {
-            //if (!reroleando)
-            //{
-                c.personajeActivo.GastarDado(c.faseActual, c.acciones, c.accionesActivas, c.accionesReactivas, text);
-                uiC.ActualizarIniciativa(c.personajes);
-            //}
+            c.personajeActivo.GastarDado(c.faseActual, c.acciones, c.accionesActivas, c.accionesReactivas, text);
+            uiC.ActualizarIniciativa(c.personajes);
         }
-        reroleando = false;
     }
 
     virtual protected void armaImpro()
@@ -144,23 +140,27 @@ public class cAccionAtaqueBasico : cAccionAtaque
         tirada tr = cDieMath.TirarDados(dadosATirar);
         c.jugadorAtq = cDieMath.sumaDe3Mayores(tr);
         string resultado;
+        string atq;
         textoAdicional = "";
-        if (c.jugadorAtq >= c.personajeObjetivo.GetGuardia())
+        bool exito = c.jugadorAtq >= c.personajeObjetivo.GetGuardia();
+        if (exito)
         {
             resultado = SuperamosGuardia();
+            atq = UIInterface.IntExitoso(c.jugadorAtq);
         }
         else
         {
             resultado = NoSuperamosGuardia();
+            atq = UIInterface.IntFallido(c.jugadorAtq);
         }
-        uiC.SetText(c.personajeActivo.nombre + " saca " + c.jugadorAtq + ", " + resultado + " el ataque contra la guardia de " + c.personajeObjetivo.GetGuardia() + " de " + c.personajeObjetivo.nombre + "." + textoAdicional);
-        if (personaje.drama) uiC.PedirDrama();
+        uiC.SetText(UIInterface.NombreDePersonajeEnNegrita(personaje) + " saca " + atq + ", " + resultado + " el ataque contra la guardia de " + UIInterface.IntEnNegrita(c.personajeObjetivo.GetGuardia()) + " de " + UIInterface.NombreDePersonajeEnNegrita(c.personajeObjetivo) + "." + textoAdicional);
+        if (personaje.Drama && !exito) uiC.PedirDrama();
     }
 
     virtual protected string SuperamosGuardia()
     {
         LlenarReaccionesPosibles();
-        return "acierta";
+        return "acertando";
     }
 
     virtual protected string NoSuperamosGuardia()
@@ -182,7 +182,6 @@ public class cAccionAtaqueBasico : cAccionAtaque
             {
                 if (p.arma.GetDeRango()) //si es rango, y la zona de la que proviene el ataque esta en rango
                 {
-                    Debug.Log("de rango en llenando reacciones");
                     if (p.arma is cArmasFuego)
                     {
                         if(c.ZonaEsteEnRangoDePersonaje(p, c.personajeActivo.GetZonaActual()) && (p.arma as cArmasFuego).cargada) posiblesReaccionesSinObjetivo.Add(p);
@@ -271,21 +270,22 @@ public class cAccionAtaqueBasico : cAccionAtaque
         }
     }
 
-    private void Daño()
+    private void TiramosDaño()
     {
         if (!(c.personajeObjetivo is cMatones))
         {
-            int numeroDeDados = 3 + personaje.atr.musculo * personaje.arma.GetMusMult() + personaje.bonusPAtqBporDefB;
+            int numeroDeDados = 3 + personaje.atr.musculo * personaje.arma.GetMusMult() + personaje.BonusPAtqBporDefB;
             if (c.movAgro) numeroDeDados -= 3;
             tirada tr = cDieMath.TirarDados(numeroDeDados, personaje.arma.GetDañoExpl());
             c.daño = cDieMath.sumaDe3Mayores(tr);
-            uiC.SetText(personaje.nombre + ", con sus " + personaje.atr.musculo + " en Musculo y multiplicador de " + personaje.arma.GetMusMult() + ", tira " + numeroDeDados + " dados ¡Haciendo " + c.daño + " de daño!");
-            personaje.bonusPAtqBporDefB = 0;
+            uiC.SetText(UIInterface.NombreDePersonajeEnNegrita(personaje) + ", con sus " + personaje.atr.musculo + " en Musculo y multiplicador de " + personaje.arma.GetMusMult() + ", tira " + numeroDeDados + " dados ¡Haciendo " + UIInterface.IntEnNegrita(c.daño) + " de daño!");
+            uiC.perCambio = c.personajeObjetivo.nombre;
+            c.personajeObjetivo.Daño += c.daño;
             //if (personaje.drama) uiC.PedirDrama();
         }
     }
 
-    private void Heridas()
+    private void TiramosHeridas()
     {
         c.personajeObjetivo.RecibirGolpe(personaje, c.jugadorAtq, c.jugadorDef);
     }
@@ -299,7 +299,8 @@ public class cAccionAtaqueBasico : cAccionAtaque
         c.movAgro = false;
         c.atacando = false;
         c.jugadorDef = 0;
-        personaje.bonusPAtqBporDefB = 0;
+        uiC.perCambio = personaje.nombre;
+        personaje.BonusPAtqBporDefB = 0;
         //capaz hay que separar esto en 2 stages? chequeando muertes y chequeando si termino?
         if (c.personajeObjetivo is cMatones)
         {
@@ -324,7 +325,7 @@ public class cAccionAtaqueBasico : cAccionAtaque
     override public int DeterminarNumeroDeDados()
     {
         personaje.totalDadosDelAtacante = personaje.dadosDelAtacantePorPrecavido + personaje.arma.GetDadosDelAtacanteMod();
-        int numeroDeDados = 3 + personaje.atr.maña + personaje.hab.ataqueBasico + personaje.arma.GetBonusAtaque() + personaje.bonusPAtqBporDefB + c.personajeObjetivo.totalDadosDelAtacante;
+        int numeroDeDados = 3 + personaje.atr.maña + personaje.hab.ataqueBasico + personaje.arma.GetBonusAtaque() + personaje.BonusPAtqBporDefB + c.personajeObjetivo.totalDadosDelAtacante;
         if (c.movAgro) numeroDeDados -= 3;
         return numeroDeDados;
     }

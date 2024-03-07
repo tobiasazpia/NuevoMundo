@@ -55,7 +55,7 @@ public class cZona : MonoBehaviour
     void unres() {
         nombreUI.UnregisterCallback<GeometryChangedEvent>(OnGeoChanged);
         float wProp = 1920.0f / Screen.width;
-        uiC.MyWorldToScreen(transform.position, nombreUI, -nombreUI.resolvedStyle.width / 2.0f / wProp, Screen.height / 4);
+        UICombate.MyWorldToScreen(transform.position, nombreUI, -nombreUI.resolvedStyle.width / 2.0f / wProp, Screen.height / 4);
     }
     // Update is called once per frame
     void Update()

@@ -5,6 +5,8 @@ using UnityEngine.UIElements;
 
 public class UICombate : MonoBehaviour
 {
+    public string perCambio;
+
     public cAccionable acc;
 
     public Camera cam;
@@ -68,7 +70,9 @@ public class UICombate : MonoBehaviour
     Label tooltip;
     bool hovering;
     float hoverTimer;
-    const float timeTillTooltip = 0.75f;
+    const float buttonTimeTillTooltip = 0.75f;
+    const float labelTimeTillTooltip = 0.2f;
+    float timeTillTooltip;
 
     VisualElement infoVital;
     VisualElement infoTactica;
@@ -76,10 +80,12 @@ public class UICombate : MonoBehaviour
 
     Label infoVNombre;
     Label infoVHerCan;
+    Label infoVDrama;
     Label infoVGuardia;
 
     Label infoTNombre;
     Label infoTHerCan;
+    Label infoTDrama;
     Label infoTGuardia;
     Label infoTArma;
     Label infoTBonus;
@@ -150,10 +156,12 @@ public class UICombate : MonoBehaviour
 
         infoVNombre = root.Q<Label>("InfoNombre");
         infoVHerCan = root.Q<Label>("InfoHerCant");
+        infoVDrama = root.Q<Label>("InfoDrama");
         infoVGuardia = root.Q<Label>("InfoGuardia");
 
         infoTNombre = root.Q<Label>("InfoTactNombre");
         infoTHerCan = root.Q<Label>("InfoTactHerCant");
+        infoTDrama = root.Q<Label>("InfoTactDrama");
         infoTGuardia = root.Q<Label>("InfoTactGuardia");
         infoTArma = root.Q<Label>("InfoTactArma");
         infoTBonus = root.Q<Label>("InfoTactBonus");
@@ -243,7 +251,7 @@ public class UICombate : MonoBehaviour
         //Label bonus = infoTactica.ElementAt(1) as Label;
         //Label daño = infoTactica.ElementAt(2) as Label;
 
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < 4; i++)
         {
             RegisterTooltip(infoCompleta.ElementAt(0).ElementAt(i));
         }
@@ -305,7 +313,87 @@ public class UICombate : MonoBehaviour
                 hoverTimer = 0;
                 hovering = false;
                 tooltip.style.display = DisplayStyle.Flex;
+                float wProp = 1920.0f / Screen.width;
+                tooltip.transform.position = new Vector3(Mathf.Min(tooltip.transform.position.x, (Screen.width - 750) * wProp), tooltip.transform.position.y+100, tooltip.transform.position.z);
             }
+        }
+    }
+
+    public void ABBonusChangeChangeHandler(int newVal)
+    {
+        Debug.Log("per selec: " + combate.perSeleccionado + ", this per: " + infoTNombre.text);
+        if (combate.perSeleccionado == perCambio)
+        {
+            Debug.Log("bonus change");
+            infoTBonus.text = "Bonus: " + newVal;
+            VisualElement tactica = infoCompleta.ElementAt(1);
+            Label bonus = tactica.ElementAt(1) as Label;
+            bonus.text = "Bonus: " + newVal;
+        }
+    }
+
+    public void DañoChangeHandler(int newVal)
+    {
+        if (combate.perSeleccionado == perCambio)
+        {
+            Debug.Log("daño change");
+            infoTDaño.text = "Daño: " + newVal;
+            VisualElement tactica = infoCompleta.ElementAt(1);
+            Label d = tactica.ElementAt(2) as Label;
+            d.text = "Daño: " + newVal;
+        }
+    }
+
+    public void HeridasChangeHandler(int newVal)
+    {
+        if (combate.perSeleccionado == perCambio)
+        {
+            Debug.Log("heridas change");
+            infoTHerCan.text = "Heridas: " + newVal;
+
+            VisualElement tactica = infoCompleta.ElementAt(0);
+            Label h = tactica.ElementAt(1) as Label;
+            h.text = "Heridas: " + newVal;
+        }
+        foreach (var item in combate.personajes)
+        {
+            if(item.hovered) infoVHerCan.text = "Heridas: " + newVal;
+        }
+    }
+
+    public void DramaChangeHandler(bool newVal)
+    {
+        string newStr;
+
+        if (newVal) newStr = "Drama - Sí";
+        else newStr = "Drama - No";
+        if (combate.perSeleccionado == perCambio)
+        {
+            Debug.Log("drama change");
+            infoTDrama.text = newStr;
+            VisualElement tactica = infoCompleta.ElementAt(0);
+            Label d = tactica.ElementAt(2) as Label;
+            d.text = newStr;
+        }
+        foreach (var item in combate.personajes)
+        {
+            if (item.hovered) infoVDrama.text = newStr;
+        }
+    }
+
+    public void CantidadChangeHandler(int newVal)
+    {
+        if (combate.perSeleccionado == perCambio)
+        {
+            Debug.Log("cantidad change");
+            infoTHerCan.text = "Cantidad: " + newVal;
+            VisualElement tactica = infoCompleta.ElementAt(0);
+            Label h = tactica.ElementAt(1) as Label;
+            h.text = "Cantidad: " + newVal;
+        }
+        foreach (var item in combate.personajes)
+        {
+            if (item.hovered) infoVHerCan.text = "Cantidad: " + newVal;
         }
     }
 
@@ -323,17 +411,18 @@ public class UICombate : MonoBehaviour
 
     public void OnMouseEnterButton(MouseEnterEvent evt)
     {
+        timeTillTooltip = buttonTimeTillTooltip;
         hovering = true;
         //tooltip.transform.position = (evt.target as Button).transform.position;
-        tooltip.transform.position = evt.mousePosition;
+        tooltip.transform.position = evt.mousePosition - evt.localMousePosition;
         tooltip.text = (evt.target as Button).tooltip;
     }
 
     public void OnMouseEnterVE(MouseEnterEvent evt)
     {
-        Debug.Log("enter VE");
+        timeTillTooltip = labelTimeTillTooltip;
         hovering = true;
-        tooltip.transform.position = evt.mousePosition;
+        tooltip.transform.position = evt.mousePosition - evt.localMousePosition;
         tooltip.text = (evt.target as VisualElement).tooltip;
     }
 
@@ -418,7 +507,7 @@ public class UICombate : MonoBehaviour
     public void PedirAccion(cPersonaje personaje)
     {
         combate.EsperandoOkOn(false);
-        SetText(personaje.nombre + ": que vas a hacer?");
+        SetText(UIInterface.NombreDePersonajeEnNegrita(personaje) + ": que vas a hacer?");
         menuAccion.style.display = DisplayStyle.Flex;
         bMarcial.style.display = DisplayStyle.Flex;
         bMover.style.display = DisplayStyle.Flex;
@@ -429,14 +518,14 @@ public class UICombate : MonoBehaviour
     public void PedirReaccion(cPersonaje personaje)
     {
         menuReaccion.style.display = DisplayStyle.Flex;
-        string text = personaje.nombre + ": ¿Queres intervenir contra ";
+        string text = UIInterface.NombreDePersonajeEnNegrita(personaje) + ": ¿Queres intervenir contra ";
         if (combate.atacando)
         {
-            text += combate.jugadorAtq;
+            text += UIInterface.IntEnNegrita(combate.jugadorAtq);
         }
         else
         {
-            text += combate.personajeActivo.GetGuardia();
+            text += UIInterface.IntEnNegrita(combate.personajeActivo.GetGuardia());
         }
         bReaccionar.style.display = DisplayStyle.Flex;
         text += "?";
@@ -448,11 +537,11 @@ public class UICombate : MonoBehaviour
     {
         menuReaccion.style.display = DisplayStyle.None;
         menuIntervenir.style.display = DisplayStyle.Flex;
-        string text = personaje.nombre + ": ¿Como intervenimos?";
+        string text = UIInterface.NombreDePersonajeEnNegrita(personaje) + ": ¿Como intervenimos?";
         SetText(text);
         if (combate.personajeInterversor.arma is cArmasPelea)
         {
-            if (combate.personajeInterversor.GetZonaActual() == combate.personajeActivo.GetZonaActual()) // si la defensa podria hacerse melee, ni mostramos lo de improv
+            if (combate.personajeInterversor.GetZonaActual() == combate.personajeActivo.GetZonaActual() || combate.personajeInterversor.GetZonaActual() == combate.personajeObjetivo.GetZonaActual()) // si la defensa podria hacerse melee, ni mostramos lo de improv
             {
                 bDefender.style.display = DisplayStyle.Flex;
             }
@@ -498,7 +587,7 @@ public class UICombate : MonoBehaviour
     public void PedirMarcial(cPersonaje personaje)
     {
         DejarDePedirAccion();
-        SetText(personaje.nombre + ": que habilidad usamos?");
+        SetText(UIInterface.NombreDePersonajeEnNegrita(personaje) + ": que habilidad usamos?");
         menuMarcial.style.display = DisplayStyle.Flex;
         VerQueBotonesPonemos(cAcciones.AC_CAT_MARCIAL, personaje.acciones);
         bMarcialAtras.style.display = DisplayStyle.Flex;
@@ -507,7 +596,7 @@ public class UICombate : MonoBehaviour
     public void PedirArcana(cPersonaje personaje)
     {
         DejarDePedirAccion();
-        SetText(personaje.nombre + ": que habilidad usamos?");
+        SetText(UIInterface.NombreDePersonajeEnNegrita(personaje) + ": que habilidad usamos?");
         menuArcana.style.display = DisplayStyle.Flex;
         VerQueBotonesPonemos(cAcciones.AC_CAT_ARCANA, personaje.acciones);
         bArcanaAtras.style.display = DisplayStyle.Flex;
@@ -516,7 +605,7 @@ public class UICombate : MonoBehaviour
     public void PedirMovimiento(cPersonaje personaje)
     {
         DejarDePedirAccion();
-        SetText(personaje.nombre + ": como nos movemos?");
+        SetText(UIInterface.NombreDePersonajeEnNegrita(personaje) + ": como nos movemos?");
         menuMover.style.display = DisplayStyle.Flex;
         VerQueBotonesPonemos(cAcciones.AC_CAT_MOVIMIENTO, personaje.acciones);
         bMoverAtras.style.display = DisplayStyle.Flex;
@@ -524,16 +613,6 @@ public class UICombate : MonoBehaviour
 
     public void PedirDrama()
     {
-        //To do:
-        // Ya hay varias opciones en las que usar drama
-        // la unica que probamos es el ataque basico normal
-        // pero falta el improvisado, el de fuego, el de arco, y el movimiento con carga
-        // la defensa basica
-        // y el daño, heridas e iniciativa
-        //en teoria deberia pedir drama siempre, y si no lo usan creo que ya deberian andar todas
-        //pero si lo usan va a ser un problema, porque daño, heridas e iniciativa no son "accionables"
-        // ni idea como vamos a vovler "un paso" para atras
-        //solucion temporal: que por ahora el drama sea solo para las tiradas de accion?
         combate.EsperandoOkOn(false);
         menuDrama.style.display = DisplayStyle.Flex;
     }
@@ -616,7 +695,7 @@ public class UICombate : MonoBehaviour
 
     private void OnNoIntervenirClicked(ClickEvent evt)
     {
-        SetText(combate.personajeInterversor.nombre + " no intervendra.");
+        SetText(UIInterface.NombreDePersonajeEnNegrita(combate.personajeInterversor) + " no intervendra.");
         combate.stateID = cCombate.RESOLVIENDO_ACCION;
         DejarDePedirReaccion();
         VolverAlCombate();
@@ -760,16 +839,13 @@ public class UICombate : MonoBehaviour
     public void OnPersonajeClicked(cPersonaje p)
     {
         menuBackOnly.style.display = DisplayStyle.None;
-        combate.esperandoObjetivo = false;
-        combate.personajeObjetivo = p;
-        combate.atacando = true;
-        combate.stateID = cCombate.RESOLVIENDO_ACCION;
-        //Capaz en estos ifs mandar el reset? digo, tendria sentido
-        if (combate.accionActiva == cPersonaje.AC_MOVAGRE) combate.accionActiva = cPersonaje.AC_ATACAR;
-        else if (combate.accionActiva == cPersonaje.AC_MOVIMPRO) combate.accionActiva = cPersonaje.AC_ATACARIMPRO;
-        combate.EsperandoOkOn(true);
         RegistrarAccion();
-        VolverAlCombate();
+        combate.Ataque(p);
+    }
+
+    public void HideAtras()
+    {
+        menuBackOnly.style.display = DisplayStyle.None;
     }
 
     public void RegistrarAccion()
@@ -800,7 +876,7 @@ public class UICombate : MonoBehaviour
     private void OnDefenderClicked(ClickEvent evt)
     {
         DejarDePedirIntervencion();
-        SetText("¡" + combate.personajeInterversor.nombre + " va a intervenir!");
+        SetText("¡" + UIInterface.NombreDePersonajeEnNegrita(combate.personajeInterversor) + " va a intervenir!");
         combate.stateID = cCombate.RESOLVIENDO_REACCION;
         combate.reaccionActiva = cPersonaje.DB_DefensaBasica;
         VolverAlCombate();
@@ -809,7 +885,7 @@ public class UICombate : MonoBehaviour
     private void OnDefenderImproClicked(ClickEvent evt)
     {
         DejarDePedirIntervencion();
-        SetText("¡" + combate.personajeInterversor.nombre + " va a intervenir lanzando su arma improvisada!");
+        SetText("¡" + UIInterface.NombreDePersonajeEnNegrita(combate.personajeInterversor) + " va a intervenir lanzando su arma improvisada!");
         combate.stateID = cCombate.RESOLVIENDO_REACCION;
         combate.reaccionActiva = cPersonaje.DB_DefensaBasicaImpro;
         VolverAlCombate();
@@ -892,24 +968,25 @@ public class UICombate : MonoBehaviour
     public void LlenarInfoVital(cPersonaje per)
     {
         infoVNombre.text = per.nombre;
-
-        if (per is cMatones)
+        if (per.Drama)
         {
-            infoVHerCan.text = "Cantidad: " + (per as cMatones).cantidad;
+            infoVDrama.text = "Drama - Si";
         }
         else
         {
-            infoVHerCan.text = "Heridas: " + per.hDram;
+            infoVDrama.text = "Drama - No";
+        }
+
+        if (per is cMatones)
+        {
+            infoVHerCan.text = "Cantidad: " + (per as cMatones).Cantidad;
+        }
+        else
+        {
+            infoVHerCan.text = "Heridas: " + per.Heridas;
         }
 
         infoVGuardia.text = "Guardia: " + per.GetGuardia();
-    }
-
-    public Vector3 WorldToUIToolkit(Vector3 world, float xOffset, float yOffset)
-    {
-        //cam.WorldToScreenPoint
-        Vector3 temp = cam.WorldToViewportPoint(world);
-        return new Vector3(temp.x * Screen.width + xOffset, (1 - temp.y) * Screen.height + yOffset, 0);
     }
 
     public void EsconderInfoPerVital()
@@ -923,6 +1000,10 @@ public class UICombate : MonoBehaviour
         infoTactica.style.display = DisplayStyle.None;
         infoCompleta.style.display = DisplayStyle.None;
         combate.perSeleccionado = null;
+        foreach (var item in combate.personajes)
+        {
+            item.mostrandoTactica = false;
+        }
     }
 
     public void MostrarInfoPerTactica(cPersonaje per)
@@ -937,7 +1018,7 @@ public class UICombate : MonoBehaviour
         LlenarInfoTactica(per);
     }
 
-    public void MyWorldToScreen(Vector3 pos, VisualElement ui, float xOffset, float yOffset)
+    public static void MyWorldToScreen(Vector3 pos, VisualElement ui, float xOffset, float yOffset)
     {
         float wProp = 1920.0f / Screen.width;
         float hProp = 1080.0f / Screen.height;
@@ -950,29 +1031,62 @@ public class UICombate : MonoBehaviour
     {
         infoTNombre.text = infoVNombre.text;
         infoTHerCan.text = infoVHerCan.text;
+        infoTDrama.text = infoVDrama.text;
         infoTGuardia.text = infoVGuardia.text;
 
         infoTArma.text = per.arma.GetStringCorto();
-        infoTBonus.text = "Bonus: " + per.bonusPAtqBporDefB;
-        infoTDaño.text = "Daño: " + per.hSupe;
-    }
-
-    public void EsconderInfoPerTactica()
-    {
-        infoTactica.style.display = DisplayStyle.None;
-        combate.perSeleccionado = null;
+        infoTBonus.text = "Bonus: " + per.BonusPAtqBporDefB;
+        if (per is cMatones) infoTDaño.style.display = DisplayStyle.None;
+        else
+        {
+            infoTDaño.style.display = DisplayStyle.Flex;
+            infoTDaño.text = "Daño: " + per.Daño;
+        }
     }
 
     public void MostrarInfoPerCompleta(cPersonaje per)
     {
-        EsconderInfoPerTactica();
+        infoTactica.style.display = DisplayStyle.None;
         infoCompleta.style.display = DisplayStyle.Flex;
         UIInterface.FillPlayer(per, infoCompleta);
     }
 
-    public void EsconderInfoPerCompleta()
+    public void MostrarArmaEnTooltip(string aBText, string dBtext, string movText, int tamaño)
     {
-        infoCompleta.style.display = DisplayStyle.None;
+        string text = " - ";
+        switch (tamaño)
+        {
+            case 0:
+                text = " pequeña (-0d Ataque, Mus mult: 1)";
+                break;
+            case 1:
+                text = " media (-1d Ataque, Mus mult: 2)";
+                break;
+            case 2:
+                text = " grande (-2d Ataque, Mus mult: 3)";
+                break;
+            default:
+                break;
+        }
+        bAtacarImprovisada.tooltip = aBText + text;
+        bMoverImpro.tooltip = movText + text;
+        bDefenderImpro.tooltip = dBtext + text;
+        Debug.Log("tooltip modificado, ahra son: " + bAtacarImprovisada.tooltip + " y " + bDefenderImpro);
+    }
+
+    private void OnDisable()
+    {
+        foreach (var item in combate.personajes)
+        {
+            item.OnABBonusChange -= ABBonusChangeChangeHandler;
+            if (item is cMatones) (item as cMatones).OnCantidadChange -= CantidadChangeHandler;
+            else
+            {
+                item.OnHeridasChange -= HeridasChangeHandler;
+                item.OnDañoChange -= DañoChangeHandler;
+                item.OnDramaChange -= DramaChangeHandler;
+            }
+        }
     }
 
 }

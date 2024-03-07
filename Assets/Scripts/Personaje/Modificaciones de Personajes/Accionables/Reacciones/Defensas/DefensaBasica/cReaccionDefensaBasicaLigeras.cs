@@ -6,14 +6,14 @@ public class cReaccionDefensaBasicaLigeras : cReaccionDefensaBasica
 {
     override public int DeterminarNumeroDeDados()
     {
-        Debug.Log(personaje.nombre + " ve si puede usar bonus de yaActuo contra " + c.personajeObjetivo.nombre + " en su " + nombre);
+        Debug.Log("DB, per ya actuo?");
         int numeroDeDados = base.DeterminarNumeroDeDados();
-        if (!(personaje.arma as cArmasLigeras).perYaActuo(c.personajeObjetivo))
+        if (!(personaje.arma as cArmasLigeras).perYaActuo(c.personajeActivo))
         {
             numeroDeDados++;
             Debug.Log("Bonus aplicado! Dados ahora " + numeroDeDados);
         }
-        else Debug.Log("Bonus no aplicado");
+        else Debug.Log("si actuo! no aplicamos bonus");
         return numeroDeDados;
     }
 }

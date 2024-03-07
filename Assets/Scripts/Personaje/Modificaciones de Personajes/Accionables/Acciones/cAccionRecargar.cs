@@ -18,7 +18,7 @@ public class cAccionRecargar : cAcciones
     override public void Ejecutar()
     {
         (personaje.arma as cArmasFuego).cargada = true;
-        string text = personaje.nombre + " se toma un segundo para recargar su arma.";
+        string text = UIInterface.NombreDePersonajeEnNegrita(personaje) + " se toma un segundo para recargar su arma.";
         c.personajeActivo.GastarDado(c.faseActual, c.acciones, c.accionesActivas, c.accionesReactivas, text);
         uiC.ActualizarIniciativa(c.personajes);
         c.EsperandoOkOn(true);

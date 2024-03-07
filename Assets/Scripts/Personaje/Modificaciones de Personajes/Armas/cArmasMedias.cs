@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class cArmasMedias : cArma
 {
+    public static new string Descripcion = "Arma más balanceada, puede hacer un poco de todo.";
+    public static new string Reglas = "Multiplicador de Musculo: 2, Base para Matones adicionales: 9.";
+
     // Start is called before the first frame update
     void Start()
     {

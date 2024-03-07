@@ -4,11 +4,22 @@ using UnityEngine;
 
 public class cArmasPelea : cArma
 {
+    public static new string Descripcion = "Versatil, dificil de golpear y con la opción ocasional de atacar desde lejos.";
+    public static new string Reglas = "Multiplicador de Musculo: 3, Base para Matones adicionales: 12. Sus dados no explotan en las tiradas de Daño. Enemigos tienen -1d al atacarlo. Puede adquirir armas improvisadas al comienzo de cada ronda o usar una acción para hacerlo. Estas tendrán un modificador al ataque de 0d, -1d o -2d y modificaran el Multiplciador de Mísculo a 1, 2 o 3, dependiendo de su tamaño. Al usarlas la Base para Matones adicionales es de 9 y los dados de las tiradas de Daño explotan. Si se tiene éxito en un ataque con un arma improvisada, o si se usara para actuar sobre otra zona, el arma se pierde.";
+
     public bool armaImprovisadaActiva;
     public int tamañoDeArmaImprovisada;
+
+    const string ABImproTooltipBase = "Ataque Básico con Arma Improvisada";
+    const string MovImproTooltipBase = "Carga con Arma Improvisada";
+    const string DBImproTooltipBase = "Defensa Básica con Arma Improvisada";
+    public UICombate uiC;
+
     // Start is called before the first frame update
     void Start()
     {
+        uiC = GameObject.Find("UI").GetComponent<UICombate>();
+
         // Falta implementar armas improvisadas en su totalidad
         musMult = 3;
         dañoExplota = false;
@@ -39,6 +50,7 @@ public class cArmasPelea : cArma
 
     public void ActualizarDataDeImprovisada(bool usaImpro)
     {
+        Debug.Log("actualizar impro");
         if (usaImpro)
         {
             Debug.Log("tamaño de aimp " + tamañoDeArmaImprovisada);
@@ -90,6 +102,7 @@ public class cArmasPelea : cArma
             }
             p.uiC.SetText(p.nombre + " busca un arma improvisada, y encuentra un " + armaINombre + ".");
             AdquirirArmaImprovisada(armaI);
+            uiC.MostrarArmaEnTooltip(ABImproTooltipBase, DBImproTooltipBase, MovImproTooltipBase, armaI);
             return false;
         }
         return true;

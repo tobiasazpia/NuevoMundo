@@ -51,7 +51,7 @@ public class cAccionMovimientoAgresivo : cAccionMovimiento
             p.guardando = false;
         }
         LlenarAccionesPosibles();
-        string text = (personaje.nombre + " trata de moverse a " + c.zonas[c.zonaObjetiva].nombre + ".");
+        string text = (UIInterface.NombreDePersonajeEnNegrita(personaje) + " trata de moverse a " + c.zonas[c.zonaObjetiva].nombre + ".");
         c.personajeActivo.GastarDado(c.faseActual, c.acciones, c.accionesActivas, c.accionesReactivas, text);
         uiC.ActualizarIniciativa(c.personajes);
         //no gastamos esta accion porque se va a gastar cuando se haga el ataque basico... es medio raro esto, onda, que pasa si detienen el movimiento?
@@ -84,15 +84,19 @@ public class cAccionMovimientoAgresivo : cAccionMovimiento
             c.personajeActivo.transform.position = new Vector3(c.personajeActivo.GetZonaActual() * 10 - 10, 0, c.personajeActivo.transform.position.z);
             c.personajeActivo.totalDadosDelAtacante = c.personajeActivo.dadosDelAtacantePorPrecavido + c.personajeActivo.arma.GetDadosDelAtacanteMod();
             ResetState();
-            if (c.personajeActivo.ai == null)
+            c.BuscarEnemigosEnRango();
+            if (c.personajeActivo.ai == null && c.enemigosEnRango.Count > 1)
             {
-                uiC.SetText("Nadie detiene a " + c.personajeActivo.nombre + " y carga contra " + c.zonas[c.zonaObjetiva].nombre + " para atacar. ¿Pero a quien?");
+                uiC.SetText("Nadie detiene a " + UIInterface.NombreDePersonajeEnNegrita(c.personajeActivo) + " y carga contra " + c.zonas[c.zonaObjetiva].nombre + " para atacar. ¿Pero a quien?");
                 c.esperandoObjetivo = true;
                 ready = false;
             }
             else
             {
-                uiC.SetText("Nadie detiene a " + c.personajeActivo.nombre + " y carga contra " + c.zonas[c.zonaObjetiva].nombre + " listo para atacar a " + c.personajeObjetivo.nombre + ".");
+                if (c.personajeActivo.ai == null)
+                {
+                    c.personajeObjetivo = c.enemigosEnRango[0]; }
+                uiC.SetText("Nadie detiene a " + UIInterface.NombreDePersonajeEnNegrita(c.personajeActivo) + " y carga contra " + c.zonas[c.zonaObjetiva].nombre + " listo para atacar a " + UIInterface.NombreDePersonajeEnNegrita(c.personajeObjetivo) + ".");
                 c.atacando = true;
                 c.stateID = cCombate.RESOLVIENDO_ACCION;
                 c.accionActiva = cPersonaje.AC_ATACAR;

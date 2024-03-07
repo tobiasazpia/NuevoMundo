@@ -67,11 +67,70 @@ public class cPersonaje : MonoBehaviour
     public sHabilidades hab;
     public int ataqueBasicoDadosExtra;
     public int defensaBasicaDadosExtra;
-    public int bonusPAtqBporDefB;
     public int fallamosDefPor;
-    public int hSupe;
-    public int hDram;
-    public bool drama;
+
+    private int m_Daño;
+    public int Daño
+    {
+        get { return m_Daño; }
+        set
+        {
+            if (m_Daño == value) return;
+            m_Daño = value;
+            if (OnDañoChange != null)
+                OnDañoChange(m_Daño);
+        }
+    }
+    public delegate void OnDañoChangeDelegate(int newVal);
+    public event OnDañoChangeDelegate OnDañoChange;
+
+    private int m_Heridas;
+    public int Heridas
+    {
+        get { return m_Heridas; }
+        set
+        {
+            if (m_Heridas == value) return;
+            m_Heridas = value;
+            if (OnHeridasChange != null)
+                OnHeridasChange(m_Heridas);
+        }
+    }
+    public delegate void OnHeridasChangeDelegate(int newVal);
+    public event OnHeridasChangeDelegate OnHeridasChange;
+
+
+    private bool m_Drama;
+    public bool Drama
+    {
+        get { return m_Drama; }
+        set
+        {
+            if (m_Drama == value) return;
+            m_Drama = value;
+            if (OnDramaChange != null)
+                OnDramaChange(m_Drama);
+        }
+    }
+    public delegate void OnDramaChangeDelegate(bool newVal);
+    public event OnDramaChangeDelegate OnDramaChange;
+
+    private int m_BonusPAtqBporDefB = 0;
+    public int BonusPAtqBporDefB
+    {
+        get { return m_BonusPAtqBporDefB; }
+        set
+        {
+            if (m_BonusPAtqBporDefB == value) return;
+            m_BonusPAtqBporDefB = value;
+            if (OnABBonusChange != null)
+                OnABBonusChange(m_BonusPAtqBporDefB);
+        }
+    }
+    public delegate void OnABBonusChangeDelegate(int newVal);
+    public event OnABBonusChangeDelegate OnABBonusChange;
+
+
     public int zonaActual;
     public int zonaInicial;
 
@@ -135,12 +194,10 @@ public class cPersonaje : MonoBehaviour
 
     public void SetAI(int aiCode)
     {
-        drama = false;
         switch (aiCode)
         {
             case cAI.PLAYER_CONTROLLED:
                 ai = null;
-                drama = true;
                 break;
             case cAI.FULL_AGGRO:
                 ai = gameObject.AddComponent(typeof(cAIFullAggro)) as cAIFullAggro;
@@ -250,12 +307,12 @@ public class cPersonaje : MonoBehaviour
         {
             HeridoPorArmaDeFuego();
         }
-        else Heridas(c.daño);
+        else TiramosHeridas(c.daño);
     }
 
     public void GastarDado(int faseActual, List<sAccion> acciones, List<sAccion> accionesActivas, List<sAccion> accionesReactivas, string text)
     {
-        uiC.SetText(text + " " + nombre + " gasta su dado de la fase " + dadosDeAccion[0] + ".");
+        uiC.SetText(text + " " + UIInterface.NombreDePersonajeEnNegrita(this) + " gasta su dado de la fase " + dadosDeAccion[0] + ".");
         //Remover Dado de Accion Valido Menor y determinar la fase que tenia
         int acFase = 11;
         for (int i = 0; i < acciones.Count; i++)
@@ -339,7 +396,7 @@ public class cPersonaje : MonoBehaviour
                 acTemp.fase = acFase + fallamosDefPor;
                 acTemp.per = this;
                 acciones[i] = acTemp;
-                text += (acciones[i].per.nombre + " falla en su defensa por " + fallamosDefPor + ", y su dado de " + acFase + " pasa a " + acTemp.fase);
+                text += (UIInterface.NombreDePersonajeEnNegrita(acciones[i].per) + " falla en su defensa por " + fallamosDefPor + ", y su dado de " + acFase + " pasa a " + acTemp.fase);
                 if (acTemp.fase > 10)
                 {
                     acciones.RemoveAt(i);
@@ -422,28 +479,38 @@ public class cPersonaje : MonoBehaviour
     }
 
     //Tirar Heridas, devuelve si sigue vivo
-    public void Heridas(int daño)
+    public void TiramosHeridas(int daño)
     {
-        hSupe += daño;
-        string text = (nombre + " toma " + daño + " de daño, para un total de " + hSupe + ".");
+        string text = UIInterface.NombreDePersonajeEnNegrita(this) + " toma ";
+        if (daño == Daño) { text += UIInterface.IntEnNegrita(daño) + " de daño."; }
+        else text += daño + " de daño, para un total de " + UIInterface.IntEnNegrita(Daño) + ".";
         int numeroDeDados = 3;
         numeroDeDados += atr.brio * 3;
 
         tirada tr = cDieMath.TirarDados(numeroDeDados, true);
         int tiradaDeHeridasRes = cDieMath.sumaDe3Mayores(tr);
-        text += (" Con " + atr.brio + " en Brio tira " + numeroDeDados + " dados, sacando " + tiradaDeHeridasRes + ".");
+        bool exito = tiradaDeHeridasRes >= Daño;
+        string tiradaH;
+        text += (" Con " + atr.brio + " en Brio tira " + numeroDeDados + " dados, sacando ");
 
-        if (tiradaDeHeridasRes < hSupe)
+        if (!exito)
         {
-            int dif = hSupe - tiradaDeHeridasRes;
+            tiradaH = UIInterface.IntFallido(tiradaDeHeridasRes);
+            int dif = Daño - tiradaDeHeridasRes;
             int hAdicionales = (dif / 30) + 1;
-            hDram += hAdicionales;
-            text += (" Falla la tirada por " + dif + ", y toma " + hAdicionales + " Heridas, para un total de " + hDram + ".");
-            hSupe = 0;
+            uiC.perCambio = nombre;
+            Heridas += hAdicionales;
+            text += tiradaH + ". Falla la tirada por " + dif + ", y toma ";
+            if (hAdicionales == Heridas) {
+                text += UIInterface.IntEnNegrita(hAdicionales) + " Heridas";
+            }
+            else text += hAdicionales + " Heridas, para un total de " + UIInterface.IntEnNegrita(Heridas) + ".";
+            Daño = 0;
         }
         else
         {
-            text += " " + nombre + " tuvo exito en la tirada de Heridas!";
+            tiradaH = UIInterface.IntExitoso(tiradaDeHeridasRes);
+            text += tiradaH + ". " + UIInterface.NombreDePersonajeEnNegrita(this) + " tuvo éxito en la tirada de Heridas!";
         }
         uiC.SetText(text);
         //if (drama) uiC.PedirDrama();
@@ -451,15 +518,16 @@ public class cPersonaje : MonoBehaviour
 
     public void HeridoPorArmaDeFuego()
     {
-        int hAd = hSupe / 30;
-        uiC.SetText(nombre + " recibio un disparo tomando 1 Herida, y por ya tener " + hSupe + " de daño toma " + hAd + " adicionales.");
-        hDram += 1 + hAd;
-        hSupe = 0;
+        int hAd = Daño / 30;
+        uiC.SetText(UIInterface.NombreDePersonajeEnNegrita(this) + " recibio un disparo tomando 1 Herida, y por ya tener " + Daño + " de daño toma " + hAd + " adicionales.");
+        Heridas += 1 + hAd;
+        uiC.perCambio = nombre;
+        Daño = 0;
     }
 
     public void CapazMori()
     {
-        if (hDram >= 3)
+        if (Heridas >= 3)
         {
             c.RemoverPersonaje(this);
             uiC.ActualizarIniciativa(c.personajes);
@@ -468,23 +536,8 @@ public class cPersonaje : MonoBehaviour
                 c.stateID = cCombate.TERMINAR_COMBATE;
             }
             //ESTE MENSAJE NO TAPA AL DE DAÑO?
-            uiC.SetText(nombre + " llego a 3 Heridas, se murio!");
+            uiC.SetText(UIInterface.NombreDePersonajeEnNegrita(this) + " llego a 3 Heridas, se murio!");
         }
-    }
-
-    //Tirar Daño
-    public int Daño()
-    {
-        int numeroDeDados = 3;
-        numeroDeDados += atr.musculo * arma.GetMusMult() + bonusPAtqBporDefB;
-        if (c.movAgro) numeroDeDados -= 3;
-        c.movAgro = false;
-        //Esto se estaria sumando aunque hagas otro ataque que no sea el basico, hay que arreglarlo
-        //Update Primera Escuela
-        tirada tr = cDieMath.TirarDados(numeroDeDados, arma.GetDañoExpl());
-        int dan = cDieMath.sumaDe3Mayores(tr);
-        bonusPAtqBporDefB = 0;
-        return dan;
     }
 
     //Tirar Iniciativa
@@ -524,8 +577,9 @@ public class cPersonaje : MonoBehaviour
     public virtual void ResetHP()
     {
         vivo = true;
-        hSupe = 0;
-        hDram = 0;
+        uiC.perCambio = nombre;
+        Daño = 0;
+        Heridas = 0;
     }
 
     void OnMouseOver()
@@ -550,7 +604,10 @@ public class cPersonaje : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if (!c.esperandoObjetivo)
+        if (c.esperandoObjetivo && vivo && c.personajeActivo.equipo != equipo && vivo && c.ZonaEsteEnRangoDePersonaje(c.personajeActivo, GetZonaActual())) {
+            uiC.OnPersonajeClicked(this);
+        }
+        else
         {
             if (mostrandoTactica)
             {
@@ -562,13 +619,6 @@ public class cPersonaje : MonoBehaviour
                 c.uiC.MostrarInfoPerTactica(this);
                 c.perSeleccionado = nombre;
                 mostrandoTactica = true;
-            }
-        }
-        else
-        {           
-            if (c.personajeActivo.equipo != equipo && vivo && c.ZonaEsteEnRangoDePersonaje(c.personajeActivo, GetZonaActual()))
-            {
-                uiC.OnPersonajeClicked(this);
             }
         }
     }
@@ -612,14 +662,6 @@ public class cPersonaje : MonoBehaviour
                 break;
             }
         }
-    }
-
-    public void DescansoCompleto()
-    {
-        if(ai == null) drama = true;
-        hDram = 0;
-        hSupe = 0;
-        vivo = true;
     }
 
 }

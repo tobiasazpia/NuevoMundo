@@ -20,7 +20,7 @@ public class cAccionGuardar : cAcciones
     {
         personaje.guardando = true;
         personaje.GuardarGastarDado(c.accionesActivas); // Esto esta para que no pregunten denuevo en la misma fase si alguien hace algo y yo ya guarde
-        uiC.SetText(personaje.nombre + " guarda su accion.");
+        uiC.SetText(UIInterface.NombreDePersonajeEnNegrita(personaje) + " guarda su accion.");
         c.EsperandoOkOn(true);
         c.stateID = cCombate.BUSCANDO_ACCION;
     }
