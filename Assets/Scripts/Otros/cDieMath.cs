@@ -68,6 +68,37 @@ public static class cDieMath
             tr.dados[i] = res;
         }
         return tr;
+    } 
+    
+    public static tirada TirarDadosDobleExplosion(int nDados)
+    {
+        int lessThan3 = 0;
+        if (nDados < 3)
+        {
+            lessThan3 = 3 - nDados;
+            nDados = 3;
+        }
+        tirada tr = new tirada(nDados, lessThan3);
+        int res;
+        for (int i = 0; i < nDados; i++){
+            res = Random.Range(1,11);
+            if (res == 10) res += DobleExplo();
+            tr.dados[i] = res;
+        }
+        return tr;
+    }
+
+    public static int DobleExplo()
+    {
+        int res = 0;
+        int[] newRes = new int[2];
+        for (int i = 0; i < 2; i++)
+        {
+            newRes[i] = Random.Range(1, 11);
+            res += newRes[i];
+            if (newRes[i] == 10) res += DobleExplo();
+        }
+        return res;
     }
 
     public static int sumaDe3Mayores(tirada tr)

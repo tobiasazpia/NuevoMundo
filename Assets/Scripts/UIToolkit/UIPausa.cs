@@ -3,43 +3,45 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
+
+//NADA DE ESTO HACE NADA
+
+
+/// <summary>
+/// //////////////////////////////////!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+/// </summary>
+/// 
+
 public class UIPausa : MonoBehaviour
 {
-    private Button bContinuar;
     private Button bMainMenu;
     private Button bCerrar;
+    private Slider volume;
 
-    private VisualElement pPausa;
-
+    public cCombate c;
     // Start is called before the first frame update
     void Start()
     {
         var root = GetComponent<UIDocument>().rootVisualElement;
 
-        bContinuar = root.Q<Button>("PausaContinuar");
         bMainMenu = root.Q<Button>("PausaMainMenu");
         bCerrar = root.Q<Button>("PausaCerrar");
+        volume = root.Q<Slider>("VolumeSlider");
 
-        bContinuar.RegisterCallback<ClickEvent>(OnBContinuarClicked);
         bMainMenu.RegisterCallback<ClickEvent>(OnBMainMenuClicked);
         bCerrar.RegisterCallback<ClickEvent>(OnBCerrarClicked);
 
-        pPausa = root.Q<VisualElement>("PantallaInicial");
-    }
-
-    public void PausaSelected()
-    {
-        //Por ahora esconde la ui de combate para mostrar esto, no se si va a quedar bien
-        UIInterface.SetCurrent(pPausa);
-    }
-
-    private void OnBContinuarClicked(ClickEvent evt)
-    {
-       //To Do: Reanudar Combate - probablemente una funcion en combate
+        Debug.Log("A");
+        volume.RegisterValueChangedCallback(v =>
+        {
+            Debug.Log("B");
+            c.music.volume = v.newValue;
+        });
     }
 
     private void OnBMainMenuClicked(ClickEvent evt)
     {
+        Debug.Log("C");
         UIInterface.GoMainMenu();
     }
 

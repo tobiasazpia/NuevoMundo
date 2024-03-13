@@ -32,6 +32,8 @@ public class UIRoguelikeUpgrade : MonoBehaviour
     const float labelTimeTillTooltip = 0.2f;
     float timeTillTooltip;
 
+    public bool eligiendoNuevoP;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -107,8 +109,16 @@ public class UIRoguelikeUpgrade : MonoBehaviour
             {
                 hoverTimer = 0;
                 hovering = false;
-                tooltip.style.display = DisplayStyle.Flex;
-                tooltip.transform.position = new Vector3(tooltip.transform.position.x, tooltip.transform.position.y-125, tooltip.transform.position.z);
+                if (eligiendoNuevoP)
+                {
+                    infoCompleta.style.display = DisplayStyle.Flex;
+                    infoCompleta.transform.position = new Vector3(infoCompleta.transform.position.x, infoCompleta.transform.position.y - 840, infoCompleta.transform.position.z);
+                }
+                else
+                {
+                    tooltip.style.display = DisplayStyle.Flex;
+                    tooltip.transform.position = new Vector3(tooltip.transform.position.x, tooltip.transform.position.y - 125, tooltip.transform.position.z);
+                }
             }
         }
     }
@@ -154,36 +164,55 @@ public class UIRoguelikeUpgrade : MonoBehaviour
             infoCompleta.style.display = DisplayStyle.Flex;
             infoCompleta.transform.position = evt.position -evt.localPosition;
             infoCompleta.transform.position = new Vector3(infoCompleta.transform.position.x, infoCompleta.transform.position.y + 200, infoCompleta.transform.position.z);
-            //ArmaTooltip(rU.rM.party[index].arma, infoCompleta.ElementAt(0).ElementAt(1));
-            Debug.Log("arma tooltip 3" + infoCompleta.ElementAt(0).ElementAt(1).tooltip);
+            infoCompleta.ElementAt(0).ElementAt(2).style.display = DisplayStyle.Flex;
+            infoCompleta.ElementAt(0).ElementAt(3).style.display = DisplayStyle.Flex;
             UIInterface.FillPlayer(rU.rM.party[index], infoCompleta, false);
         }
     }
 
     public static void ArmaTooltip(int arma, VisualElement vE)
     {
-        Debug.Log("armaaaaa tt");
         string text = "";
+        text = "Multiplicador de Musculo: " + cArma.GetMusMult(arma) + ", Base para Matones: " + cArma.GetBaseMatones(arma) + ".";
+        int g = cArma.GetGuardiaMod(arma);
+        if (g != 0) text += " " + g + " a tu Guardia.";
         switch (arma)
         {
             case cArma.LIGERAS:
-                text = "Multiplicador de Musculo: 1, Base para Matones adicionales: 9. +2d a la Inicitiva, +1 al Defenderse a si mismo, -1d a defender a otros y a detener movimiento. +1d al actuar rapido.";
+                text += " +2d a la Inicitiva, +1 al Defenderse a si mismo, -1d a defender a otros y a detener movimiento. +1d al actuar rapido.";
                 break;
             case cArma.MEDIAS:
-                text = "Multiplicador de Musculo: 2, Base para Matones adicionales: 9.";
                 break;
             case cArma.PESADAS:
-                text = "Multiplicador de Musculo: 3, Base para Matones adicionales: 9. +2d a detener movimiento. -2 a tu Guardia.";
+                text += " +2d a detener movimiento.";
                 break;
             case cArma.ARCO:
-                text = "Multiplicador de Musculo: 0, Base para Matones adicionales: 9. Rango. +2d a defender a otros y a detener movimiento. -1d si defiende de o ataca a un enemigo en su misma zona.";
+                text += " Rango. +2d a defender a otros y a detener movimiento. -1d si defiende de o ataca a un enemigo en su misma zona.";
                 break;
             case cArma.FUEGO:
-                text = "Multiplicador de Musculo: 0, Base para Matones adicionales: 6. Rango. No tira Daño, genera una Heridas al aertar. Necesita recargar si falla al atacar o defender a otros.";
+                text += " Rango. No tira Daño, genera una Heridas al aertar. Necesita recargar si falla al atacar, defender a otros o detener movimiento.";
                 break;
             case cArma.PELEA:
-                text = "Multiplicador de Musculo: 3, Base para Matones adicionales: 12. Sus dados no explotan en las tiradas de Daño. Enemigos tienen -1d al atacarlo. Puede usar armas improvisadas."; 
+                text += " Sus dados no explotan en las tiradas de Daño. Enemigos tienen -1d al atacarlo. Puede usar armas improvisadas."; 
                 break;
+            case cArma.VOLUNTAD_CREADOR:
+                text += " +2d a detener movimiento. +1d para Daño.";
+                break;
+            default:
+                break;
+        }
+        switch (arma)
+        {
+            case cArma.VOLUNTAD_CREADOR:
+                //Principiante
+                // Tiras 1 dado adicional en tus tiradas de Daño, y tu Base a superar para Matones adicionales se reduce en 1.
+                
+                //Veterano
+                //Las Explosiones en tus tiradas de Daño dan 2 dados adicionales en vez de 1, y tus 10 en tiradas de Ataque contra Matones valen 11 (Maximo 30).
+   
+                //Maestro
+                //Tu Multiplicador de Músculo es 4.
+                    break;
             default:
                 break;
         }
@@ -192,10 +221,10 @@ public class UIRoguelikeUpgrade : MonoBehaviour
 
     public void UpgradeTooltip(int index, cRoguelikeUpgradeData aUpgradear)
     {
-        Debug.Log("arma tt");
         VisualElement vE = upgrades[index];
         string text = "";
-        if (aUpgradear.tipoDeUpgrade == cRoguelikeUpgradeData.RU_NO_UPGRADE) text = "Nada que mejorar.";
+        if (aUpgradear.tipoDeUpgrade == cRoguelikeUpgradeData.RU_PJ) text = "";
+        else if (aUpgradear.tipoDeUpgrade == cRoguelikeUpgradeData.RU_NO_UPGRADE) text = "Nada que mejorar.";
         else if (aUpgradear.tipoDeUpgrade == cRoguelikeUpgradeData.RU_DESCANSO_COMPLETO) text = "Descanso completo.";
         else
         {
@@ -325,7 +354,6 @@ public class UIRoguelikeUpgrade : MonoBehaviour
             }
         }
         vE.tooltip = text;
-        Debug.Log("arma");
     }
 
     public void SetUpgradeText(int boton, string text)
@@ -367,6 +395,8 @@ public class UIRoguelikeUpgrade : MonoBehaviour
 
     public void OnSiguienteNivelClicked(ClickEvent evt)
     {
+        infoCompleta.ElementAt(0).ElementAt(2).style.display = DisplayStyle.Flex;
+        infoCompleta.ElementAt(0).ElementAt(3).style.display = DisplayStyle.Flex;
         rU.rM.EmpezarCombate();
     }
 
@@ -399,9 +429,34 @@ public class UIRoguelikeUpgrade : MonoBehaviour
     {
         timeTillTooltip = buttonTimeTillTooltip;
         hovering = true;
+        Debug.Log("hovering: " + hovering);
         //tooltip.transform.position = (evt.target as Button).transform.position;
-        tooltip.transform.position = evt.mousePosition - evt.localMousePosition;
-        tooltip.text = (evt.target as Button).tooltip;
+        //Por la posicion del mouse, ver donde esta
+
+        if (eligiendoNuevoP)
+        {
+            infoCompleta.style.display = DisplayStyle.None;
+            cPersonajeFlyweight p;
+            if (evt.mousePosition.x < 625)
+            {
+                p = rU.GetPerInUpgrade(0);
+            }else if (evt.mousePosition.x < 1250)
+            {
+                p = rU.GetPerInUpgrade(1);
+            }
+            else
+            {
+                p = rU.GetPerInUpgrade(2);
+            }
+            infoCompleta.transform.position = evt.mousePosition - evt.localMousePosition;
+            infoCompleta.transform.position = new Vector3(infoCompleta.transform.position.x, infoCompleta.transform.position.y + 200, infoCompleta.transform.position.z);
+            PersonajeTooltip(p);
+        }
+        else
+        {
+            tooltip.transform.position = evt.mousePosition - evt.localMousePosition;
+            tooltip.text = (evt.target as Button).tooltip;
+        }
     }
 
     public void OnMouseEnterVE(MouseEnterEvent evt)
@@ -418,6 +473,14 @@ public class UIRoguelikeUpgrade : MonoBehaviour
         tooltip.style.display = DisplayStyle.None;
         hoverTimer = 0;
         hovering = false;
+        if (eligiendoNuevoP) infoCompleta.style.display = DisplayStyle.None;
+    }
+
+    public void PersonajeTooltip(cPersonajeFlyweight p)
+    {
+        infoCompleta.ElementAt(0).ElementAt(2).style.display = DisplayStyle.None;
+        infoCompleta.ElementAt(0).ElementAt(3).style.display = DisplayStyle.None;
+        UIInterface.FillPlayer(p,infoCompleta,false);
     }
 
 }

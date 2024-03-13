@@ -32,49 +32,56 @@ public class EscarmuzaManager : MonoBehaviour
         combatientes = new List<cPersonajeFlyweight>();
 
         cPersonajeFlyweight a = gameObject.AddComponent(typeof(cPersonajeFlyweight)) as cPersonajeFlyweight;
-        a.nombre = "Ariel";
+        a.nombre = "Marco";
         a.iA = cAI.PLAYER_CONTROLLED;
-        a.arma = cArma.PELEA;
+        a.arma = cArma.VOLUNTAD_CREADOR;
         a.equipo = 1;
         a.esMaton = false;
+        a.atr.maña = 1;
         a.atr.donaire = 1;
-        a.hab.ataqueBasico = 2;
-        a.hab.defensaBasica = 2;
-        a.atr.musculo = 0;
-        a.modGuardiaDeMaton = 0;
+        a.atr.brio = 1;
+        a.atr.musculo = 2;
         a.atr.ingenio = 1;
+        a.modGuardiaDeMaton = 0;
+        a.hab.ataqueBasico = 5;
+        a.hab.defensaBasica = 4;
+        a.drama = true;
+
+
         a.cantidad = 10;
         combatientes.Add(a);
 
         cPersonajeFlyweight b = gameObject.AddComponent(typeof(cPersonajeFlyweight)) as cPersonajeFlyweight;
         b.nombre = "Bart";
-        b.iA = cAI.PLAYER_CONTROLLED;
+        b.iA = cAI.FULL_AGGRO;
         b.arma = cArma.PESADAS;
         b.equipo = 2;
         b.esMaton = true;
-        b.hab.ataqueBasico = 0;
-        b.hab.defensaBasica = 0;
-        b.atr.musculo = 0;
-        b.atr.maña = 0;
-        b.atr.donaire = 0;
+        b.hab.ataqueBasico = 3;
+        b.hab.defensaBasica = 3;
+        b.atr.musculo = 2;
+        b.atr.maña = 2;
+        b.atr.brio = 2;
         b.modGuardiaDeMaton = 0;
         b.atr.ingenio = 0;
-        b.cantidad = 3;
+        b.cantidad = 10;
         combatientes.Add(b);
 
         //cPersonajeFlyweight c = gameObject.AddComponent(typeof(cPersonajeFlyweight)) as cPersonajeFlyweight;
         //c.nombre = "Casio";
         //c.iA = cAI.FULL_AGGRO;
-        //c.arma = cArma.ARCO;
+        //c.arma = cArma.MEDIAS;
         //c.equipo = 2;
-        //c.esMaton = true;
-        //c.hab.ataqueBasico = 4;
-        //c.hab.defensaBasica = 5;
+        //c.esMaton = false;
+        //c.hab.ataqueBasico = 3;
+        //c.hab.defensaBasica = 3;
         //c.atr.musculo = 2;
         //c.atr.maña = 2;
         //c.atr.ingenio = 2;
-        //c.modGuardiaDeMaton = -5;
-        //c.cantidad = 6;
+        //c.atr.brio = 2;
+        //c.atr.donaire = 2;
+        //c.modGuardiaDeMaton = 0;
+        //c.cantidad = 10;
         //combatientes.Add(c);
 
         //cPersonajeFlyweight d = gameObject.AddComponent(typeof(cPersonajeFlyweight)) as cPersonajeFlyweight;

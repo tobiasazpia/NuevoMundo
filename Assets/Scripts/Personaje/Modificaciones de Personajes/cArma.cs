@@ -4,6 +4,7 @@ using UnityEngine;
 
 public abstract class cArma : MonoBehaviour
 {
+    public string nombre;
     public static string Reglas;
     public static string Descripcion;
 
@@ -31,6 +32,11 @@ public abstract class cArma : MonoBehaviour
     public const int PELEA = 3;
     public const int ARCO = 4;
     public const int FUEGO = 5;
+    // Tradiciones Armas Pesadas
+    public const int VOLUNTAD_CREADOR = 6;
+
+    public int valor_AB;
+    public int valor_DB;
 
     public void AgregarAccionablesAlPersonaje()
     {
@@ -197,6 +203,75 @@ public abstract class cArma : MonoBehaviour
                 return "Defensa Básica";
             default:
                 return "Error Return String";
+        }
+    }
+
+    static public int GetGuardiaMod(int armaCode)
+    {
+        switch (armaCode)
+        {
+            case LIGERAS:
+                return 0;
+            case MEDIAS:
+                return 0;
+            case PESADAS:
+                return -1;
+            case ARCO:
+                return 0;
+            case FUEGO:
+                return -2;
+            case PELEA:
+                return 0;
+            case VOLUNTAD_CREADOR:
+                return -1;
+            default:
+                return 0;
+        }
+    }
+
+    static public int GetMusMult(int armaCode)
+    {
+        switch (armaCode)
+        {
+            case LIGERAS:
+                return 1;
+            case MEDIAS:
+                return 2;
+            case PESADAS:
+                return 3;
+            case ARCO:
+                return 2;
+            case FUEGO:
+                return 0;
+            case PELEA:
+                return 3;
+            case VOLUNTAD_CREADOR:
+                return 4; // en realidad esto solo seria asi si ya fuesemos maestros, tengo que repensar este sistema
+            default:
+                return 0;
+        }
+    }
+
+    static public int GetBaseMatones(int armaCode)
+    {
+        switch (armaCode)
+        {
+            case LIGERAS:
+                return 9;
+            case MEDIAS:
+                return 9;
+            case PESADAS:
+                return 9;
+            case ARCO:
+                return 9;
+            case FUEGO:
+                return 6;
+            case PELEA:
+                return 12;
+            case VOLUNTAD_CREADOR:
+                return 8;
+            default:
+                return 0;
         }
     }
 }

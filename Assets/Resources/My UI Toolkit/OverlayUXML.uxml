@@ -107,6 +107,10 @@
                     <ui:Label text="Drama -" display-tooltip-when-elided="true" name="PerDrama" />
                     <ui:Label text="No" display-tooltip-when-elided="true" name="DramaValue" />
                 </ui:VisualElement>
+                <ui:VisualElement name="Guardiacont" tooltip="Puede usarlo para reintentar tiradas." style="flex-direction: row;">
+                    <ui:Label text="Guardia" display-tooltip-when-elided="true" name="PerGuardia" />
+                    <ui:Label text="0" display-tooltip-when-elided="true" name="GuardiaValue" />
+                </ui:VisualElement>
             </ui:VisualElement>
             <ui:VisualElement name="PerHab" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
                 <ui:VisualElement name="ABcont" tooltip="Suma a tu Guardia y a los dados de Ataque Basico" style="flex-direction: row;">
@@ -157,6 +161,10 @@
                         <ui:Label text="Drama -" display-tooltip-when-elided="true" name="PerDrama" />
                         <ui:Label text="No" display-tooltip-when-elided="true" name="DramaValue" />
                     </ui:VisualElement>
+                    <ui:VisualElement name="Guardiacont" tooltip="Puede usar su Drama para reintentar una tirada." style="flex-direction: row;">
+                        <ui:Label text="Guardia" display-tooltip-when-elided="true" name="PerGuardia" />
+                        <ui:Label text="0" display-tooltip-when-elided="true" name="GuardiaValue" />
+                    </ui:VisualElement>
                 </ui:VisualElement>
                 <ui:VisualElement name="PerHab" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
                     <ui:VisualElement name="ABcont" tooltip="Suma a tu Guardia y a los dados de Ataque Basico" style="flex-direction: row;">
@@ -203,6 +211,10 @@
                         <ui:Label text="Drama -" display-tooltip-when-elided="true" name="PerDrama" />
                         <ui:Label text="No" display-tooltip-when-elided="true" name="DramaValue" />
                     </ui:VisualElement>
+                    <ui:VisualElement name="Guardiacont" tooltip="Puede usar su Drama para reintentar una tirada." style="flex-direction: row;">
+                        <ui:Label text="Guardia" display-tooltip-when-elided="true" name="PerGuardia" />
+                        <ui:Label text="0" display-tooltip-when-elided="true" name="GuardiaValue" />
+                    </ui:VisualElement>
                 </ui:VisualElement>
                 <ui:VisualElement name="PerHab" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
                     <ui:VisualElement name="ABcont" tooltip="Suma a tu Guardia y a los dados de Ataque Basico" style="flex-direction: row;">
@@ -248,6 +260,10 @@
                     <ui:VisualElement name="Dramacont" tooltip="Puede usar su Drama para reintentar una tirada." style="flex-direction: row;">
                         <ui:Label text="Drama -" display-tooltip-when-elided="true" name="PerDrama" />
                         <ui:Label text="No" display-tooltip-when-elided="true" name="DramaValue" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="Guardiacont" tooltip="Puede usar su Drama para reintentar una tirada." style="flex-direction: row;">
+                        <ui:Label text="Guardia" display-tooltip-when-elided="true" name="PerGuardia" />
+                        <ui:Label text="0" display-tooltip-when-elided="true" name="GuardiaValue" />
                     </ui:VisualElement>
                 </ui:VisualElement>
                 <ui:VisualElement name="PerHab" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
@@ -297,6 +313,10 @@
                 <ui:VisualElement name="PerEncabezado" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
                     <ui:Label text="Nombre" display-tooltip-when-elided="true" name="PerNombre" />
                     <ui:Label text="Arma" display-tooltip-when-elided="true" name="PerArma" />
+                    <ui:VisualElement name="Guardiacont" tooltip="Puede usar su Drama para reintentar una tirada." style="flex-direction: row;">
+                        <ui:Label text="Guardia" display-tooltip-when-elided="true" name="PerGuardia" />
+                        <ui:Label text="0" display-tooltip-when-elided="true" name="GuardiaValue" />
+                    </ui:VisualElement>
                 </ui:VisualElement>
                 <ui:VisualElement name="PerHab" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
                     <ui:VisualElement name="ABcont" style="flex-direction: row;">
@@ -335,6 +355,10 @@
                 <ui:VisualElement name="PerEncabezado" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
                     <ui:Label text="Nombre" display-tooltip-when-elided="true" name="PerNombre" />
                     <ui:Label text="Arma" display-tooltip-when-elided="true" name="PerArma" />
+                    <ui:VisualElement name="Guardiacont" tooltip="Puede usar su Drama para reintentar una tirada." style="flex-direction: row;">
+                        <ui:Label text="Guardia" display-tooltip-when-elided="true" name="PerGuardia" />
+                        <ui:Label text="0" display-tooltip-when-elided="true" name="GuardiaValue" />
+                    </ui:VisualElement>
                 </ui:VisualElement>
                 <ui:VisualElement name="PerHab" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
                     <ui:VisualElement name="ABcont" style="flex-direction: row;">
@@ -373,6 +397,10 @@
                 <ui:VisualElement name="PerEncabezado" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
                     <ui:Label text="Nombre" display-tooltip-when-elided="true" name="PerNombre" />
                     <ui:Label text="Arma" display-tooltip-when-elided="true" name="PerArma" />
+                    <ui:VisualElement name="Guardiacont" tooltip="Puede usar su Drama para reintentar una tirada." style="flex-direction: row;">
+                        <ui:Label text="Guardia" display-tooltip-when-elided="true" name="PerGuardia" />
+                        <ui:Label text="0" display-tooltip-when-elided="true" name="GuardiaValue" />
+                    </ui:VisualElement>
                 </ui:VisualElement>
                 <ui:VisualElement name="PerHab" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
                     <ui:VisualElement name="ABcont" style="flex-direction: row;">
@@ -411,7 +439,7 @@
         <ui:Button text="Continuar" display-tooltip-when-elided="true" name="ButtonFinalReintentar" class="button-main-menu base button button-corto" style="margin-bottom: 10px;" />
     </ui:VisualElement>
     <ui:VisualElement name="PantallaCombate" style="position: absolute; display: none; align-items: center; justify-content: flex-start; height: 100%; width: 100%; background-color: rgba(0, 0, 0, 0);">
-        <ui:VisualElement name="Instrucciones" style="width: 100%; height: 70%;">
+        <ui:VisualElement name="Instrucciones" style="width: 100%; height: 70%; display: flex;">
             <ui:VisualElement style="flex-direction: row;">
                 <ui:Label text="Label" display-tooltip-when-elided="true" name="Texto" class="button-main-menu base" style="white-space: normal; margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px; padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 10px; font-size: 32px; height: 300px; width: 500px;" />
             </ui:VisualElement>
@@ -427,6 +455,9 @@
                     <ui:Button display-tooltip-when-elided="true" name="ButtonRecargar" tooltip="Recargar" class="button-main-menu button-combat-action button base" style="display: none; background-image: resource(&apos;Images/Icons/Reload-Icon&apos;);" />
                     <ui:Button display-tooltip-when-elided="true" name="ButtonAtacarImpro" tooltip="Ataque Básico con Arma Improvisada" class="button-main-menu button-combat-action button base" style="display: none; background-image: resource(&apos;Images/Icons/improvisada-Icon&apos;);" />
                     <ui:Button display-tooltip-when-elided="true" name="ButtonConseguirImpro" tooltip="Buscar Arma Improvisada" class="button-main-menu button-combat-action button base" style="display: none; background-image: resource(&apos;Images/Icons/find-Icon&apos;);" />
+                    <ui:Button display-tooltip-when-elided="true" name="ButtonATMarcial1" tooltip="Ira Divina: Acción. Tiras Ira Divina con Brio contra Brio. Hasta el final de la ronda, las tiradas de Daño del objetivo no explotan, y los 9 tambien explotan en tiradas de daño, o se mata un maton adicional, contra el." class="button-main-menu button-combat-action button base" style="display: none; background-image: resource(&apos;Images/Icons/iraDeDios-Icon&apos;);" />
+                    <ui:Button display-tooltip-when-elided="true" name="ButtonATMarcial2" tooltip="Accion Exclusiva 2" class="button-main-menu button-combat-action button base" style="display: none; background-image: resource(&apos;Images/Icons/find-Icon&apos;);" />
+                    <ui:Button display-tooltip-when-elided="true" name="ButtonATMarcial3" tooltip="Accion Exclusiva 3" class="button-main-menu button-combat-action button base" style="display: none; background-image: resource(&apos;Images/Icons/find-Icon&apos;);" />
                     <ui:Button display-tooltip-when-elided="true" name="ButtonMarcialAtras" tooltip="Atras" class="button-main-menu button-combat-action button base" style="background-image: resource(&apos;Images/Icons/icon-backup&apos;); display: none;" />
                 </ui:VisualElement>
                 <ui:VisualElement name="MenuArcana" style="flex-direction: row; display: none;">
@@ -448,6 +479,9 @@
                 <ui:VisualElement name="MenuIntervenir" style="flex-direction: row; display: flex;">
                     <ui:Button display-tooltip-when-elided="true" name="ButtonDefender" tooltip="Defensa Básica" class="button-main-menu button-combat-action button base" style="background-image: resource(&apos;Images/Icons/Defend-Icon&apos;); display: none;" />
                     <ui:Button display-tooltip-when-elided="true" name="ButtonDefenderImpro" tooltip="Defensa Básica lanzando arma improvisada" class="button-main-menu button-combat-action button base" style="display: none; background-image: resource(&apos;Images/Icons/improvisada-Icon&apos;);" />
+                    <ui:Button display-tooltip-when-elided="true" name="ButtonDTMarcial1" tooltip="Terror de Dios: Defensa. Hasta el final de la ronda, los dados del objetivo no explotan en sus tiradas de Heridas o todos matan un Maton adicional contra el." class="button-main-menu button-combat-action button base" style="display: none; background-image: resource(&apos;Images/Icons/terror-Icon&apos;);" />
+                    <ui:Button display-tooltip-when-elided="true" name="ButtonDTMarcial2" tooltip="Reaccion Exclusiva 2" class="button-main-menu button-combat-action button base" style="display: none; background-image: resource(&apos;Images/Icons/improvisada-Icon&apos;);" />
+                    <ui:Button display-tooltip-when-elided="true" name="ButtonDTMarcial3" tooltip="Reaccion Exclusiva 3" class="button-main-menu button-combat-action button base" style="display: none; background-image: resource(&apos;Images/Icons/improvisada-Icon&apos;);" />
                     <ui:Button display-tooltip-when-elided="true" name="ButtonIntervenirAtras" tooltip="Atras" class="button-main-menu button-combat-action button base" style="background-image: resource(&apos;Images/Icons/icon-backup&apos;); display: none;" />
                 </ui:VisualElement>
                 <ui:VisualElement name="MenuDrama" style="display: none; flex-direction: row;">
@@ -631,6 +665,9 @@
         <ui:VisualElement name="PausaContenedor" class="base" style="margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; width: 90%; height: 90%;">
             <ui:VisualElement name="TituloPausaContenedor" style="background-color: rgba(75, 190, 0, 0); width: 100%; height: 65%; min-height: 0; -unity-text-align: middle-center; justify-content: space-around; align-items: center;">
                 <ui:Label text="Pausa" display-tooltip-when-elided="true" name="TituloPausa" enable-rich-text="false" class="base label label-main" />
+            </ui:VisualElement>
+            <ui:VisualElement style="align-items: center;">
+                <ui:Slider picking-mode="Ignore" label="Volumen" value="42" high-value="100" name="VolumeSlider" style="width: 80%;" />
             </ui:VisualElement>
             <ui:VisualElement name="BotonesPausa" style="background-color: rgba(75, 190, 0, 0); width: 100%; height: 35%; flex-direction: row; justify-content: space-around; align-items: center; padding-left: 125px; padding-right: 125px;">
                 <ui:Button text="Cerrar y Continuar" display-tooltip-when-elided="true" name="PausaReanudar" class="base button button-corto" style="background-color: rgb(241, 223, 216);" />

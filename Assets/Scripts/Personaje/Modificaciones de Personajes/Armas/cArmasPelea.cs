@@ -5,7 +5,7 @@ using UnityEngine;
 public class cArmasPelea : cArma
 {
     public static new string Descripcion = "Versatil, dificil de golpear y con la opción ocasional de atacar desde lejos.";
-    public static new string Reglas = "Multiplicador de Musculo: 3, Base para Matones adicionales: 12. Sus dados no explotan en las tiradas de Daño. Enemigos tienen -1d al atacarlo. Puede adquirir armas improvisadas al comienzo de cada ronda o usar una acción para hacerlo. Estas tendrán un modificador al ataque de 0d, -1d o -2d y modificaran el Multiplciador de Mísculo a 1, 2 o 3, dependiendo de su tamaño. Al usarlas la Base para Matones adicionales es de 9 y los dados de las tiradas de Daño explotan. Si se tiene éxito en un ataque con un arma improvisada, o si se usara para actuar sobre otra zona, el arma se pierde.";
+    public static new string Reglas = "Multiplicador de Musculo: 3, Base para Matones adicionales: 12. Sus dados no explotan en las tiradas de Daño. Enemigos tienen -1d al atacarlo. Puede adquirir armas improvisadas al comienzo de cada ronda o usar una acción para hacerlo. Estas tendrán un modificador al ataque de 0d, -1d o -2d y modificaran el Multiplciador de Mísculo a 2, 3 o 4, dependiendo de su tamaño. Al usarlas la Base para Matones adicionales es de 9 y los dados de las tiradas de Daño explotan. Si se tiene éxito en un ataque con un arma improvisada, o si se usara para actuar sobre otra zona, el arma se pierde.";
 
     public bool armaImprovisadaActiva;
     public int tamañoDeArmaImprovisada;
@@ -18,6 +18,8 @@ public class cArmasPelea : cArma
     // Start is called before the first frame update
     void Start()
     {
+        nombre = "Armas de Pelea";
+
         uiC = GameObject.Find("UI").GetComponent<UICombate>();
 
         // Falta implementar armas improvisadas en su totalidad
@@ -53,18 +55,22 @@ public class cArmasPelea : cArma
         Debug.Log("actualizar impro");
         if (usaImpro)
         {
+            armaImprovisadaActiva = true;
             Debug.Log("tamaño de aimp " + tamañoDeArmaImprovisada);
-            musMult = tamañoDeArmaImprovisada+1;
+            musMult = tamañoDeArmaImprovisada+2;
             dañoExplota = true;
             basePara2doMaton = 9;
             bonusAtaque = 0-tamañoDeArmaImprovisada;
+            deRango = true;
         }
         else
         {
+            armaImprovisadaActiva = false;
             musMult = 3;
             dañoExplota = false;
             basePara2doMaton = 12;
             bonusAtaque = 0;
+            deRango = false;
         }
         p.CalcularExtraParaMatones();
     }

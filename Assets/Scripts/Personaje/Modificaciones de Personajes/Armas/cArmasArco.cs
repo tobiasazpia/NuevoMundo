@@ -9,7 +9,9 @@ public class cArmasArco : cArma
     // Start is called before the first frame update
     void Start()
     {
-        musMult = 0;
+        nombre = "Armas de Arco";
+
+        musMult = 2;
         dañoExplota = true;
         basePara2doMaton = 9;
         bonusAtaque = 0;

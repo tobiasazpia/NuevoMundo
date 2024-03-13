@@ -51,4 +51,14 @@ public class cPersonajeFlyweight : MonoBehaviour
     {
         heridas = Mathf.Max(0, heridas - 1);
     }
+
+    public int GetGuardia()
+    {
+        int guardia = 15 + hab.ataqueBasico + hab.defensaBasica + cArma.GetGuardiaMod(arma);
+        if (guardia > 30)
+        {
+            guardia = 30;
+        }
+        return guardia;
+    }
 }

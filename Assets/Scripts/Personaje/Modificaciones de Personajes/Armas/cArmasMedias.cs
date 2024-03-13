@@ -10,6 +10,8 @@ public class cArmasMedias : cArma
     // Start is called before the first frame update
     void Start()
     {
+
+        nombre = "Armas Medias";
         musMult = 2;
         dañoExplota = true;
         basePara2doMaton = 9;

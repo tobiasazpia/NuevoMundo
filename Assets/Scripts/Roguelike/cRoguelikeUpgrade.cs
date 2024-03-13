@@ -110,12 +110,14 @@ public class cRoguelikeUpgrade : MonoBehaviour
             Debug.Log("falta drama: " + alguienNecesitaDrama);
         }
 
+        uiRU.eligiendoNuevoP = false;
         //cada 5 las tres son pj upgrade
         int pJIntervalo = 5;
         if (rM.nivel % pJIntervalo == 0 && hayEspeacioParaPJS)
         {
+            uiRU.eligiendoNuevoP = true;
             int lvl = 1;
-            if(rM.nivel > pJIntervalo) lvl = 2;
+            if (rM.nivel > pJIntervalo) lvl = 2;
             Debug.Log("todos pjs");
             List<int> valoresIlegales = new List<int>();
             for (int i = 0; i < 3; i++)
@@ -128,7 +130,7 @@ public class cRoguelikeUpgrade : MonoBehaviour
                 int elegido = GetRandomPersonaje(lvl, valoresIlegales);
                 upgrades[i].upgradesList[0].elementoAUpgradear = elegido;
                 valoresIlegales.Add(elegido);
-                CambiarTextoUPJ(i, upgrades[i],lvl); //podriamos usar el Subtipo para guardar el nivel?
+                CambiarTextoUPJ(i, upgrades[i], lvl); //podriamos usar el Subtipo para guardar el nivel?
             }
         }
         //cada 3 las tres son triple upgrade
@@ -171,11 +173,15 @@ public class cRoguelikeUpgrade : MonoBehaviour
                 Debug.Log(" + DOS");
             }
 
-            if ((alguienNecesitaDrama && alguienTieneAlgunaHerida) || alguienTieneDosHeridas) { upgrades[1].tipoDeUpgrade = cRoguelikeUpgradeData.RU_DESCANSO_COMPLETO;
+            if ((alguienNecesitaDrama && alguienTieneAlgunaHerida) || alguienTieneDosHeridas)
+            {
+                upgrades[1].tipoDeUpgrade = cRoguelikeUpgradeData.RU_DESCANSO_COMPLETO;
                 Debug.Log(" + DES COMPLE");
             }
 
-            if (alguienTieneAlgunaHerida) { upgrades[2].tipoDeUpgrade = cRoguelikeUpgradeData.RU_DESCANSO_PARCIAL_Y_SIMPLE;
+            if (alguienTieneAlgunaHerida)
+            {
+                upgrades[2].tipoDeUpgrade = cRoguelikeUpgradeData.RU_DESCANSO_PARCIAL_Y_SIMPLE;
                 Debug.Log(" + DES PARCIAL");
             }
 
@@ -211,8 +217,8 @@ public class cRoguelikeUpgrade : MonoBehaviour
         if (per.atr.maña < maxAtr) espaciosEncontrados++;
         if (per.atr.musculo < maxAtr) espaciosEncontrados++;
         if (per.atr.ingenio < maxAtr) espaciosEncontrados++;
-        if (per.atr.donaire < maxAtr) espaciosEncontrados++;       
-        
+        if (per.atr.donaire < maxAtr) espaciosEncontrados++;
+
         if (per.hab.ataqueBasico < maxHabilidad) espaciosEncontrados++;
         if (per.hab.defensaBasica < maxHabilidad) espaciosEncontrados++;
 
@@ -295,7 +301,7 @@ public class cRoguelikeUpgrade : MonoBehaviour
 
     void ElegirObjetivo(int slot)
     {
-        Debug.Log("Eligiendo Objetivo, slot: " +slot);
+        Debug.Log("Eligiendo Objetivo, slot: " + slot);
         int max = 20;
         if (rM.party.Count == 1) upgrades[slot].objetivoDeUpgrade = 0; // Si hay un solo P, el objetivo es el. si no...
         else
@@ -311,7 +317,7 @@ public class cRoguelikeUpgrade : MonoBehaviour
                 switch (upgrades[slot].tipoDeUpgrade) // Solo hacemos el Add si el Personaje podria recibir las upgrades
                 {
                     case cRoguelikeUpgradeData.RU_TRIPLE:
-                        if (RevisarSiHayEspacioEnPersonaje(rM.party[i],3)) countPoints.Add(count);
+                        if (RevisarSiHayEspacioEnPersonaje(rM.party[i], 3)) countPoints.Add(count);
                         else countPoints.Add(max);
                         break;
                     case cRoguelikeUpgradeData.RU_DOBLE:
@@ -348,7 +354,7 @@ public class cRoguelikeUpgrade : MonoBehaviour
         const int habTotal = 2;
         const int atrTotal = 5;
         int objetivo = upgrades[slot].objetivoDeUpgrade;
-        if(objetivo == -1)
+        if (objetivo == -1)
         {
             Debug.Log("Objetivo: -1");
             objetivo = 0;
@@ -362,7 +368,7 @@ public class cRoguelikeUpgrade : MonoBehaviour
 
         sum = CalcularPuntosEnAtributos(rM.party[upgrades[slot].objetivoDeUpgrade]);
         counts.Add(sum + Mathf.FloorToInt((max - sum) * (upgradeAtrs / atrTotal)));
-        
+
         Debug.Log("Eligiendo Subtipo");
         List<int> weighted = WeightearElementos(counts, max);
         if (weighted.Count > 0)
@@ -378,7 +384,7 @@ public class cRoguelikeUpgrade : MonoBehaviour
             if (recurringEnSubtipo) recurringDENUEVOEnSubtipo = true;
             else recurringEnSubtipo = true;
             ElegirSubtipo(slot, subUpgradeNum);
-        }      
+        }
         else upgrades[slot].tipoDeUpgrade = cRoguelikeUpgradeData.RU_NO_UPGRADE;
     }
 
@@ -436,19 +442,20 @@ public class cRoguelikeUpgrade : MonoBehaviour
         {
             upgrades[slot].upgradesList[subUpgradeNum].elementoAUpgradear = GetWeightedElement(weighted);
         }
-        else if (slotsIdenticos && !recurringEnElmento) {
+        else if (slotsIdenticos && !recurringEnElmento)
+        {
             if (upgrades[slot].upgradesList[subUpgradeNum].subTipoDeUpgrade == 0) upgrades[slot].upgradesList[subUpgradeNum].subTipoDeUpgrade = 1;
             else upgrades[slot].upgradesList[subUpgradeNum].subTipoDeUpgrade = 0;
             recurringEnElmento = true;
-            ElegirElemento(slot,subUpgradeNum);
-        } 
+            ElegirElemento(slot, subUpgradeNum);
+        }
         else upgrades[slot].tipoDeUpgrade = cRoguelikeUpgradeData.RU_NO_UPGRADE;
 
     }
 
     bool UpgradeYaSeleccionado(int slot, int subUpgradeNum, int subTipo, int elemento)
-    { 
-        if (upgrades[slot].tipoDeUpgrade == cRoguelikeUpgradeData.RU_TRIPLE || upgrades[slot].tipoDeUpgrade == cRoguelikeUpgradeData.RU_DESCANSOS_Y_DOBLES)       
+    {
+        if (upgrades[slot].tipoDeUpgrade == cRoguelikeUpgradeData.RU_TRIPLE || upgrades[slot].tipoDeUpgrade == cRoguelikeUpgradeData.RU_DESCANSOS_Y_DOBLES)
         {
             int subUpgradesAmount = 1;
             if (upgrades[slot].tipoDeUpgrade == cRoguelikeUpgradeData.RU_TRIPLE) subUpgradesAmount = 2;
@@ -458,7 +465,7 @@ public class cRoguelikeUpgrade : MonoBehaviour
             {
                 Debug.Log("ya elegimos todas las sub upgrades... quedo igual a otro slot?");
                 upgrades[slot].upgradesList[subUpgradeNum].elementoAUpgradear = elemento;
-                for (int i = slot-1; i >= 0; i--)
+                for (int i = slot - 1; i >= 0; i--)
                 {
                     if (SlotsIdenticos(slot, i))
                     {
@@ -577,7 +584,7 @@ public class cRoguelikeUpgrade : MonoBehaviour
 
         if (total == 0) // lista maxeada. Esto puede pasar por ejemplo, si un p todavia puede recibir 1 upgrade, y esta es la 2da de esta "lest upgrade"
         {
-            Debug.Log("PERFECTO");  
+            Debug.Log("PERFECTO");
             ret.Clear();
             //int defaultValue = 0;
             //if (valores.Count != 0) defaultValue = 100 / valores.Count; // esto no entiendo porque pasa
@@ -615,7 +622,7 @@ public class cRoguelikeUpgrade : MonoBehaviour
 
     int GetRandomPersonaje(int lvl, List<int> valoresIlegales)
     {
-        int ret = Random.Range(0, rM.rC.templatesPersonajes[lvl].Count- valoresIlegales.Count);
+        int ret = Random.Range(0, rM.rC.templatesPersonajes[lvl].Count - valoresIlegales.Count);
         return chequearRepiticion(valoresIlegales, ret);
     }
 
@@ -695,11 +702,11 @@ public class cRoguelikeUpgrade : MonoBehaviour
             if (aUpgradear.tipoDeUpgrade == cRoguelikeUpgradeData.RU_DESCANSO_PARCIAL_Y_SIMPLE) text += " y todos nos curamos una Herida.";
             else if (aUpgradear.tipoDeUpgrade == cRoguelikeUpgradeData.RU_DESCANSOS_Y_DOBLES)
             {
-                 text += " y la Sombra nos sonrie.";
+                text += " y la Sombra nos sonrie.";
             }
         }
         uiRU.SetUpgradeText(index, text);
-        uiRU.UpgradeTooltip(index,aUpgradear);
+        uiRU.UpgradeTooltip(index, aUpgradear);
     }
 
     public void CambiarTextoUPJ(int index, cRoguelikeUpgradeData upgrade, int lvl)
@@ -707,6 +714,10 @@ public class cRoguelikeUpgrade : MonoBehaviour
         cPersonajeFlyweight p = rM.rC.templatesPersonajes[lvl][upgrade.upgradesList[0].elementoAUpgradear];
         //como decidimos el elmento si no sabiamos el nivel?!?!?
         string text = p.nombre + " - " + cArma.GetString(p.arma);
+
+        // modificar tooltip
+        uiRU.UpgradeTooltip(index, upgrade);
+
         uiRU.SetUpgradeText(index, text);
     }
 
@@ -849,6 +860,14 @@ public class cRoguelikeUpgrade : MonoBehaviour
     void Listorti()
     {
         uiRU.RevisarParty();
+    }
+
+    public cPersonajeFlyweight GetPerInUpgrade(int index)
+    {
+        int pJIntervalo = 5;
+        int lvl = 1;
+        if (rM.nivel > pJIntervalo) lvl = 2;
+        return rM.rC.templatesPersonajes[lvl][upgrades[index].upgradesList[0].elementoAUpgradear];
     }
 
     // Update is called once per frame

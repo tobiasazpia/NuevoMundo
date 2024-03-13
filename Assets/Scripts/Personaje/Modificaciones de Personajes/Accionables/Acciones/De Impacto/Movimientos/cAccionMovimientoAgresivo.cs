@@ -112,7 +112,7 @@ public class cAccionMovimientoAgresivo : cAccionMovimiento
         List<cPersonaje> posiblesReaccionesSinObjetivo = new List<cPersonaje>();
         foreach (var p in c.personajes)
         {
-            if (p.equipo != personaje.equipo && (p.reaccion1Disponible || p.reaccion2Disponible)) //si tien
+            if (p.equipo != personaje.equipo && p.reaccion1Disponible) //si tien
             {
                 if (p.arma.GetDeRango()) //si es rango, y la zona de la que proviene el ataque esta en rango
                 {

@@ -11,6 +11,7 @@ public class cArmasLigeras : cArma
     // Start is called before the first frame update
     void Start()
     {
+        nombre = "Armas Ligeras";
         musMult = 1;
         dañoExplota = true;
         basePara2doMaton = 9;

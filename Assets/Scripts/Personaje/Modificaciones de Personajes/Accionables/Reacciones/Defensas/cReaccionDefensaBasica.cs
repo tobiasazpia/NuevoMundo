@@ -4,110 +4,20 @@ using UnityEngine;
 
 public class cReaccionDefensaBasica : cReaccionDefensa
 {
-    public const int DB_DETERMINANDO_DADOS = 0;
-    public const int DB_TIRANDO = 1;
-    public const int DB_CONSECUENCIAS = 2;
-
-    public int dadosATirar;
-    public int defensa;
-    public bool exito;
-
     // Start is called before the first frame update
     void Start()
     {
-        GetObjets();
+        SetUp();
         nombre = "Defensa Basica";
-        reroleandoState = DB_TIRANDO;
     }
 
-    override public void Ejecutar()
+    protected override void Tirando()
     {
-        switch (acc_state)
-        {
-            case DB_DETERMINANDO_DADOS:
-                uiC.acc = this;
-                DeterminadoDados();
-                break;
-            case DB_TIRANDO:
-                Tirando();
-                break;
-            case DB_CONSECUENCIAS:
-                Consecuencias();
-                break;
-            default:
-                break;
-        }
-        acc_state++;
-        c.EsperandoOkOn(true);
+        base.Tirando();
+        c.personajeActivo.BonusPAtqBporDefB = 0;      //what? que es esto
     }
 
-    protected void DeterminadoDados()
-    {
-        string armasImprovisadas = "";
-        dadosATirar = DeterminarNumeroDeDados();
-        if (!c.atacando)
-        {
-            if (personaje.GetZonaActual() != c.personajeActivo.GetZonaActual() && personaje.arma is cArmasPelea)
-            {
-                (personaje.arma as cArmasPelea).PerderArmaImprovisada();
-                armasImprovisadas = " " + personaje.nombre + " lanza su arma improvisada.";
-            }
-            uiC.SetText(UIInterface.NombreDePersonajeEnNegrita(personaje) + " trata de intervenir con " + dadosATirar + " dados contra la guardia de " + UIInterface.NombreDePersonajeEnNegrita(c.personajeActivo) + " de " + c.personajeActivo.GetGuardia() + "." + armasImprovisadas);
-        }
-        else
-        {
-            if (personaje.GetZonaActual() != c.personajeActivo.GetZonaActual() && personaje.GetZonaActual() != c.personajeObjetivo.GetZonaActual() && personaje.arma is cArmasPelea)
-            {
-                (personaje.arma as cArmasPelea).PerderArmaImprovisada();
-                armasImprovisadas = " " + UIInterface.NombreDePersonajeEnNegrita(personaje) + " lanza su arma improvisada.";
-            }
-            uiC.SetText(UIInterface.NombreDePersonajeEnNegrita(personaje) + " trata de defender con " + dadosATirar + " dados contra el ataque de " + UIInterface.NombreDePersonajeEnNegrita(c.personajeActivo) + " de " + UIInterface.IntEnNegrita(c.jugadorAtq) +"." + armasImprovisadas);
-        }
-    }
-
-    virtual protected void Tirando()
-    {
-        tirada tr = cDieMath.TirarDados(dadosATirar);
-        defensa = cDieMath.sumaDe3Mayores(tr);
-        c.jugadorDef = defensa;
-        string def;
-        string resultado;
-        uiC.perCambio = c.personajeActivo.nombre;
-        c.personajeActivo.BonusPAtqBporDefB = 0;
-        if (c.atacando)
-        {
-            exito = defensa >= c.jugadorAtq;
-            if (exito)
-            {
-                resultado = "deteniendo";
-                def = UIInterface.IntExitoso(defensa);
-            }
-            else
-            {
-                resultado = "no pudiendo detener";
-                def = UIInterface.IntFallido(defensa);
-            }
-            uiC.SetText(UIInterface.NombreDePersonajeEnNegrita(personaje) + " saca " + def + ", " + resultado + " el ataque de " +  UIInterface.IntEnNegrita(c.jugadorAtq) + ".");
-        }
-        else
-        {
-            exito = defensa >= c.personajeActivo.GetGuardia();
-            if (exito)
-            {
-                resultado = "deteniendo";
-                def = UIInterface.IntExitoso(defensa);
-            }
-            else
-            {
-                resultado = "no pudiendo detener";
-                def = UIInterface.IntFallido(defensa);
-            }
-            uiC.SetText(UIInterface.NombreDePersonajeEnNegrita(personaje) + " saca " + def + ", " + resultado + " el movimiento de " + UIInterface.NombreDePersonajeEnNegrita(c.personajeActivo) +".");
-        }
-        if (personaje.Drama && !exito) uiC.PedirDrama();
-    }
-
-    public void Consecuencias()
+    public override void Consecuencias()
     {
         string text = "";
         string curar = "";

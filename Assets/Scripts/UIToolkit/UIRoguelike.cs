@@ -221,7 +221,7 @@ public class UIRoguelike : MonoBehaviour
                 text += " - Maña: sirve para atacar.";
                 break;
             case 1:
-                text += " - Músculo: sirve para hacer daño, algunas armas lo utilizan mas que otras.";
+                text += " - Músculo: sirve para hacer daño, algunas armas lo utilizan más que otras.";
                 break;
             case 2:
                 text += " - Ingeno: sirve para defenderse.";
@@ -230,7 +230,7 @@ public class UIRoguelike : MonoBehaviour
                 text += " - Brío: sirve para resistir heridas.";
                 break;
             case 4:
-                text += " - Donaire: sirve para ir primero y estar listo par actuar.";
+                text += " - Donaire: sirve para ir primero y estar listo para actuar.";
                 break;
             default:
                 break;
@@ -246,6 +246,5 @@ public class UIRoguelike : MonoBehaviour
                 break;
         }
         button.tooltip = text;
-        Debug.Log("tooltip");
     }
 }

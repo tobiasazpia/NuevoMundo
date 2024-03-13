@@ -35,6 +35,7 @@ public class cAccionAtaqueBasico : cAccionAtaque
 
     override public void Ejecutar()
     {
+        Debug.Log("ej ab, state: " + acc_state);
         switch (acc_state)
         {
             case AB_DETERMINANDO_DADOS:
@@ -43,7 +44,7 @@ public class cAccionAtaqueBasico : cAccionAtaque
                 DeterminadoDados();
                 break;
             case AB_TIRANDO:
-                //Debug.Log("ab_state 1");
+                Debug.Log("ab_state 1");
                 Tirando();
                 break;
             case AB_DEFENSAS:
@@ -68,6 +69,7 @@ public class cAccionAtaqueBasico : cAccionAtaque
             default:
                 break;
         }
+        Debug.Log("????");
         acc_state++;
         //Debug.Log("despues de ++ ab_state es:" + ab_state);
         //switch (ab_state)
@@ -117,7 +119,9 @@ public class cAccionAtaqueBasico : cAccionAtaque
         }
 
         dadosATirar = DeterminarNumeroDeDados();
-
+        Debug.Log("aca?");
+        Debug.Log(personaje.nombre);
+        Debug.Log(c.personajeObjetivo.nombre);
         string text = "¡" + UIInterface.NombreDePersonajeEnNegrita(personaje) + " usa su " + nombre + " contra " + UIInterface.NombreDePersonajeEnNegrita(c.personajeObjetivo) + "! Tira " + dadosATirar + " dados contra su guardia de " + UIInterface.IntEnNegrita(c.personajeObjetivo.GetGuardia()) + "." + armasImprovisadas;
         if (c.movAgro) {
             uiC.SetText(text);
@@ -127,6 +131,7 @@ public class cAccionAtaqueBasico : cAccionAtaque
             c.personajeActivo.GastarDado(c.faseActual, c.acciones, c.accionesActivas, c.accionesReactivas, text);
             uiC.ActualizarIniciativa(c.personajes);
         }
+        Debug.Log("aqui?");
     }
 
     virtual protected void armaImpro()
@@ -270,7 +275,7 @@ public class cAccionAtaqueBasico : cAccionAtaque
         }
     }
 
-    private void TiramosDaño()
+    protected virtual void TiramosDaño()
     {
         if (!(c.personajeObjetivo is cMatones))
         {

@@ -76,10 +76,12 @@ public class UIInterface : MonoBehaviour
         Label arma = encabezado.ElementAt(1) as Label;
         UIRoguelikeUpgrade.ArmaTooltip(p.arma,arma);
         Debug.Log("arma tooltip 1" + arma.tooltip);
+        VisualElement guardiaCont;
         if (!isEnd)
         {
             VisualElement herCont = encabezado.ElementAt(2);
             VisualElement dramaCont = encabezado.ElementAt(3);
+            guardiaCont = encabezado.ElementAt(4);
 
             (herCont.ElementAt(1) as Label).text = p.heridas.ToString();
             if (p.drama)
@@ -90,8 +92,12 @@ public class UIInterface : MonoBehaviour
             {
                 (dramaCont.ElementAt(1) as Label).text = "No";
             }
-
         }
+        else
+        {
+            guardiaCont = encabezado.ElementAt(2);
+        }
+        (guardiaCont.ElementAt(1) as Label).text = p.GetGuardia().ToString();
 
         int numeroDeHabilidades = 2;
         Label[] habValores = new Label[numeroDeHabilidades];
@@ -171,7 +177,6 @@ public class UIInterface : MonoBehaviour
 
         Label arma = tactica.ElementAt(0) as Label;
         UIRoguelikeUpgrade.ArmaTooltip(p.armaCode, arma);
-        Debug.Log("arma tooltip 2" + arma.tooltip);
         Label bonus = tactica.ElementAt(1) as Label;
         Label daño = tactica.ElementAt(2) as Label;
 
@@ -210,7 +215,7 @@ public class UIInterface : MonoBehaviour
             daño.style.display = DisplayStyle.Flex;
             daño.text = "Daño: " + p.Daño;
         }
-        arma.text = p.arma.GetString();
+        arma.text = p.arma.nombre;
         if (p.Drama)
         {
             drama.text = "Drama - Sí";
@@ -236,15 +241,47 @@ public class UIInterface : MonoBehaviour
 
         Label nombre = encabezado.ElementAt(0) as Label;
         Label arma = encabezado.ElementAt(1) as Label;
+        VisualElement herCont = encabezado.ElementAt(2);
+        VisualElement dramaCont = encabezado.ElementAt(3);
+        VisualElement guardiaCont = encabezado.ElementAt(4);
 
         //Asignar valores
         nombre.text = " - ";
         arma.text = " - ";
+        (herCont.ElementAt(1) as Label).text = "-";
+        (dramaCont.ElementAt(1) as Label).text = "-";
+        (guardiaCont.ElementAt(1) as Label).text = "-";
+
+        VisualElement habilidades = vE.ElementAt(1);
+        VisualElement atributos = vE.ElementAt(2);
+
+        int numeroDeHabilidades = 2;
+        Label[] habValores = new Label[numeroDeHabilidades];
+        for (int i = 0; i < numeroDeHabilidades; i++)
+        {
+            habValores[i] = habilidades.ElementAt(i).ElementAt(1) as Label;
+        }
+
+        int numeroDeAtributos = 5;
+        Label[] atrValores = new Label[numeroDeAtributos];
+        for (int i = 0; i < numeroDeAtributos; i++)
+        {
+            atrValores[i] = atributos.ElementAt(i).ElementAt(1) as Label;
+        }
+
+        habValores[0].text = "-";
+        habValores[1].text = "-";
+
+        atrValores[0].text = "-";
+        atrValores[1].text = "-";
+        atrValores[2].text = "-";
+        atrValores[3].text = "-";
+        atrValores[4].text = "-";
     }
 
     static public string NombreDePersonajeEnNegrita(cPersonaje per)
     {
-        return "<b>" + per.nombre + "</b>";
+         return "<b>" + per.nombre + "</b>";
     }
 
     static public string IntEnNegrita(int num)

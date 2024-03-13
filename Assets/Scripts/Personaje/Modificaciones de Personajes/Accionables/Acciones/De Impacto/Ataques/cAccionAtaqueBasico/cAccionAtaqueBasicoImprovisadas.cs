@@ -17,9 +17,7 @@ public class cAccionAtaqueBasicoImprovisadas : cAccionAtaqueBasico
     override public int DeterminarNumeroDeDados()
     {
         armaImpro();
-        int numeroDeDados = base.DeterminarNumeroDeDados();
-        numeroDeDados -= (personaje.arma as cArmasPelea).tamañoDeArmaImprovisada;
-        return numeroDeDados;
+        return base.DeterminarNumeroDeDados();
     }
 
     override protected void armaImpro()

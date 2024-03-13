@@ -43,18 +43,24 @@ public class cMatones : cPersonaje
         int muertos = 1;
         int dif = atq - Mathf.Max(GetGuardia(),def);
         muertos += dif / extraNecesario;
+        Debug.Log("musmult: " + c.personajeActivo.arma.musMult +", base: "+ c.personajeActivo.arma.basePara2doMaton);
         string text = "Necesitaba pasarse por " + UIInterface.IntEnNegrita(extraNecesario) + " y se paso por ";
         uiC.perCambio = nombre;
         int cantPrevia = Cantidad;
         Cantidad -= muertos;
         Cantidad = Mathf.Max(Cantidad, 0);
-        if (muertos > 1)
+        if (dif >= extraNecesario)
         {
            text += UIInterface.IntExitoso(dif) + ", asi que se lleva a multiples enemigos! Caen " + UIInterface.IntEnNegrita(Mathf.Min(muertos,cantPrevia)) + " matones";
         }
         else
         {
             text += UIInterface.IntFallido(dif) + ", asi que se lleva a un maton a la tumba";
+        }
+        if (tieneTerror)
+        {
+            text += "  y " + UIInterface.IntEnNegrita(1) + " más por Terror de Dios,";
+            Cantidad = Mathf.Max(Cantidad-1, 0);
         }
         text += " dejando " + (c.personajeObjetivo as cMatones).Cantidad+ " en pie.";
         uiC.SetText(text);

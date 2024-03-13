@@ -12,11 +12,13 @@ public class cArmasFuego : cArma
     // Start is called before the first frame update
     void Start()
     {
+        nombre = "Armas de Fuego";
+
         musMult = 0;
         dañoExplota = false;
         basePara2doMaton = 6;
         bonusAtaque = 0;
-        guardiaMod = 0;
+        guardiaMod = -2;
         dadosDelAtacanteMod = 0;
         bonusDefensaPropia = 0;
         bonusDefensaAjena = 0;

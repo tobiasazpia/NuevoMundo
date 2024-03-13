@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-
 using System;
 
 
@@ -42,12 +41,12 @@ public class cPersonaje : MonoBehaviour
     public const int AC_ENCONTRAR = 8;
     public const int AC_ATACARIMPRO = 9;
     public const int AC_MOVIMPRO = 10;
-    public const int AC_DEFIMPRO = 11;
+    public const int AC_IRADIVINA = 11;
     public const int AC_SINASIGNAR = 99;
     //Reacciones
     public const int DB_DefensaBasica = 0;
     public const int DB_DefensaBasicaImpro = 1;
-    public const int DB_ATRAS = 98;
+    public const int DB_DefensaTerrorDeDios = 2;
     public const int DB_SINASIGNAR = 99;
 
     public UICombate uiC;
@@ -68,6 +67,8 @@ public class cPersonaje : MonoBehaviour
     public int ataqueBasicoDadosExtra;
     public int defensaBasicaDadosExtra;
     public int fallamosDefPor;
+
+    public bool tieneTerror;
 
     private int m_Daño;
     public int Daño
@@ -142,7 +143,6 @@ public class cPersonaje : MonoBehaviour
     public int[] dadosDeAccion;
     public int valorDeIniciativa;
     public bool reaccion1Disponible;
-    public bool reaccion2Disponible;
 
     public int dadosDelAtacantePorPrecavido;
     public int totalDadosDelAtacante;
@@ -260,6 +260,9 @@ public class cPersonaje : MonoBehaviour
                 break;
             case cArma.PELEA:
                 arma = gameObject.AddComponent<cArmasPelea>();
+                break;
+            case cArma.VOLUNTAD_CREADOR:
+                arma = gameObject.AddComponent<cLaVoluntadDelCreador>();
                 break;
             default:
                 break;
@@ -487,7 +490,7 @@ public class cPersonaje : MonoBehaviour
         int numeroDeDados = 3;
         numeroDeDados += atr.brio * 3;
 
-        tirada tr = cDieMath.TirarDados(numeroDeDados, true);
+        tirada tr = cDieMath.TirarDados(numeroDeDados, !tieneTerror); // por Terror de Dios de Voluntad del Creador
         int tiradaDeHeridasRes = cDieMath.sumaDe3Mayores(tr);
         bool exito = tiradaDeHeridasRes >= Daño;
         string tiradaH;
@@ -520,8 +523,8 @@ public class cPersonaje : MonoBehaviour
     {
         int hAd = Daño / 30;
         uiC.SetText(UIInterface.NombreDePersonajeEnNegrita(this) + " recibio un disparo tomando 1 Herida, y por ya tener " + Daño + " de daño toma " + hAd + " adicionales.");
-        Heridas += 1 + hAd;
         uiC.perCambio = nombre;
+        Heridas += 1 + hAd;
         Daño = 0;
     }
 
@@ -596,9 +599,10 @@ public class cPersonaje : MonoBehaviour
     private void OnMouseEnter()
     {
         hovered = true;
-        if (c.perSeleccionado != nombre)
+        if (c.perSeleccionado != nombre || !mostrandoTactica)
         {
             c.uiC.MostrarInfoPerVital(this);
+            c.perHovereado = nombre;
         }
     }
 

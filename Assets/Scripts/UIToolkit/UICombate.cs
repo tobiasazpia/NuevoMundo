@@ -37,6 +37,10 @@ public class UICombate : MonoBehaviour
     private Button bEncontrarImprovisada;
     private Button bMarcialAtras;
 
+    private Button bAMarcial1;
+    private Button bAMarcial2;
+    private Button bAMarcial3;
+
     private Button bArcanaAtras;
 
     private Button bMoverImpro;
@@ -50,6 +54,10 @@ public class UICombate : MonoBehaviour
     private Button bDefenderImpro;
     private Button bDefender;
     private Button bIntervenirAtras;
+
+    private Button bRMarcial1;
+    private Button bRMarcial2;
+    private Button bRMarcial3;
 
     private Button bAtrasSolo;
 
@@ -95,6 +103,8 @@ public class UICombate : MonoBehaviour
     public Label zona2;
     public Label zona3;
 
+    private Slider volume;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -125,6 +135,10 @@ public class UICombate : MonoBehaviour
         bRecargar = root.Q<Button>("ButtonRecargar");
         bMarcialAtras = root.Q<Button>("ButtonMarcialAtras");
 
+        bAMarcial1 = root.Q<Button>("ButtonATMarcial1");
+        bAMarcial2 = root.Q<Button>("ButtonATMarcial2");
+        bAMarcial3 = root.Q<Button>("ButtonATMarcial3");
+
         bArcanaAtras = root.Q<Button>("ButtonArcanaAtras");
 
         bMoverImpro = root.Q<Button>("ButtonMoverImpro");
@@ -138,6 +152,10 @@ public class UICombate : MonoBehaviour
         bDefenderImpro = root.Q<Button>("ButtonDefenderImpro");
         bDefender = root.Q<Button>("ButtonDefender");
         bIntervenirAtras = root.Q<Button>("ButtonIntervenirAtras");
+
+        bRMarcial1 = root.Q<Button>("ButtonDTMarcial1");
+        bRMarcial2 = root.Q<Button>("ButtonDTMarcial2");
+        bRMarcial3 = root.Q<Button>("ButtonDTMarcial3");
 
         bDrama = root.Q<Button>("ButtonDrama");
         bNoDrama = root.Q<Button>("ButtonNoDrama");
@@ -171,6 +189,14 @@ public class UICombate : MonoBehaviour
         zona2 = root.Q<Label>("Zona2");
         zona3 = root.Q<Label>("Zona3");
 
+        volume = root.Q<Slider>("VolumeSlider");
+
+        volume.value = combate.music.volume*100;
+        volume.RegisterValueChangedCallback(v =>
+        {
+            combate.music.volume = v.newValue / 100;
+        });
+
         bAvanzar.RegisterCallback<ClickEvent>(OnAvanzarClicked);
 
         bMarcial.RegisterCallback<ClickEvent>(OnMarcialClicked);
@@ -202,6 +228,16 @@ public class UICombate : MonoBehaviour
         bMarcialAtras.RegisterCallback<MouseEnterEvent>(OnMouseEnterButton);
         bMarcialAtras.RegisterCallback<MouseLeaveEvent>(OnMouseLeaveButtonOrElement);
 
+        bAMarcial1.RegisterCallback<ClickEvent>(OnAMarcial1Clicked);
+        bAMarcial1.RegisterCallback<MouseEnterEvent>(OnMouseEnterButton);
+        bAMarcial1.RegisterCallback<MouseLeaveEvent>(OnMouseLeaveButtonOrElement);
+        bAMarcial2.RegisterCallback<ClickEvent>(OnAMarcial2Clicked);
+        bAMarcial2.RegisterCallback<MouseEnterEvent>(OnMouseEnterButton);
+        bAMarcial2.RegisterCallback<MouseLeaveEvent>(OnMouseLeaveButtonOrElement);
+        bAMarcial3.RegisterCallback<ClickEvent>(OnAMarcial3Clicked);
+        bAMarcial3.RegisterCallback<MouseEnterEvent>(OnMouseEnterButton);
+        bAMarcial3.RegisterCallback<MouseLeaveEvent>(OnMouseLeaveButtonOrElement);
+
         bArcanaAtras.RegisterCallback<ClickEvent>(OnAtrasClicked);
         RegisterTooltip(bArcanaAtras);
 
@@ -225,6 +261,16 @@ public class UICombate : MonoBehaviour
         RegisterTooltip(bDefender);
         bIntervenirAtras.RegisterCallback<ClickEvent>(OnIntervenirAtrasClicked);
         RegisterTooltip(bIntervenirAtras);
+
+        bRMarcial1.RegisterCallback<ClickEvent>(OnRMarcial1Clicked);
+        bRMarcial1.RegisterCallback<MouseEnterEvent>(OnMouseEnterButton);
+        bRMarcial1.RegisterCallback<MouseLeaveEvent>(OnMouseLeaveButtonOrElement);
+        bRMarcial2.RegisterCallback<ClickEvent>(OnRMarcial2Clicked);
+        bRMarcial2.RegisterCallback<MouseEnterEvent>(OnMouseEnterButton);
+        bRMarcial2.RegisterCallback<MouseLeaveEvent>(OnMouseLeaveButtonOrElement);
+        bRMarcial3.RegisterCallback<ClickEvent>(OnRMarcial3Clicked);
+        bRMarcial3.RegisterCallback<MouseEnterEvent>(OnMouseEnterButton);
+        bRMarcial3.RegisterCallback<MouseLeaveEvent>(OnMouseLeaveButtonOrElement);
 
         bDrama.RegisterCallback<ClickEvent>(OnDramaClicked);
         RegisterTooltip(bDrama);
@@ -314,7 +360,7 @@ public class UICombate : MonoBehaviour
                 hovering = false;
                 tooltip.style.display = DisplayStyle.Flex;
                 float wProp = 1920.0f / Screen.width;
-                tooltip.transform.position = new Vector3(Mathf.Min(tooltip.transform.position.x, (Screen.width - 750) * wProp), tooltip.transform.position.y+100, tooltip.transform.position.z);
+                tooltip.transform.position = new Vector3(Mathf.Min(tooltip.transform.position.x, (Screen.width - 750) * wProp), tooltip.transform.position.y + 100, tooltip.transform.position.z);
             }
         }
     }
@@ -355,9 +401,9 @@ public class UICombate : MonoBehaviour
             Label h = tactica.ElementAt(1) as Label;
             h.text = "Heridas: " + newVal;
         }
-        foreach (var item in combate.personajes)
+        if (combate.perHovereado == perCambio)
         {
-            if(item.hovered) infoVHerCan.text = "Heridas: " + newVal;
+            infoVHerCan.text = "Heridas: " + newVal;
         }
     }
 
@@ -375,9 +421,9 @@ public class UICombate : MonoBehaviour
             Label d = tactica.ElementAt(2) as Label;
             d.text = newStr;
         }
-        foreach (var item in combate.personajes)
+        if (combate.perHovereado == perCambio)
         {
-            if (item.hovered) infoVDrama.text = newStr;
+            infoVDrama.text = newStr;
         }
     }
 
@@ -391,9 +437,9 @@ public class UICombate : MonoBehaviour
             Label h = tactica.ElementAt(1) as Label;
             h.text = "Cantidad: " + newVal;
         }
-        foreach (var item in combate.personajes)
+        if (combate.perHovereado == perCambio)
         {
-            if (item.hovered) infoVHerCan.text = "Cantidad: " + newVal;
+            infoVHerCan.text = "Cantidad: " + newVal;
         }
     }
 
@@ -437,9 +483,13 @@ public class UICombate : MonoBehaviour
     {
         bAtacar.style.display = DisplayStyle.None;
         bMoverAgro.style.display = DisplayStyle.None;
+        bMoverImpro.style.display = DisplayStyle.None;
         bRecargar.style.display = DisplayStyle.None;
         bEncontrarImprovisada.style.display = DisplayStyle.None;
         bAtacarImprovisada.style.display = DisplayStyle.None;
+        bAMarcial1.style.display = DisplayStyle.None;
+        bAMarcial2.style.display = DisplayStyle.None;
+        bAMarcial3.style.display = DisplayStyle.None;
     }
 
     public void CombateSelected()
@@ -517,6 +567,7 @@ public class UICombate : MonoBehaviour
 
     public void PedirReaccion(cPersonaje personaje)
     {
+        combate.EsperandoOkOn(false);
         menuReaccion.style.display = DisplayStyle.Flex;
         string text = UIInterface.NombreDePersonajeEnNegrita(personaje) + ": ¿Queres intervenir contra ";
         if (combate.atacando)
@@ -535,6 +586,7 @@ public class UICombate : MonoBehaviour
 
     public void PedirIntervencion(cPersonaje personaje)
     {
+        combate.EsperandoOkOn(false);
         menuReaccion.style.display = DisplayStyle.None;
         menuIntervenir.style.display = DisplayStyle.Flex;
         string text = UIInterface.NombreDePersonajeEnNegrita(personaje) + ": ¿Como intervenimos?";
@@ -559,6 +611,79 @@ public class UICombate : MonoBehaviour
             bDefender.style.display = DisplayStyle.Flex;
         }
         bIntervenirAtras.style.display = DisplayStyle.Flex;
+        // 
+        if (combate.personajeInterversor.arma as cLaVoluntadDelCreador)
+        {
+            bRMarcial1.style.display = DisplayStyle.Flex;
+        }
+    }
+
+    private void OnAMarcial1Clicked(ClickEvent evt)
+    {
+        Debug.Log("mar click");
+        DejarDePedirIntervencion();
+        SetText("¡" + UIInterface.NombreDePersonajeEnNegrita(combate.personajeInterversor) + " va a usar Ira Divina!");
+        combate.stateID = cCombate.RESOLVIENDO_ACCION;
+        combate.accionActiva = cPersonaje.AC_IRADIVINA;
+
+        bAtacarImprovisada.style.display = DisplayStyle.None;
+        menuMarcial.style.display = DisplayStyle.None;
+        menuBackOnly.style.display = DisplayStyle.Flex;
+        bEncontrarImprovisada.style.display = DisplayStyle.None;
+        combate.esperandoObjetivo = true;
+        combate.movPrec = false;
+        combate.movAgro = false;
+        combate.atacando = false;
+        VolverAlCombate();
+    }
+
+    private void OnAMarcial2Clicked(ClickEvent evt)
+    {
+        Debug.Log("mar click");
+        DejarDePedirIntervencion();
+        SetText("¡" + UIInterface.NombreDePersonajeEnNegrita(combate.personajeInterversor) + " va a intervenir con HABILIDAD NUEVA!");
+        combate.stateID = cCombate.RESOLVIENDO_REACCION;
+        combate.reaccionActiva = cPersonaje.DB_DefensaTerrorDeDios;
+        VolverAlCombate();
+    }
+
+    private void OnAMarcial3Clicked(ClickEvent evt)
+    {
+        Debug.Log("mar click");
+        DejarDePedirIntervencion();
+        SetText("¡" + UIInterface.NombreDePersonajeEnNegrita(combate.personajeInterversor) + " va a intervenir con HABILIDAD NUEVA!");
+        combate.stateID = cCombate.RESOLVIENDO_REACCION;
+        combate.reaccionActiva = cPersonaje.DB_DefensaTerrorDeDios;
+        VolverAlCombate();
+    }
+    private void OnRMarcial1Clicked(ClickEvent evt)
+    {
+        Debug.Log("mar click");
+        DejarDePedirIntervencion();
+        SetText("¡" + UIInterface.NombreDePersonajeEnNegrita(combate.personajeInterversor) + " va a intervenir con Terror de Dios!");
+        combate.stateID = cCombate.RESOLVIENDO_REACCION;
+        combate.reaccionActiva = cPersonaje.DB_DefensaTerrorDeDios;
+        VolverAlCombate();
+    }
+
+    private void OnRMarcial2Clicked(ClickEvent evt)
+    {
+        Debug.Log("mar click");
+        DejarDePedirIntervencion();
+        SetText("¡" + UIInterface.NombreDePersonajeEnNegrita(combate.personajeInterversor) + " va a intervenir con HABILIDAD NUEVA!");
+        combate.stateID = cCombate.RESOLVIENDO_REACCION;
+        combate.reaccionActiva = cPersonaje.DB_DefensaTerrorDeDios;
+        VolverAlCombate();
+    }
+
+    private void OnRMarcial3Clicked(ClickEvent evt)
+    {
+        Debug.Log("mar click");
+        DejarDePedirIntervencion();
+        SetText("¡" + UIInterface.NombreDePersonajeEnNegrita(combate.personajeInterversor) + " va a intervenir con HABILIDAD NUEVA!");
+        combate.stateID = cCombate.RESOLVIENDO_REACCION;
+        combate.reaccionActiva = cPersonaje.DB_DefensaTerrorDeDios;
+        VolverAlCombate();
     }
 
     private void VerQueBotonesPonemos(int categoria, List<cAcciones> acciones)
@@ -586,15 +711,21 @@ public class UICombate : MonoBehaviour
 
     public void PedirMarcial(cPersonaje personaje)
     {
+        combate.EsperandoOkOn(false);
         DejarDePedirAccion();
         SetText(UIInterface.NombreDePersonajeEnNegrita(personaje) + ": que habilidad usamos?");
         menuMarcial.style.display = DisplayStyle.Flex;
         VerQueBotonesPonemos(cAcciones.AC_CAT_MARCIAL, personaje.acciones);
         bMarcialAtras.style.display = DisplayStyle.Flex;
+        if (combate.personajeActivo.arma as cLaVoluntadDelCreador)
+        {
+            bAMarcial1.style.display = DisplayStyle.Flex;
+        }
     }
 
     public void PedirArcana(cPersonaje personaje)
     {
+        combate.EsperandoOkOn(false);
         DejarDePedirAccion();
         SetText(UIInterface.NombreDePersonajeEnNegrita(personaje) + ": que habilidad usamos?");
         menuArcana.style.display = DisplayStyle.Flex;
@@ -604,6 +735,7 @@ public class UICombate : MonoBehaviour
 
     public void PedirMovimiento(cPersonaje personaje)
     {
+        combate.EsperandoOkOn(false);
         DejarDePedirAccion();
         SetText(UIInterface.NombreDePersonajeEnNegrita(personaje) + ": como nos movemos?");
         menuMover.style.display = DisplayStyle.Flex;
@@ -695,6 +827,7 @@ public class UICombate : MonoBehaviour
 
     private void OnNoIntervenirClicked(ClickEvent evt)
     {
+        combate.EsperandoOkOn(true);
         SetText(UIInterface.NombreDePersonajeEnNegrita(combate.personajeInterversor) + " no intervendra.");
         combate.stateID = cCombate.RESOLVIENDO_ACCION;
         DejarDePedirReaccion();
@@ -703,6 +836,7 @@ public class UICombate : MonoBehaviour
 
     private void OnAtacarClicked(ClickEvent evt)
     {
+        Debug.Log("atac click");
         combate.accionActiva = cPersonaje.AC_ATACAR;
         bAtacarImprovisada.style.display = DisplayStyle.None;
         menuMarcial.style.display = DisplayStyle.None;
@@ -817,8 +951,8 @@ public class UICombate : MonoBehaviour
 
     private void OnNoDramaClicked(ClickEvent evt)
     {
-        menuDrama.style.display = DisplayStyle.None;
         combate.EsperandoOkOn(true);
+        menuDrama.style.display = DisplayStyle.None;
         VolverAlCombate();
     }
 
@@ -1057,21 +1191,21 @@ public class UICombate : MonoBehaviour
         switch (tamaño)
         {
             case 0:
-                text = " pequeña (-0d Ataque, Mus mult: 1)";
+                text = " pequeña"; 
                 break;
             case 1:
-                text = " media (-1d Ataque, Mus mult: 2)";
+                text = " media";
                 break;
             case 2:
-                text = " grande (-2d Ataque, Mus mult: 3)";
+                text = " grande";
                 break;
             default:
                 break;
         }
+        text += " (-" + tamaño + "d Ataque, Mus mult: " + (tamaño + 2) + ")";
         bAtacarImprovisada.tooltip = aBText + text;
         bMoverImpro.tooltip = movText + text;
         bDefenderImpro.tooltip = dBtext + text;
-        Debug.Log("tooltip modificado, ahra son: " + bAtacarImprovisada.tooltip + " y " + bDefenderImpro);
     }
 
     private void OnDisable()

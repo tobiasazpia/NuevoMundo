@@ -36,7 +36,7 @@ public class UIRoguelikeEnd : MonoBehaviour
         {
             UIInterface.FillPlayer(rM.party[i], personajes[i],true);
         }
-        for (; i < 3; i++)
+        for (; i < personajes.Length; i++)
         {
             UIInterface.NoPlayer(personajes[i]);
         }

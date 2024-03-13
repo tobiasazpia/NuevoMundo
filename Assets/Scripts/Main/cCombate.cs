@@ -66,7 +66,7 @@ public class cCombate : MonoBehaviour
     public PlayerInput py;
     public bool pause = false;
 
-    //public AudioSource music;
+    public AudioSource music;
 
     //State ID
     public const int EMPEZAR = 0;
@@ -133,7 +133,10 @@ public class cCombate : MonoBehaviour
     public List<sAccion> acciones;
 
     public string perSeleccionado;
+    public string perHovereado;
     public bool enCombate = false;
+
+
 
     private void OnEnable()
     {
@@ -508,7 +511,6 @@ public class cCombate : MonoBehaviour
         //Si la van a usar nos manda a ResolverAccion
         //Si no nos manda a BuscarAccion
         BuscarEnemigosEnRango();
-
         if (personajeActivo.ai is null) // es personaje jugable
         {
             switch (accionActiva)
@@ -604,17 +606,21 @@ public class cCombate : MonoBehaviour
 
     public void ResolverReaccion()
     {
+        Debug.Log("Resolver");
         personajeInterversor.Reaccionar(GetNombreDeReaccion(reaccionActiva));
     }
 
     public string GetNombreDeReaccion(int numero)
     {
+        Debug.Log("NombreDeReacc");
         switch (numero)
         {
             case cPersonaje.DB_DefensaBasica:
                 return "Defensa Basica";
             case cPersonaje.DB_DefensaBasicaImpro:
                 return "Defensa Basica Improvisada";
+            case cPersonaje.DB_DefensaTerrorDeDios:
+                return "Terror de Dios";
             default:
                 return "ERROR";
         }
@@ -872,7 +878,6 @@ public class cCombate : MonoBehaviour
         p.guardando = false;
         p.quiereActuar = false;
         p.reaccion1Disponible = false;
-        p.reaccion2Disponible = false;
         p.zonaActual = -1;
         for (int i = acciones.Count - 1; i >= 0; i--)
         {
