@@ -9,6 +9,9 @@ public class UIRoguelikeUpgrade : MonoBehaviour
     private VisualElement pRoguelikeUListo;
     private VisualElement pRoguelikeUAnticipacion;
 
+    Vector3 playerInfoPos;
+    cPersonajeFlyweight playerInfoData;
+
     VisualElement[] party = new VisualElement[3];
     Button continuar;
 
@@ -33,6 +36,8 @@ public class UIRoguelikeUpgrade : MonoBehaviour
     float timeTillTooltip;
 
     public bool eligiendoNuevoP;
+    public bool hovereandoTMUpgrade;
+    public bool hovereandoNuevoPUpgrade;
 
     // Start is called before the first frame update
     void Start()
@@ -72,20 +77,27 @@ public class UIRoguelikeUpgrade : MonoBehaviour
         continuar = root.Q<Button>("ButtonRevisarContinuar");
         continuar.RegisterCallback<ClickEvent>(OnContinuarClicked);
 
-        infoCompleta = root.Q<VisualElement>("ElegirInfo");
+        //infoCompleta = root.Q<VisualElement>("ElegirInfo");
+        infoCompleta = root.Q<VisualElement>("InfoCompletaNueva");
         tooltip = root.Q<Label>("tooltip");
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < 3; i++)
         {
-            RegisterTooltip(infoCompleta.ElementAt(0).ElementAt(i));
+            RegisterTooltip(infoCompleta.ElementAt(1).ElementAt(0).ElementAt(i));
         }
-        for (int i = 0; i < 2; i++)
+        for (int i = 0; i < 3; i++)
         {
-            RegisterTooltip(infoCompleta.ElementAt(1).ElementAt(i));
+            RegisterTooltip(infoCompleta.ElementAt(1).ElementAt(1).ElementAt(i));
         }
         for (int i = 0; i < 5; i++)
         {
-            RegisterTooltip(infoCompleta.ElementAt(2).ElementAt(i));
+            RegisterTooltip(infoCompleta.ElementAt(2).ElementAt(0).ElementAt(1).ElementAt(i));
         }
+        for (int i = 0; i < 6; i++)
+        {
+            RegisterTooltip(infoCompleta.ElementAt(2).ElementAt(1).ElementAt(1).ElementAt(i));
+        }
+        RegisterTooltip(infoCompleta.ElementAt(2).ElementAt(0).ElementAt(0));
+        RegisterTooltip(infoCompleta.ElementAt(2).ElementAt(0).ElementAt(1));
 
         for (int i = 0; i < party.Length; i++)
         {
@@ -111,8 +123,25 @@ public class UIRoguelikeUpgrade : MonoBehaviour
                 hovering = false;
                 if (eligiendoNuevoP)
                 {
-                    infoCompleta.style.display = DisplayStyle.Flex;
-                    infoCompleta.transform.position = new Vector3(infoCompleta.transform.position.x, infoCompleta.transform.position.y - 840, infoCompleta.transform.position.z);
+                    if (hovereandoNuevoPUpgrade)
+                    {
+                        infoCompleta.style.display = DisplayStyle.Flex;
+                        infoCompleta.transform.position = new Vector3(playerInfoPos.x, playerInfoPos.y - 840, playerInfoPos.z);
+                        PersonajeTooltip(playerInfoData);
+                    }
+                    else
+                    {
+                        tooltip.style.display = DisplayStyle.Flex;
+                        tooltip.transform.position = new Vector3(tooltip.transform.position.x, tooltip.transform.position.y - 125, tooltip.transform.position.z);
+                    }
+                }
+                else if (hovereandoTMUpgrade)
+                {
+                    hovereandoTMUpgrade = false;
+
+                    rU.rM.rC.combate.uiC.FillTradicionMarcial(rU.upgrades[0].upgradesList[0].elementoAUpgradear+cArma.VOLUNTAD_CREADOR);
+                    rU.rM.rC.combate.uiC.Deseleccionar();
+                    rU.rM.rC.combate.uiC.pTradicioNMarcial.style.display = DisplayStyle.Flex;
                 }
                 else
                 {
@@ -162,18 +191,45 @@ public class UIRoguelikeUpgrade : MonoBehaviour
         {
             Debug.Log("per elec");
             infoCompleta.style.display = DisplayStyle.Flex;
+
+            infoCompleta.parent.style.alignItems = Align.FlexStart;
+            infoCompleta.style.top = StyleKeyword.Auto;
+            infoCompleta.style.right = StyleKeyword.Auto;
+
             infoCompleta.transform.position = evt.position -evt.localPosition;
             infoCompleta.transform.position = new Vector3(infoCompleta.transform.position.x, infoCompleta.transform.position.y + 200, infoCompleta.transform.position.z);
-            infoCompleta.ElementAt(0).ElementAt(2).style.display = DisplayStyle.Flex;
-            infoCompleta.ElementAt(0).ElementAt(3).style.display = DisplayStyle.Flex;
-            UIInterface.FillPlayer(rU.rM.party[index], infoCompleta, false);
+            //infoCompleta.ElementAt(0).ElementAt(2).style.display = DisplayStyle.Flex;
+            //infoCompleta.ElementAt(0).ElementAt(3).style.display = DisplayStyle.Flex;          
+            if(rU.rM.party[index].arma > cArma.FUEGO)
+            {
+                infoCompleta.ElementAt(2).ElementAt(1).ElementAt(0).AddToClassList("button");
+                infoCompleta.ElementAt(2).ElementAt(1).ElementAt(0).AddToClassList("armaButton");
+                infoCompleta.ElementAt(2).ElementAt(1).ElementAt(0).RegisterCallback<ClickEvent>(rU.rM.rC.combate.uiC.OnTradicionMarcialClicked);
+                for (int i = 0; i < 4; i++)
+                {
+                    infoCompleta.ElementAt(2).ElementAt(1).ElementAt(1).ElementAt(i+2).style.display = DisplayStyle.Flex;
+                }
+            }
+            else
+            {
+                infoCompleta.ElementAt(2).ElementAt(1).ElementAt(0).UnregisterCallback<ClickEvent>(rU.rM.rC.combate.uiC.OnTradicionMarcialClicked);
+                infoCompleta.ElementAt(2).ElementAt(1).ElementAt(0).RemoveFromClassList("button");
+                infoCompleta.ElementAt(2).ElementAt(1).ElementAt(0).RemoveFromClassList("armaButton");
+                for (int i = 0; i < 4; i++)
+                {
+                    infoCompleta.ElementAt(2).ElementAt(1).ElementAt(1).ElementAt(i + 2).style.display = DisplayStyle.None;
+                }
+            }
+           // UIInterface.FillPlayer(rU.rM.party[index], infoCompleta, false);
+            UIInterface.FillPlayerNueva(rU.rM.party[index], infoCompleta,true);
+
         }
     }
 
-    public static void ArmaTooltip(int arma, VisualElement vE)
+    public static void ArmaTooltip(int arma, Button vE, int maestria)
     {
         string text = "";
-        text = "Multiplicador de Musculo: " + cArma.GetMusMult(arma) + ", Base para Matones: " + cArma.GetBaseMatones(arma) + ".";
+        text = "Multiplicador de Músculo: " + cArma.GetMusMult(arma,maestria) + ", Base para Matones: " + cArma.GetBaseMatones(arma) + ".";
         int g = cArma.GetGuardiaMod(arma);
         if (g != 0) text += " " + g + " a tu Guardia.";
         switch (arma)
@@ -190,13 +246,14 @@ public class UIRoguelikeUpgrade : MonoBehaviour
                 text += " Rango. +2d a defender a otros y a detener movimiento. -1d si defiende de o ataca a un enemigo en su misma zona.";
                 break;
             case cArma.FUEGO:
-                text += " Rango. No tira Daño, genera una Heridas al aertar. Necesita recargar si falla al atacar, defender a otros o detener movimiento.";
+                text += " Rango. No tira Daño, genera una Heridas al acertar. Necesita recargar si falla al atacar, defender a otros o detener movimiento.";
                 break;
             case cArma.PELEA:
                 text += " Sus dados no explotan en las tiradas de Daño. Enemigos tienen -1d al atacarlo. Puede usar armas improvisadas."; 
                 break;
             case cArma.VOLUNTAD_CREADOR:
                 text += " +2d a detener movimiento. +1d para Daño.";
+                if(maestria > 2) text += " Daño explota en mayores que 8. 10s en Ataques contra Matones valen 11.";
                 break;
             default:
                 break;
@@ -223,7 +280,13 @@ public class UIRoguelikeUpgrade : MonoBehaviour
     {
         VisualElement vE = upgrades[index];
         string text = "";
-        if (aUpgradear.tipoDeUpgrade == cRoguelikeUpgradeData.RU_PJ) text = "";
+        if (aUpgradear.tipoDeUpgrade == cRoguelikeUpgradeData.RU_PJ)
+        {
+            text = "";
+            infoCompleta.parent.style.alignItems = Align.FlexStart;
+            infoCompleta.style.top = StyleKeyword.Auto;
+            infoCompleta.style.right = StyleKeyword.Auto;
+        }
         else if (aUpgradear.tipoDeUpgrade == cRoguelikeUpgradeData.RU_NO_UPGRADE) text = "Nada que mejorar.";
         else if (aUpgradear.tipoDeUpgrade == cRoguelikeUpgradeData.RU_DESCANSO_COMPLETO) text = "Descanso completo.";
         else
@@ -363,27 +426,57 @@ public class UIRoguelikeUpgrade : MonoBehaviour
 
     public void RevisarParty()
     {
+        Debug.Log("rev party");
         infoCompleta.style.display = DisplayStyle.None;
         int i = 0;
         for (; i < rU.rM.party.Count; i++)
         {
-            UIInterface.FillPlayer(rU.rM.party[i], personajes[i], false);
-            for (int j = 0; j < 4; j++)
+            //rU.rM.party[i].arma.c
+            personajes[i].style.display = DisplayStyle.Flex;
+            Debug.Log("rev per");
+            UIInterface.FillPlayerNueva(rU.rM.party[i], personajes[i],true);
+            for (int j = 0; j < 3; j++)
             {
-                RegisterTooltip(personajes[i].ElementAt(0).ElementAt(j));
+                Debug.Log("reg 4");
+                RegisterTooltip(personajes[i].ElementAt(1).ElementAt(0).ElementAt(j));
             }
-            for (int j = 0; j < 2; j++)
+            for (int j = 0; j < 3; j++)
             {
-                RegisterTooltip(personajes[i].ElementAt(1).ElementAt(j));
+                Debug.Log("reg 4");
+                RegisterTooltip(personajes[i].ElementAt(1).ElementAt(1).ElementAt(j));
             }
             for (int j = 0; j < 5; j++)
             {
-                RegisterTooltip(personajes[i].ElementAt(2).ElementAt(j));
+                Debug.Log("reg 5");
+                RegisterTooltip(personajes[i].ElementAt(2).ElementAt(0).ElementAt(1).ElementAt(j));
             }
+            int habCant = 2;
+            if (rU.rM.party[i].arma > cArma.FUEGO)
+            {
+                personajes[i].ElementAt(2).ElementAt(1).ElementAt(0).AddToClassList("button");
+                personajes[i].ElementAt(2).ElementAt(1).ElementAt(0).AddToClassList("armaButton");
+                personajes[i].ElementAt(2).ElementAt(1).ElementAt(0).RegisterCallback<ClickEvent>(rU.rM.rC.combate.uiC.OnTradicionMarcialClicked);
+            }
+            else
+            {
+                personajes[i].ElementAt(2).ElementAt(1).ElementAt(0).UnregisterCallback<ClickEvent>(rU.rM.rC.combate.uiC.OnTradicionMarcialClicked);
+                personajes[i].ElementAt(2).ElementAt(1).ElementAt(0).RemoveFromClassList("button");
+                personajes[i].ElementAt(2).ElementAt(1).ElementAt(0).RemoveFromClassList("armaButton");
+            }
+            for (int j = 0; j < habCant; j++)
+            {
+                Debug.Log("reg 2 o 6");
+                RegisterTooltip(personajes[i].ElementAt(2).ElementAt(1).ElementAt(1).ElementAt(j));
+            }
+            Debug.Log("reg arma");
+            RegisterTooltip(personajes[i].ElementAt(2).ElementAt(0).ElementAt(0));
+            RegisterTooltip(personajes[i].ElementAt(2).ElementAt(0).ElementAt(1));
         }
         for (; i < 3; i++)
         {
-            UIInterface.NoPlayer(personajes[i]);
+            //UIInterface.NoPlayer(personajes[i],false);
+            personajes[i].style.display = DisplayStyle.None;
+            //UIInterface.FillPlayerNueva(personajes[i]);
         }
     }
 
@@ -395,8 +488,8 @@ public class UIRoguelikeUpgrade : MonoBehaviour
 
     public void OnSiguienteNivelClicked(ClickEvent evt)
     {
-        infoCompleta.ElementAt(0).ElementAt(2).style.display = DisplayStyle.Flex;
-        infoCompleta.ElementAt(0).ElementAt(3).style.display = DisplayStyle.Flex;
+        //infoCompleta.ElementAt(0).ElementAt(2).style.display = DisplayStyle.Flex;
+        //infoCompleta.ElementAt(0).ElementAt(3).style.display = DisplayStyle.Flex;
         rU.rM.EmpezarCombate();
     }
 
@@ -419,7 +512,7 @@ public class UIRoguelikeUpgrade : MonoBehaviour
         b.RegisterCallback<MouseLeaveEvent>(OnMouseLeaveButtonOrElement);
     }
 
-    void RegisterTooltip(VisualElement vE)
+    public void RegisterTooltip(VisualElement vE)
     {
         vE.RegisterCallback<MouseEnterEvent>(OnMouseEnterVE);
         vE.RegisterCallback<MouseLeaveEvent>(OnMouseLeaveButtonOrElement);
@@ -429,28 +522,45 @@ public class UIRoguelikeUpgrade : MonoBehaviour
     {
         timeTillTooltip = buttonTimeTillTooltip;
         hovering = true;
-        Debug.Log("hovering: " + hovering);
+        Debug.Log("Mouse Enter Button: hovering: " + hovering);
+        int index;
+        bool botonDeUpgrade = evt.mousePosition.y < 1000;
         //tooltip.transform.position = (evt.target as Button).transform.position;
         //Por la posicion del mouse, ver donde esta
 
-        if (eligiendoNuevoP)
+        //if upgrade es tm upgrade, set true, else, lo que ya estaba
+        if (evt.mousePosition.x < 625) index = 0;
+        else if (evt.mousePosition.x < 1250) index = 1;
+        else index = 2;
+
+        index = -1;
+        for (int i = 0; i < 3; i++)
         {
-            infoCompleta.style.display = DisplayStyle.None;
-            cPersonajeFlyweight p;
-            if (evt.mousePosition.x < 625)
+            if (evt.target.Equals(upgrades[i]))
             {
-                p = rU.GetPerInUpgrade(0);
-            }else if (evt.mousePosition.x < 1250)
-            {
-                p = rU.GetPerInUpgrade(1);
+                Debug.Log("hoverirando upgrade");
+                hovereandoNuevoPUpgrade = true;
+                index = i;
+                break;
             }
-            else
-            {
-                p = rU.GetPerInUpgrade(2);
-            }
-            infoCompleta.transform.position = evt.mousePosition - evt.localMousePosition;
-            infoCompleta.transform.position = new Vector3(infoCompleta.transform.position.x, infoCompleta.transform.position.y + 200, infoCompleta.transform.position.z);
-            PersonajeTooltip(p);
+        }
+        if (index == -1) { botonDeUpgrade = false; hovereandoNuevoPUpgrade = false; Debug.Log("hoverirando no upgrade"); }
+
+
+        Debug.Log("inx " + index);
+        Debug.Log(rU.EsUpgradeTM(index));
+        if (rU.EsUpgradeTM(index))
+        {
+            hovereandoTMUpgrade = true;
+        }
+        else if (eligiendoNuevoP && botonDeUpgrade)
+        {
+            //infoCompleta.style.display = DisplayStyle.None;
+            playerInfoPos = evt.mousePosition - evt.localMousePosition;
+            playerInfoPos = new Vector3(playerInfoPos.x, playerInfoPos.y + 200, playerInfoPos.z);
+            //infoCompleta.transform.position = evt.mousePosition - evt.localMousePosition;
+            //infoCompleta.transform.position = new Vector3(infoCompleta.transform.position.x, infoCompleta.transform.position.y + 200, infoCompleta.transform.position.z);
+            playerInfoData = rU.GetPerInUpgrade(index);
         }
         else
         {
@@ -461,6 +571,8 @@ public class UIRoguelikeUpgrade : MonoBehaviour
 
     public void OnMouseEnterVE(MouseEnterEvent evt)
     {
+        hovereandoTMUpgrade = false;
+        hovereandoNuevoPUpgrade = false;
         timeTillTooltip = labelTimeTillTooltip;
         hovering = true;
         tooltip.transform.position = evt.mousePosition - evt.localMousePosition;
@@ -473,14 +585,23 @@ public class UIRoguelikeUpgrade : MonoBehaviour
         tooltip.style.display = DisplayStyle.None;
         hoverTimer = 0;
         hovering = false;
-        if (eligiendoNuevoP) infoCompleta.style.display = DisplayStyle.None;
     }
 
     public void PersonajeTooltip(cPersonajeFlyweight p)
     {
-        infoCompleta.ElementAt(0).ElementAt(2).style.display = DisplayStyle.None;
-        infoCompleta.ElementAt(0).ElementAt(3).style.display = DisplayStyle.None;
-        UIInterface.FillPlayer(p,infoCompleta,false);
+        infoCompleta.ElementAt(1).ElementAt(0).style.display = DisplayStyle.None;
+        if (p.arma == cArma.VOLUNTAD_CREADOR) {
+            infoCompleta.ElementAt(2).ElementAt(1).ElementAt(0).AddToClassList("button");
+            infoCompleta.ElementAt(2).ElementAt(1).ElementAt(0).AddToClassList("armaButton");
+            infoCompleta.ElementAt(2).ElementAt(1).ElementAt(0).RegisterCallback<ClickEvent>(rU.rM.rC.combate.uiC.OnTradicionMarcialClicked); 
+        }
+        else
+        {
+            infoCompleta.ElementAt(2).ElementAt(1).ElementAt(0).UnregisterCallback<ClickEvent>(rU.rM.rC.combate.uiC.OnTradicionMarcialClicked);
+            infoCompleta.ElementAt(2).ElementAt(1).ElementAt(0).RemoveFromClassList("button");
+            infoCompleta.ElementAt(2).ElementAt(1).ElementAt(0).RemoveFromClassList("armaButton");
+        }
+        //UIInterface.FillPlayer(p,infoCompleta,true);
+        UIInterface.FillPlayerNueva(p, infoCompleta,false);
     }
-
 }

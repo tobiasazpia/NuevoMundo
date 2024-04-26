@@ -26,16 +26,33 @@ public static class cDieMath
             nDados = 3;
         }
         tirada tr = new tirada(nDados, lessThan3);
-        int res;
         for (int i = 0; i < nDados; i++){
-            res = Random.Range(1,11);
-            tr.dados[i] = res;
+            tr.dados[i] = Random.Range(1,11);
         }
         return tr;
     }
 
-    public static tirada TirarDados(int nDados, bool expl)
+    public static tirada TirarDados10v11(int nDados)
     {
+        int lessThan3 = 0;
+        if (nDados < 3)
+        {
+            lessThan3 = 3 - nDados;
+            nDados = 3;
+        }
+        tirada tr = new tirada(nDados, lessThan3);
+        for (int i = 0; i < nDados; i++)
+        {
+            tr.dados[i] = Random.Range(1, 11);
+            if (tr.dados[i] == 10) tr.dados[i] = 11;
+        }
+        return tr;
+    }
+
+    public static tirada TirarDados(int nDados, bool expl, bool nueveExplota)
+    {
+        int otroExpl = 10;
+        if (nueveExplota) otroExpl = 9;
         int lessThan3 = 0;
         if (nDados < 3)
         {
@@ -46,32 +63,34 @@ public static class cDieMath
         int res;
         for (int i = 0; i < nDados; i++){
             res = Random.Range(1,11);
-            if(expl && res == 10){
+            if(expl && (res == 10 || res == otroExpl)){
                 int newRes;
                 do{
                     newRes = Random.Range(1,11);
                     res += newRes;
-                    if(res == 20){
-                        Debug.Log("DOBLE CRIT");
-                    }
-                    else if(res == 30){
-                        Debug.Log("TRIPLE CRIT");
-                    }
-                    else if(res == 40){
-                        Debug.Log("TETRA CRIT");
-                    }
-                    else if(res == 50){
-                        Debug.Log("PENTA CRIT");
-                    }
-                } while (newRes == 10);
+                    //if(res == 20){
+                    //    Debug.Log("DOBLE CRIT");
+                    //}
+                    //else if(res == 30){
+                    //    Debug.Log("TRIPLE CRIT");
+                    //}
+                    //else if(res == 40){
+                    //    Debug.Log("TETRA CRIT");
+                    //}
+                    //else if(res == 50){
+                    //    Debug.Log("PENTA CRIT");
+                    //}
+                } while (newRes == 10 || newRes == otroExpl);
             }
             tr.dados[i] = res;
         }
         return tr;
     } 
     
-    public static tirada TirarDadosDobleExplosion(int nDados)
+    public static tirada TirarDadosDobleExplosion(int nDados, bool nueveExplota)
     {
+        int otroExpl = 10;
+        if (nueveExplota) otroExpl = 9;
         int lessThan3 = 0;
         if (nDados < 3)
         {
@@ -82,21 +101,23 @@ public static class cDieMath
         int res;
         for (int i = 0; i < nDados; i++){
             res = Random.Range(1,11);
-            if (res == 10) res += DobleExplo();
+            if (res == 10 || res == otroExpl) res += DobleExplo(nueveExplota);
             tr.dados[i] = res;
         }
         return tr;
     }
 
-    public static int DobleExplo()
+    public static int DobleExplo(bool nueveExplota)
     {
+        int otroExpl = 10;
+        if (nueveExplota) otroExpl = 9;
         int res = 0;
         int[] newRes = new int[2];
         for (int i = 0; i < 2; i++)
         {
             newRes[i] = Random.Range(1, 11);
             res += newRes[i];
-            if (newRes[i] == 10) res += DobleExplo();
+            if (newRes[i] == 10 || newRes[i] == otroExpl) res += DobleExplo(nueveExplota);
         }
         return res;
     }

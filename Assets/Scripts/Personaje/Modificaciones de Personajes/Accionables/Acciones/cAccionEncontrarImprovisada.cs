@@ -13,8 +13,11 @@ public class cAccionEncontrarImprovisada : cAcciones
     {
         GetObjets();
         nombre = "Encontrar Improvisada";
+        consecuencia = "Conseguís un arma improvisada de un tamaño al azar.";
+        reglas = nombre + ": Especial sin tirar. " + consecuencia;
         var root = GameObject.Find("UI").GetComponent<UIDocument>().rootVisualElement;
         boton = root.Q<Button>("ButtonConseguirImpro");
+        icon = c.GetComponent<cIconos>().Encontrar;
     }
 
     override public void Ejecutar()

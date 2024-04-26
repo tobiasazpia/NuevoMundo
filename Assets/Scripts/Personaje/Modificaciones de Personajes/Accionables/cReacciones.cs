@@ -4,15 +4,6 @@ using UnityEngine;
 
 public class cReacciones : cAccionable
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    override public void RevisarLegalidad() { esLegal = true; }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

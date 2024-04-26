@@ -36,6 +36,14 @@ public class cZona : MonoBehaviour
                 uiC.zona3.text = nombre;
                 nombreUI = uiC.zona3;
                 break;
+            case 3:
+                uiC.zona4.text = nombre;
+                nombreUI = uiC.zona4;
+                break;
+            case 4:
+                uiC.zona5.text = nombre;
+                nombreUI = uiC.zona5;
+                break;
             default:
                 break;
         }

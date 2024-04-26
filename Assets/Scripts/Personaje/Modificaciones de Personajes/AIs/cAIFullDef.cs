@@ -15,6 +15,7 @@ public class cAIFullDef : cAI
 
     public override bool Reaccion(int atq)
     {
+        p.c.reaccionActiva = cPersonaje.DB_DefensaBasica;
         return true;
     }
 }

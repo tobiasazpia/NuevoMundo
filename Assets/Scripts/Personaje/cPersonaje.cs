@@ -6,7 +6,6 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using System;
 
-
 public struct sAtributos
 {
     public int maña;
@@ -42,11 +41,13 @@ public class cPersonaje : MonoBehaviour
     public const int AC_ATACARIMPRO = 9;
     public const int AC_MOVIMPRO = 10;
     public const int AC_IRADIVINA = 11;
+    public const int AC_IMPONER = 12;
     public const int AC_SINASIGNAR = 99;
     //Reacciones
     public const int DB_DefensaBasica = 0;
     public const int DB_DefensaBasicaImpro = 1;
     public const int DB_DefensaTerrorDeDios = 2;
+    public const int DB_NerviosDeAcero = 3;
     public const int DB_SINASIGNAR = 99;
 
     public UICombate uiC;
@@ -63,12 +64,19 @@ public class cPersonaje : MonoBehaviour
     //Data de Personaje
     public string nombre; //Se usa como ID, no permitir que 2 personajes tengan el mismo
     public sAtributos atr;
-    public sHabilidades hab;
+    public int[] tradicionMarcial = new int[6];
     public int ataqueBasicoDadosExtra;
     public int defensaBasicaDadosExtra;
     public int fallamosDefPor;
 
+    // Voluntad del Creador
     public bool tieneTerror;
+    public bool tieneIraDivina;
+    
+    // Jaieiy
+    public int impuesto;
+
+    public bool tieneTradicionMarcial;
 
     private int m_Daño;
     public int Daño
@@ -188,7 +196,7 @@ public class cPersonaje : MonoBehaviour
         armaCode = flyweight.arma;
         equipo = flyweight.equipo;
         atr = flyweight.atr;
-        hab = flyweight.hab;
+        tradicionMarcial = flyweight.tradicionMarcial;
         return this;
     }
 
@@ -210,6 +218,15 @@ public class cPersonaje : MonoBehaviour
                 break;
             case cAI.ATACANTE_PRECAVIDO:
                 ai = gameObject.AddComponent(typeof(cAIAtacantePrecavido)) as cAIAtacantePrecavido;
+                break;
+            case cAI.VOLUNTAD_DEL_CREADOR:
+                ai = gameObject.AddComponent(typeof(cAIVoluntadDelCreador)) as cAIVoluntadDelCreador;
+                break;
+            case cAI.JAIEIY:
+                ai = gameObject.AddComponent(typeof(cAIJaieiy)) as cAIJaieiy;
+                break;
+            case cAI.JAIEIY_NO_IMP:
+                ai = gameObject.AddComponent(typeof(cAIJaieiySinImponer)) as cAIJaieiySinImponer;
                 break;
             default:
                 break;
@@ -264,6 +281,9 @@ public class cPersonaje : MonoBehaviour
             case cArma.VOLUNTAD_CREADOR:
                 arma = gameObject.AddComponent<cLaVoluntadDelCreador>();
                 break;
+            case cArma.JAIEIY:
+                arma = gameObject.AddComponent<cJaieiy>();
+                break;
             default:
                 break;
         }
@@ -271,17 +291,32 @@ public class cPersonaje : MonoBehaviour
         {
             totalDadosDelAtacante = arma.GetDadosDelAtacanteMod();
             arma.p = this;
+            //if (arma is cLaVoluntadDelCreador)
+            //{
+            //    (arma as cLaVoluntadDelCreador).OnDadosDeSedDeSangreChange += uiC.DadosDeSedDeSangreChangeHandler;
+            //}
         }
     }
 
     //Set DM
     virtual public void CalcularGuardia()
     {
-        guardia = 15 + hab.ataqueBasico + hab.defensaBasica + arma.GetGuardiaMod();
+        int adicional = 0;
+        if(tieneTradicionMarcial)
+        {
+            for (int i = 0; i < 6; i++)
+            {
+                adicional += tradicionMarcial[i];
+            }
+            adicional = adicional / 2;
+        }
+        else adicional = tradicionMarcial[0] + tradicionMarcial[1];
+        guardia = 15 + adicional + arma.GetGuardiaMod();
         if (guardia > 30)
         {
             guardia = 30;
         }
+
     }
 
     //Get DM
@@ -381,6 +416,20 @@ public class cPersonaje : MonoBehaviour
         //    }
         //}
 
+        if (arma is cJaieiy)
+        {
+            int accionesRestantes = 0;
+            for (int i = 0; i < acciones.Count; i++)
+            {
+                if (acciones[i].per.nombre == nombre && acciones[i].fase <= faseActual && acciones[i].fase > 0)
+                {
+                    accionesRestantes++;
+                }
+            }
+            arma.dadosDelAtacanteMod = accionesRestantes;
+            totalDadosDelAtacante = arma.dadosDelAtacanteMod;
+        }
+
         ReOrdenarDados(acciones);
         CalcularTotalDeIniciativa();
     }
@@ -404,6 +453,20 @@ public class cPersonaje : MonoBehaviour
                 {
                     acciones.RemoveAt(i);
                     text += (" Ahora vale mas de 10, asi que se pierde.");
+                    if (arma is cJaieiy)
+                    {
+                        int accionesRestantes = 0;
+                        for (int j = 0; j < acciones.Count; j++)
+                        {
+                            if (acciones[j].per.nombre == nombre && acciones[j].fase <= faseActual && acciones[j].fase > 0)
+                            {
+                                accionesRestantes++;
+                            }
+                        }
+                        arma.dadosDelAtacanteMod = accionesRestantes;
+
+                        totalDadosDelAtacante = arma.dadosDelAtacanteMod;
+                    }
                 }
                 uiC.SetText(text);
                 break;
@@ -484,39 +547,70 @@ public class cPersonaje : MonoBehaviour
     //Tirar Heridas, devuelve si sigue vivo
     public void TiramosHeridas(int daño)
     {
-        string text = UIInterface.NombreDePersonajeEnNegrita(this) + " toma ";
-        if (daño == Daño) { text += UIInterface.IntEnNegrita(daño) + " de daño."; }
-        else text += daño + " de daño, para un total de " + UIInterface.IntEnNegrita(Daño) + ".";
-        int numeroDeDados = 3;
-        numeroDeDados += atr.brio * 3;
-
-        tirada tr = cDieMath.TirarDados(numeroDeDados, !tieneTerror); // por Terror de Dios de Voluntad del Creador
-        int tiradaDeHeridasRes = cDieMath.sumaDe3Mayores(tr);
-        bool exito = tiradaDeHeridasRes >= Daño;
-        string tiradaH;
-        text += (" Con " + atr.brio + " en Brio tira " + numeroDeDados + " dados, sacando ");
-
-        if (!exito)
+        string text;
+        bool exito = true;
+        if (!c.personajeActivo.tieneIraDivina)
         {
-            tiradaH = UIInterface.IntFallido(tiradaDeHeridasRes);
-            int dif = Daño - tiradaDeHeridasRes;
-            int hAdicionales = (dif / 30) + 1;
-            uiC.perCambio = nombre;
-            Heridas += hAdicionales;
-            text += tiradaH + ". Falla la tirada por " + dif + ", y toma ";
-            if (hAdicionales == Heridas) {
-                text += UIInterface.IntEnNegrita(hAdicionales) + " Heridas";
+            text = UIInterface.NombreDePersonajeEnNegrita(this) + " toma ";
+            if (daño == Daño) { text += UIInterface.IntEnNegrita(daño) + " de daño."; }
+            else text += daño + " de daño, para un total de " + UIInterface.IntEnNegrita(Daño) + ".";
+            int numeroDeDados = 3;
+            numeroDeDados += atr.brio * 3;
+            if (arma is cLaVoluntadDelCreador) numeroDeDados += (arma as cLaVoluntadDelCreador).DadosDeSedDeSangre;
+            else if (arma is cJaieiy && arma.maestria > 2) {
+                int dadoMasChico = 11;
+                foreach (var item in dadosDeAccion)
+                {
+                    if (item < dadoMasChico && item > 0) dadoMasChico = item;
+                }
+                numeroDeDados += Mathf.Max(0,c.faseActual - dadoMasChico);
             }
-            else text += hAdicionales + " Heridas, para un total de " + UIInterface.IntEnNegrita(Heridas) + ".";
-            Daño = 0;
+            tirada tr = cDieMath.TirarDados(numeroDeDados, !tieneTerror, false); // por Terror de Dios de Voluntad del Creador
+            int tiradaDeHeridasRes = cDieMath.sumaDe3Mayores(tr);
+            exito = tiradaDeHeridasRes >= Daño;
+            string tiradaH;
+            text += (" Con " + atr.brio + " en Brio tira " + numeroDeDados + " dados, sacando ");
+
+            if (!exito)
+            {
+                tiradaH = UIInterface.IntFallido(tiradaDeHeridasRes);
+                int dif = Daño - tiradaDeHeridasRes;
+                int hAdicionales = (dif / 30) + 1;
+                uiC.perCambio = nombre;
+                Heridas += hAdicionales;
+                text += tiradaH + ". Falla la tirada por " + dif + ", y toma ";
+                if (hAdicionales == Heridas)
+                {
+                    text += UIInterface.IntEnNegrita(hAdicionales) + " Heridas";
+                }
+                else text += hAdicionales + " Heridas, para un total de " + UIInterface.IntEnNegrita(Heridas) + ".";
+                if (hAdicionales > 1 && (tieneIraDivina || tieneTerror))
+                {
+                    foreach (var item in c.personajes)
+                    {
+                        if (item.arma is cLaVoluntadDelCreador && c.personajeActivo.equipo == item.equipo)
+                        {
+                             c.uiC.perCambio = nombre;
+                            (item.arma as cLaVoluntadDelCreador).DadosDeSedDeSangre += item.tradicionMarcial[2];
+                            Debug.Log("sum sed de sangre");
+                        }
+                    }
+                }
+                Daño = 0;
+            }
+            else
+            {
+                tiradaH = UIInterface.IntExitoso(tiradaDeHeridasRes);
+                text += tiradaH + ". " + UIInterface.NombreDePersonajeEnNegrita(this) + " tuvo éxito en la tirada de Heridas!";
+            }
         }
-        else
-        {
-            tiradaH = UIInterface.IntExitoso(tiradaDeHeridasRes);
-            text += tiradaH + ". " + UIInterface.NombreDePersonajeEnNegrita(this) + " tuvo éxito en la tirada de Heridas!";
-        }
+        else text = "¡No tiramos herida por la Ira Divina!";
         uiC.SetText(text);
         //if (drama) uiC.PedirDrama();
+        if (exito) c.effect.clip = c.effectHeridaSoft;
+        else if (Heridas < 3) c.effect.clip = c.effectHeridaHard;
+        else c.effect.clip = c.effectMuerte;
+        c.effect.Play();
     }
 
     public void HeridoPorArmaDeFuego()
@@ -526,6 +620,10 @@ public class cPersonaje : MonoBehaviour
         uiC.perCambio = nombre;
         Heridas += 1 + hAd;
         Daño = 0;
+
+        if (Heridas < 3) c.effect.clip = c.effectHeridaHard;
+        else c.effect.clip = c.effectMuerte;
+        c.effect.Play();
     }
 
     public void CapazMori()
@@ -549,6 +647,12 @@ public class cPersonaje : MonoBehaviour
         //HacerTirada
         int numeroDeDados = GetDadosBaseIniciativa() + atr.donaire * 3 + arma.GetBonusIniciativa();
         dadosDeAccion = RollDadosdeAccion(numeroDeDados);
+        if (arma is cJaieiy) {
+            dadosDeAccion = (arma as cJaieiy).AplicarPreparacion(dadosDeAccion);
+            arma.dadosDelAtacanteMod = -3; // Principiante
+            totalDadosDelAtacante = arma.dadosDelAtacanteMod;
+            (arma as cJaieiy).DadosMaestro = 0;
+        }
         CalcularTotalDeIniciativa();
         //if (drama) uiC.PedirDrama();
     }
@@ -585,6 +689,16 @@ public class cPersonaje : MonoBehaviour
         Heridas = 0;
     }
 
+    public void ResetRonda()
+    {
+        tieneTerror = false;
+        tieneIraDivina = false;
+        impuesto = 0;
+        c.uiC.perCambio = nombre;
+        if (arma is cLaVoluntadDelCreador) (arma as cLaVoluntadDelCreador).DadosDeSedDeSangre = 0;
+    }
+
+
     void OnMouseOver()
     {
         //if (py.actions["Select"].WasPressedThisFrame())
@@ -599,11 +713,11 @@ public class cPersonaje : MonoBehaviour
     private void OnMouseEnter()
     {
         hovered = true;
-        if (c.perSeleccionado != nombre || !mostrandoTactica)
-        {
+        //if (c.perSeleccionado != nombre || mostrandoTactica)
+        //{
             c.uiC.MostrarInfoPerVital(this);
             c.perHovereado = nombre;
-        }
+        //}
     }
 
     private void OnMouseDown()

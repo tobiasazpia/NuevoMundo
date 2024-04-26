@@ -84,7 +84,7 @@ public class UIRoguelike : MonoBehaviour
                 hovering = false;
                 tooltip.style.display = DisplayStyle.Flex;
                 float hProp = 1080.0f / Screen.height;
-                tooltip.transform.position = new Vector3(tooltip.transform.position.x, tooltip.transform.position.y - 380 * hProp, tooltip.transform.position.z);
+                tooltip.transform.position = new Vector3(tooltip.transform.position.x, tooltip.transform.position.y - 500 * hProp, tooltip.transform.position.z);
             }
         }
     }
@@ -136,8 +136,8 @@ public class UIRoguelike : MonoBehaviour
             if (choices[1][1] >= choices[0][1]) choices[1][1]++;
             choices[1][2] = Random.Range(0, 2);
 
-            bArma1.text = cArma.GetString(choices[0][0]) + " - " + cArma.GetHabilidadString(choices[0][2]) + " - " + cPersonaje.GetAtritbutoString(choices[0][1]);
-            bArma2.text = cArma.GetString(choices[1][0]) + " - " + cArma.GetHabilidadString(choices[1][2]) + " - " + cPersonaje.GetAtritbutoString(choices[1][1]);
+            bArma1.text = cArma.GetString(choices[0][0]) + " - " + cArma.GetHabilidadString(0,choices[0][2]) + " - " + cPersonaje.GetAtritbutoString(choices[0][1]);
+            bArma2.text = cArma.GetString(choices[1][0]) + " - " + cArma.GetHabilidadString(0,choices[1][2]) + " - " + cPersonaje.GetAtritbutoString(choices[1][1]);
 
             StartTooltip(choices[0],bArma1);
             StartTooltip(choices[1],bArma2);
@@ -168,7 +168,6 @@ public class UIRoguelike : MonoBehaviour
     {
         timeTillTooltip = buttonTimeTillTooltip;
         hovering = true;
-        //tooltip.transform.position = (evt.target as Button).transform.position;
         tooltip.transform.position = evt.mousePosition - evt.localMousePosition;
         tooltip.text = (evt.target as Button).tooltip;
     }

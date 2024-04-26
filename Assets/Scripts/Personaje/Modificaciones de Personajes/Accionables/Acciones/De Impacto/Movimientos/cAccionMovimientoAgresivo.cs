@@ -15,10 +15,13 @@ public class cAccionMovimientoAgresivo : cAccionMovimiento
     void Start()
     {
         GetObjets();
-        nombre = "Movimiento Agresivo";
+        nombre = "Carga";
+        consecuencia = "Despues de moverte podes realizar un Ataque Básico tirando -3d para acertar y para el Daño.";
+        reglas = nombre + ": Movimiento. " + consecuencia;
         categoria = cAcciones.AC_CAT_MOVIMIENTO;
         var root = GameObject.Find("UI").GetComponent<UIDocument>().rootVisualElement;
         boton = root.Q<Button>("ButtonMoverAgro");
+        icon = c.GetComponent<cIconos>().Carga;
     }
 
     override public void RevisarLegalidad()
@@ -78,6 +81,9 @@ public class cAccionMovimientoAgresivo : cAccionMovimiento
         }
         else
         {
+            personaje.c.effect.clip = personaje.c.effectRun;
+            personaje.c.effect.Play();
+
             posiblesReacciones.Clear();
             uiC.DejarDePedirReaccion();
             c.personajeActivo.SetZonaActual(c.zonaObjetiva);

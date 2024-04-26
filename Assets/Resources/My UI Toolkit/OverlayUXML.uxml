@@ -8,7 +8,7 @@
             <ui:Label text="Nuevo Mundo" display-tooltip-when-elided="true" name="Titulo" enable-rich-text="false" class="base label label-main" />
         </ui:VisualElement>
         <ui:VisualElement name="BotonesModos" style="background-color: rgba(75, 190, 0, 0); width: 100%; height: 35%; flex-direction: row; justify-content: space-around; align-items: center; padding-left: 125px; padding-right: 125px;">
-            <ui:Button text="Roguelike" display-tooltip-when-elided="true" name="PrincipalRoguelike" class="base button button-corto" style="background-color: rgb(241, 223, 216);" />
+            <ui:Button text="Aventura" display-tooltip-when-elided="true" name="PrincipalRoguelike" class="base button button-corto" style="background-color: rgb(241, 223, 216);" />
             <ui:Button text="Escarmuza" display-tooltip-when-elided="true" name="PrincipalEscarmuza" class="base button button-corto" />
         </ui:VisualElement>
     </ui:VisualElement>
@@ -27,6 +27,10 @@
         <ui:Label text="&#x9;Bienvenido al Nuevo Mundo aventurero ¡Estás por embarcarte en una serie de combates para provar tu valía! ¿Como se llamará tu héroe?" display-tooltip-when-elided="true" name="mRoguelikeIni" enable-rich-text="false" class="label-texto" style="margin-top: 300px;" />
         <ui:Button text="Menu Pruncipal" display-tooltip-when-elided="true" name="AtrasRoguelikeIni" class="button base button-corto" style="position: absolute; top: 32px; left: 1384px;" />
         <ui:TextField picking-mode="Ignore" text="tu nombre..." max-length="100" is-delayed="true" name="NombreInput" class="base" style="margin-left: 100px; margin-right: 100px; margin-top: 0; margin-bottom: 400px; font-size: 48px; overflow: visible; flex-direction: row; align-items: center; justify-content: center; width: 50%; height: 75px;" />
+        <ui:VisualElement name="DBcont" tooltip="Suma a tu Guardia y a los dados de Defensa Basica" style="flex-direction: row;">
+            <ui:Label text="Defensa Básica" display-tooltip-when-elided="true" name="PerDB" />
+            <ui:Label text="0" display-tooltip-when-elided="true" name="DBValue" />
+        </ui:VisualElement>
     </ui:VisualElement>
     <ui:VisualElement name="PantallaRoguelikeArma" style="position: absolute; display: none; align-items: center; justify-content: space-around; height: 100%; width: 100%; background-image: resource(&apos;Images/Backgrounds/NM Gate 16-9&apos;);">
         <ui:Label text="&#x9;¿Con que vas a empezar?" display-tooltip-when-elided="true" name="mRoguelikeArma" enable-rich-text="true" class="base" style="font-size: 48px; -unity-text-align: middle-left; width: 50%; height: 150px; margin-left: 100px; margin-right: 100px; margin-top: 300px; margin-bottom: 0; padding-left: 25px; padding-right: 25px; padding-top: 25px; padding-bottom: 25px; justify-content: center; background-color: rgb(238, 221, 214); color: rgb(40, 24, 24); border-top-left-radius: 20px; border-bottom-left-radius: 20px; border-top-right-radius: 20px; border-bottom-right-radius: 20px; -unity-background-scale-mode: scale-and-crop; border-left-color: rgb(25, 16, 17); border-right-color: rgb(25, 16, 17); border-top-color: rgb(25, 16, 17); border-bottom-color: rgb(25, 16, 17); border-left-width: 3px; border-right-width: 3px; border-top-width: 3px; border-bottom-width: 3px; -unity-font: url(&apos;project://database/Assets/NotMyFolders/UI%20Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss?fileID=2230732570650464555&amp;guid=527ab2e1a07ca3849a62250d4426de9d&amp;type=3#NotInter-Regular&apos;); -unity-font-style: normal; white-space: normal; align-items: center;" />
@@ -98,7 +102,6 @@
         <ui:VisualElement name="ElegirInfo" class="button-main-menu base" style="height: auto; width: auto; margin-left: 20px; margin-right: 20px; margin-top: 20px; margin-bottom: 20px; padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 10px; position: absolute; display: none; top: 0; left: 0;">
             <ui:VisualElement name="PerEncabezado" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
                 <ui:Label text="Nombre" display-tooltip-when-elided="true" name="PerNombre" tooltip="Su nombre." />
-                <ui:Label text="Arma" display-tooltip-when-elided="true" name="PerArma" />
                 <ui:VisualElement name="Heridascont" tooltip="Si toma 3 heridas no podrá participar del resto del combate." style="flex-direction: row;">
                     <ui:Label text="Heridas" display-tooltip-when-elided="true" name="PerHeridas" />
                     <ui:Label text="0" display-tooltip-when-elided="true" name="HeridasValue" />
@@ -107,19 +110,9 @@
                     <ui:Label text="Drama -" display-tooltip-when-elided="true" name="PerDrama" />
                     <ui:Label text="No" display-tooltip-when-elided="true" name="DramaValue" />
                 </ui:VisualElement>
-                <ui:VisualElement name="Guardiacont" tooltip="Puede usarlo para reintentar tiradas." style="flex-direction: row;">
+                <ui:VisualElement name="Guardiacont" tooltip="Dificultad de la tirada de Ataque para golpearlo." style="flex-direction: row;">
                     <ui:Label text="Guardia" display-tooltip-when-elided="true" name="PerGuardia" />
                     <ui:Label text="0" display-tooltip-when-elided="true" name="GuardiaValue" />
-                </ui:VisualElement>
-            </ui:VisualElement>
-            <ui:VisualElement name="PerHab" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
-                <ui:VisualElement name="ABcont" tooltip="Suma a tu Guardia y a los dados de Ataque Basico" style="flex-direction: row;">
-                    <ui:Label text="Ataque Básico" display-tooltip-when-elided="true" name="PerAB" />
-                    <ui:Label text="0" display-tooltip-when-elided="true" name="ABValue" />
-                </ui:VisualElement>
-                <ui:VisualElement name="DBcont" tooltip="Suma a tu Guardia y a los dados de Defensa Basica" style="flex-direction: row;">
-                    <ui:Label text="Defensa Básica" display-tooltip-when-elided="true" name="PerDB" />
-                    <ui:Label text="0" display-tooltip-when-elided="true" name="DBValue" />
                 </ui:VisualElement>
             </ui:VisualElement>
             <ui:VisualElement name="PerAtr" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
@@ -127,7 +120,7 @@
                     <ui:Label text="Maña" display-tooltip-when-elided="true" name="PerMana" />
                     <ui:Label text="0" display-tooltip-when-elided="true" name="ManaValue" />
                 </ui:VisualElement>
-                <ui:VisualElement name="MusculoCont" tooltip="Cada punto suma 1d por tu Multiplicador de Músculo al daño de tus Ataques" style="flex-direction: row;">
+                <ui:VisualElement name="MusculoCont" tooltip="Cada punto suma 1d por tu Multiplicador de Músculo al daño de tus Ataques, y resta 1 por tu Multiplicador de Músculo a tu Extra para Matones adicionales." style="flex-direction: row;">
                     <ui:Label text="Músculo" display-tooltip-when-elided="true" name="PerMusculo" />
                     <ui:Label text="0" display-tooltip-when-elided="true" name="MusculoValue" />
                 </ui:VisualElement>
@@ -144,163 +137,257 @@
                     <ui:Label text="0" display-tooltip-when-elided="true" name="DonaireValue" />
                 </ui:VisualElement>
             </ui:VisualElement>
+            <ui:VisualElement name="PerHab" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
+                <ui:Button text="Button" display-tooltip-when-elided="true" name="PerArma" class="base" />
+                <ui:VisualElement>
+                    <ui:VisualElement name="ABcont" tooltip="Suma a tu Guardia y a los dados de Ataque Basico" style="flex-direction: row;">
+                        <ui:Label text="Ataque Básico" display-tooltip-when-elided="true" name="PerAB" />
+                        <ui:Label text="0" display-tooltip-when-elided="true" name="ABValue" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="DBcont" tooltip="Suma a tu Guardia y a los dados de Defensa Basica" style="flex-direction: row;">
+                        <ui:Label text="Defensa Básica" display-tooltip-when-elided="true" name="PerDB" />
+                        <ui:Label text="0" display-tooltip-when-elided="true" name="DBValue" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="HM1cont" tooltip="Suma a tu Guardia y a los dados de Ataque Basico" style="flex-direction: row;">
+                        <ui:Label text="Ataque Básico" display-tooltip-when-elided="true" name="PerAB" />
+                        <ui:Label text="0" display-tooltip-when-elided="true" name="ABValue" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="HM2cont" tooltip="Suma a tu Guardia y a los dados de Defensa Basica" style="flex-direction: row;">
+                        <ui:Label text="Defensa Básica" display-tooltip-when-elided="true" name="PerDB" />
+                        <ui:Label text="0" display-tooltip-when-elided="true" name="DBValue" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="HM3cont" tooltip="Suma a tu Guardia y a los dados de Ataque Basico" style="flex-direction: row;">
+                        <ui:Label text="Ataque Básico" display-tooltip-when-elided="true" name="PerAB" />
+                        <ui:Label text="0" display-tooltip-when-elided="true" name="ABValue" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="HMCcont" tooltip="Suma a tu Guardia y a los dados de Defensa Basica" style="flex-direction: row;">
+                        <ui:Label text="Defensa Básica" display-tooltip-when-elided="true" name="PerDB" />
+                        <ui:Label text="0" display-tooltip-when-elided="true" name="DBValue" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+            </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
     <ui:VisualElement name="PantallaRoguelikeUpgradeRevisar" style="position: absolute; display: none; align-items: center; justify-content: space-around; height: 100%; width: 100%; background-image: resource(&apos;Images/Backgrounds/NM Gate 16-9&apos;);">
         <ui:Label text="Tu Equipo" display-tooltip-when-elided="true" name="mRoguelikeRevisar" enable-rich-text="false" style="font-size: 48px; -unity-text-align: middle-center; width: 20%; height: 150px; justify-content: center; background-color: rgb(238, 221, 214); color: rgb(40, 24, 24); border-top-left-radius: 20px; border-bottom-left-radius: 20px; border-top-right-radius: 20px; border-bottom-right-radius: 20px; -unity-background-scale-mode: scale-and-crop; border-left-color: rgb(25, 16, 17); border-right-color: rgb(25, 16, 17); border-top-color: rgb(25, 16, 17); border-bottom-color: rgb(25, 16, 17); border-left-width: 3px; border-right-width: 3px; border-top-width: 3px; border-bottom-width: 3px; -unity-font: url(&apos;project://database/Assets/NotMyFolders/UI%20Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss?fileID=2230732570650464555&amp;guid=527ab2e1a07ca3849a62250d4426de9d&amp;type=3#NotInter-Regular&apos;); -unity-font-style: normal; white-space: normal; margin-left: 0; margin-right: 0; margin-top: 10px; margin-bottom: 0;" />
-        <ui:VisualElement style="flex-direction: row; width: 90%;">
-            <ui:VisualElement name="RoguelikePersonaje1" class="button-main-menu base" style="height: auto; width: 100%; margin-left: 20px; margin-right: 20px; margin-top: 20px; margin-bottom: 20px; padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 10px;">
-                <ui:VisualElement name="PerEncabezado" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
-                    <ui:Label text="Nombre" display-tooltip-when-elided="true" name="PerNombre" tooltip="Su nombre." />
-                    <ui:Label text="Label" display-tooltip-when-elided="true" name="PerArma" />
-                    <ui:VisualElement name="Heridascont" tooltip="Si llega a 3 durante un combate no podrá continuar en el." style="flex-direction: row;">
-                        <ui:Label text="Heridas" display-tooltip-when-elided="true" name="PerHeridas" />
-                        <ui:Label text="0" display-tooltip-when-elided="true" name="HeridasValue" />
+        <ui:VisualElement style="flex-direction: row;">
+            <ui:VisualElement name="RoguelikePersonaje1" class="base" style="display: none; position: relative; right: auto; left: auto; flex-direction: column; top: auto; max-height: none; margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px; padding-left: 8px; padding-right: 8px; padding-top: 8px; padding-bottom: 8px; width: 600px;">
+                <ui:Label text="&lt;b&gt;Nombre" display-tooltip-when-elided="true" name="InfoCompNombre" tooltip="Su nombre." style="-unity-text-align: upper-center;" />
+                <ui:VisualElement style="flex-direction: row; width: auto; margin-left: 5px; margin-right: 5px; margin-top: 5px; margin-bottom: 5px;">
+                    <ui:VisualElement name="InfoVitalComp" style="width: 50%;">
+                        <ui:Label text="Her/Cant" display-tooltip-when-elided="true" name="InfoCompHerCant" tooltip="Heridas sufridas o cantidad de matones vivos" />
+                        <ui:Label text="Daño" display-tooltip-when-elided="true" name="InfoCompDano" tooltip="Daño acumulado para la proxima Herida" />
+                        <ui:Label text="Drama" display-tooltip-when-elided="true" name="InfoCompDrama" tooltip="Si tiene Drama para repetir una tirada." />
                     </ui:VisualElement>
-                    <ui:VisualElement name="Dramacont" tooltip="Puede usar su Drama para reintentar una tirada." style="flex-direction: row;">
-                        <ui:Label text="Drama -" display-tooltip-when-elided="true" name="PerDrama" />
-                        <ui:Label text="No" display-tooltip-when-elided="true" name="DramaValue" />
-                    </ui:VisualElement>
-                    <ui:VisualElement name="Guardiacont" tooltip="Puede usar su Drama para reintentar una tirada." style="flex-direction: row;">
-                        <ui:Label text="Guardia" display-tooltip-when-elided="true" name="PerGuardia" />
-                        <ui:Label text="0" display-tooltip-when-elided="true" name="GuardiaValue" />
+                    <ui:VisualElement name="InfoExtraComp" style="width: 50%;">
+                        <ui:Label text="Guardia" display-tooltip-when-elided="true" name="InfoCompGuardia" tooltip="La dificultad de golpearlo con un Ataque o Detener su Movimiento" />
+                        <ui:Label text="Bonus" display-tooltip-when-elided="true" name="InfoCompBonus" tooltip="Dados adicionales para su proximo Ataque Basico" />
+                        <ui:Label text="Ds. Sed de Sangre" display-tooltip-when-elided="true" name="InfoCompDadosSed" tooltip="Tipo de arma" enable-rich-text="true" />
                     </ui:VisualElement>
                 </ui:VisualElement>
-                <ui:VisualElement name="PerHab" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
-                    <ui:VisualElement name="ABcont" tooltip="Suma a tu Guardia y a los dados de Ataque Basico" style="flex-direction: row;">
-                        <ui:Label text="Ataque Básico" display-tooltip-when-elided="true" name="PerAB" />
-                        <ui:Label text="0" display-tooltip-when-elided="true" name="ABValue" />
+                <ui:VisualElement name="InfoEstComp" class="button-main-menu" style="height: auto; width: auto; margin-left: 5px; margin-right: 5px; margin-top: 5px; margin-bottom: 5px; padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 10px; flex-direction: row;">
+                    <ui:VisualElement name="PerAtr" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px; padding-left: 5px; padding-right: 5px; padding-top: 15px; padding-bottom: 5px; width: 40%;">
+                        <ui:Label text="&lt;b&gt;Atributos" display-tooltip-when-elided="true" class="base" style="padding-left: 15px; padding-right: 15px; padding-top: 15px; padding-bottom: 15px; height: 100px; -unity-text-align: middle-center;" />
+                        <ui:VisualElement style="width: auto; margin-left: 5px; margin-right: 5px; margin-top: 5px; margin-bottom: 5px;">
+                            <ui:VisualElement name="ManaCont" tooltip="Cada punto suma 1d a tus Ataques" style="flex-direction: row;">
+                                <ui:Label text="Maña" display-tooltip-when-elided="true" name="PerMana" enable-rich-text="false" style="width: 85%;" />
+                                <ui:Label text="0" display-tooltip-when-elided="true" name="ManaValue" style="width: 85%;" />
+                            </ui:VisualElement>
+                            <ui:VisualElement name="MusculoCont" tooltip="Cada punto suma 1d por tu Multiplicador de Músculo al daño de tus Ataques, y resta 1 por tu Multiplicador de Músculo a tu Extra para Matones adicionales." style="flex-direction: row;">
+                                <ui:Label text="Músculo" display-tooltip-when-elided="true" name="PerMusculo" style="width: 85%;" />
+                                <ui:Label text="0" display-tooltip-when-elided="true" name="MusculoValue" />
+                            </ui:VisualElement>
+                            <ui:VisualElement name="IngenioCont" tooltip="Cada punto suma 1d a tus Defensas" style="flex-direction: row;">
+                                <ui:Label text="Ingenio" display-tooltip-when-elided="true" name="PerIngenio" style="width: 85%;" />
+                                <ui:Label text="0" display-tooltip-when-elided="true" name="IngenioValue" />
+                            </ui:VisualElement>
+                            <ui:VisualElement name="BrioCont" tooltip="Cada punto suma 3d a tu tirada de Heridas" style="flex-direction: row;">
+                                <ui:Label text="Brío" display-tooltip-when-elided="true" name="PerBrio" style="width: 85%;" />
+                                <ui:Label text="0" display-tooltip-when-elided="true" name="BrioValue" />
+                            </ui:VisualElement>
+                            <ui:VisualElement name="DonaireCont" tooltip="Cada punto suma 3d a tu tirada de Iniciativa" style="flex-direction: row;">
+                                <ui:Label text="Donaire" display-tooltip-when-elided="true" name="PerDonaire" style="width: 85%;" />
+                                <ui:Label text="0" display-tooltip-when-elided="true" name="DonaireValue" />
+                            </ui:VisualElement>
+                        </ui:VisualElement>
                     </ui:VisualElement>
-                    <ui:VisualElement name="DBcont" tooltip="Suma a tu Guardia y a los dados de Defensa Basica" style="flex-direction: row;">
-                        <ui:Label text="Defensa Básica" display-tooltip-when-elided="true" name="PerDB" />
-                        <ui:Label text="0" display-tooltip-when-elided="true" name="DBValue" />
-                    </ui:VisualElement>
-                </ui:VisualElement>
-                <ui:VisualElement name="PerAtr" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
-                    <ui:VisualElement name="ManaCont" tooltip="Cada punto suma 1d a tus Ataques" style="flex-direction: row;">
-                        <ui:Label text="Maña" display-tooltip-when-elided="true" name="PerMana" />
-                        <ui:Label text="0" display-tooltip-when-elided="true" name="ManaValue" />
-                    </ui:VisualElement>
-                    <ui:VisualElement name="MusculoCont" tooltip="Cada punto suma 1d por tu Multiplicador de Músculo al daño de tus Ataques" style="flex-direction: row;">
-                        <ui:Label text="Músculo" display-tooltip-when-elided="true" name="PerMusculo" />
-                        <ui:Label text="0" display-tooltip-when-elided="true" name="MusculoValue" />
-                    </ui:VisualElement>
-                    <ui:VisualElement name="IngenioCont" tooltip="Cada punto suma 1d a tus Defensas" style="flex-direction: row;">
-                        <ui:Label text="Ingenio" display-tooltip-when-elided="true" name="PerIngenio" />
-                        <ui:Label text="0" display-tooltip-when-elided="true" name="IngenioValue" />
-                    </ui:VisualElement>
-                    <ui:VisualElement name="BrioCont" tooltip="Cada punto suma 3d a tu tirada de Heridas" style="flex-direction: row;">
-                        <ui:Label text="Brío" display-tooltip-when-elided="true" name="PerBrio" />
-                        <ui:Label text="0" display-tooltip-when-elided="true" name="BrioValue" />
-                    </ui:VisualElement>
-                    <ui:VisualElement name="DonaireCont" tooltip="Cada punto suma 3d a tu tirada de Iniciativa" style="flex-direction: row;">
-                        <ui:Label text="Donaire" display-tooltip-when-elided="true" name="PerDonaire" />
-                        <ui:Label text="0" display-tooltip-when-elided="true" name="DonaireValue" />
-                    </ui:VisualElement>
-                </ui:VisualElement>
-            </ui:VisualElement>
-            <ui:VisualElement name="RoguelikePersonaje2" class="button-main-menu base" style="height: auto; width: 100%; margin-left: 20px; margin-right: 20px; margin-top: 20px; margin-bottom: 20px; padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 10px;">
-                <ui:VisualElement name="PerEncabezado" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
-                    <ui:Label text="Nombre" display-tooltip-when-elided="true" name="PerNombre" tooltip="Su nombre." />
-                    <ui:Label text="Label" display-tooltip-when-elided="true" name="PerArma" />
-                    <ui:VisualElement name="Heridascont" tooltip="Si llega a 3 durante un combate no podrá continuar en el." style="flex-direction: row;">
-                        <ui:Label text="Heridas" display-tooltip-when-elided="true" name="PerHeridas" />
-                        <ui:Label text="0" display-tooltip-when-elided="true" name="HeridasValue" />
-                    </ui:VisualElement>
-                    <ui:VisualElement name="Dramacont" tooltip="Puede usar su Drama para reintentar una tirada." style="flex-direction: row;">
-                        <ui:Label text="Drama -" display-tooltip-when-elided="true" name="PerDrama" />
-                        <ui:Label text="No" display-tooltip-when-elided="true" name="DramaValue" />
-                    </ui:VisualElement>
-                    <ui:VisualElement name="Guardiacont" tooltip="Puede usar su Drama para reintentar una tirada." style="flex-direction: row;">
-                        <ui:Label text="Guardia" display-tooltip-when-elided="true" name="PerGuardia" />
-                        <ui:Label text="0" display-tooltip-when-elided="true" name="GuardiaValue" />
-                    </ui:VisualElement>
-                </ui:VisualElement>
-                <ui:VisualElement name="PerHab" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
-                    <ui:VisualElement name="ABcont" tooltip="Suma a tu Guardia y a los dados de Ataque Basico" style="flex-direction: row;">
-                        <ui:Label text="Ataque Básico" display-tooltip-when-elided="true" name="PerAB" />
-                        <ui:Label text="0" display-tooltip-when-elided="true" name="ABValue" />
-                    </ui:VisualElement>
-                    <ui:VisualElement name="DBcont" tooltip="Suma a tu Guardia y a los dados de Defensa Basica" style="flex-direction: row;">
-                        <ui:Label text="Defensa Básica" display-tooltip-when-elided="true" name="PerDB" />
-                        <ui:Label text="0" display-tooltip-when-elided="true" name="DBValue" />
-                    </ui:VisualElement>
-                </ui:VisualElement>
-                <ui:VisualElement name="PerAtr" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
-                    <ui:VisualElement name="ManaCont" tooltip="Cada punto suma 1d a tus Ataques" style="flex-direction: row;">
-                        <ui:Label text="Maña" display-tooltip-when-elided="true" name="PerMana" />
-                        <ui:Label text="0" display-tooltip-when-elided="true" name="ManaValue" />
-                    </ui:VisualElement>
-                    <ui:VisualElement name="MusculoCont" tooltip="Cada punto suma 1d por tu Multiplicador de Músculo al daño de tus Ataques" style="flex-direction: row;">
-                        <ui:Label text="Músculo" display-tooltip-when-elided="true" name="PerMusculo" />
-                        <ui:Label text="0" display-tooltip-when-elided="true" name="MusculoValue" />
-                    </ui:VisualElement>
-                    <ui:VisualElement name="IngenioCont" tooltip="Cada punto suma 1d a tus Defensas" style="flex-direction: row;">
-                        <ui:Label text="Ingenio" display-tooltip-when-elided="true" name="PerIngenio" />
-                        <ui:Label text="0" display-tooltip-when-elided="true" name="IngenioValue" />
-                    </ui:VisualElement>
-                    <ui:VisualElement name="BrioCont" tooltip="Cada punto suma 3d a tu tirada de Heridas" style="flex-direction: row;">
-                        <ui:Label text="Brío" display-tooltip-when-elided="true" name="PerBrio" />
-                        <ui:Label text="0" display-tooltip-when-elided="true" name="BrioValue" />
-                    </ui:VisualElement>
-                    <ui:VisualElement name="DonaireCont" tooltip="Cada punto suma 3d a tu tirada de Iniciativa" style="flex-direction: row;">
-                        <ui:Label text="Donaire" display-tooltip-when-elided="true" name="PerDonaire" />
-                        <ui:Label text="0" display-tooltip-when-elided="true" name="DonaireValue" />
+                    <ui:VisualElement name="PerArma" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px; width: 60%; padding-left: 15px; padding-right: 15px; padding-top: 15px; padding-bottom: 15px;">
+                        <ui:Button text="&lt;b&gt;Arma" display-tooltip-when-elided="true" class="base button armaButton" style="height: 100px;" />
+                        <ui:VisualElement>
+                            <ui:VisualElement name="ABcont" tooltip="Suma a tu Guardia y a los dados de Ataque Basico" style="flex-direction: row; width: auto;">
+                                <ui:Label text="Ataque Básico" display-tooltip-when-elided="true" name="PerAB" style="width: 90%;" />
+                                <ui:Label text="0" display-tooltip-when-elided="true" name="ABValue" />
+                            </ui:VisualElement>
+                            <ui:VisualElement name="DBcont" tooltip="Suma a tu Guardia y a los dados de Defensa Basica" style="flex-direction: row;">
+                                <ui:Label text="Defensa Básica" display-tooltip-when-elided="true" name="PerDB" style="width: 90%;" />
+                                <ui:Label text="0" display-tooltip-when-elided="true" name="DBValue" />
+                            </ui:VisualElement>
+                            <ui:VisualElement name="TME1cont" tooltip="Suma a tu Guardia y a los dados de Ataque Basico" style="flex-direction: row;">
+                                <ui:Label text="HME1" display-tooltip-when-elided="true" name="PerAB" style="width: 90%;" />
+                                <ui:Label text="0" display-tooltip-when-elided="true" name="ABValue" />
+                            </ui:VisualElement>
+                            <ui:VisualElement name="TME2cont" tooltip="Suma a tu Guardia y a los dados de Defensa Basica" style="flex-direction: row;">
+                                <ui:Label text="HME2" display-tooltip-when-elided="true" name="PerDB" style="width: 90%;" />
+                                <ui:Label text="0" display-tooltip-when-elided="true" name="DBValue" />
+                            </ui:VisualElement>
+                            <ui:VisualElement name="TME3cont" tooltip="Suma a tu Guardia y a los dados de Ataque Basico" style="flex-direction: row;">
+                                <ui:Label text="HME3" display-tooltip-when-elided="true" name="PerAB" style="width: 90%;" />
+                                <ui:Label text="0" display-tooltip-when-elided="true" name="ABValue" />
+                            </ui:VisualElement>
+                            <ui:VisualElement name="TMCivilcont" tooltip="Suma a tu Guardia y a los dados de Defensa Basica" style="flex-direction: row;">
+                                <ui:Label text="HMC" display-tooltip-when-elided="true" name="PerDB" style="width: 90%;" />
+                                <ui:Label text="0" display-tooltip-when-elided="true" name="DBValue" />
+                            </ui:VisualElement>
+                        </ui:VisualElement>
                     </ui:VisualElement>
                 </ui:VisualElement>
             </ui:VisualElement>
-            <ui:VisualElement name="RoguelikePersonaje3" class="button-main-menu base" style="height: auto; width: 100%; margin-left: 20px; margin-right: 20px; margin-top: 20px; margin-bottom: 20px; padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 10px;">
-                <ui:VisualElement name="PerEncabezado" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
-                    <ui:Label text="Nombre" display-tooltip-when-elided="true" name="PerNombre" tooltip="Su nombre." />
-                    <ui:Label text="Label" display-tooltip-when-elided="true" name="PerArma" />
-                    <ui:VisualElement name="Heridascont" tooltip="Si llega a 3 durante un combate no podrá continuar en el." style="flex-direction: row;">
-                        <ui:Label text="Heridas" display-tooltip-when-elided="true" name="PerHeridas" />
-                        <ui:Label text="0" display-tooltip-when-elided="true" name="HeridasValue" />
+            <ui:VisualElement name="RoguelikePersonaje2" class="base" style="display: none; position: relative; right: auto; left: auto; flex-direction: column; top: auto; max-height: none; margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px; padding-left: 8px; padding-right: 8px; padding-top: 8px; padding-bottom: 8px; width: 600px;">
+                <ui:Label text="&lt;b&gt;Nombre" display-tooltip-when-elided="true" name="InfoCompNombre" tooltip="Su nombre." style="-unity-text-align: upper-center;" />
+                <ui:VisualElement style="flex-direction: row; width: auto; margin-left: 5px; margin-right: 5px; margin-top: 5px; margin-bottom: 5px;">
+                    <ui:VisualElement name="InfoVitalComp" style="width: 50%;">
+                        <ui:Label text="Her/Cant" display-tooltip-when-elided="true" name="InfoCompHerCant" tooltip="Heridas sufridas o cantidad de matones vivos" />
+                        <ui:Label text="Daño" display-tooltip-when-elided="true" name="InfoCompDano" tooltip="Daño acumulado para la proxima Herida" />
+                        <ui:Label text="Drama" display-tooltip-when-elided="true" name="InfoCompDrama" tooltip="Si tiene Drama para repetir una tirada." />
                     </ui:VisualElement>
-                    <ui:VisualElement name="Dramacont" tooltip="Puede usar su Drama para reintentar una tirada." style="flex-direction: row;">
-                        <ui:Label text="Drama -" display-tooltip-when-elided="true" name="PerDrama" />
-                        <ui:Label text="No" display-tooltip-when-elided="true" name="DramaValue" />
-                    </ui:VisualElement>
-                    <ui:VisualElement name="Guardiacont" tooltip="Puede usar su Drama para reintentar una tirada." style="flex-direction: row;">
-                        <ui:Label text="Guardia" display-tooltip-when-elided="true" name="PerGuardia" />
-                        <ui:Label text="0" display-tooltip-when-elided="true" name="GuardiaValue" />
+                    <ui:VisualElement name="InfoExtraComp" style="width: 50%;">
+                        <ui:Label text="Guardia" display-tooltip-when-elided="true" name="InfoCompGuardia" tooltip="La dificultad de golpearlo con un Ataque o Detener su Movimiento" />
+                        <ui:Label text="Bonus" display-tooltip-when-elided="true" name="InfoCompBonus" tooltip="Dados adicionales para su proximo Ataque Basico" />
+                        <ui:Label text="Ds. Sed de Sangre" display-tooltip-when-elided="true" name="InfoCompDadosSed" tooltip="Tipo de arma" enable-rich-text="true" />
                     </ui:VisualElement>
                 </ui:VisualElement>
-                <ui:VisualElement name="PerHab" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
-                    <ui:VisualElement name="ABcont" tooltip="Suma a tu Guardia y a los dados de Ataque Basico" style="flex-direction: row;">
-                        <ui:Label text="Ataque Básico" display-tooltip-when-elided="true" name="PerAB" />
-                        <ui:Label text="0" display-tooltip-when-elided="true" name="ABValue" />
+                <ui:VisualElement name="InfoEstComp" class="button-main-menu" style="height: auto; width: auto; margin-left: 5px; margin-right: 5px; margin-top: 5px; margin-bottom: 5px; padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 10px; flex-direction: row;">
+                    <ui:VisualElement name="PerAtr" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px; padding-left: 5px; padding-right: 5px; padding-top: 15px; padding-bottom: 5px; width: 40%;">
+                        <ui:Label text="&lt;b&gt;Atributos" display-tooltip-when-elided="true" class="base" style="padding-left: 15px; padding-right: 15px; padding-top: 15px; padding-bottom: 15px; height: 100px; -unity-text-align: middle-center;" />
+                        <ui:VisualElement style="width: auto; margin-left: 5px; margin-right: 5px; margin-top: 5px; margin-bottom: 5px;">
+                            <ui:VisualElement name="ManaCont" tooltip="Cada punto suma 1d a tus Ataques" style="flex-direction: row;">
+                                <ui:Label text="Maña" display-tooltip-when-elided="true" name="PerMana" enable-rich-text="false" style="width: 85%;" />
+                                <ui:Label text="0" display-tooltip-when-elided="true" name="ManaValue" style="width: 85%;" />
+                            </ui:VisualElement>
+                            <ui:VisualElement name="MusculoCont" tooltip="Cada punto suma 1d por tu Multiplicador de Músculo al daño de tus Ataques, y resta 1 por tu Multiplicador de Músculo a tu Extra para Matones adicionales." style="flex-direction: row;">
+                                <ui:Label text="Músculo" display-tooltip-when-elided="true" name="PerMusculo" style="width: 85%;" />
+                                <ui:Label text="0" display-tooltip-when-elided="true" name="MusculoValue" />
+                            </ui:VisualElement>
+                            <ui:VisualElement name="IngenioCont" tooltip="Cada punto suma 1d a tus Defensas" style="flex-direction: row;">
+                                <ui:Label text="Ingenio" display-tooltip-when-elided="true" name="PerIngenio" style="width: 85%;" />
+                                <ui:Label text="0" display-tooltip-when-elided="true" name="IngenioValue" />
+                            </ui:VisualElement>
+                            <ui:VisualElement name="BrioCont" tooltip="Cada punto suma 3d a tu tirada de Heridas" style="flex-direction: row;">
+                                <ui:Label text="Brío" display-tooltip-when-elided="true" name="PerBrio" style="width: 85%;" />
+                                <ui:Label text="0" display-tooltip-when-elided="true" name="BrioValue" />
+                            </ui:VisualElement>
+                            <ui:VisualElement name="DonaireCont" tooltip="Cada punto suma 3d a tu tirada de Iniciativa" style="flex-direction: row;">
+                                <ui:Label text="Donaire" display-tooltip-when-elided="true" name="PerDonaire" style="width: 85%;" />
+                                <ui:Label text="0" display-tooltip-when-elided="true" name="DonaireValue" />
+                            </ui:VisualElement>
+                        </ui:VisualElement>
                     </ui:VisualElement>
-                    <ui:VisualElement name="DBcont" tooltip="Suma a tu Guardia y a los dados de Defensa Basica" style="flex-direction: row;">
-                        <ui:Label text="Defensa Básica" display-tooltip-when-elided="true" name="PerDB" />
-                        <ui:Label text="0" display-tooltip-when-elided="true" name="DBValue" />
+                    <ui:VisualElement name="PerArma" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px; width: 60%; padding-left: 15px; padding-right: 15px; padding-top: 15px; padding-bottom: 15px;">
+                        <ui:Button text="&lt;b&gt;Arma" display-tooltip-when-elided="true" class="base button armaButton" style="height: 100px;" />
+                        <ui:VisualElement>
+                            <ui:VisualElement name="ABcont" tooltip="Suma a tu Guardia y a los dados de Ataque Basico" style="flex-direction: row; width: auto;">
+                                <ui:Label text="Ataque Básico" display-tooltip-when-elided="true" name="PerAB" style="width: 90%;" />
+                                <ui:Label text="0" display-tooltip-when-elided="true" name="ABValue" />
+                            </ui:VisualElement>
+                            <ui:VisualElement name="DBcont" tooltip="Suma a tu Guardia y a los dados de Defensa Basica" style="flex-direction: row;">
+                                <ui:Label text="Defensa Básica" display-tooltip-when-elided="true" name="PerDB" style="width: 90%;" />
+                                <ui:Label text="0" display-tooltip-when-elided="true" name="DBValue" />
+                            </ui:VisualElement>
+                            <ui:VisualElement name="TME1cont" tooltip="Suma a tu Guardia y a los dados de Ataque Basico" style="flex-direction: row;">
+                                <ui:Label text="HME1" display-tooltip-when-elided="true" name="PerAB" style="width: 90%;" />
+                                <ui:Label text="0" display-tooltip-when-elided="true" name="ABValue" />
+                            </ui:VisualElement>
+                            <ui:VisualElement name="TME2cont" tooltip="Suma a tu Guardia y a los dados de Defensa Basica" style="flex-direction: row;">
+                                <ui:Label text="HME2" display-tooltip-when-elided="true" name="PerDB" style="width: 90%;" />
+                                <ui:Label text="0" display-tooltip-when-elided="true" name="DBValue" />
+                            </ui:VisualElement>
+                            <ui:VisualElement name="TME3cont" tooltip="Suma a tu Guardia y a los dados de Ataque Basico" style="flex-direction: row;">
+                                <ui:Label text="HME3" display-tooltip-when-elided="true" name="PerAB" style="width: 90%;" />
+                                <ui:Label text="0" display-tooltip-when-elided="true" name="ABValue" />
+                            </ui:VisualElement>
+                            <ui:VisualElement name="TMCivilcont" tooltip="Suma a tu Guardia y a los dados de Defensa Basica" style="flex-direction: row;">
+                                <ui:Label text="HMC" display-tooltip-when-elided="true" name="PerDB" style="width: 90%;" />
+                                <ui:Label text="0" display-tooltip-when-elided="true" name="DBValue" />
+                            </ui:VisualElement>
+                        </ui:VisualElement>
                     </ui:VisualElement>
                 </ui:VisualElement>
-                <ui:VisualElement name="PerAtr" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
-                    <ui:VisualElement name="ManaCont" tooltip="Cada punto suma 1d a tus Ataques" style="flex-direction: row;">
-                        <ui:Label text="Maña" display-tooltip-when-elided="true" name="PerMana" />
-                        <ui:Label text="0" display-tooltip-when-elided="true" name="ManaValue" />
+            </ui:VisualElement>
+            <ui:VisualElement name="RoguelikePersonaje3" class="base" style="display: none; position: relative; right: auto; left: auto; flex-direction: column; top: auto; max-height: none; margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px; padding-left: 8px; padding-right: 8px; padding-top: 8px; padding-bottom: 8px; width: 600px;">
+                <ui:Label text="&lt;b&gt;Nombre" display-tooltip-when-elided="true" name="InfoCompNombre" tooltip="Su nombre." style="-unity-text-align: upper-center;" />
+                <ui:VisualElement style="flex-direction: row; width: auto; margin-left: 5px; margin-right: 5px; margin-top: 5px; margin-bottom: 5px;">
+                    <ui:VisualElement name="InfoVitalComp" style="width: 50%;">
+                        <ui:Label text="Her/Cant" display-tooltip-when-elided="true" name="InfoCompHerCant" tooltip="Heridas sufridas o cantidad de matones vivos" />
+                        <ui:Label text="Daño" display-tooltip-when-elided="true" name="InfoCompDano" tooltip="Daño acumulado para la proxima Herida" />
+                        <ui:Label text="Drama" display-tooltip-when-elided="true" name="InfoCompDrama" tooltip="Si tiene Drama para repetir una tirada." />
                     </ui:VisualElement>
-                    <ui:VisualElement name="MusculoCont" tooltip="Cada punto suma 1d por tu Multiplicador de Músculo al daño de tus Ataques" style="flex-direction: row;">
-                        <ui:Label text="Músculo" display-tooltip-when-elided="true" name="PerMusculo" />
-                        <ui:Label text="0" display-tooltip-when-elided="true" name="MusculoValue" />
+                    <ui:VisualElement name="InfoExtraComp" style="width: 50%;">
+                        <ui:Label text="Guardia" display-tooltip-when-elided="true" name="InfoCompGuardia" tooltip="La dificultad de golpearlo con un Ataque o Detener su Movimiento" />
+                        <ui:Label text="Bonus" display-tooltip-when-elided="true" name="InfoCompBonus" tooltip="Dados adicionales para su proximo Ataque Basico" />
+                        <ui:Label text="Ds. Sed de Sangre" display-tooltip-when-elided="true" name="InfoCompDadosSed" tooltip="Tipo de arma" enable-rich-text="true" />
                     </ui:VisualElement>
-                    <ui:VisualElement name="IngenioCont" tooltip="Cada punto suma 1d a tus Defensas" style="flex-direction: row;">
-                        <ui:Label text="Ingenio" display-tooltip-when-elided="true" name="PerIngenio" />
-                        <ui:Label text="0" display-tooltip-when-elided="true" name="IngenioValue" />
+                </ui:VisualElement>
+                <ui:VisualElement name="InfoEstComp" class="button-main-menu" style="height: auto; width: auto; margin-left: 5px; margin-right: 5px; margin-top: 5px; margin-bottom: 5px; padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 10px; flex-direction: row;">
+                    <ui:VisualElement name="PerAtr" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px; padding-left: 5px; padding-right: 5px; padding-top: 15px; padding-bottom: 5px; width: 40%;">
+                        <ui:Label text="&lt;b&gt;Atributos" display-tooltip-when-elided="true" class="base" style="padding-left: 15px; padding-right: 15px; padding-top: 15px; padding-bottom: 15px; height: 100px; -unity-text-align: middle-center;" />
+                        <ui:VisualElement style="width: auto; margin-left: 5px; margin-right: 5px; margin-top: 5px; margin-bottom: 5px;">
+                            <ui:VisualElement name="ManaCont" tooltip="Cada punto suma 1d a tus Ataques" style="flex-direction: row;">
+                                <ui:Label text="Maña" display-tooltip-when-elided="true" name="PerMana" enable-rich-text="false" style="width: 85%;" />
+                                <ui:Label text="0" display-tooltip-when-elided="true" name="ManaValue" style="width: 85%;" />
+                            </ui:VisualElement>
+                            <ui:VisualElement name="MusculoCont" tooltip="Cada punto suma 1d por tu Multiplicador de Músculo al daño de tus Ataques, y resta 1 por tu Multiplicador de Músculo a tu Extra para Matones adicionales." style="flex-direction: row;">
+                                <ui:Label text="Músculo" display-tooltip-when-elided="true" name="PerMusculo" style="width: 85%;" />
+                                <ui:Label text="0" display-tooltip-when-elided="true" name="MusculoValue" />
+                            </ui:VisualElement>
+                            <ui:VisualElement name="IngenioCont" tooltip="Cada punto suma 1d a tus Defensas" style="flex-direction: row;">
+                                <ui:Label text="Ingenio" display-tooltip-when-elided="true" name="PerIngenio" style="width: 85%;" />
+                                <ui:Label text="0" display-tooltip-when-elided="true" name="IngenioValue" />
+                            </ui:VisualElement>
+                            <ui:VisualElement name="BrioCont" tooltip="Cada punto suma 3d a tu tirada de Heridas" style="flex-direction: row;">
+                                <ui:Label text="Brío" display-tooltip-when-elided="true" name="PerBrio" style="width: 85%;" />
+                                <ui:Label text="0" display-tooltip-when-elided="true" name="BrioValue" />
+                            </ui:VisualElement>
+                            <ui:VisualElement name="DonaireCont" tooltip="Cada punto suma 3d a tu tirada de Iniciativa" style="flex-direction: row;">
+                                <ui:Label text="Donaire" display-tooltip-when-elided="true" name="PerDonaire" style="width: 85%;" />
+                                <ui:Label text="0" display-tooltip-when-elided="true" name="DonaireValue" />
+                            </ui:VisualElement>
+                        </ui:VisualElement>
                     </ui:VisualElement>
-                    <ui:VisualElement name="BrioCont" tooltip="Cada punto suma 3d a tu tirada de Heridas" style="flex-direction: row;">
-                        <ui:Label text="Brío" display-tooltip-when-elided="true" name="PerBrio" />
-                        <ui:Label text="0" display-tooltip-when-elided="true" name="BrioValue" />
-                    </ui:VisualElement>
-                    <ui:VisualElement name="DonaireCont" tooltip="Cada punto suma 3d a tu tirada de Iniciativa" style="flex-direction: row;">
-                        <ui:Label text="Donaire" display-tooltip-when-elided="true" name="PerDonaire" />
-                        <ui:Label text="0" display-tooltip-when-elided="true" name="DonaireValue" />
+                    <ui:VisualElement name="PerArma" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px; width: 60%; padding-left: 15px; padding-right: 15px; padding-top: 15px; padding-bottom: 15px;">
+                        <ui:Button text="&lt;b&gt;Arma" display-tooltip-when-elided="true" class="base button armaButton" style="height: 100px;" />
+                        <ui:VisualElement>
+                            <ui:VisualElement name="ABcont" tooltip="Suma a tu Guardia y a los dados de Ataque Basico" style="flex-direction: row; width: auto;">
+                                <ui:Label text="Ataque Básico" display-tooltip-when-elided="true" name="PerAB" style="width: 90%;" />
+                                <ui:Label text="0" display-tooltip-when-elided="true" name="ABValue" />
+                            </ui:VisualElement>
+                            <ui:VisualElement name="DBcont" tooltip="Suma a tu Guardia y a los dados de Defensa Basica" style="flex-direction: row;">
+                                <ui:Label text="Defensa Básica" display-tooltip-when-elided="true" name="PerDB" style="width: 90%;" />
+                                <ui:Label text="0" display-tooltip-when-elided="true" name="DBValue" />
+                            </ui:VisualElement>
+                            <ui:VisualElement name="TME1cont" tooltip="Suma a tu Guardia y a los dados de Ataque Basico" style="flex-direction: row;">
+                                <ui:Label text="HME1" display-tooltip-when-elided="true" name="PerAB" style="width: 90%;" />
+                                <ui:Label text="0" display-tooltip-when-elided="true" name="ABValue" />
+                            </ui:VisualElement>
+                            <ui:VisualElement name="TME2cont" tooltip="Suma a tu Guardia y a los dados de Defensa Basica" style="flex-direction: row;">
+                                <ui:Label text="HME2" display-tooltip-when-elided="true" name="PerDB" style="width: 90%;" />
+                                <ui:Label text="0" display-tooltip-when-elided="true" name="DBValue" />
+                            </ui:VisualElement>
+                            <ui:VisualElement name="TME3cont" tooltip="Suma a tu Guardia y a los dados de Ataque Basico" style="flex-direction: row;">
+                                <ui:Label text="HME3" display-tooltip-when-elided="true" name="PerAB" style="width: 90%;" />
+                                <ui:Label text="0" display-tooltip-when-elided="true" name="ABValue" />
+                            </ui:VisualElement>
+                            <ui:VisualElement name="TMCivilcont" tooltip="Suma a tu Guardia y a los dados de Defensa Basica" style="flex-direction: row;">
+                                <ui:Label text="HMC" display-tooltip-when-elided="true" name="PerDB" style="width: 90%;" />
+                                <ui:Label text="0" display-tooltip-when-elided="true" name="DBValue" />
+                            </ui:VisualElement>
+                        </ui:VisualElement>
                     </ui:VisualElement>
                 </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>
-        <ui:Button text="Continuar" display-tooltip-when-elided="true" name="ButtonRevisarContinuar" class="button-main-menu base button button-corto" style="margin-bottom: 10px;" />
+        <ui:VisualElement style="flex-direction: column-reverse; height: 100%;">
+            <ui:Button text="Continuar" display-tooltip-when-elided="true" name="ButtonRevisarContinuar" class="button-main-menu base button button-corto" style="margin-bottom: 20px; margin-left: 20px; margin-right: 20px; margin-top: 20px;" />
+        </ui:VisualElement>
     </ui:VisualElement>
     <ui:VisualElement name="PantallaRoguelikeUpgradeAnticipar" style="position: absolute; display: none; align-items: center; justify-content: space-around; height: 100%; width: 100%; background-image: resource(&apos;Images/Backgrounds/NM Gate 16-9&apos;);">
         <ui:Label text="texto" display-tooltip-when-elided="true" name="mRoguelikeAnticipar" enable-rich-text="false" style="font-size: 48px; -unity-text-align: middle-left; width: 90%; height: 150px; margin-left: 100px; margin-right: 100px; margin-top: 300px; margin-bottom: 0; padding-left: 25px; padding-right: 25px; padding-top: 25px; padding-bottom: 25px; justify-content: center; background-color: rgb(238, 221, 214); color: rgb(40, 24, 24); border-top-left-radius: 20px; border-bottom-left-radius: 20px; border-top-right-radius: 20px; border-bottom-right-radius: 20px; -unity-background-scale-mode: scale-and-crop; border-left-color: rgb(25, 16, 17); border-right-color: rgb(25, 16, 17); border-top-color: rgb(25, 16, 17); border-bottom-color: rgb(25, 16, 17); border-left-width: 3px; border-right-width: 3px; border-top-width: 3px; border-bottom-width: 3px; -unity-font: url(&apos;project://database/Assets/NotMyFolders/UI%20Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss?fileID=2230732570650464555&amp;guid=527ab2e1a07ca3849a62250d4426de9d&amp;type=3#NotInter-Regular&apos;); -unity-font-style: normal; white-space: normal;" />
@@ -309,129 +396,216 @@
     <ui:VisualElement name="PantallaRoguelikeFinal" style="position: absolute; display: none; align-items: center; justify-content: space-around; height: 100%; width: 100%; background-image: resource(&apos;Images/Backgrounds/NM Gate 16-9&apos;);">
         <ui:Label text="texto despedida&#10;" display-tooltip-when-elided="true" name="mRoguelikeFinal" enable-rich-text="false" class="base label label-texto" />
         <ui:VisualElement name="Party" style="flex-direction: row; width: 100%; height: 70%; justify-content: space-around; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0;">
-            <ui:VisualElement name="RoguelikePersonajeFinal1" class="button-main-menu base" style="height: auto; width: 100%; margin-left: 20px; margin-right: 20px; margin-top: 20px; margin-bottom: 20px; padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 10px;">
-                <ui:VisualElement name="PerEncabezado" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
-                    <ui:Label text="Nombre" display-tooltip-when-elided="true" name="PerNombre" />
-                    <ui:Label text="Arma" display-tooltip-when-elided="true" name="PerArma" />
-                    <ui:VisualElement name="Guardiacont" tooltip="Puede usar su Drama para reintentar una tirada." style="flex-direction: row;">
-                        <ui:Label text="Guardia" display-tooltip-when-elided="true" name="PerGuardia" />
-                        <ui:Label text="0" display-tooltip-when-elided="true" name="GuardiaValue" />
+            <ui:VisualElement name="RoguelikePersonajeFinal1" class="base" style="display: none; position: relative; right: auto; left: auto; flex-direction: column; top: auto; max-height: none; margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px; padding-left: 8px; padding-right: 8px; padding-top: 8px; padding-bottom: 8px; width: 600px;">
+                <ui:Label text="&lt;b&gt;Nombre" display-tooltip-when-elided="true" name="InfoCompNombre" tooltip="Su nombre." style="-unity-text-align: upper-center;" />
+                <ui:VisualElement style="flex-direction: row; width: auto; margin-left: 5px; margin-right: 5px; margin-top: 5px; margin-bottom: 5px;">
+                    <ui:VisualElement name="InfoVitalComp" style="width: 50%;">
+                        <ui:Label text="Her/Cant" display-tooltip-when-elided="true" name="InfoCompHerCant" tooltip="Heridas sufridas o cantidad de matones vivos" />
+                        <ui:Label text="Daño" display-tooltip-when-elided="true" name="InfoCompDano" tooltip="Daño acumulado para la proxima Herida" />
+                        <ui:Label text="Drama" display-tooltip-when-elided="true" name="InfoCompDrama" tooltip="Si tiene Drama para repetir una tirada." />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="InfoExtraComp" style="width: 50%;">
+                        <ui:Label text="Guardia" display-tooltip-when-elided="true" name="InfoCompGuardia" tooltip="La dificultad de golpearlo con un Ataque o Detener su Movimiento" />
+                        <ui:Label text="Bonus" display-tooltip-when-elided="true" name="InfoCompBonus" tooltip="Dados adicionales para su proximo Ataque Basico" />
+                        <ui:Label text="Ds. Sed de Sangre" display-tooltip-when-elided="true" name="InfoCompDadosSed" tooltip="Tipo de arma" enable-rich-text="true" />
                     </ui:VisualElement>
                 </ui:VisualElement>
-                <ui:VisualElement name="PerHab" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
-                    <ui:VisualElement name="ABcont" style="flex-direction: row;">
-                        <ui:Label text="Ataque Básico" display-tooltip-when-elided="true" name="PerAB" />
-                        <ui:Label text="0" display-tooltip-when-elided="true" name="ABValue" />
+                <ui:VisualElement name="InfoEstComp" class="button-main-menu" style="height: auto; width: auto; margin-left: 5px; margin-right: 5px; margin-top: 5px; margin-bottom: 5px; padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 10px; flex-direction: row;">
+                    <ui:VisualElement name="PerAtr" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px; padding-left: 5px; padding-right: 5px; padding-top: 15px; padding-bottom: 5px; width: 40%;">
+                        <ui:Label text="&lt;b&gt;Atributos" display-tooltip-when-elided="true" class="base" style="padding-left: 15px; padding-right: 15px; padding-top: 15px; padding-bottom: 15px; height: 100px; -unity-text-align: middle-center;" />
+                        <ui:VisualElement style="width: auto; margin-left: 5px; margin-right: 5px; margin-top: 5px; margin-bottom: 5px;">
+                            <ui:VisualElement name="ManaCont" tooltip="Cada punto suma 1d a tus Ataques" style="flex-direction: row;">
+                                <ui:Label text="Maña" display-tooltip-when-elided="true" name="PerMana" enable-rich-text="false" style="width: 85%;" />
+                                <ui:Label text="0" display-tooltip-when-elided="true" name="ManaValue" style="width: 85%;" />
+                            </ui:VisualElement>
+                            <ui:VisualElement name="MusculoCont" tooltip="Cada punto suma 1d por tu Multiplicador de Músculo al daño de tus Ataques, y resta 1 por tu Multiplicador de Músculo a tu Extra para Matones adicionales." style="flex-direction: row;">
+                                <ui:Label text="Músculo" display-tooltip-when-elided="true" name="PerMusculo" style="width: 85%;" />
+                                <ui:Label text="0" display-tooltip-when-elided="true" name="MusculoValue" />
+                            </ui:VisualElement>
+                            <ui:VisualElement name="IngenioCont" tooltip="Cada punto suma 1d a tus Defensas" style="flex-direction: row;">
+                                <ui:Label text="Ingenio" display-tooltip-when-elided="true" name="PerIngenio" style="width: 85%;" />
+                                <ui:Label text="0" display-tooltip-when-elided="true" name="IngenioValue" />
+                            </ui:VisualElement>
+                            <ui:VisualElement name="BrioCont" tooltip="Cada punto suma 3d a tu tirada de Heridas" style="flex-direction: row;">
+                                <ui:Label text="Brío" display-tooltip-when-elided="true" name="PerBrio" style="width: 85%;" />
+                                <ui:Label text="0" display-tooltip-when-elided="true" name="BrioValue" />
+                            </ui:VisualElement>
+                            <ui:VisualElement name="DonaireCont" tooltip="Cada punto suma 3d a tu tirada de Iniciativa" style="flex-direction: row;">
+                                <ui:Label text="Donaire" display-tooltip-when-elided="true" name="PerDonaire" style="width: 85%;" />
+                                <ui:Label text="0" display-tooltip-when-elided="true" name="DonaireValue" />
+                            </ui:VisualElement>
+                        </ui:VisualElement>
                     </ui:VisualElement>
-                    <ui:VisualElement name="DBcont" style="flex-direction: row;">
-                        <ui:Label text="Defensa Básica" display-tooltip-when-elided="true" name="PerDB" />
-                        <ui:Label text="0" display-tooltip-when-elided="true" name="DBValue" />
-                    </ui:VisualElement>
-                </ui:VisualElement>
-                <ui:VisualElement name="PerAtr" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
-                    <ui:VisualElement name="ManaCont" style="flex-direction: row;">
-                        <ui:Label text="Maña" display-tooltip-when-elided="true" name="PerMana" />
-                        <ui:Label text="0" display-tooltip-when-elided="true" name="ManaValue" />
-                    </ui:VisualElement>
-                    <ui:VisualElement name="MusculoCont" style="flex-direction: row;">
-                        <ui:Label text="Músculo" display-tooltip-when-elided="true" name="PerMusculo" />
-                        <ui:Label text="0" display-tooltip-when-elided="true" name="MusculoValue" />
-                    </ui:VisualElement>
-                    <ui:VisualElement name="IngenioCont" style="flex-direction: row;">
-                        <ui:Label text="Ingenio" display-tooltip-when-elided="true" name="PerIngenio" />
-                        <ui:Label text="0" display-tooltip-when-elided="true" name="IngenioValue" />
-                    </ui:VisualElement>
-                    <ui:VisualElement name="BrioCont" style="flex-direction: row;">
-                        <ui:Label text="Brío" display-tooltip-when-elided="true" name="PerBrio" />
-                        <ui:Label text="0" display-tooltip-when-elided="true" name="BrioValue" />
-                    </ui:VisualElement>
-                    <ui:VisualElement name="DonaireCont" style="flex-direction: row;">
-                        <ui:Label text="Donaire" display-tooltip-when-elided="true" name="PerDonaire" />
-                        <ui:Label text="0" display-tooltip-when-elided="true" name="DonaireValue" />
-                    </ui:VisualElement>
-                </ui:VisualElement>
-            </ui:VisualElement>
-            <ui:VisualElement name="RoguelikePersonajeFinal2" class="button-main-menu base" style="height: auto; width: 100%; margin-left: 20px; margin-right: 20px; margin-top: 20px; margin-bottom: 20px; padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 10px;">
-                <ui:VisualElement name="PerEncabezado" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
-                    <ui:Label text="Nombre" display-tooltip-when-elided="true" name="PerNombre" />
-                    <ui:Label text="Arma" display-tooltip-when-elided="true" name="PerArma" />
-                    <ui:VisualElement name="Guardiacont" tooltip="Puede usar su Drama para reintentar una tirada." style="flex-direction: row;">
-                        <ui:Label text="Guardia" display-tooltip-when-elided="true" name="PerGuardia" />
-                        <ui:Label text="0" display-tooltip-when-elided="true" name="GuardiaValue" />
-                    </ui:VisualElement>
-                </ui:VisualElement>
-                <ui:VisualElement name="PerHab" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
-                    <ui:VisualElement name="ABcont" style="flex-direction: row;">
-                        <ui:Label text="Ataque Básico" display-tooltip-when-elided="true" name="PerAB" />
-                        <ui:Label text="0" display-tooltip-when-elided="true" name="ABValue" />
-                    </ui:VisualElement>
-                    <ui:VisualElement name="DBcont" style="flex-direction: row;">
-                        <ui:Label text="Defensa Básica" display-tooltip-when-elided="true" name="PerDB" />
-                        <ui:Label text="0" display-tooltip-when-elided="true" name="DBValue" />
-                    </ui:VisualElement>
-                </ui:VisualElement>
-                <ui:VisualElement name="PerAtr" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
-                    <ui:VisualElement name="ManaCont" style="flex-direction: row;">
-                        <ui:Label text="Maña" display-tooltip-when-elided="true" name="PerMana" />
-                        <ui:Label text="0" display-tooltip-when-elided="true" name="ManaValue" />
-                    </ui:VisualElement>
-                    <ui:VisualElement name="MusculoCont" style="flex-direction: row;">
-                        <ui:Label text="Músculo" display-tooltip-when-elided="true" name="PerMusculo" />
-                        <ui:Label text="0" display-tooltip-when-elided="true" name="MusculoValue" />
-                    </ui:VisualElement>
-                    <ui:VisualElement name="IngenioCont" style="flex-direction: row;">
-                        <ui:Label text="Ingenio" display-tooltip-when-elided="true" name="PerIngenio" />
-                        <ui:Label text="0" display-tooltip-when-elided="true" name="IngenioValue" />
-                    </ui:VisualElement>
-                    <ui:VisualElement name="BrioCont" style="flex-direction: row;">
-                        <ui:Label text="Brío" display-tooltip-when-elided="true" name="PerBrio" />
-                        <ui:Label text="0" display-tooltip-when-elided="true" name="BrioValue" />
-                    </ui:VisualElement>
-                    <ui:VisualElement name="DonaireCont" style="flex-direction: row;">
-                        <ui:Label text="Donaire" display-tooltip-when-elided="true" name="PerDonaire" />
-                        <ui:Label text="0" display-tooltip-when-elided="true" name="DonaireValue" />
+                    <ui:VisualElement name="PerArma" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px; width: 60%; padding-left: 15px; padding-right: 15px; padding-top: 15px; padding-bottom: 15px;">
+                        <ui:Button text="&lt;b&gt;Arma" display-tooltip-when-elided="true" class="base button armaButton" style="height: 100px;" />
+                        <ui:VisualElement>
+                            <ui:VisualElement name="ABcont" tooltip="Suma a tu Guardia y a los dados de Ataque Basico" style="flex-direction: row; width: auto;">
+                                <ui:Label text="Ataque Básico" display-tooltip-when-elided="true" name="PerAB" style="width: 90%;" />
+                                <ui:Label text="0" display-tooltip-when-elided="true" name="ABValue" />
+                            </ui:VisualElement>
+                            <ui:VisualElement name="DBcont" tooltip="Suma a tu Guardia y a los dados de Defensa Basica" style="flex-direction: row;">
+                                <ui:Label text="Defensa Básica" display-tooltip-when-elided="true" name="PerDB" style="width: 90%;" />
+                                <ui:Label text="0" display-tooltip-when-elided="true" name="DBValue" />
+                            </ui:VisualElement>
+                            <ui:VisualElement name="TME1cont" tooltip="Suma a tu Guardia y a los dados de Ataque Basico" style="flex-direction: row;">
+                                <ui:Label text="HME1" display-tooltip-when-elided="true" name="PerAB" style="width: 90%;" />
+                                <ui:Label text="0" display-tooltip-when-elided="true" name="ABValue" />
+                            </ui:VisualElement>
+                            <ui:VisualElement name="TME2cont" tooltip="Suma a tu Guardia y a los dados de Defensa Basica" style="flex-direction: row;">
+                                <ui:Label text="HME2" display-tooltip-when-elided="true" name="PerDB" style="width: 90%;" />
+                                <ui:Label text="0" display-tooltip-when-elided="true" name="DBValue" />
+                            </ui:VisualElement>
+                            <ui:VisualElement name="TME3cont" tooltip="Suma a tu Guardia y a los dados de Ataque Basico" style="flex-direction: row;">
+                                <ui:Label text="HME3" display-tooltip-when-elided="true" name="PerAB" style="width: 90%;" />
+                                <ui:Label text="0" display-tooltip-when-elided="true" name="ABValue" />
+                            </ui:VisualElement>
+                            <ui:VisualElement name="TMCivilcont" tooltip="Suma a tu Guardia y a los dados de Defensa Basica" style="flex-direction: row;">
+                                <ui:Label text="HMC" display-tooltip-when-elided="true" name="PerDB" style="width: 90%;" />
+                                <ui:Label text="0" display-tooltip-when-elided="true" name="DBValue" />
+                            </ui:VisualElement>
+                        </ui:VisualElement>
                     </ui:VisualElement>
                 </ui:VisualElement>
             </ui:VisualElement>
-            <ui:VisualElement name="RoguelikePersonajeFinal3" class="button-main-menu base" style="height: auto; width: 100%; margin-left: 20px; margin-right: 20px; margin-top: 20px; margin-bottom: 20px; padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 10px;">
-                <ui:VisualElement name="PerEncabezado" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
-                    <ui:Label text="Nombre" display-tooltip-when-elided="true" name="PerNombre" />
-                    <ui:Label text="Arma" display-tooltip-when-elided="true" name="PerArma" />
-                    <ui:VisualElement name="Guardiacont" tooltip="Puede usar su Drama para reintentar una tirada." style="flex-direction: row;">
-                        <ui:Label text="Guardia" display-tooltip-when-elided="true" name="PerGuardia" />
-                        <ui:Label text="0" display-tooltip-when-elided="true" name="GuardiaValue" />
+            <ui:VisualElement name="RoguelikePersonajeFinal2" class="base" style="display: none; position: relative; right: auto; left: auto; flex-direction: column; top: auto; max-height: none; margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px; padding-left: 8px; padding-right: 8px; padding-top: 8px; padding-bottom: 8px; width: 600px;">
+                <ui:Label text="&lt;b&gt;Nombre" display-tooltip-when-elided="true" name="InfoCompNombre" tooltip="Su nombre." style="-unity-text-align: upper-center;" />
+                <ui:VisualElement style="flex-direction: row; width: auto; margin-left: 5px; margin-right: 5px; margin-top: 5px; margin-bottom: 5px;">
+                    <ui:VisualElement name="InfoVitalComp" style="width: 50%;">
+                        <ui:Label text="Her/Cant" display-tooltip-when-elided="true" name="InfoCompHerCant" tooltip="Heridas sufridas o cantidad de matones vivos" />
+                        <ui:Label text="Daño" display-tooltip-when-elided="true" name="InfoCompDano" tooltip="Daño acumulado para la proxima Herida" />
+                        <ui:Label text="Drama" display-tooltip-when-elided="true" name="InfoCompDrama" tooltip="Si tiene Drama para repetir una tirada." />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="InfoExtraComp" style="width: 50%;">
+                        <ui:Label text="Guardia" display-tooltip-when-elided="true" name="InfoCompGuardia" tooltip="La dificultad de golpearlo con un Ataque o Detener su Movimiento" />
+                        <ui:Label text="Bonus" display-tooltip-when-elided="true" name="InfoCompBonus" tooltip="Dados adicionales para su proximo Ataque Basico" />
+                        <ui:Label text="Ds. Sed de Sangre" display-tooltip-when-elided="true" name="InfoCompDadosSed" tooltip="Tipo de arma" enable-rich-text="true" />
                     </ui:VisualElement>
                 </ui:VisualElement>
-                <ui:VisualElement name="PerHab" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
-                    <ui:VisualElement name="ABcont" style="flex-direction: row;">
-                        <ui:Label text="Ataque Básico" display-tooltip-when-elided="true" name="PerAB" />
-                        <ui:Label text="0" display-tooltip-when-elided="true" name="ABValue" />
+                <ui:VisualElement name="InfoEstComp" class="button-main-menu" style="height: auto; width: auto; margin-left: 5px; margin-right: 5px; margin-top: 5px; margin-bottom: 5px; padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 10px; flex-direction: row;">
+                    <ui:VisualElement name="PerAtr" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px; padding-left: 5px; padding-right: 5px; padding-top: 15px; padding-bottom: 5px; width: 40%;">
+                        <ui:Label text="&lt;b&gt;Atributos" display-tooltip-when-elided="true" class="base" style="padding-left: 15px; padding-right: 15px; padding-top: 15px; padding-bottom: 15px; height: 100px; -unity-text-align: middle-center;" />
+                        <ui:VisualElement style="width: auto; margin-left: 5px; margin-right: 5px; margin-top: 5px; margin-bottom: 5px;">
+                            <ui:VisualElement name="ManaCont" tooltip="Cada punto suma 1d a tus Ataques" style="flex-direction: row;">
+                                <ui:Label text="Maña" display-tooltip-when-elided="true" name="PerMana" enable-rich-text="false" style="width: 85%;" />
+                                <ui:Label text="0" display-tooltip-when-elided="true" name="ManaValue" style="width: 85%;" />
+                            </ui:VisualElement>
+                            <ui:VisualElement name="MusculoCont" tooltip="Cada punto suma 1d por tu Multiplicador de Músculo al daño de tus Ataques, y resta 1 por tu Multiplicador de Músculo a tu Extra para Matones adicionales." style="flex-direction: row;">
+                                <ui:Label text="Músculo" display-tooltip-when-elided="true" name="PerMusculo" style="width: 85%;" />
+                                <ui:Label text="0" display-tooltip-when-elided="true" name="MusculoValue" />
+                            </ui:VisualElement>
+                            <ui:VisualElement name="IngenioCont" tooltip="Cada punto suma 1d a tus Defensas" style="flex-direction: row;">
+                                <ui:Label text="Ingenio" display-tooltip-when-elided="true" name="PerIngenio" style="width: 85%;" />
+                                <ui:Label text="0" display-tooltip-when-elided="true" name="IngenioValue" />
+                            </ui:VisualElement>
+                            <ui:VisualElement name="BrioCont" tooltip="Cada punto suma 3d a tu tirada de Heridas" style="flex-direction: row;">
+                                <ui:Label text="Brío" display-tooltip-when-elided="true" name="PerBrio" style="width: 85%;" />
+                                <ui:Label text="0" display-tooltip-when-elided="true" name="BrioValue" />
+                            </ui:VisualElement>
+                            <ui:VisualElement name="DonaireCont" tooltip="Cada punto suma 3d a tu tirada de Iniciativa" style="flex-direction: row;">
+                                <ui:Label text="Donaire" display-tooltip-when-elided="true" name="PerDonaire" style="width: 85%;" />
+                                <ui:Label text="0" display-tooltip-when-elided="true" name="DonaireValue" />
+                            </ui:VisualElement>
+                        </ui:VisualElement>
                     </ui:VisualElement>
-                    <ui:VisualElement name="DBcont" style="flex-direction: row;">
-                        <ui:Label text="Defensa Básica" display-tooltip-when-elided="true" name="PerDB" />
-                        <ui:Label text="0" display-tooltip-when-elided="true" name="DBValue" />
+                    <ui:VisualElement name="PerArma" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px; width: 60%; padding-left: 15px; padding-right: 15px; padding-top: 15px; padding-bottom: 15px;">
+                        <ui:Button text="&lt;b&gt;Arma" display-tooltip-when-elided="true" class="base button armaButton" style="height: 100px;" />
+                        <ui:VisualElement>
+                            <ui:VisualElement name="ABcont" tooltip="Suma a tu Guardia y a los dados de Ataque Basico" style="flex-direction: row; width: auto;">
+                                <ui:Label text="Ataque Básico" display-tooltip-when-elided="true" name="PerAB" style="width: 90%;" />
+                                <ui:Label text="0" display-tooltip-when-elided="true" name="ABValue" />
+                            </ui:VisualElement>
+                            <ui:VisualElement name="DBcont" tooltip="Suma a tu Guardia y a los dados de Defensa Basica" style="flex-direction: row;">
+                                <ui:Label text="Defensa Básica" display-tooltip-when-elided="true" name="PerDB" style="width: 90%;" />
+                                <ui:Label text="0" display-tooltip-when-elided="true" name="DBValue" />
+                            </ui:VisualElement>
+                            <ui:VisualElement name="TME1cont" tooltip="Suma a tu Guardia y a los dados de Ataque Basico" style="flex-direction: row;">
+                                <ui:Label text="HME1" display-tooltip-when-elided="true" name="PerAB" style="width: 90%;" />
+                                <ui:Label text="0" display-tooltip-when-elided="true" name="ABValue" />
+                            </ui:VisualElement>
+                            <ui:VisualElement name="TME2cont" tooltip="Suma a tu Guardia y a los dados de Defensa Basica" style="flex-direction: row;">
+                                <ui:Label text="HME2" display-tooltip-when-elided="true" name="PerDB" style="width: 90%;" />
+                                <ui:Label text="0" display-tooltip-when-elided="true" name="DBValue" />
+                            </ui:VisualElement>
+                            <ui:VisualElement name="TME3cont" tooltip="Suma a tu Guardia y a los dados de Ataque Basico" style="flex-direction: row;">
+                                <ui:Label text="HME3" display-tooltip-when-elided="true" name="PerAB" style="width: 90%;" />
+                                <ui:Label text="0" display-tooltip-when-elided="true" name="ABValue" />
+                            </ui:VisualElement>
+                            <ui:VisualElement name="TMCivilcont" tooltip="Suma a tu Guardia y a los dados de Defensa Basica" style="flex-direction: row;">
+                                <ui:Label text="HMC" display-tooltip-when-elided="true" name="PerDB" style="width: 90%;" />
+                                <ui:Label text="0" display-tooltip-when-elided="true" name="DBValue" />
+                            </ui:VisualElement>
+                        </ui:VisualElement>
                     </ui:VisualElement>
                 </ui:VisualElement>
-                <ui:VisualElement name="PerAtr" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
-                    <ui:VisualElement name="ManaCont" style="flex-direction: row;">
-                        <ui:Label text="Maña" display-tooltip-when-elided="true" name="PerMana" />
-                        <ui:Label text="0" display-tooltip-when-elided="true" name="ManaValue" />
+            </ui:VisualElement>
+            <ui:VisualElement name="RoguelikePersonajeFinal3" class="base" style="display: none; position: relative; right: auto; left: auto; flex-direction: column; top: auto; max-height: none; margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px; padding-left: 8px; padding-right: 8px; padding-top: 8px; padding-bottom: 8px; width: 600px;">
+                <ui:Label text="&lt;b&gt;Nombre" display-tooltip-when-elided="true" name="InfoCompNombre" tooltip="Su nombre." style="-unity-text-align: upper-center;" />
+                <ui:VisualElement style="flex-direction: row; width: auto; margin-left: 5px; margin-right: 5px; margin-top: 5px; margin-bottom: 5px;">
+                    <ui:VisualElement name="InfoVitalComp" style="width: 50%;">
+                        <ui:Label text="Her/Cant" display-tooltip-when-elided="true" name="InfoCompHerCant" tooltip="Heridas sufridas o cantidad de matones vivos" />
+                        <ui:Label text="Daño" display-tooltip-when-elided="true" name="InfoCompDano" tooltip="Daño acumulado para la proxima Herida" />
+                        <ui:Label text="Drama" display-tooltip-when-elided="true" name="InfoCompDrama" tooltip="Si tiene Drama para repetir una tirada." />
                     </ui:VisualElement>
-                    <ui:VisualElement name="MusculoCont" style="flex-direction: row;">
-                        <ui:Label text="Músculo" display-tooltip-when-elided="true" name="PerMusculo" />
-                        <ui:Label text="0" display-tooltip-when-elided="true" name="MusculoValue" />
+                    <ui:VisualElement name="InfoExtraComp" style="width: 50%;">
+                        <ui:Label text="Guardia" display-tooltip-when-elided="true" name="InfoCompGuardia" tooltip="La dificultad de golpearlo con un Ataque o Detener su Movimiento" />
+                        <ui:Label text="Bonus" display-tooltip-when-elided="true" name="InfoCompBonus" tooltip="Dados adicionales para su proximo Ataque Basico" />
+                        <ui:Label text="Ds. Sed de Sangre" display-tooltip-when-elided="true" name="InfoCompDadosSed" tooltip="Tipo de arma" enable-rich-text="true" />
                     </ui:VisualElement>
-                    <ui:VisualElement name="IngenioCont" style="flex-direction: row;">
-                        <ui:Label text="Ingenio" display-tooltip-when-elided="true" name="PerIngenio" />
-                        <ui:Label text="0" display-tooltip-when-elided="true" name="IngenioValue" />
+                </ui:VisualElement>
+                <ui:VisualElement name="InfoEstComp" class="button-main-menu" style="height: auto; width: auto; margin-left: 5px; margin-right: 5px; margin-top: 5px; margin-bottom: 5px; padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 10px; flex-direction: row;">
+                    <ui:VisualElement name="PerAtr" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px; padding-left: 5px; padding-right: 5px; padding-top: 15px; padding-bottom: 5px; width: 40%;">
+                        <ui:Label text="&lt;b&gt;Atributos" display-tooltip-when-elided="true" class="base" style="padding-left: 15px; padding-right: 15px; padding-top: 15px; padding-bottom: 15px; height: 100px; -unity-text-align: middle-center;" />
+                        <ui:VisualElement style="width: auto; margin-left: 5px; margin-right: 5px; margin-top: 5px; margin-bottom: 5px;">
+                            <ui:VisualElement name="ManaCont" tooltip="Cada punto suma 1d a tus Ataques" style="flex-direction: row;">
+                                <ui:Label text="Maña" display-tooltip-when-elided="true" name="PerMana" enable-rich-text="false" style="width: 85%;" />
+                                <ui:Label text="0" display-tooltip-when-elided="true" name="ManaValue" style="width: 85%;" />
+                            </ui:VisualElement>
+                            <ui:VisualElement name="MusculoCont" tooltip="Cada punto suma 1d por tu Multiplicador de Músculo al daño de tus Ataques, y resta 1 por tu Multiplicador de Músculo a tu Extra para Matones adicionales." style="flex-direction: row;">
+                                <ui:Label text="Músculo" display-tooltip-when-elided="true" name="PerMusculo" style="width: 85%;" />
+                                <ui:Label text="0" display-tooltip-when-elided="true" name="MusculoValue" />
+                            </ui:VisualElement>
+                            <ui:VisualElement name="IngenioCont" tooltip="Cada punto suma 1d a tus Defensas" style="flex-direction: row;">
+                                <ui:Label text="Ingenio" display-tooltip-when-elided="true" name="PerIngenio" style="width: 85%;" />
+                                <ui:Label text="0" display-tooltip-when-elided="true" name="IngenioValue" />
+                            </ui:VisualElement>
+                            <ui:VisualElement name="BrioCont" tooltip="Cada punto suma 3d a tu tirada de Heridas" style="flex-direction: row;">
+                                <ui:Label text="Brío" display-tooltip-when-elided="true" name="PerBrio" style="width: 85%;" />
+                                <ui:Label text="0" display-tooltip-when-elided="true" name="BrioValue" />
+                            </ui:VisualElement>
+                            <ui:VisualElement name="DonaireCont" tooltip="Cada punto suma 3d a tu tirada de Iniciativa" style="flex-direction: row;">
+                                <ui:Label text="Donaire" display-tooltip-when-elided="true" name="PerDonaire" style="width: 85%;" />
+                                <ui:Label text="0" display-tooltip-when-elided="true" name="DonaireValue" />
+                            </ui:VisualElement>
+                        </ui:VisualElement>
                     </ui:VisualElement>
-                    <ui:VisualElement name="BrioCont" style="flex-direction: row;">
-                        <ui:Label text="Brío" display-tooltip-when-elided="true" name="PerBrio" />
-                        <ui:Label text="0" display-tooltip-when-elided="true" name="BrioValue" />
-                    </ui:VisualElement>
-                    <ui:VisualElement name="DonaireCont" style="flex-direction: row;">
-                        <ui:Label text="Donaire" display-tooltip-when-elided="true" name="PerDonaire" />
-                        <ui:Label text="0" display-tooltip-when-elided="true" name="DonaireValue" />
+                    <ui:VisualElement name="PerArma" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px; width: 60%; padding-left: 15px; padding-right: 15px; padding-top: 15px; padding-bottom: 15px;">
+                        <ui:Button text="&lt;b&gt;Arma" display-tooltip-when-elided="true" class="base button armaButton" style="height: 100px;" />
+                        <ui:VisualElement>
+                            <ui:VisualElement name="ABcont" tooltip="Suma a tu Guardia y a los dados de Ataque Basico" style="flex-direction: row; width: auto;">
+                                <ui:Label text="Ataque Básico" display-tooltip-when-elided="true" name="PerAB" style="width: 90%;" />
+                                <ui:Label text="0" display-tooltip-when-elided="true" name="ABValue" />
+                            </ui:VisualElement>
+                            <ui:VisualElement name="DBcont" tooltip="Suma a tu Guardia y a los dados de Defensa Basica" style="flex-direction: row;">
+                                <ui:Label text="Defensa Básica" display-tooltip-when-elided="true" name="PerDB" style="width: 90%;" />
+                                <ui:Label text="0" display-tooltip-when-elided="true" name="DBValue" />
+                            </ui:VisualElement>
+                            <ui:VisualElement name="TME1cont" tooltip="Suma a tu Guardia y a los dados de Ataque Basico" style="flex-direction: row;">
+                                <ui:Label text="HME1" display-tooltip-when-elided="true" name="PerAB" style="width: 90%;" />
+                                <ui:Label text="0" display-tooltip-when-elided="true" name="ABValue" />
+                            </ui:VisualElement>
+                            <ui:VisualElement name="TME2cont" tooltip="Suma a tu Guardia y a los dados de Defensa Basica" style="flex-direction: row;">
+                                <ui:Label text="HME2" display-tooltip-when-elided="true" name="PerDB" style="width: 90%;" />
+                                <ui:Label text="0" display-tooltip-when-elided="true" name="DBValue" />
+                            </ui:VisualElement>
+                            <ui:VisualElement name="TME3cont" tooltip="Suma a tu Guardia y a los dados de Ataque Basico" style="flex-direction: row;">
+                                <ui:Label text="HME3" display-tooltip-when-elided="true" name="PerAB" style="width: 90%;" />
+                                <ui:Label text="0" display-tooltip-when-elided="true" name="ABValue" />
+                            </ui:VisualElement>
+                            <ui:VisualElement name="TMCivilcont" tooltip="Suma a tu Guardia y a los dados de Defensa Basica" style="flex-direction: row;">
+                                <ui:Label text="HMC" display-tooltip-when-elided="true" name="PerDB" style="width: 90%;" />
+                                <ui:Label text="0" display-tooltip-when-elided="true" name="DBValue" />
+                            </ui:VisualElement>
+                        </ui:VisualElement>
                     </ui:VisualElement>
                 </ui:VisualElement>
             </ui:VisualElement>
@@ -455,7 +629,7 @@
                     <ui:Button display-tooltip-when-elided="true" name="ButtonRecargar" tooltip="Recargar" class="button-main-menu button-combat-action button base" style="display: none; background-image: resource(&apos;Images/Icons/Reload-Icon&apos;);" />
                     <ui:Button display-tooltip-when-elided="true" name="ButtonAtacarImpro" tooltip="Ataque Básico con Arma Improvisada" class="button-main-menu button-combat-action button base" style="display: none; background-image: resource(&apos;Images/Icons/improvisada-Icon&apos;);" />
                     <ui:Button display-tooltip-when-elided="true" name="ButtonConseguirImpro" tooltip="Buscar Arma Improvisada" class="button-main-menu button-combat-action button base" style="display: none; background-image: resource(&apos;Images/Icons/find-Icon&apos;);" />
-                    <ui:Button display-tooltip-when-elided="true" name="ButtonATMarcial1" tooltip="Ira Divina: Acción. Tiras Ira Divina con Brio contra Brio. Hasta el final de la ronda, las tiradas de Daño del objetivo no explotan, y los 9 tambien explotan en tiradas de daño, o se mata un maton adicional, contra el." class="button-main-menu button-combat-action button base" style="display: none; background-image: resource(&apos;Images/Icons/iraDeDios-Icon&apos;);" />
+                    <ui:Button display-tooltip-when-elided="true" name="ButtonATMarcial1" tooltip="no func Ira Divina: Acción. Tiras Ira Divina con Brio contra Brio. Hasta el final de la ronda, los Ataques del objetivo no generan tiradas de Heridas y los 9 también explotan en tiradas de daño, o se mata un matón adicional, contra el." class="button-main-menu button-combat-action button base" style="display: none; background-image: resource(&apos;Images/Icons/iraDeDios-Icon&apos;);" />
                     <ui:Button display-tooltip-when-elided="true" name="ButtonATMarcial2" tooltip="Accion Exclusiva 2" class="button-main-menu button-combat-action button base" style="display: none; background-image: resource(&apos;Images/Icons/find-Icon&apos;);" />
                     <ui:Button display-tooltip-when-elided="true" name="ButtonATMarcial3" tooltip="Accion Exclusiva 3" class="button-main-menu button-combat-action button base" style="display: none; background-image: resource(&apos;Images/Icons/find-Icon&apos;);" />
                     <ui:Button display-tooltip-when-elided="true" name="ButtonMarcialAtras" tooltip="Atras" class="button-main-menu button-combat-action button base" style="background-image: resource(&apos;Images/Icons/icon-backup&apos;); display: none;" />
@@ -479,7 +653,7 @@
                 <ui:VisualElement name="MenuIntervenir" style="flex-direction: row; display: flex;">
                     <ui:Button display-tooltip-when-elided="true" name="ButtonDefender" tooltip="Defensa Básica" class="button-main-menu button-combat-action button base" style="background-image: resource(&apos;Images/Icons/Defend-Icon&apos;); display: none;" />
                     <ui:Button display-tooltip-when-elided="true" name="ButtonDefenderImpro" tooltip="Defensa Básica lanzando arma improvisada" class="button-main-menu button-combat-action button base" style="display: none; background-image: resource(&apos;Images/Icons/improvisada-Icon&apos;);" />
-                    <ui:Button display-tooltip-when-elided="true" name="ButtonDTMarcial1" tooltip="Terror de Dios: Defensa. Hasta el final de la ronda, los dados del objetivo no explotan en sus tiradas de Heridas o todos matan un Maton adicional contra el." class="button-main-menu button-combat-action button base" style="display: none; background-image: resource(&apos;Images/Icons/terror-Icon&apos;);" />
+                    <ui:Button display-tooltip-when-elided="true" name="ButtonDTMarcial1" tooltip="dsadasdTerror de Dios: Defensa. Hasta el final de la ronda, los dados del objetivo no explotan en sus tiradas de Heridas o todos matan un Maton adicional contra el." class="button-main-menu button-combat-action button base" style="display: none; background-image: resource(&apos;Images/Icons/terror-Icon&apos;);" />
                     <ui:Button display-tooltip-when-elided="true" name="ButtonDTMarcial2" tooltip="Reaccion Exclusiva 2" class="button-main-menu button-combat-action button base" style="display: none; background-image: resource(&apos;Images/Icons/improvisada-Icon&apos;);" />
                     <ui:Button display-tooltip-when-elided="true" name="ButtonDTMarcial3" tooltip="Reaccion Exclusiva 3" class="button-main-menu button-combat-action button base" style="display: none; background-image: resource(&apos;Images/Icons/improvisada-Icon&apos;);" />
                     <ui:Button display-tooltip-when-elided="true" name="ButtonIntervenirAtras" tooltip="Atras" class="button-main-menu button-combat-action button base" style="background-image: resource(&apos;Images/Icons/icon-backup&apos;); display: none;" />
@@ -592,6 +766,8 @@
         <ui:Label text="Label" display-tooltip-when-elided="true" name="Zona1" class="base" style="display: none;" />
         <ui:Label text="Label" display-tooltip-when-elided="true" name="Zona2" class="base" style="display: none;" />
         <ui:Label text="Label" display-tooltip-when-elided="true" name="Zona3" class="base" style="display: none;" />
+        <ui:Label text="Label" display-tooltip-when-elided="true" name="Zona4" class="base" style="display: none;" />
+        <ui:Label text="Label" display-tooltip-when-elided="true" name="Zona5" class="base" style="display: none;" />
     </ui:VisualElement>
     <ui:VisualElement name="PersonajeInfo" style="position: absolute; display: flex; align-items: flex-start; left: auto; top: auto; right: auto; bottom: auto; flex-direction: column;">
         <ui:VisualElement name="InfoVital" class="base" style="display: none; position: absolute; width: 300px; align-items: stretch;">
@@ -600,7 +776,7 @@
             <ui:Label text="Guardia" display-tooltip-when-elided="true" name="InfoDrama" />
             <ui:Label text="Guardia" display-tooltip-when-elided="true" name="InfoGuardia" />
         </ui:VisualElement>
-        <ui:VisualElement name="InfoTactica" class="base" style="display: none; position: absolute;">
+        <ui:VisualElement name="InfoTactica" class="base" style="display: none; position: absolute; min-width: auto; width: 300px;">
             <ui:VisualElement name="InfoVitalTact" style="display: flex;">
                 <ui:Label text="Nombre" display-tooltip-when-elided="true" name="InfoTactNombre" />
                 <ui:Label text="Her/Cant" display-tooltip-when-elided="true" name="InfoTactHerCant" />
@@ -621,27 +797,16 @@
                 <ui:Label text="Label" display-tooltip-when-elided="true" name="InfoCompGuardia" tooltip="La dificultad de golpearlo con un Ataque o Detener su Movimiento" />
             </ui:VisualElement>
             <ui:VisualElement name="InfoExtraComp">
-                <ui:Label text="Label" display-tooltip-when-elided="true" name="InfoCompArma" tooltip="Tipo de arma" />
                 <ui:Label text="Label" display-tooltip-when-elided="true" name="InfoCompBonus" tooltip="Dados adicionales para su proximo Ataque Basico" />
                 <ui:Label text="Label" display-tooltip-when-elided="true" name="InfoCompDano" tooltip="Daño acumulado para la proxima Herida" />
             </ui:VisualElement>
             <ui:VisualElement name="InfoEstComp" class="button-main-menu base" style="height: auto; width: 90%; margin-left: 20px; margin-right: 20px; margin-top: 20px; margin-bottom: 20px; padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 10px;">
-                <ui:VisualElement name="PerHab" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
-                    <ui:VisualElement name="ABcont" tooltip="Suma a tu Guardia y a los dados de Ataque Basico" style="flex-direction: row;">
-                        <ui:Label text="Ataque Básico" display-tooltip-when-elided="true" name="PerAB" />
-                        <ui:Label text="0" display-tooltip-when-elided="true" name="ABValue" />
-                    </ui:VisualElement>
-                    <ui:VisualElement name="DBcont" tooltip="Suma a tu Guardia y a los dados de Defensa Basica" style="flex-direction: row;">
-                        <ui:Label text="Defensa Básica" display-tooltip-when-elided="true" name="PerDB" />
-                        <ui:Label text="0" display-tooltip-when-elided="true" name="DBValue" />
-                    </ui:VisualElement>
-                </ui:VisualElement>
                 <ui:VisualElement name="PerAtr" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
                     <ui:VisualElement name="ManaCont" tooltip="Cada punto suma 1d a tus Ataques" style="flex-direction: row;">
                         <ui:Label text="Maña" display-tooltip-when-elided="true" name="PerMana" />
                         <ui:Label text="0" display-tooltip-when-elided="true" name="ManaValue" />
                     </ui:VisualElement>
-                    <ui:VisualElement name="MusculoCont" tooltip="Cada punto suma 1d por tu Multiplicador de Músculo al daño de tus Ataques" style="flex-direction: row;">
+                    <ui:VisualElement name="MusculoCont" tooltip="Cada punto suma 1d por tu Multiplicador de Músculo al daño de tus Ataques, y resta 1 por tu Multiplicador de Músculo a tu Extra para Matones adicionales." style="flex-direction: row;">
                         <ui:Label text="Músculo" display-tooltip-when-elided="true" name="PerMusculo" />
                         <ui:Label text="0" display-tooltip-when-elided="true" name="MusculoValue" />
                     </ui:VisualElement>
@@ -658,7 +823,202 @@
                         <ui:Label text="0" display-tooltip-when-elided="true" name="DonaireValue" />
                     </ui:VisualElement>
                 </ui:VisualElement>
+                <ui:VisualElement name="PerArma" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
+                    <ui:Button text="Button" display-tooltip-when-elided="true" name="ArmaNombre" class="base" />
+                    <ui:VisualElement>
+                        <ui:VisualElement name="ABcont" tooltip="Suma a tu Guardia y a los dados de Ataque Basico" style="flex-direction: row;">
+                            <ui:Label text="Ataque Básico" display-tooltip-when-elided="true" name="PerAB" />
+                            <ui:Label text="0" display-tooltip-when-elided="true" name="ABValue" />
+                        </ui:VisualElement>
+                        <ui:VisualElement name="DBcont" tooltip="Suma a tu Guardia y a los dados de Defensa Basica" style="flex-direction: row;">
+                            <ui:Label text="Defensa Básica" display-tooltip-when-elided="true" name="PerDB" />
+                            <ui:Label text="0" display-tooltip-when-elided="true" name="DBValue" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                </ui:VisualElement>
             </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+    <ui:VisualElement name="PersonajeInfoTM" style="position: absolute; display: flex; align-items: flex-start; left: auto; top: auto; right: auto; bottom: auto; flex-direction: column;">
+        <ui:VisualElement name="InfoVital" class="base" style="display: none; position: absolute; width: 300px; align-items: stretch;">
+            <ui:Label text="Nombre" display-tooltip-when-elided="true" name="InfoNombre" />
+            <ui:Label text="Her/Cant" display-tooltip-when-elided="true" name="InfoHerCant" />
+            <ui:Label text="Guardia" display-tooltip-when-elided="true" name="InfoDrama" />
+            <ui:Label text="Guardia" display-tooltip-when-elided="true" name="InfoGuardia" />
+        </ui:VisualElement>
+        <ui:VisualElement name="InfoTactica" class="base" style="display: none; position: absolute;">
+            <ui:VisualElement name="InfoVitalTact" style="display: flex;">
+                <ui:Label text="Nombre" display-tooltip-when-elided="true" name="InfoTactNombre" />
+                <ui:Label text="Her/Cant" display-tooltip-when-elided="true" name="InfoTactHerCant" />
+                <ui:Label text="Guardia" display-tooltip-when-elided="true" name="InfoTactDrama" />
+                <ui:Label text="Guardia" display-tooltip-when-elided="true" name="InfoTactGuardia" />
+            </ui:VisualElement>
+            <ui:VisualElement name="InfoExtraTact">
+                <ui:Label text="Arma" display-tooltip-when-elided="true" name="InfoTactArma" />
+                <ui:Label text="Bonus" display-tooltip-when-elided="true" name="InfoTactBonus" />
+                <ui:Label text="Bonus" display-tooltip-when-elided="true" name="InfoTactSed" />
+                <ui:Label text="Daño" display-tooltip-when-elided="true" name="InfoTactDano" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="InfoCompletaTM" class="base" style="display: none; position: absolute; right: auto; left: 1540px; flex-direction: column; top: 15px; max-height: none;">
+            <ui:VisualElement name="InfoVitalComp">
+                <ui:Label text="Label" display-tooltip-when-elided="true" name="InfoCompNombre" tooltip="Su nombre." />
+                <ui:Label text="Label" display-tooltip-when-elided="true" name="InfoCompHerCant" tooltip="Heridas sufridas o cantidad de matones vivos" />
+                <ui:Label text="Label" display-tooltip-when-elided="true" name="InfoCompDrama" tooltip="Si tiene Drama para repetir una tirada." />
+                <ui:Label text="Label" display-tooltip-when-elided="true" name="InfoCompGuardia" tooltip="La dificultad de golpearlo con un Ataque o Detener su Movimiento" />
+            </ui:VisualElement>
+            <ui:VisualElement name="InfoExtraComp">
+                <ui:Label text="Label" display-tooltip-when-elided="true" name="InfoCompDano" tooltip="Daño acumulado para la proxima Herida" />
+                <ui:Label text="Label" display-tooltip-when-elided="true" name="InfoCompBonus" tooltip="Dados adicionales para su proximo Ataque Basico" />
+                <ui:Label text="Label" display-tooltip-when-elided="true" name="InfoCompDadosSed" tooltip="Tipo de arma" />
+            </ui:VisualElement>
+            <ui:VisualElement name="InfoEstComp" class="button-main-menu base" style="height: auto; width: 90%; margin-left: 20px; margin-right: 20px; margin-top: 20px; margin-bottom: 20px; padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 10px;">
+                <ui:VisualElement name="PerAtr" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
+                    <ui:VisualElement name="ManaCont" tooltip="Cada punto suma 1d a tus Ataques" style="flex-direction: row;">
+                        <ui:Label text="Maña" display-tooltip-when-elided="true" name="PerMana" />
+                        <ui:Label text="0" display-tooltip-when-elided="true" name="ManaValue" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="MusculoCont" tooltip="Cada punto suma 1d por tu Multiplicador de Músculo al daño de tus Ataques, y resta 1 por tu Multiplicador de Músculo a tu Extra para Matones adicionales." style="flex-direction: row;">
+                        <ui:Label text="Músculo" display-tooltip-when-elided="true" name="PerMusculo" />
+                        <ui:Label text="0" display-tooltip-when-elided="true" name="MusculoValue" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="IngenioCont" tooltip="Cada punto suma 1d a tus Defensas" style="flex-direction: row;">
+                        <ui:Label text="Ingenio" display-tooltip-when-elided="true" name="PerIngenio" />
+                        <ui:Label text="0" display-tooltip-when-elided="true" name="IngenioValue" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="BrioCont" tooltip="Cada punto suma 3d a tu tirada de Heridas" style="flex-direction: row;">
+                        <ui:Label text="Brío" display-tooltip-when-elided="true" name="PerBrio" />
+                        <ui:Label text="0" display-tooltip-when-elided="true" name="BrioValue" />
+                    </ui:VisualElement>
+                    <ui:VisualElement name="DonaireCont" tooltip="Cada punto suma 3d a tu tirada de Iniciativa" style="flex-direction: row;">
+                        <ui:Label text="Donaire" display-tooltip-when-elided="true" name="PerDonaire" />
+                        <ui:Label text="0" display-tooltip-when-elided="true" name="DonaireValue" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement name="PerArma" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px;">
+                    <ui:Button text="Button" display-tooltip-when-elided="true" class="base button armaButton" />
+                    <ui:VisualElement>
+                        <ui:VisualElement name="ABcont" tooltip="Suma a tu Guardia y a los dados de Ataque Basico" style="flex-direction: row;">
+                            <ui:Label text="Ataque Básico" display-tooltip-when-elided="true" name="PerAB" />
+                            <ui:Label text="0" display-tooltip-when-elided="true" name="ABValue" />
+                        </ui:VisualElement>
+                        <ui:VisualElement name="DBcont" tooltip="Suma a tu Guardia y a los dados de Defensa Basica" style="flex-direction: row;">
+                            <ui:Label text="Defensa Básica" display-tooltip-when-elided="true" name="PerDB" />
+                            <ui:Label text="0" display-tooltip-when-elided="true" name="DBValue" />
+                        </ui:VisualElement>
+                        <ui:VisualElement name="TME1cont" tooltip="Suma a tu Guardia y a los dados de Ataque Basico" style="flex-direction: row;">
+                            <ui:Label text="Ataque Básico" display-tooltip-when-elided="true" name="PerAB" />
+                            <ui:Label text="0" display-tooltip-when-elided="true" name="ABValue" />
+                        </ui:VisualElement>
+                        <ui:VisualElement name="TME2cont" tooltip="Suma a tu Guardia y a los dados de Defensa Basica" style="flex-direction: row;">
+                            <ui:Label text="Defensa Básica" display-tooltip-when-elided="true" name="PerDB" />
+                            <ui:Label text="0" display-tooltip-when-elided="true" name="DBValue" />
+                        </ui:VisualElement>
+                        <ui:VisualElement name="TME3cont" tooltip="Suma a tu Guardia y a los dados de Ataque Basico" style="flex-direction: row;">
+                            <ui:Label text="Ataque Básico" display-tooltip-when-elided="true" name="PerAB" />
+                            <ui:Label text="0" display-tooltip-when-elided="true" name="ABValue" />
+                        </ui:VisualElement>
+                        <ui:VisualElement name="TMCivilcont" tooltip="Suma a tu Guardia y a los dados de Defensa Basica" style="flex-direction: row;">
+                            <ui:Label text="Defensa Básica" display-tooltip-when-elided="true" name="PerDB" />
+                            <ui:Label text="0" display-tooltip-when-elided="true" name="DBValue" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+    <ui:VisualElement name="PersonajeNuevaInfo" style="position: absolute; display: flex; align-items: flex-end; left: auto; top: auto; right: auto; bottom: auto; flex-direction: column; justify-content: flex-start; width: 100%;">
+        <ui:VisualElement name="InfoCompletaNueva" class="base" style="display: none; position: absolute; right: 10px; left: auto; flex-direction: column; top: 10px; max-height: none; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; padding-left: 8px; padding-right: 8px; padding-top: 8px; padding-bottom: 8px; width: 600px; align-items: stretch;">
+            <ui:Label text="&lt;b&gt;Nombre" display-tooltip-when-elided="true" name="InfoCompNombre" tooltip="Su nombre." style="-unity-text-align: upper-center;" />
+            <ui:VisualElement style="flex-direction: row; width: auto; margin-left: 5px; margin-right: 5px; margin-top: 5px; margin-bottom: 5px;">
+                <ui:VisualElement name="InfoVitalComp" style="width: 50%;">
+                    <ui:Label text="Her/Cant" display-tooltip-when-elided="true" name="InfoCompHerCant" tooltip="Heridas sufridas o cantidad de matones vivos" />
+                    <ui:Label text="Daño" display-tooltip-when-elided="true" name="InfoCompDano" tooltip="Daño acumulado para la proxima Herida" />
+                    <ui:Label text="Drama" display-tooltip-when-elided="true" name="InfoCompDrama" tooltip="Si tiene Drama para repetir una tirada." />
+                </ui:VisualElement>
+                <ui:VisualElement name="InfoExtraComp" style="width: 50%;">
+                    <ui:Label text="Guardia" display-tooltip-when-elided="true" name="InfoCompGuardia" tooltip="La dificultad de golpearlo con un Ataque o Detener su Movimiento" />
+                    <ui:Label text="Bonus" display-tooltip-when-elided="true" name="InfoCompBonus" tooltip="Dados adicionales para su proximo Ataque Basico" />
+                    <ui:Label text="Ds. Sed de Sangre" display-tooltip-when-elided="true" name="InfoCompDadosSed" tooltip="dados sed" enable-rich-text="true" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement name="InfoEstComp" class="button-main-menu" style="height: auto; width: auto; margin-left: 5px; margin-right: 5px; margin-top: 5px; margin-bottom: 5px; padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 10px; flex-direction: row;">
+                <ui:VisualElement name="PerAtr" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px; padding-left: 5px; padding-right: 5px; padding-top: 15px; padding-bottom: 5px; width: 40%;">
+                    <ui:Label text="&lt;b&gt;Atributos" display-tooltip-when-elided="true" class="base" style="padding-left: 15px; padding-right: 15px; padding-top: 15px; padding-bottom: 15px; height: 100px; -unity-text-align: middle-center;" />
+                    <ui:VisualElement style="width: auto; margin-left: 5px; margin-right: 5px; margin-top: 5px; margin-bottom: 5px;">
+                        <ui:VisualElement name="ManaCont" tooltip="Cada punto suma 1d a tus Ataques" style="flex-direction: row;">
+                            <ui:Label text="Maña" display-tooltip-when-elided="true" name="PerMana" enable-rich-text="false" style="width: 85%;" />
+                            <ui:Label text="0" display-tooltip-when-elided="true" name="ManaValue" style="width: 85%;" />
+                        </ui:VisualElement>
+                        <ui:VisualElement name="MusculoCont" tooltip="Cada punto suma 1d por tu Multiplicador de Músculo al daño de tus Ataques, y resta 1 por tu Multiplicador de Músculo a tu Extra para Matones adicionales." style="flex-direction: row;">
+                            <ui:Label text="Músculo" display-tooltip-when-elided="true" name="PerMusculo" style="width: 85%;" />
+                            <ui:Label text="0" display-tooltip-when-elided="true" name="MusculoValue" />
+                        </ui:VisualElement>
+                        <ui:VisualElement name="IngenioCont" tooltip="Cada punto suma 1d a tus Defensas" style="flex-direction: row;">
+                            <ui:Label text="Ingenio" display-tooltip-when-elided="true" name="PerIngenio" style="width: 85%;" />
+                            <ui:Label text="0" display-tooltip-when-elided="true" name="IngenioValue" />
+                        </ui:VisualElement>
+                        <ui:VisualElement name="BrioCont" tooltip="Cada punto suma 3d a tu tirada de Heridas" style="flex-direction: row;">
+                            <ui:Label text="Brío" display-tooltip-when-elided="true" name="PerBrio" style="width: 85%;" />
+                            <ui:Label text="0" display-tooltip-when-elided="true" name="BrioValue" />
+                        </ui:VisualElement>
+                        <ui:VisualElement name="DonaireCont" tooltip="Cada punto suma 3d a tu tirada de Iniciativa" style="flex-direction: row;">
+                            <ui:Label text="Donaire" display-tooltip-when-elided="true" name="PerDonaire" style="width: 85%;" />
+                            <ui:Label text="0" display-tooltip-when-elided="true" name="DonaireValue" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement name="PerArma" style="margin-left: 10px; margin-right: 10px; margin-top: 10px; margin-bottom: 10px; width: 60%; padding-left: 15px; padding-right: 15px; padding-top: 15px; padding-bottom: 15px;">
+                    <ui:Button text="&lt;b&gt;Arma" display-tooltip-when-elided="true" class="base button armaButton" style="height: 100px;" />
+                    <ui:VisualElement>
+                        <ui:VisualElement name="ABcont" tooltip="Suma a tu Guardia y a los dados de Ataque Basico" style="flex-direction: row; width: auto;">
+                            <ui:Label text="Ataque Básico" display-tooltip-when-elided="true" name="PerAB" style="width: 90%;" />
+                            <ui:Label text="0" display-tooltip-when-elided="true" name="ABValue" />
+                        </ui:VisualElement>
+                        <ui:VisualElement name="DBcont" tooltip="Suma a tu Guardia y a los dados de Defensa Basica" style="flex-direction: row;">
+                            <ui:Label text="Defensa Básica" display-tooltip-when-elided="true" name="PerDB" style="width: 90%;" />
+                            <ui:Label text="0" display-tooltip-when-elided="true" name="DBValue" />
+                        </ui:VisualElement>
+                        <ui:VisualElement name="TME1cont" tooltip="Suma a tu Guardia y a los dados de Ataque Basico" style="flex-direction: row;">
+                            <ui:Label text="HME1" display-tooltip-when-elided="true" name="PerAB" style="width: 90%;" />
+                            <ui:Label text="0" display-tooltip-when-elided="true" name="ABValue" />
+                        </ui:VisualElement>
+                        <ui:VisualElement name="TME2cont" tooltip="Suma a tu Guardia y a los dados de Defensa Basica" style="flex-direction: row;">
+                            <ui:Label text="HME2" display-tooltip-when-elided="true" name="PerDB" style="width: 90%;" />
+                            <ui:Label text="0" display-tooltip-when-elided="true" name="DBValue" />
+                        </ui:VisualElement>
+                        <ui:VisualElement name="TME3cont" tooltip="Suma a tu Guardia y a los dados de Ataque Basico" style="flex-direction: row;">
+                            <ui:Label text="HME3" display-tooltip-when-elided="true" name="PerAB" style="width: 90%;" />
+                            <ui:Label text="0" display-tooltip-when-elided="true" name="ABValue" />
+                        </ui:VisualElement>
+                        <ui:VisualElement name="TMCivilcont" tooltip="Suma a tu Guardia y a los dados de Defensa Basica" style="flex-direction: row;">
+                            <ui:Label text="HMC" display-tooltip-when-elided="true" name="PerDB" style="width: 90%;" />
+                            <ui:Label text="0" display-tooltip-when-elided="true" name="DBValue" />
+                        </ui:VisualElement>
+                    </ui:VisualElement>
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="InfoTacticaNueva" class="base" style="display: none; position: absolute; width: 300px; right: 10px; top: 10px; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0;">
+            <ui:Label text="&lt;b&gt;Nombre" display-tooltip-when-elided="true" name="InfoTactNombre" style="-unity-text-align: upper-center; white-space: normal;" />
+            <ui:VisualElement name="InfoVitalTact" style="display: flex;">
+                <ui:Label text="Her/Cant" display-tooltip-when-elided="true" name="InfoTactHerCant" tooltip="Heridas sufridas o cantidad de matones vivos" />
+                <ui:Label text="Daño" display-tooltip-when-elided="true" name="InfoTactDano" tooltip="Daño acumulado para la proxima Herida" />
+                <ui:Label text="Drama" display-tooltip-when-elided="true" name="InfoTactDrama" tooltip="Si tiene Drama para repetir una tirada." />
+                <ui:Label text="Guardia" display-tooltip-when-elided="true" name="InfoTactGuardia" tooltip="La dificultad de golpearlo con un Ataque o Detener su Movimiento" />
+            </ui:VisualElement>
+            <ui:VisualElement name="InfoExtraTact">
+                <ui:Label text="Bonus" display-tooltip-when-elided="true" name="InfoTactBonus" tooltip="Dados adicionales para su proximo Ataque Basico" />
+                <ui:Label text="Sed" display-tooltip-when-elided="true" name="InfoTactSed" tooltip="dados sed" />
+                <ui:Button text="Arma" display-tooltip-when-elided="true" name="InfoTactArma" tooltip="arma" class="base" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="InfoVitalNueva" class="base" style="display: none; position: absolute; width: auto; align-items: stretch; min-width: 300px;">
+            <ui:Label text="&lt;b&gt;Nombre" display-tooltip-when-elided="false" name="InfoNombre" style="-unity-text-align: upper-center;" />
+            <ui:Label text="Her/Cant" display-tooltip-when-elided="true" name="InfoHerCant" />
+            <ui:Label text="Daño" display-tooltip-when-elided="true" name="InfoDano" />
+            <ui:Label text="Drama" display-tooltip-when-elided="true" name="InfoDrama" />
+            <ui:Label text="Guardia" display-tooltip-when-elided="true" name="InfoGuardia" />
         </ui:VisualElement>
     </ui:VisualElement>
     <ui:VisualElement name="PantallaPausa" style="background-color: rgba(5, 5, 5, 0.45); width: 100%; height: 100%; flex-direction: column; background-image: none; -unity-background-scale-mode: scale-and-crop; -unity-slice-left: 0; -unity-slice-top: 0; -unity-slice-right: 0; -unity-slice-bottom: 0; -unity-font-definition: initial; -unity-font: url(&apos;project://database/Assets/NotMyFolders/UI%20Toolkit/UnityThemes/UnityDefaultRuntimeTheme.tss?fileID=2230732570650464555&amp;guid=527ab2e1a07ca3849a62250d4426de9d&amp;type=3#NotInter-Regular&apos;); display: none; position: absolute; justify-content: space-around; align-items: center;">
@@ -670,8 +1030,225 @@
                 <ui:Slider picking-mode="Ignore" label="Volumen" value="42" high-value="100" name="VolumeSlider" style="width: 80%;" />
             </ui:VisualElement>
             <ui:VisualElement name="BotonesPausa" style="background-color: rgba(75, 190, 0, 0); width: 100%; height: 35%; flex-direction: row; justify-content: space-around; align-items: center; padding-left: 125px; padding-right: 125px;">
-                <ui:Button text="Cerrar y Continuar" display-tooltip-when-elided="true" name="PausaReanudar" class="base button button-corto" style="background-color: rgb(241, 223, 216);" />
+                <ui:Button text="Reanudar" display-tooltip-when-elided="true" name="PausaReanudar" class="base button button-corto" style="background-color: rgb(241, 223, 216);" />
                 <ui:Button text="Salir al Menu" display-tooltip-when-elided="true" name="PausaMenu" class="base button button-corto" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+    <ui:VisualElement name="PantallaTradicionMarcial" style="position: absolute; width: 100%; height: 100%; justify-content: center; align-items: center; display: none;">
+        <ui:VisualElement name="Contenedor" class="base" style="width: 90%; height: 90%; align-items: center; justify-content: flex-start; padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 10px;">
+            <ui:VisualElement class="base" style="width: 90%; margin-top: 5px; margin-bottom: 5px;">
+                <ui:Label text="&lt;b&gt; La Voluntad del Creador&lt;/b&gt;" display-tooltip-when-elided="true" name="TMNombre" style="align-items: stretch; -unity-text-align: upper-center;" />
+                <ui:Label text="Armas Pesadas, Latia, Intimidar - Derribar Matones y Daño" display-tooltip-when-elided="true" name="TMDescYHMC" style="-unity-text-align: upper-center;" />
+            </ui:VisualElement>
+            <ui:VisualElement style="width: 95%; margin-top: 5px; margin-bottom: 5px; padding-top: 5px;">
+                <ui:Label text="&lt;b&gt;Maestrías&lt;/b&gt;" display-tooltip-when-elided="true" enable-rich-text="true" style="-unity-text-align: upper-center;" />
+                <ui:VisualElement name="Tecnicas" style="flex-direction: row; justify-content: space-around;">
+                    <ui:Label text="&lt;b&gt;Principiante:&lt;/b&gt; Tirás 1 dado adicional en tus tiradas de Daño, y tu Base a superar para Matones adicionales se reduce en 1." display-tooltip-when-elided="true" class="base TextBlock" />
+                    <ui:Label text="&lt;b&gt;Veterano:&lt;/b&gt; Las Explosiones en tus tiradas de Daño dan 2 dados adicionales en vez de 1, y tus 10 en tiradas de Ataque contra Matones suman 1 más (Máximo 30)." display-tooltip-when-elided="true" class="base TextBlock" style="flex-wrap: wrap; white-space: normal; width: 30%;" />
+                    <ui:Label text="&lt;b&gt;Maestro:&lt;/b&gt; Tu Multiplicador de Músculo es 4." display-tooltip-when-elided="true" class="base TextBlock" style="flex-wrap: wrap; white-space: normal; width: 30%;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement style="width: 95%; margin-top: 5px; margin-bottom: 5px; padding-top: 5px; padding-bottom: 5px;">
+                <ui:Label text="&lt;b&gt;Habilidades" display-tooltip-when-elided="true" style="-unity-text-align: upper-center;" />
+                <ui:VisualElement name="HabilidadesExclusivas" style="flex-direction: row; justify-content: space-around;">
+                    <ui:Label text="&lt;b&gt;Sed de Sangre:&lt;/b&gt; Pasiva. Cada vez que vos o un aliado derribe más de un Matón o cause más de una Herida en un solo Ataque a alguien bajo el efecto de una de tus Habilidades de Combate, tirás 1 dado Adicional en tus tiradas de Combate, Daño y Heridas hasta el final de la ronda por cada Punto en Sed de Sangre." display-tooltip-when-elided="true" class="base TextBlock" style="flex-wrap: wrap; white-space: normal; width: 30%; font-size: 30px;" />
+                    <ui:Label text="&lt;b&gt;Ira Divina:&lt;/b&gt; Especial con Brío contra Brío. Hasta el final de la ronda, los Ataques del objetivo no generan tiradas de Heridas, y en las tiradas de Daño contra el, los 9 también explotan o se derriba un Matón adicional." display-tooltip-when-elided="true" class="base TextBlock" style="flex-wrap: wrap; white-space: normal; width: 30%;" />
+                    <ui:Label text="&lt;b&gt;Terror de Dios:&lt;/b&gt; Defensa. Hasta el final de la ronda, los dados del objetivo no explotan en sus tiradas de Heridas o se derriba un Matón adicional contra él." display-tooltip-when-elided="true" class="base TextBlock" style="flex-wrap: wrap; white-space: normal; width: 30%;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+    <ui:VisualElement name="PantallaTradicionesArcanas" style="position: absolute; width: 100%; height: 100%; justify-content: center; align-items: center; display: none;">
+        <ui:VisualElement name="Marenavis" class="base" style="width: 90%; height: 90%; align-items: center; justify-content: flex-start; padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 10px; display: none;">
+            <ui:VisualElement class="base" style="width: 90%; margin-top: 5px; margin-bottom: 5px;">
+                <ui:Label text="&lt;b&gt;Marenavis&lt;/b&gt;" display-tooltip-when-elided="true" name="TMNombre" style="align-items: stretch; -unity-text-align: upper-center;" />
+                <ui:Label text="Gebedén - Fortuna y Mar" display-tooltip-when-elided="true" name="TMDescYHMC" style="-unity-text-align: upper-center;" />
+            </ui:VisualElement>
+            <ui:VisualElement style="width: 95%; margin-top: 5px; margin-bottom: 5px; padding-top: 5px;">
+                <ui:Label text="&lt;b&gt;Maestrías&lt;/b&gt;" display-tooltip-when-elided="true" enable-rich-text="true" style="-unity-text-align: upper-center;" />
+                <ui:VisualElement name="Tecnicas" style="flex-direction: row; justify-content: space-around;">
+                    <ui:Label text="&lt;b&gt;Principiante:&lt;/b&gt; No te mareás en el mar, siempre sabés dónde está el norte, nadar te resulta natural, y podés sentir cuánta &quot;Fortuna&quot; tiene alguien que mires a los ojos." display-tooltip-when-elided="true" class="base TextBlock" style="font-size: 22px;" />
+                    <ui:Label text="&lt;b&gt;Veterano:&lt;/b&gt; Podés, y preferís, tomar agua salada, podés sentir dónde está dinero que tocaste como si tuvieras una brújula apuntando hacia él, y siempre que falles una tirada en la que usaste Marenavis, podés gastar uno de Fortuna adicional para Repetirla sin usar Drama." display-tooltip-when-elided="true" enable-rich-text="true" class="base TextBlock" style="flex-wrap: wrap; white-space: normal; width: 30%; font-size: 22px;" />
+                    <ui:Label text="&lt;b&gt;Maestro:&lt;/b&gt; Podés caminar sobre el agua y transformar agua salada en monedas de oro (que se revierten a agua al mojarse). Al sumergirte en agua salada te curás todas tus heridas.&#10;" display-tooltip-when-elided="true" class="base TextBlock" style="flex-wrap: wrap; white-space: normal; width: 30%; font-size: 22px;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement style="width: 95%; margin-top: 5px; margin-bottom: 5px; padding-top: 5px; padding-bottom: 5px;">
+                <ui:Label text="&lt;b&gt;Habilidades" display-tooltip-when-elided="true" style="-unity-text-align: upper-center;" />
+                <ui:VisualElement name="HabilidadesExclusivas" style="flex-direction: row; justify-content: space-around;">
+                    <ui:Label text="&lt;b&gt;Alquimia:&lt;/b&gt; Cuando ganes Fortuna sin usar Marenavis o termines de descansar, podés tirar Alquimia con Ingenio contra 15+(Fortuna previa*3) para +1 de Fortuna." display-tooltip-when-elided="true" enable-rich-text="true" class="base TextBlock" style="flex-wrap: wrap; white-space: normal; width: 30%; font-size: 22px;" />
+                    <ui:Label text="&lt;b&gt;Corsario:&lt;/b&gt; Cuando pierdas Fortuna sin usar Marenavis o que termine un combate en el que no hayas quedado incapacitado, y le hayas causado una Herida a un enemigo o abatido un Matón, podés tirar Corsario con Ingenio contra 15+(Fortuna*3) para +1 de Fortuna." display-tooltip-when-elided="true" class="base TextBlock" style="flex-wrap: wrap; white-space: normal; width: 30%; font-size: 22px;" />
+                    <ui:Label text="&lt;b&gt;Mare:&lt;/b&gt; Podés usar un Avance Mundano para crear una nueva habilidad basada en otra a la que ya tenías acceso fuera de esta Tradición. La habilidad se llama igual que la habilidad en la que está basada, pero con el prefijo “Mare” agregado. Cuando vayas a hacer una tirada de la habilidad original, podés gastar hasta tanta Fortuna como tengas, y agregar tantos dados a la tirada como la Fortuna que gastaste * los puntos en la Mare habilidad relevante." display-tooltip-when-elided="true" class="base TextBlock" style="flex-wrap: wrap; white-space: normal; width: 30%; font-size: 22px;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="Alumco" class="base" style="width: 90%; height: 90%; align-items: center; justify-content: flex-start; padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 10px; display: flex;">
+            <ui:VisualElement class="base" style="width: 90%; margin-top: 5px; margin-bottom: 5px;">
+                <ui:Label text="&lt;b&gt;Alumco&lt;/b&gt;" display-tooltip-when-elided="true" name="TMNombre" style="align-items: stretch; -unity-text-align: upper-center;" />
+                <ui:Label text="Iñtuake - Podés usar Drama para invocar habilidades. Estas van a hacer referencia a su “sintonía”, la cual es la suma de los puntos en esa habilidad con los puntos en el atributo correspondiente." display-tooltip-when-elided="true" name="TMDescYHMC" enable-rich-text="false" style="-unity-text-align: upper-center; flex-wrap: wrap; white-space: normal;" />
+            </ui:VisualElement>
+            <ui:VisualElement style="width: 95%; margin-top: 5px; margin-bottom: 5px; padding-top: 5px;">
+                <ui:Label text="&lt;b&gt;Maestrías&lt;/b&gt;" display-tooltip-when-elided="true" enable-rich-text="true" style="-unity-text-align: upper-center;" />
+                <ui:VisualElement name="Tecnicas" style="flex-direction: row; justify-content: space-around;">
+                    <ui:Label text="&lt;b&gt;Principiante:&lt;/b&gt; Acceso a la primera tanda de Historias. Siempre que tengas éxito en una tirada de habilidad civil en la que no usaste Drama o Alumco, recuperas Drama.&#10;" display-tooltip-when-elided="true" class="base TextBlock" />
+                    <ui:Label text="&lt;b&gt;Veterano:&lt;/b&gt; Acceso a la segunda tanda de Historias. Siempre que termines un combate, también recuperas Drama." display-tooltip-when-elided="true" class="base TextBlock" style="flex-wrap: wrap; white-space: normal; width: 30%;" />
+                    <ui:Label text="&lt;b&gt;Maestro:&lt;/b&gt; Acceso a la tercera tanda de Historias. Cuando recuperas Drama por tus Técnicas de Maestría, recuperas todo tu Drama en vez de uno solo." display-tooltip-when-elided="true" class="base TextBlock" style="flex-wrap: wrap; white-space: normal; width: 30%;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement style="width: 95%; margin-top: 5px; margin-bottom: 5px; padding-top: 5px; padding-bottom: 5px;">
+                <ui:Label text="&lt;b&gt;Habilidades" display-tooltip-when-elided="true" style="-unity-text-align: upper-center;" />
+                <ui:VisualElement name="Habilidad1" style="flex-direction: row; justify-content: space-around; font-size: 10px;">
+                    <ui:Label text="&lt;b&gt;Sed de Sangre:&lt;/b&gt; Pasiva. Cada vez que vos o un aliado derribe más de un Matón o cause más de una Herida en un solo Ataque a alguien bajo el efecto de una de tus Habilidades de Combate, tirás 1 dado Adicional en tus tiradas de Combate, Daño y Heridas hasta el final de la ronda por cada Punto en Sed de Sangre." display-tooltip-when-elided="true" class="base TextBlock" style="flex-wrap: wrap; white-space: normal; width: 30%; font-size: 10px;" />
+                    <ui:Label text="&lt;b&gt;Ira Divina:&lt;/b&gt; Especial con Brío contra Brío. Hasta el final de la ronda, los Ataques del objetivo no generan tiradas de Heridas, y en las tiradas de Daño contra el, los 9 también explotan o se derriba un Matón adicional." display-tooltip-when-elided="true" class="base TextBlock" style="flex-wrap: wrap; white-space: normal; width: 30%; font-size: 10px;" />
+                    <ui:Label text="&lt;b&gt;Terror de Dios:&lt;/b&gt; Defensa. Hasta el final de la ronda, los dados del objetivo no explotan en sus tiradas de Heridas o se derriba un Matón adicional contra él." display-tooltip-when-elided="true" class="base TextBlock" style="flex-wrap: wrap; white-space: normal; width: 30%; font-size: 10px;" />
+                </ui:VisualElement>
+                <ui:VisualElement name="Habilidad1" style="flex-direction: row; justify-content: space-around; font-size: 10px;">
+                    <ui:Label text="&lt;b&gt;Sed de Sangre:&lt;/b&gt; Pasiva. Cada vez que vos o un aliado derribe más de un Matón o cause más de una Herida en un solo Ataque a alguien bajo el efecto de una de tus Habilidades de Combate, tirás 1 dado Adicional en tus tiradas de Combate, Daño y Heridas hasta el final de la ronda por cada Punto en Sed de Sangre." display-tooltip-when-elided="true" class="base TextBlock" style="flex-wrap: wrap; white-space: normal; width: 30%; font-size: 10px;" />
+                    <ui:Label text="&lt;b&gt;Ira Divina:&lt;/b&gt; Especial con Brío contra Brío. Hasta el final de la ronda, los Ataques del objetivo no generan tiradas de Heridas, y en las tiradas de Daño contra el, los 9 también explotan o se derriba un Matón adicional." display-tooltip-when-elided="true" class="base TextBlock" style="flex-wrap: wrap; white-space: normal; width: 30%; font-size: 10px;" />
+                    <ui:Label text="&lt;b&gt;Terror de Dios:&lt;/b&gt; Defensa. Hasta el final de la ronda, los dados del objetivo no explotan en sus tiradas de Heridas o se derriba un Matón adicional contra él." display-tooltip-when-elided="true" class="base TextBlock" style="flex-wrap: wrap; white-space: normal; width: 30%; font-size: 10px;" />
+                </ui:VisualElement>
+                <ui:VisualElement name="Habilidad1" style="flex-direction: row; justify-content: space-around; font-size: 10px;">
+                    <ui:Label text="&lt;b&gt;Sed de Sangre:&lt;/b&gt; Pasiva. Cada vez que vos o un aliado derribe más de un Matón o cause más de una Herida en un solo Ataque a alguien bajo el efecto de una de tus Habilidades de Combate, tirás 1 dado Adicional en tus tiradas de Combate, Daño y Heridas hasta el final de la ronda por cada Punto en Sed de Sangre." display-tooltip-when-elided="true" class="base TextBlock" style="flex-wrap: wrap; white-space: normal; width: 30%; font-size: 10px;" />
+                    <ui:Label text="&lt;b&gt;Ira Divina:&lt;/b&gt; Especial con Brío contra Brío. Hasta el final de la ronda, los Ataques del objetivo no generan tiradas de Heridas, y en las tiradas de Daño contra el, los 9 también explotan o se derriba un Matón adicional." display-tooltip-when-elided="true" class="base TextBlock" style="flex-wrap: wrap; white-space: normal; width: 30%; font-size: 10px;" />
+                    <ui:Label text="&lt;b&gt;Terror de Dios:&lt;/b&gt; Defensa. Hasta el final de la ronda, los dados del objetivo no explotan en sus tiradas de Heridas o se derriba un Matón adicional contra él." display-tooltip-when-elided="true" class="base TextBlock" style="flex-wrap: wrap; white-space: normal; width: 30%; font-size: 10px;" />
+                </ui:VisualElement>
+                <ui:VisualElement name="Habilidad1" style="flex-direction: row; justify-content: space-around; font-size: 10px;">
+                    <ui:Label text="&lt;b&gt;Sed de Sangre:&lt;/b&gt; Pasiva. Cada vez que vos o un aliado derribe más de un Matón o cause más de una Herida en un solo Ataque a alguien bajo el efecto de una de tus Habilidades de Combate, tirás 1 dado Adicional en tus tiradas de Combate, Daño y Heridas hasta el final de la ronda por cada Punto en Sed de Sangre." display-tooltip-when-elided="true" class="base TextBlock" style="flex-wrap: wrap; white-space: normal; width: 30%; font-size: 10px;" />
+                    <ui:Label text="&lt;b&gt;Ira Divina:&lt;/b&gt; Especial con Brío contra Brío. Hasta el final de la ronda, los Ataques del objetivo no generan tiradas de Heridas, y en las tiradas de Daño contra el, los 9 también explotan o se derriba un Matón adicional." display-tooltip-when-elided="true" class="base TextBlock" style="flex-wrap: wrap; white-space: normal; width: 30%; font-size: 10px;" />
+                    <ui:Label text="&lt;b&gt;Terror de Dios:&lt;/b&gt; Defensa. Hasta el final de la ronda, los dados del objetivo no explotan en sus tiradas de Heridas o se derriba un Matón adicional contra él." display-tooltip-when-elided="true" class="base TextBlock" style="flex-wrap: wrap; white-space: normal; width: 30%; font-size: 10px;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="Kuaraia" class="base" style="width: 90%; height: 90%; align-items: center; justify-content: flex-start; padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 10px; display: none;">
+            <ui:VisualElement class="base" style="width: 90%; margin-top: 5px; margin-bottom: 5px;">
+                <ui:Label text="&lt;b&gt; La Voluntad del Creador&lt;/b&gt;" display-tooltip-when-elided="true" name="TMNombre" style="align-items: stretch; -unity-text-align: upper-center;" />
+                <ui:Label text="Armas Pesadas, Latia, Intimidar - Derribar Matones y Daño" display-tooltip-when-elided="true" name="TMDescYHMC" style="-unity-text-align: upper-center;" />
+            </ui:VisualElement>
+            <ui:VisualElement style="width: 95%; margin-top: 5px; margin-bottom: 5px; padding-top: 5px;">
+                <ui:Label text="&lt;b&gt;Maestrías&lt;/b&gt;" display-tooltip-when-elided="true" enable-rich-text="true" style="-unity-text-align: upper-center;" />
+                <ui:VisualElement name="Tecnicas" style="flex-direction: row; justify-content: space-around;">
+                    <ui:Label text="&lt;b&gt;Principiante:&lt;/b&gt; Tirás 1 dado adicional en tus tiradas de Daño, y tu Base a superar para Matones adicionales se reduce en 1." display-tooltip-when-elided="true" class="base TextBlock" />
+                    <ui:Label text="&lt;b&gt;Veterano:&lt;/b&gt; Las Explosiones en tus tiradas de Daño dan 2 dados adicionales en vez de 1, y tus 10 en tiradas de Ataque contra Matones suman 1 más (Máximo 30)." display-tooltip-when-elided="true" class="base TextBlock" style="flex-wrap: wrap; white-space: normal; width: 30%;" />
+                    <ui:Label text="&lt;b&gt;Maestro:&lt;/b&gt; Tu Multiplicador de Músculo es 4." display-tooltip-when-elided="true" class="base TextBlock" style="flex-wrap: wrap; white-space: normal; width: 30%;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement style="width: 95%; margin-top: 5px; margin-bottom: 5px; padding-top: 5px; padding-bottom: 5px;">
+                <ui:Label text="&lt;b&gt;Habilidades" display-tooltip-when-elided="true" style="-unity-text-align: upper-center;" />
+                <ui:VisualElement name="HabilidadesExclusivas" style="flex-direction: row; justify-content: space-around;">
+                    <ui:Label text="&lt;b&gt;Sed de Sangre:&lt;/b&gt; Pasiva. Cada vez que vos o un aliado derribe más de un Matón o cause más de una Herida en un solo Ataque a alguien bajo el efecto de una de tus Habilidades de Combate, tirás 1 dado Adicional en tus tiradas de Combate, Daño y Heridas hasta el final de la ronda por cada Punto en Sed de Sangre." display-tooltip-when-elided="true" class="base TextBlock" style="flex-wrap: wrap; white-space: normal; width: 30%; font-size: 30px;" />
+                    <ui:Label text="&lt;b&gt;Ira Divina:&lt;/b&gt; Especial con Brío contra Brío. Hasta el final de la ronda, los Ataques del objetivo no generan tiradas de Heridas, y en las tiradas de Daño contra el, los 9 también explotan o se derriba un Matón adicional." display-tooltip-when-elided="true" class="base TextBlock" style="flex-wrap: wrap; white-space: normal; width: 30%;" />
+                    <ui:Label text="&lt;b&gt;Terror de Dios:&lt;/b&gt; Defensa. Hasta el final de la ronda, los dados del objetivo no explotan en sus tiradas de Heridas o se derriba un Matón adicional contra él." display-tooltip-when-elided="true" class="base TextBlock" style="flex-wrap: wrap; white-space: normal; width: 30%;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="Quetzal" class="base" style="width: 90%; height: 90%; align-items: center; justify-content: flex-start; padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 10px; display: none;">
+            <ui:VisualElement class="base" style="width: 90%; margin-top: 5px; margin-bottom: 5px;">
+                <ui:Label text="&lt;b&gt; La Voluntad del Creador&lt;/b&gt;" display-tooltip-when-elided="true" name="TMNombre" style="align-items: stretch; -unity-text-align: upper-center;" />
+                <ui:Label text="Armas Pesadas, Latia, Intimidar - Derribar Matones y Daño" display-tooltip-when-elided="true" name="TMDescYHMC" style="-unity-text-align: upper-center;" />
+            </ui:VisualElement>
+            <ui:VisualElement style="width: 95%; margin-top: 5px; margin-bottom: 5px; padding-top: 5px;">
+                <ui:Label text="&lt;b&gt;Maestrías&lt;/b&gt;" display-tooltip-when-elided="true" enable-rich-text="true" style="-unity-text-align: upper-center;" />
+                <ui:VisualElement name="Tecnicas" style="flex-direction: row; justify-content: space-around;">
+                    <ui:Label text="&lt;b&gt;Principiante:&lt;/b&gt; Tirás 1 dado adicional en tus tiradas de Daño, y tu Base a superar para Matones adicionales se reduce en 1." display-tooltip-when-elided="true" class="base TextBlock" />
+                    <ui:Label text="&lt;b&gt;Veterano:&lt;/b&gt; Las Explosiones en tus tiradas de Daño dan 2 dados adicionales en vez de 1, y tus 10 en tiradas de Ataque contra Matones suman 1 más (Máximo 30)." display-tooltip-when-elided="true" class="base TextBlock" style="flex-wrap: wrap; white-space: normal; width: 30%;" />
+                    <ui:Label text="&lt;b&gt;Maestro:&lt;/b&gt; Tu Multiplicador de Músculo es 4." display-tooltip-when-elided="true" class="base TextBlock" style="flex-wrap: wrap; white-space: normal; width: 30%;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement style="width: 95%; margin-top: 5px; margin-bottom: 5px; padding-top: 5px; padding-bottom: 5px;">
+                <ui:Label text="&lt;b&gt;Habilidades" display-tooltip-when-elided="true" style="-unity-text-align: upper-center;" />
+                <ui:VisualElement name="HabilidadesExclusivas" style="flex-direction: row; justify-content: space-around;">
+                    <ui:Label text="&lt;b&gt;Sed de Sangre:&lt;/b&gt; Pasiva. Cada vez que vos o un aliado derribe más de un Matón o cause más de una Herida en un solo Ataque a alguien bajo el efecto de una de tus Habilidades de Combate, tirás 1 dado Adicional en tus tiradas de Combate, Daño y Heridas hasta el final de la ronda por cada Punto en Sed de Sangre." display-tooltip-when-elided="true" class="base TextBlock" style="flex-wrap: wrap; white-space: normal; width: 30%; font-size: 30px;" />
+                    <ui:Label text="&lt;b&gt;Ira Divina:&lt;/b&gt; Especial con Brío contra Brío. Hasta el final de la ronda, los Ataques del objetivo no generan tiradas de Heridas, y en las tiradas de Daño contra el, los 9 también explotan o se derriba un Matón adicional." display-tooltip-when-elided="true" class="base TextBlock" style="flex-wrap: wrap; white-space: normal; width: 30%;" />
+                    <ui:Label text="&lt;b&gt;Terror de Dios:&lt;/b&gt; Defensa. Hasta el final de la ronda, los dados del objetivo no explotan en sus tiradas de Heridas o se derriba un Matón adicional contra él." display-tooltip-when-elided="true" class="base TextBlock" style="flex-wrap: wrap; white-space: normal; width: 30%;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="Nanuk" class="base" style="width: 90%; height: 90%; align-items: center; justify-content: flex-start; padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 10px; display: none;">
+            <ui:VisualElement class="base" style="width: 90%; margin-top: 5px; margin-bottom: 5px;">
+                <ui:Label text="&lt;b&gt; La Voluntad del Creador&lt;/b&gt;" display-tooltip-when-elided="true" name="TMNombre" style="align-items: stretch; -unity-text-align: upper-center;" />
+                <ui:Label text="Armas Pesadas, Latia, Intimidar - Derribar Matones y Daño" display-tooltip-when-elided="true" name="TMDescYHMC" style="-unity-text-align: upper-center;" />
+            </ui:VisualElement>
+            <ui:VisualElement style="width: 95%; margin-top: 5px; margin-bottom: 5px; padding-top: 5px;">
+                <ui:Label text="&lt;b&gt;Maestrías&lt;/b&gt;" display-tooltip-when-elided="true" enable-rich-text="true" style="-unity-text-align: upper-center;" />
+                <ui:VisualElement name="Tecnicas" style="flex-direction: row; justify-content: space-around;">
+                    <ui:Label text="&lt;b&gt;Principiante:&lt;/b&gt; Tirás 1 dado adicional en tus tiradas de Daño, y tu Base a superar para Matones adicionales se reduce en 1." display-tooltip-when-elided="true" class="base TextBlock" />
+                    <ui:Label text="&lt;b&gt;Veterano:&lt;/b&gt; Las Explosiones en tus tiradas de Daño dan 2 dados adicionales en vez de 1, y tus 10 en tiradas de Ataque contra Matones suman 1 más (Máximo 30)." display-tooltip-when-elided="true" class="base TextBlock" style="flex-wrap: wrap; white-space: normal; width: 30%;" />
+                    <ui:Label text="&lt;b&gt;Maestro:&lt;/b&gt; Tu Multiplicador de Músculo es 4." display-tooltip-when-elided="true" class="base TextBlock" style="flex-wrap: wrap; white-space: normal; width: 30%;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement style="width: 95%; margin-top: 5px; margin-bottom: 5px; padding-top: 5px; padding-bottom: 5px;">
+                <ui:Label text="&lt;b&gt;Habilidades" display-tooltip-when-elided="true" style="-unity-text-align: upper-center;" />
+                <ui:VisualElement name="HabilidadesExclusivas" style="flex-direction: row; justify-content: space-around;">
+                    <ui:Label text="&lt;b&gt;Sed de Sangre:&lt;/b&gt; Pasiva. Cada vez que vos o un aliado derribe más de un Matón o cause más de una Herida en un solo Ataque a alguien bajo el efecto de una de tus Habilidades de Combate, tirás 1 dado Adicional en tus tiradas de Combate, Daño y Heridas hasta el final de la ronda por cada Punto en Sed de Sangre." display-tooltip-when-elided="true" class="base TextBlock" style="flex-wrap: wrap; white-space: normal; width: 30%; font-size: 30px;" />
+                    <ui:Label text="&lt;b&gt;Ira Divina:&lt;/b&gt; Especial con Brío contra Brío. Hasta el final de la ronda, los Ataques del objetivo no generan tiradas de Heridas, y en las tiradas de Daño contra el, los 9 también explotan o se derriba un Matón adicional." display-tooltip-when-elided="true" class="base TextBlock" style="flex-wrap: wrap; white-space: normal; width: 30%;" />
+                    <ui:Label text="&lt;b&gt;Terror de Dios:&lt;/b&gt; Defensa. Hasta el final de la ronda, los dados del objetivo no explotan en sus tiradas de Heridas o se derriba un Matón adicional contra él." display-tooltip-when-elided="true" class="base TextBlock" style="flex-wrap: wrap; white-space: normal; width: 30%;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="Ilantuintu" class="base" style="width: 90%; height: 90%; align-items: center; justify-content: flex-start; padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 10px; display: none;">
+            <ui:VisualElement class="base" style="width: 90%; margin-top: 5px; margin-bottom: 5px;">
+                <ui:Label text="&lt;b&gt; La Voluntad del Creador&lt;/b&gt;" display-tooltip-when-elided="true" name="TMNombre" style="align-items: stretch; -unity-text-align: upper-center;" />
+                <ui:Label text="Armas Pesadas, Latia, Intimidar - Derribar Matones y Daño" display-tooltip-when-elided="true" name="TMDescYHMC" style="-unity-text-align: upper-center;" />
+            </ui:VisualElement>
+            <ui:VisualElement style="width: 95%; margin-top: 5px; margin-bottom: 5px; padding-top: 5px;">
+                <ui:Label text="&lt;b&gt;Maestrías&lt;/b&gt;" display-tooltip-when-elided="true" enable-rich-text="true" style="-unity-text-align: upper-center;" />
+                <ui:VisualElement name="Tecnicas" style="flex-direction: row; justify-content: space-around;">
+                    <ui:Label text="&lt;b&gt;Principiante:&lt;/b&gt; Tirás 1 dado adicional en tus tiradas de Daño, y tu Base a superar para Matones adicionales se reduce en 1." display-tooltip-when-elided="true" class="base TextBlock" />
+                    <ui:Label text="&lt;b&gt;Veterano:&lt;/b&gt; Las Explosiones en tus tiradas de Daño dan 2 dados adicionales en vez de 1, y tus 10 en tiradas de Ataque contra Matones suman 1 más (Máximo 30)." display-tooltip-when-elided="true" class="base TextBlock" style="flex-wrap: wrap; white-space: normal; width: 30%;" />
+                    <ui:Label text="&lt;b&gt;Maestro:&lt;/b&gt; Tu Multiplicador de Músculo es 4." display-tooltip-when-elided="true" class="base TextBlock" style="flex-wrap: wrap; white-space: normal; width: 30%;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement style="width: 95%; margin-top: 5px; margin-bottom: 5px; padding-top: 5px; padding-bottom: 5px;">
+                <ui:Label text="&lt;b&gt;Habilidades" display-tooltip-when-elided="true" style="-unity-text-align: upper-center;" />
+                <ui:VisualElement name="HabilidadesExclusivas" style="flex-direction: row; justify-content: space-around;">
+                    <ui:Label text="&lt;b&gt;Sed de Sangre:&lt;/b&gt; Pasiva. Cada vez que vos o un aliado derribe más de un Matón o cause más de una Herida en un solo Ataque a alguien bajo el efecto de una de tus Habilidades de Combate, tirás 1 dado Adicional en tus tiradas de Combate, Daño y Heridas hasta el final de la ronda por cada Punto en Sed de Sangre." display-tooltip-when-elided="true" class="base TextBlock" style="flex-wrap: wrap; white-space: normal; width: 30%; font-size: 30px;" />
+                    <ui:Label text="&lt;b&gt;Ira Divina:&lt;/b&gt; Especial con Brío contra Brío. Hasta el final de la ronda, los Ataques del objetivo no generan tiradas de Heridas, y en las tiradas de Daño contra el, los 9 también explotan o se derriba un Matón adicional." display-tooltip-when-elided="true" class="base TextBlock" style="flex-wrap: wrap; white-space: normal; width: 30%;" />
+                    <ui:Label text="&lt;b&gt;Terror de Dios:&lt;/b&gt; Defensa. Hasta el final de la ronda, los dados del objetivo no explotan en sus tiradas de Heridas o se derriba un Matón adicional contra él." display-tooltip-when-elided="true" class="base TextBlock" style="flex-wrap: wrap; white-space: normal; width: 30%;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="Toque" class="base" style="width: 90%; height: 90%; align-items: center; justify-content: flex-start; padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 10px; display: none;">
+            <ui:VisualElement class="base" style="width: 90%; margin-top: 5px; margin-bottom: 5px;">
+                <ui:Label text="&lt;b&gt; La Voluntad del Creador&lt;/b&gt;" display-tooltip-when-elided="true" name="TMNombre" style="align-items: stretch; -unity-text-align: upper-center;" />
+                <ui:Label text="Armas Pesadas, Latia, Intimidar - Derribar Matones y Daño" display-tooltip-when-elided="true" name="TMDescYHMC" style="-unity-text-align: upper-center;" />
+            </ui:VisualElement>
+            <ui:VisualElement style="width: 95%; margin-top: 5px; margin-bottom: 5px; padding-top: 5px;">
+                <ui:Label text="&lt;b&gt;Maestrías&lt;/b&gt;" display-tooltip-when-elided="true" enable-rich-text="true" style="-unity-text-align: upper-center;" />
+                <ui:VisualElement name="Tecnicas" style="flex-direction: row; justify-content: space-around;">
+                    <ui:Label text="&lt;b&gt;Principiante:&lt;/b&gt; Tirás 1 dado adicional en tus tiradas de Daño, y tu Base a superar para Matones adicionales se reduce en 1." display-tooltip-when-elided="true" class="base TextBlock" />
+                    <ui:Label text="&lt;b&gt;Veterano:&lt;/b&gt; Las Explosiones en tus tiradas de Daño dan 2 dados adicionales en vez de 1, y tus 10 en tiradas de Ataque contra Matones suman 1 más (Máximo 30)." display-tooltip-when-elided="true" class="base TextBlock" style="flex-wrap: wrap; white-space: normal; width: 30%;" />
+                    <ui:Label text="&lt;b&gt;Maestro:&lt;/b&gt; Tu Multiplicador de Músculo es 4." display-tooltip-when-elided="true" class="base TextBlock" style="flex-wrap: wrap; white-space: normal; width: 30%;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement style="width: 95%; margin-top: 5px; margin-bottom: 5px; padding-top: 5px; padding-bottom: 5px;">
+                <ui:Label text="&lt;b&gt;Habilidades" display-tooltip-when-elided="true" style="-unity-text-align: upper-center;" />
+                <ui:VisualElement name="HabilidadesExclusivas" style="flex-direction: row; justify-content: space-around;">
+                    <ui:Label text="&lt;b&gt;Sed de Sangre:&lt;/b&gt; Pasiva. Cada vez que vos o un aliado derribe más de un Matón o cause más de una Herida en un solo Ataque a alguien bajo el efecto de una de tus Habilidades de Combate, tirás 1 dado Adicional en tus tiradas de Combate, Daño y Heridas hasta el final de la ronda por cada Punto en Sed de Sangre." display-tooltip-when-elided="true" class="base TextBlock" style="flex-wrap: wrap; white-space: normal; width: 30%; font-size: 30px;" />
+                    <ui:Label text="&lt;b&gt;Ira Divina:&lt;/b&gt; Especial con Brío contra Brío. Hasta el final de la ronda, los Ataques del objetivo no generan tiradas de Heridas, y en las tiradas de Daño contra el, los 9 también explotan o se derriba un Matón adicional." display-tooltip-when-elided="true" class="base TextBlock" style="flex-wrap: wrap; white-space: normal; width: 30%;" />
+                    <ui:Label text="&lt;b&gt;Terror de Dios:&lt;/b&gt; Defensa. Hasta el final de la ronda, los dados del objetivo no explotan en sus tiradas de Heridas o se derriba un Matón adicional contra él." display-tooltip-when-elided="true" class="base TextBlock" style="flex-wrap: wrap; white-space: normal; width: 30%;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="Luz" class="base" style="width: 90%; height: 90%; align-items: center; justify-content: flex-start; padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 10px; display: none;">
+            <ui:VisualElement class="base" style="width: 90%; margin-top: 5px; margin-bottom: 5px;">
+                <ui:Label text="&lt;b&gt; La Voluntad del Creador&lt;/b&gt;" display-tooltip-when-elided="true" name="TMNombre" style="align-items: stretch; -unity-text-align: upper-center;" />
+                <ui:Label text="Armas Pesadas, Latia, Intimidar - Derribar Matones y Daño" display-tooltip-when-elided="true" name="TMDescYHMC" style="-unity-text-align: upper-center;" />
+            </ui:VisualElement>
+            <ui:VisualElement style="width: 95%; margin-top: 5px; margin-bottom: 5px; padding-top: 5px;">
+                <ui:Label text="&lt;b&gt;Maestrías&lt;/b&gt;" display-tooltip-when-elided="true" enable-rich-text="true" style="-unity-text-align: upper-center;" />
+                <ui:VisualElement name="Tecnicas" style="flex-direction: row; justify-content: space-around;">
+                    <ui:Label text="&lt;b&gt;Principiante:&lt;/b&gt; Tirás 1 dado adicional en tus tiradas de Daño, y tu Base a superar para Matones adicionales se reduce en 1." display-tooltip-when-elided="true" class="base TextBlock" />
+                    <ui:Label text="&lt;b&gt;Veterano:&lt;/b&gt; Las Explosiones en tus tiradas de Daño dan 2 dados adicionales en vez de 1, y tus 10 en tiradas de Ataque contra Matones suman 1 más (Máximo 30)." display-tooltip-when-elided="true" class="base TextBlock" style="flex-wrap: wrap; white-space: normal; width: 30%;" />
+                    <ui:Label text="&lt;b&gt;Maestro:&lt;/b&gt; Tu Multiplicador de Músculo es 4." display-tooltip-when-elided="true" class="base TextBlock" style="flex-wrap: wrap; white-space: normal; width: 30%;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            <ui:VisualElement style="width: 95%; margin-top: 5px; margin-bottom: 5px; padding-top: 5px; padding-bottom: 5px;">
+                <ui:Label text="&lt;b&gt;Habilidades" display-tooltip-when-elided="true" style="-unity-text-align: upper-center;" />
+                <ui:VisualElement name="HabilidadesExclusivas" style="flex-direction: row; justify-content: space-around;">
+                    <ui:Label text="&lt;b&gt;Sed de Sangre:&lt;/b&gt; Pasiva. Cada vez que vos o un aliado derribe más de un Matón o cause más de una Herida en un solo Ataque a alguien bajo el efecto de una de tus Habilidades de Combate, tirás 1 dado Adicional en tus tiradas de Combate, Daño y Heridas hasta el final de la ronda por cada Punto en Sed de Sangre." display-tooltip-when-elided="true" class="base TextBlock" style="flex-wrap: wrap; white-space: normal; width: 30%; font-size: 30px;" />
+                    <ui:Label text="&lt;b&gt;Ira Divina:&lt;/b&gt; Especial con Brío contra Brío. Hasta el final de la ronda, los Ataques del objetivo no generan tiradas de Heridas, y en las tiradas de Daño contra el, los 9 también explotan o se derriba un Matón adicional." display-tooltip-when-elided="true" class="base TextBlock" style="flex-wrap: wrap; white-space: normal; width: 30%;" />
+                    <ui:Label text="&lt;b&gt;Terror de Dios:&lt;/b&gt; Defensa. Hasta el final de la ronda, los dados del objetivo no explotan en sus tiradas de Heridas o se derriba un Matón adicional contra él." display-tooltip-when-elided="true" class="base TextBlock" style="flex-wrap: wrap; white-space: normal; width: 30%;" />
+                </ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>

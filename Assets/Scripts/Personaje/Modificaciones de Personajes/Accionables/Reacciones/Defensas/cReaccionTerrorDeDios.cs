@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class cReaccionTerrorDeDios : cReaccionDefensa
 {
@@ -8,19 +9,24 @@ public class cReaccionTerrorDeDios : cReaccionDefensa
     void Start()
     {
         SetUp();
+        consecuencia = "Hasta el final de la ronda, los dados del objetivo no explotan en sus tiradas de Heridas o se derriba un Matón adicional contra él.";
+        reglas = "Terror de Dios: Defensa. ";
+        reglas += consecuencia;
         nombre = "Terror de Dios";
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        var root = GameObject.Find("UI").GetComponent<UIDocument>().rootVisualElement;
+        boton = root.Q<Button>("ButtonDTMarcial1");
+        icon = c.GetComponent<cIconos>().TerrorDeDios;
     }
 
     override public int DeterminarNumeroDeDados()
     {
         // es igual a DB basica salvo por lo que sumamos al ndados, capaz juntar
-        int numeroDeDados = 3 + personaje.atr.ingenio + (personaje.arma as cLaVoluntadDelCreador).valor_TerrorDeDios;
+        int numeroDeDados = 3 + personaje.atr.ingenio + personaje.tradicionMarcial[3];
+        numeroDeDados += (personaje.arma as cLaVoluntadDelCreador).DadosDeSedDeSangre;
+        if (reroleando)
+        {
+            numeroDeDados += dadosExtrasParaReroll;
+        }
 
         if (!c.atacando)
         {
@@ -46,6 +52,8 @@ public class cReaccionTerrorDeDios : cReaccionDefensa
         string curar = "";
         if (exito)
         {
+            PlaySoundEffect();
+
             if (c.atacando) // esto de curar pasa en todas las defensas
             {
                 if (c.personajeObjetivo.Daño > 0)

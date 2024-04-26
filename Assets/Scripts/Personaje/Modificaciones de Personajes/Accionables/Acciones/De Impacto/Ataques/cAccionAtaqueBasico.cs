@@ -14,28 +14,31 @@ public class cAccionAtaqueBasico : cAccionAtaque
     public const int AB_ERROR = -1;
 
     public int dadosATirar;
+    public bool ataqueExitoso;
 
     protected string textoAdicional = "";
 
     protected void Start()
     {
         GetObjets();
-        nombre = "Ataque Basico";
+        nombre = "Ataque Básico";
+        consecuencia = "Tratás de dañar al oponente.";
+        reglas = nombre + ": Ataque. " + consecuencia;
         categoria = cAcciones.AC_CAT_MARCIAL;
         var root = GameObject.Find("UI").GetComponent<UIDocument>().rootVisualElement;
         boton = root.Q<Button>("ButtonAtacar");
-        reroleandoState = AB_TIRANDO;
+        icon = c.GetComponent<cIconos>().AB;
+        if (personaje.tieneTradicionMarcial) reroleandoState = AB_DETERMINANDO_DADOS;
+        else reroleandoState = AB_TIRANDO;
     }
 
     override public void RevisarLegalidad()
     {
-
         esLegal = c.HayEnemigosEnMelee(personaje);
     }
 
     override public void Ejecutar()
     {
-        Debug.Log("ej ab, state: " + acc_state);
         switch (acc_state)
         {
             case AB_DETERMINANDO_DADOS:
@@ -44,7 +47,6 @@ public class cAccionAtaqueBasico : cAccionAtaque
                 DeterminadoDados();
                 break;
             case AB_TIRANDO:
-                Debug.Log("ab_state 1");
                 Tirando();
                 break;
             case AB_DEFENSAS:
@@ -69,7 +71,6 @@ public class cAccionAtaqueBasico : cAccionAtaque
             default:
                 break;
         }
-        Debug.Log("????");
         acc_state++;
         //Debug.Log("despues de ++ ab_state es:" + ab_state);
         //switch (ab_state)
@@ -119,9 +120,6 @@ public class cAccionAtaqueBasico : cAccionAtaque
         }
 
         dadosATirar = DeterminarNumeroDeDados();
-        Debug.Log("aca?");
-        Debug.Log(personaje.nombre);
-        Debug.Log(c.personajeObjetivo.nombre);
         string text = "¡" + UIInterface.NombreDePersonajeEnNegrita(personaje) + " usa su " + nombre + " contra " + UIInterface.NombreDePersonajeEnNegrita(c.personajeObjetivo) + "! Tira " + dadosATirar + " dados contra su guardia de " + UIInterface.IntEnNegrita(c.personajeObjetivo.GetGuardia()) + "." + armasImprovisadas;
         if (c.movAgro) {
             uiC.SetText(text);
@@ -131,7 +129,6 @@ public class cAccionAtaqueBasico : cAccionAtaque
             c.personajeActivo.GastarDado(c.faseActual, c.acciones, c.accionesActivas, c.accionesReactivas, text);
             uiC.ActualizarIniciativa(c.personajes);
         }
-        Debug.Log("aqui?");
     }
 
     virtual protected void armaImpro()
@@ -142,13 +139,19 @@ public class cAccionAtaqueBasico : cAccionAtaque
     virtual protected void Tirando()
     {
         mostrarMensaje1 = true;
-        tirada tr = cDieMath.TirarDados(dadosATirar);
-        c.jugadorAtq = cDieMath.sumaDe3Mayores(tr);
+        tirada tr;
+        if (personaje.arma is cLaVoluntadDelCreador)
+        {
+            if ((personaje.arma as cLaVoluntadDelCreador).maestria > 2) tr = cDieMath.TirarDados10v11(dadosATirar);
+            else tr = cDieMath.TirarDados(dadosATirar);
+        }
+        else tr = cDieMath.TirarDados(dadosATirar);
+        c.jugadorAtq = Mathf.Min(30,cDieMath.sumaDe3Mayores(tr));
         string resultado;
         string atq;
         textoAdicional = "";
-        bool exito = c.jugadorAtq >= c.personajeObjetivo.GetGuardia();
-        if (exito)
+        ataqueExitoso = c.jugadorAtq >= c.personajeObjetivo.GetGuardia();
+        if (ataqueExitoso)
         {
             resultado = SuperamosGuardia();
             atq = UIInterface.IntExitoso(c.jugadorAtq);
@@ -159,7 +162,7 @@ public class cAccionAtaqueBasico : cAccionAtaque
             atq = UIInterface.IntFallido(c.jugadorAtq);
         }
         uiC.SetText(UIInterface.NombreDePersonajeEnNegrita(personaje) + " saca " + atq + ", " + resultado + " el ataque contra la guardia de " + UIInterface.IntEnNegrita(c.personajeObjetivo.GetGuardia()) + " de " + UIInterface.NombreDePersonajeEnNegrita(c.personajeObjetivo) + "." + textoAdicional);
-        if (personaje.Drama && !exito) uiC.PedirDrama();
+        if (personaje.Drama && !ataqueExitoso) uiC.PedirDrama();
     }
 
     virtual protected string SuperamosGuardia()
@@ -281,7 +284,7 @@ public class cAccionAtaqueBasico : cAccionAtaque
         {
             int numeroDeDados = 3 + personaje.atr.musculo * personaje.arma.GetMusMult() + personaje.BonusPAtqBporDefB;
             if (c.movAgro) numeroDeDados -= 3;
-            tirada tr = cDieMath.TirarDados(numeroDeDados, personaje.arma.GetDañoExpl());
+            tirada tr = cDieMath.TirarDados(numeroDeDados, personaje.arma.GetDañoExpl(), c.personajeObjetivo.tieneIraDivina);
             c.daño = cDieMath.sumaDe3Mayores(tr);
             uiC.SetText(UIInterface.NombreDePersonajeEnNegrita(personaje) + ", con sus " + personaje.atr.musculo + " en Musculo y multiplicador de " + personaje.arma.GetMusMult() + ", tira " + numeroDeDados + " dados ¡Haciendo " + UIInterface.IntEnNegrita(c.daño) + " de daño!");
             uiC.perCambio = c.personajeObjetivo.nombre;
@@ -330,7 +333,7 @@ public class cAccionAtaqueBasico : cAccionAtaque
     override public int DeterminarNumeroDeDados()
     {
         personaje.totalDadosDelAtacante = personaje.dadosDelAtacantePorPrecavido + personaje.arma.GetDadosDelAtacanteMod();
-        int numeroDeDados = 3 + personaje.atr.maña + personaje.hab.ataqueBasico + personaje.arma.GetBonusAtaque() + personaje.BonusPAtqBporDefB + c.personajeObjetivo.totalDadosDelAtacante;
+        int numeroDeDados = 3 + personaje.atr.maña + personaje.tradicionMarcial[0] + personaje.arma.GetBonusAtaque() + personaje.BonusPAtqBporDefB + c.personajeObjetivo.totalDadosDelAtacante - personaje.impuesto;
         if (c.movAgro) numeroDeDados -= 3;
         return numeroDeDados;
     }
@@ -338,6 +341,8 @@ public class cAccionAtaqueBasico : cAccionAtaque
     override public void ResetState()
     {
         acc_state = AB_DETERMINANDO_DADOS - 1;
+        reroleando = false;
+        Debug.Log("reroll false");
     }
 
     override public void ResetMensaje()

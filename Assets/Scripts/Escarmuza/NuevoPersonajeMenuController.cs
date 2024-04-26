@@ -76,8 +76,8 @@ public class NuevoPersonajeMenuController : MonoBehaviour
         p.atr.brio = vigor.value;
         p.atr.donaire = donaire.value;
 
-        p.hab.ataqueBasico = golpe.value;
-        p.hab.defensaBasica = bloqueo.value;
+        p.tradicionMarcial[0] = golpe.value;
+        p.tradicionMarcial[1] = bloqueo.value;
 
         p.SetAI(ai.value);
         p.SetArma(arma.value);

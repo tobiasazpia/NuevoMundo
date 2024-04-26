@@ -9,7 +9,6 @@ public class cAccionDeImpacto : cAcciones
     public List<cPersonaje> posiblesReacciones;
     public bool mostrarMensaje1;
     public bool mostrarMensaje2;
-
     virtual protected int Defensas(int state)
     {
         if (mostrarMensaje1)

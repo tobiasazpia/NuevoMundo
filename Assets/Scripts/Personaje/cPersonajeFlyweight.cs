@@ -4,14 +4,16 @@ using UnityEngine;
 
 public class cPersonajeFlyweight : MonoBehaviour
 {
+
     public sAtributos atr;
-    public sHabilidades hab;
+    public int[] tradicionMarcial = new int[6];
 
     public string nombre;
     public int iA;
     public int arma;
-    public int tradicionMarcial;
-    public int tradicionArcana;
+    public int maestria;
+    public int tradicionMarcialId = -1;
+    public int tradicionArcanaId = -1;
     public int equipo;
     public bool esMaton;
     public int cantidad;
@@ -35,7 +37,7 @@ public class cPersonajeFlyweight : MonoBehaviour
     public void Copiar(cPersonajeFlyweight aCopiar)
     {
         atr = aCopiar.atr;
-        hab = aCopiar.hab;
+        tradicionMarcial = aCopiar.tradicionMarcial;
         nombre = aCopiar.nombre;
         iA = aCopiar.iA;
         arma = aCopiar.arma;
@@ -54,7 +56,15 @@ public class cPersonajeFlyweight : MonoBehaviour
 
     public int GetGuardia()
     {
-        int guardia = 15 + hab.ataqueBasico + hab.defensaBasica + cArma.GetGuardiaMod(arma);
+        int guardia = 0;
+        int length = 2;
+        if (arma > cArma.FUEGO) length = 6;
+        for (int i = 0; i < length; i++)
+        {
+            guardia += tradicionMarcial[i];
+        }
+        if (arma > cArma.FUEGO) guardia = guardia / 2;
+        guardia += 15 + cArma.GetGuardiaMod(arma);
         if (guardia > 30)
         {
             guardia = 30;

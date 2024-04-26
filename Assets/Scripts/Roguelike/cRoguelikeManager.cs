@@ -63,10 +63,10 @@ public class cRoguelikeManager : MonoBehaviour
         switch (eleccion[2])
         {
             case 0:
-                jugador.hab.ataqueBasico = 1;
+                jugador.tradicionMarcial[0] = 1;
                 break;
             case 1:
-                jugador.hab.defensaBasica = 1;
+                jugador.tradicionMarcial[1] = 1;
                 break;
             default:
                 break;

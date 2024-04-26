@@ -12,6 +12,9 @@ public abstract class cAI : MonoBehaviour
     public const int FULL_DEFENSIVO = 2;      // SE DEFIENDE SI PUEDE GASTAR 1 SOLO DADO
     public const int SMART_DEFENSIVO = 4;           // ATACA SI EL ENEMIGO TIENE 2 HERIDAS DRAMATICAS y NO DEFIENDE >25
     public const int ATACANTE_PRECAVIDO = 5;        // ATACA SI EL ENEMIGO TIENE 2 HERIDAS DRAMATICAS y NO DEFIENDE >25
+    public const int VOLUNTAD_DEL_CREADOR = 6;
+    public const int JAIEIY = 7;
+    public const int JAIEIY_NO_IMP = 8;
 
     public abstract int ElegirAccion(List<cPersonaje> enemigosEnRango, List<int> zonasLimitrofesConEnemigos, int[] zonasLimitrofes, int faseActual);
     public abstract bool Reaccion(int atq);

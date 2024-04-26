@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public abstract class cArma : MonoBehaviour
 {
-    public string nombre;
+    public static string nombre;
     public static string Reglas;
     public static string Descripcion;
 
@@ -34,19 +35,29 @@ public abstract class cArma : MonoBehaviour
     public const int FUEGO = 5;
     // Tradiciones Armas Pesadas
     public const int VOLUNTAD_CREADOR = 6;
+    public const int JAIEIY = 7;
 
     public int valor_AB;
     public int valor_DB;
 
+    // Todo esto va estar en comun en todas las tradiciones, hay que ponerlo en arma
+    public int maestria;
+    public int[] habilidades = new int[6];
+    public string[] habilidadesNombres = new string[4];
+
     public void AgregarAccionablesAlPersonaje()
     {
+        Debug.Log("agregando acciones a " + p.nombre);
         foreach (var item in acciones)
         {
+            Debug.Log("llamando set up de" + item.nombre);
+            //item.SetUp();
             item.personaje = p;
             p.acciones.Add(item);     
         }
         foreach (var item in reacciones)
         {
+            //item.SetUp();
             item.personaje = p;
             p.reacciones.Add(item);
         }
@@ -188,21 +199,34 @@ public abstract class cArma : MonoBehaviour
                 return "Armas fuego";
             case cArma.PELEA:
                 return "Armas pelea";
+            case cArma.VOLUNTAD_CREADOR:
+                return "V. del Creador";
+            case cArma.JAIEIY:
+                return "Jaieiy";
             default:
                 return "Error Return String";
         }
     }
 
-    static public string GetHabilidadString(int code)
+    static public string GetHabilidadString(int tCode, int hCode)
     {
-        switch (code)
+        Debug.Log("GetBaseMatones hab string arma. tcode: " + tCode + ", hcode: " + hCode);
+        switch (tCode)
         {
-            case 0:
-                return "Ataque Básico";
-            case 1:
-                return "Defensa Básica";
+            case cArma.VOLUNTAD_CREADOR:
+                return cLaVoluntadDelCreador.GetNombreDeHabilidad(hCode);
+            case cArma.JAIEIY:
+                return cJaieiy.GetNombreDeHabilidad(hCode);
             default:
-                return "Error Return String";
+                switch (hCode)
+                {
+                    case 0:
+                        return "Ataque Básico";
+                    case 1:
+                        return "Defensa Básica";
+                    default:
+                        return "Habilidad Strign Error";
+                }
         }
     }
 
@@ -229,7 +253,7 @@ public abstract class cArma : MonoBehaviour
         }
     }
 
-    static public int GetMusMult(int armaCode)
+    static public int GetMusMult(int armaCode, int maestria)
     {
         switch (armaCode)
         {
@@ -246,7 +270,8 @@ public abstract class cArma : MonoBehaviour
             case PELEA:
                 return 3;
             case VOLUNTAD_CREADOR:
-                return 4; // en realidad esto solo seria asi si ya fuesemos maestros, tengo que repensar este sistema
+                if(maestria > 4) return 4;
+                return 3;
             default:
                 return 0;
         }
@@ -273,5 +298,75 @@ public abstract class cArma : MonoBehaviour
             default:
                 return 0;
         }
+    }
+
+    static public string GetMaestriaString(int maestria) // esto solo funciona con tradiciones de 6 habilidades (aka, todas las marciales)
+    {
+        switch (maestria)
+        {
+            case 1:
+                return "Principiante";
+            case 2:
+                return "Adepto";
+            case 3:
+                return "Veterano";
+            case 4:
+                return "Experto";
+            case 5:
+                return "Maestro";
+            default:
+                return "Error";
+        }
+    }
+
+    static public int CalcularMaestria(int[] habilidades) // esto solo funciona con tradiciones de 6 habilidades (aka, todas las marciales)
+    {
+        int menorQue2 = 0;
+        int menorQue3 = 0;
+        int menorQue4 = 0;
+        int menorQue5 = 0;
+
+        foreach (var hab in habilidades)
+        {
+            if (hab < 5)
+            {
+                menorQue5++;
+                if (hab < 4)
+                {
+                    menorQue4++;
+                    if (hab < 3)
+                    {
+                        menorQue3++;
+                        if (hab < 2)
+                        {
+                            menorQue2++;
+                            if (hab < 1)
+                            {
+                                return 1;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        if (menorQue3 > 4 || menorQue2 > 2) return 1;    // Al menos 3,3,2,2,1,1   
+        if (menorQue4 > 5 || menorQue3 > 3 || menorQue2 > 1) return 2;    // Al menos 3,3,2,2,1,1   
+        if (menorQue4 > 4 || menorQue3 > 2 || menorQue2 > 0) return 3; // Al menos 4,3,3,2,2,1  
+        if (menorQue5 > 5 || menorQue3 > 0) return 4; // Al menos 4,4,3,3,2,2
+        return 5; // Al menos 5,4,3,3,3,3
+    }
+
+
+    protected void SetUpHabilidades()
+    {
+        for (int i = 0; i < 6; i++)
+        {
+            habilidades[i] = p.tradicionMarcial[i];
+        }
+    }
+
+    static public void FillInfo(VisualElement vE)
+    {
+
     }
 }

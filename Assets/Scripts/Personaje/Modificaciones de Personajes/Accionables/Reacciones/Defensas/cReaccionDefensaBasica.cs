@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class cReaccionDefensaBasica : cReaccionDefensa
 {
@@ -8,7 +9,12 @@ public class cReaccionDefensaBasica : cReaccionDefensa
     void Start()
     {
         SetUp();
-        nombre = "Defensa Basica";
+        consecuencia = "Ganás tantos dados a tu próximo Ataque Básico y a su Daño como a la diferencia entre esta defensa y la dificultad que superó.";
+        reglas = "Defensa Básica: Defensa. ";
+        nombre = "Defensa Básica";
+        var root = GameObject.Find("UI").GetComponent<UIDocument>().rootVisualElement;
+        boton = root.Q<Button>("ButtonDefender");
+        icon = c.GetComponent<cIconos>().DB;
     }
 
     protected override void Tirando()
@@ -23,7 +29,8 @@ public class cReaccionDefensaBasica : cReaccionDefensa
         string curar = "";
         if (exito)
         {
-            
+            PlaySoundEffect();
+
             int dif = 0;
             if (c.atacando) { 
                 dif = defensa - c.jugadorAtq;
@@ -65,7 +72,7 @@ public class cReaccionDefensaBasica : cReaccionDefensa
 
     override public int DeterminarNumeroDeDados()
     {
-        int numeroDeDados = 3 + personaje.atr.ingenio + personaje.hab.defensaBasica;
+        int numeroDeDados = 3 + personaje.atr.ingenio + personaje.tradicionMarcial[1] - personaje.impuesto;
 
         if (!c.atacando)
         {

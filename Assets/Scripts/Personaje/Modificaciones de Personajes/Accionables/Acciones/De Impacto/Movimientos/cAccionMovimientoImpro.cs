@@ -8,10 +8,13 @@ public class cAccionMovimientoImpro : cAccionMovimientoAgresivo
     void Start()
     {
         GetObjets();
-        nombre = "Movimiento Agresivo Improvisado";
+        nombre = "Carga Improvisada";
+        consecuencia = "Despues de moverte podes realizar un Ataque Básico Improvisado tirando -3d para acertar y para el Daño.";
+        reglas = nombre + ": Movimiento. " + consecuencia;
         categoria = cAcciones.AC_CAT_MOVIMIENTO;
         var root = GameObject.Find("UI").GetComponent<UIDocument>().rootVisualElement;
         boton = root.Q<Button>("ButtonMoverImpro");
+        icon = c.GetComponent<cIconos>().Improvisada;
     }
 
     override public void Defensas()

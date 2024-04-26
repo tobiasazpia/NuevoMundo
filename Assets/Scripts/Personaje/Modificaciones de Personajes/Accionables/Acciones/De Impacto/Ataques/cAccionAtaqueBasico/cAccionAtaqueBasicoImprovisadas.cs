@@ -8,10 +8,13 @@ public class cAccionAtaqueBasicoImprovisadas : cAccionAtaqueBasico
     new void Start()
     {
         GetObjets();
-        nombre = "Ataque Basico Improvisado";
+        nombre = "Ataque Básico Improvisado";
+        consecuencia = "Tratás de dañar al oponente con tu Arma Improvisada.";
+        reglas = nombre + ": Ataque. " + consecuencia;
         categoria = cAcciones.AC_CAT_MARCIAL;
         var root = GameObject.Find("UI").GetComponent<UIDocument>().rootVisualElement;
         boton = root.Q<Button>("ButtonAtacarImpro");
+        icon = c.GetComponent<cIconos>().Improvisada;
     }
 
     override public int DeterminarNumeroDeDados()
@@ -41,9 +44,9 @@ public class cAccionAtaqueBasicoImprovisadas : cAccionAtaqueBasico
         c.jugadorAtq = cDieMath.sumaDe3Mayores(tr);
         string resultado;
         string pierdeArma = "";
-        bool exito = c.jugadorAtq >= c.personajeObjetivo.GetGuardia();
+        ataqueExitoso = c.jugadorAtq >= c.personajeObjetivo.GetGuardia();
         string atq;
-        if (exito)
+        if (ataqueExitoso)
         {
             atq = UIInterface.IntExitoso(c.jugadorAtq);
             resultado = "acierta";
@@ -63,7 +66,7 @@ public class cAccionAtaqueBasicoImprovisadas : cAccionAtaqueBasico
             acc_state = AB_TERMINADO - 1;
         }
         uiC.SetText(UIInterface.NombreDePersonajeEnNegrita(c.personajeActivo) + " saca " + atq + ", " + resultado + " el ataque contra la guardia de " + UIInterface.IntEnNegrita(c.personajeObjetivo.GetGuardia()) + " de " + UIInterface.NombreDePersonajeEnNegrita(c.personajeObjetivo) + "." + pierdeArma);
-        if (personaje.Drama && !exito) uiC.PedirDrama();
+        if (personaje.Drama && !ataqueExitoso) uiC.PedirDrama();
     }
 
     override protected void DeterminadoDados()

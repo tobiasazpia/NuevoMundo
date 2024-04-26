@@ -40,6 +40,11 @@ public class cMatones : cPersonaje
 
     public void CaenMatones(int atq,int def, int extraNecesario)
     {
+        if (c.personajeActivo.arma is cJaieiy)
+        {
+            extraNecesario -= (c.personajeActivo.arma as cJaieiy).DadosNervios;
+            (c.personajeActivo.arma as cJaieiy).ResetNervios();
+        }
         int muertos = 1;
         int dif = atq - Mathf.Max(GetGuardia(),def);
         muertos += dif / extraNecesario;
@@ -52,16 +57,46 @@ public class cMatones : cPersonaje
         if (dif >= extraNecesario)
         {
            text += UIInterface.IntExitoso(dif) + ", asi que se lleva a multiples enemigos! Caen " + UIInterface.IntEnNegrita(Mathf.Min(muertos,cantPrevia)) + " matones";
+            if(Cantidad == 0) c.effect.clip = c.effectMuerte;
+            else c.effect.clip = c.effectHeridaHard;
         }
         else
         {
             text += UIInterface.IntFallido(dif) + ", asi que se lleva a un maton a la tumba";
+            if (Cantidad == 0) c.effect.clip = c.effectMuerte;
+            else c.effect.clip = c.effectHeridaSoft;
         }
+
         if (tieneTerror)
         {
-            text += "  y " + UIInterface.IntEnNegrita(1) + " más por Terror de Dios,";
+            muertos++;
+            text += " y " + UIInterface.IntEnNegrita(1) + " más por Terror de Dios,";
             Cantidad = Mathf.Max(Cantidad-1, 0);
         }
+        if (tieneIraDivina)
+        {
+            muertos++;
+            text += " y " + UIInterface.IntEnNegrita(1) + " más por Ira Divina";
+            Cantidad = Mathf.Max(Cantidad - 1, 0);
+        }
+        if (muertos > 1 && (tieneIraDivina || tieneTerror)) {
+            foreach (var item in c.personajes)
+            {
+                // Esto funciona raro si hay 2 personajes con la voluntad del creador del mismo lado, como que las habilidades de los dos trigerean tambien la sed de sangre del otro. esta buneo esto?
+                if(item.arma is cLaVoluntadDelCreador && c.personajeActivo.equipo == item.equipo)
+                {
+                    Debug.Log("sum sed de sangre");
+                    c.uiC.perCambio = item.nombre;
+                    (item.arma as cLaVoluntadDelCreador).DadosDeSedDeSangre += item.tradicionMarcial[2];
+                }
+            }    
+        }
+
+        if (Cantidad == 0) c.effect.clip = c.effectMuerte;
+        else if (muertos > 1) c.effect.clip = c.effectHeridaHard;
+        else c.effect.clip = c.effectHeridaSoft;
+        c.effect.Play();
+
         text += " dejando " + (c.personajeObjetivo as cMatones).Cantidad+ " en pie.";
         uiC.SetText(text);
     }
@@ -70,7 +105,6 @@ public class cMatones : cPersonaje
     {
         if (Cantidad <= 0)
         {
-            //HAY QUE PONER UN MENSAJE
             uiC.SetText(nombre + " ya no tiene matones en pie! Quedan fuera del combate");
             c.RemoverPersonaje(this);
             uiC.ActualizarIniciativa(c.personajes);
@@ -86,7 +120,7 @@ public class cMatones : cPersonaje
     }
     public override void CalcularGuardia()
     {
-        guardia = 15 + hab.ataqueBasico + hab.defensaBasica + arma.GetGuardiaMod() + modGuardiaDeMaton;
+        guardia = 15 + tradicionMarcial[0] + tradicionMarcial[1] + arma.GetGuardiaMod() + modGuardiaDeMaton;
         if (guardia > 30)
         {
             guardia = 30;

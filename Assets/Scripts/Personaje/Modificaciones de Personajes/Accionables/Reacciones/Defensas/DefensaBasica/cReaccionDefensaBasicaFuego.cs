@@ -85,6 +85,6 @@ public class cReaccionDefensaBasicaFuego : cReaccionDefensaBasica
             }
             uiC.SetText(UIInterface.NombreDePersonajeEnNegrita(personaje) + " saca " + def + ", " + resultado + " el movimiento de " + UIInterface.NombreDePersonajeEnNegrita(c.personajeActivo) + "." + arma);
         }
-        if (personaje.Drama && !exito) uiC.PedirDrama();
+        if (personaje.Drama && !exito) { uiC.PedirDrama(); pidiendoDrama = true; }
     }
 }

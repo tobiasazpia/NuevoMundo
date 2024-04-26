@@ -9,6 +9,11 @@ public struct sAccion
     public int fase;
 }
 
+public struct sArena
+{
+    public string[] zonas;
+}
+
 public class cCombate : MonoBehaviour
 {
     /////Constantes
@@ -65,8 +70,6 @@ public class cCombate : MonoBehaviour
 
     public PlayerInput py;
     public bool pause = false;
-
-    public AudioSource music;
 
     //State ID
     public const int EMPEZAR = 0;
@@ -137,6 +140,22 @@ public class cCombate : MonoBehaviour
     public bool enCombate = false;
 
 
+    public AudioSource music;
+    public AudioClip musicaAccion;
+    public AudioClip musicaMenu;
+    public AudioClip musicaWin;
+    public AudioClip musicaDefeat;
+
+    public AudioSource effect;
+    public AudioClip effectStart;
+    public AudioClip effectHeridaHard;
+    public AudioClip effectHeridaSoft;
+    public AudioClip effectMuerte;
+    public AudioClip effectDefensa;
+    public AudioClip effectRun;
+    public AudioClip effectWalk;
+
+    public Camera cam;
 
     private void OnEnable()
     {
@@ -156,6 +175,18 @@ public class cCombate : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!music.isPlaying)
+        {
+            music.clip = musicaMenu;
+            music.loop = true;
+            music.Play();
+        }
+
+        if (py.actions["Deselect"].WasPressedThisFrame())
+        {
+            uiC.Deseleccionar();
+        }
+
         if (enCombate)
         {
             if (!pause)
@@ -164,11 +195,6 @@ public class cCombate : MonoBehaviour
                 if (py.actions["OK"].WasPressedThisFrame() && !esperandoObjetivo && !esperandoZona && esperandoOK)
                 {
                     AvanzarCombate();
-                }
-
-                else if (py.actions["Deselect"].WasPressedThisFrame())
-                {
-                    uiC.Deseleccionar();
                 }
 
                 else if (py.actions["Pause"].WasPressedThisFrame())
@@ -226,6 +252,12 @@ public class cCombate : MonoBehaviour
                 TerminarCombate();
                 break;
             default:
+                music.Stop();
+                music.loop = false;
+                if (equipoVictorioso == 1) music.clip = musicaWin;
+                else music.clip = musicaDefeat;
+                music.Play();
+
                 if (esRoguelike)
                 {
                     if (equipoVictorioso == 1)
@@ -247,7 +279,7 @@ public class cCombate : MonoBehaviour
                 LimpiarCombate();
                 if (esRoguelike)
                 {
-                    if (equipoVictorioso == 1)
+                    if (equipoVictorioso == 1 && rM.nivel != cRoguelikeCombate.FINAL_COMBAT)
                     {
                         UIInterface.GoUpgrade(); //ganamos, vamos a upgrade
                         rU.LetsUpgrade();
@@ -256,7 +288,7 @@ public class cCombate : MonoBehaviour
                     {
                         uiC.iniciativa.Clear();
                         UIInterface.GoRoguelikeEnd(); //perdimos, vamos a rogulike ini
-                        rM.uiRE.fillText(rM.nivel);
+                        rM.uiRE.fillText(rM.nivel,equipoVictorioso);
                         rM.nivel = 1;
                         rM.party.Clear();
                     }
@@ -317,6 +349,11 @@ public class cCombate : MonoBehaviour
         stateID = TIRANDO_INICIATIVA;
         esperarA = true;
         uiC.SetText("¡Nueva ronda!");
+
+        foreach (var item in personajes)
+        {
+            item.ResetRonda();
+        }
 
         EsperandoOkOn(true);
     }
@@ -466,6 +503,10 @@ public class cCombate : MonoBehaviour
             }
             else
             {
+                foreach (var item in personajes)
+                {
+                    if (item.arma is cJaieiy && item.arma.maestria > 4) (item.arma as cJaieiy).DadosMaestro = Mathf.Max(0, faseActual - 5);
+                }
                 EsperandoOkOn(true);
                 uiC.IrAFase(faseActual);
                 accionesActivas = new List<sAccion>();
@@ -507,10 +548,13 @@ public class cCombate : MonoBehaviour
 
     public void PreguntarAccion()
     {
+        Debug.Log("preg accion");
+        Debug.Log("Ira Divina");    
         //Pregunta a la IA o jugador como van a usar su accion o si la van a guardar
         //Si la van a usar nos manda a ResolverAccion
         //Si no nos manda a BuscarAccion
         BuscarEnemigosEnRango();
+        Debug.Log("Accion Activa" + accionActiva);
         if (personajeActivo.ai is null) // es personaje jugable
         {
             switch (accionActiva)
@@ -554,6 +598,14 @@ public class cCombate : MonoBehaviour
                     movAgro = true;
                     PedirObjetivoDeMovimiento();
                     break;
+                case cPersonaje.AC_IRADIVINA:
+                    if (enemigosEnRango.Count > 1) PedirObjetivoDeAtaque();
+                    else Ataque(enemigosEnRango[0]);
+                    break;
+                case cPersonaje.AC_IMPONER:
+                    if (enemigosEnRango.Count > 1) PedirObjetivoDeAtaque();
+                    else Ataque(enemigosEnRango[0]);
+                    break;
                 default:
                     break;
             }
@@ -584,11 +636,11 @@ public class cCombate : MonoBehaviour
         switch (numero)
         {
             case cPersonaje.AC_ATACAR:
-                return "Ataque Basico";
+                return "Ataque Básico";
             case cPersonaje.AC_MOVPREC:
-                return "Movimiento Precavido";
+                return "Escabullirse";
             case cPersonaje.AC_MOVAGRE:
-                return "Movimiento Agresivo";
+                return "Carga";
             case cPersonaje.AC_GUARDAR:
                 return "Guardar";
             case cPersonaje.AC_ENCONTRAR:
@@ -596,9 +648,13 @@ public class cCombate : MonoBehaviour
             case cPersonaje.AC_RECARGAR:
                 return "Recargar";
             case cPersonaje.AC_ATACARIMPRO:
-                return "Ataque Basico Improvisado";
+                return "Ataque Básico Improvisado";
             case cPersonaje.AC_MOVIMPRO:
                 return "Movimiento Agresivo Improvisado";
+            case cPersonaje.AC_IRADIVINA:
+                return "Ira Divina";
+            case cPersonaje.AC_IMPONER:
+                return "Imponer";
             default:
                 return "ERROR";
         }
@@ -606,21 +662,22 @@ public class cCombate : MonoBehaviour
 
     public void ResolverReaccion()
     {
-        Debug.Log("Resolver");
         personajeInterversor.Reaccionar(GetNombreDeReaccion(reaccionActiva));
     }
 
     public string GetNombreDeReaccion(int numero)
     {
-        Debug.Log("NombreDeReacc");
+        Debug.Log(numero);
         switch (numero)
         {
             case cPersonaje.DB_DefensaBasica:
-                return "Defensa Basica";
+                return "Defensa Básica";
             case cPersonaje.DB_DefensaBasicaImpro:
-                return "Defensa Basica Improvisada";
+                return "Defensa Básica Improvisada";
             case cPersonaje.DB_DefensaTerrorDeDios:
                 return "Terror de Dios";
+            case cPersonaje.DB_NerviosDeAcero:
+                return "Nervios de Acero";
             default:
                 return "ERROR";
         }
@@ -636,12 +693,11 @@ public class cCombate : MonoBehaviour
         {
             if (personajeInterversor.ai.Reaccion(jugadorAtq))
             {
-                reaccionActiva = cPersonaje.DB_DefensaBasica;
-                if (personajeInterversor.arma is cArmasPelea)
+                if (personajeInterversor.arma is cArmasPelea && reaccionActiva == cPersonaje.DB_DefensaBasica)
                 {
                     if(personajeInterversor.GetZonaActual() != personajeActivo.GetZonaActual() && personajeInterversor.GetZonaActual() != personajeObjetivo.GetZonaActual())
                     {
-                        reaccionActiva = cPersonaje.DB_DefensaBasicaImpro;
+                        reaccionActiva = cPersonaje.DB_DefensaBasicaImpro;                      
                     }
                 }
                 uiC.SetText("¡" + UIInterface.NombreDePersonajeEnNegrita(personajeInterversor) + " va a intervenir!");
@@ -673,6 +729,9 @@ public class cCombate : MonoBehaviour
 
     public void TerminarCombate()
     {
+        //music.Stop();
+        //music.clip = musicaMenu;
+        //music.Play();
         cEventManager.StartFinDeRondaEvent();
         equipoVictorioso = -1;
         foreach (var per in personajes)
@@ -939,13 +998,27 @@ public class cCombate : MonoBehaviour
         return false;
     }
 
-    void SetUpZonas(string[] zCode)
+    void SetUpZonas(string[][] allz)
     {
+        string[] zCode = allz[Random.Range(0, 3)];
+
+        //Ok, este es el plan:
+        /*Vamos a tener un punto "central", digamosle C, y countruir el cambate alredededor de el
+         con solo una zona, la zona va en ese punto. con 2 zonas, una va en C-5 y la otra en C+5
+        con 3, c-10, c y c+10. con 4, c-15, c-5, c+5, c+15. con 5, c-20, c-10, c, c+20,c+20
+        osea, empezamos en c-5*(Zonas-1), y cada 10 ponemos una
+        depues alejamos la camara X*Zonas. capaz tambien la giramos?
+        c = 0*/
+
+        //Necesitariamos.. 1 de 2
+        /*O icnluir con la data de las zonas una ubicacion, como para ubicarlas en el game space
+         o tener un sistema, que a partir de las zonas limitrofes determine donde ubicarlas*/
+
         for (int i = 0; i < zCode.Length; i++)
         {
             string[] words = zCode[i].Split('_');
 
-            GameObject temp = Instantiate(zonaPrefab, new Vector3((i * 10) - 10, -1, 0), Quaternion.identity);
+            GameObject temp = Instantiate(zonaPrefab, new Vector3( (i * 10) - 5 * (zCode.Length-1), -1, 0), Quaternion.identity);
             temp.transform.parent = this.transform;
             zonas.Add(temp.GetComponent<cZona>());
             zonas[i].index = int.Parse(words[0]);
@@ -969,8 +1042,16 @@ public class cCombate : MonoBehaviour
     //Mas adelante tambien van a pasar las zonas que va a tener este
     public void NuevoCombate(List<cPersonajeFlyweight> combatientes)
     {
+        music.Stop();
+        music.clip = musicaAccion;
+        music.loop = true;
+        music.Play();
+
+        effect.clip = effectStart;
+        effect.Play();
+
         enCombate = true;
-        InstanciarZonas(); //Funcion temporal, mientras no estemos pasando dinamicamente zonas distintas para cada combate
+        InstanciarZonas(); //Elige una de las distribuciones de zonas pre diseñadas
         InstanciarCombatientes(combatientes); // Trasnforma a los flywight en personajes posta
 
         EsperandoOkOn(true); // Esto pone el flag para que update empieza a manejar el input, y si el  jugador esta listo para la proxima cosa
@@ -990,21 +1071,36 @@ public class cCombate : MonoBehaviour
 
     public void EsperandoOkOn(bool on)
     {
-        //Me parece que le problema es esto...
-        //voy a probar de remover esteo de switchear entre action maps
-        // y que qeude que durante combate hay 3 acciones, avanzar (z / barra), seleccionar (click iz) y desseleccioanr (click der)
         esperandoOK = on;
-        //if (on) py.SwitchCurrentActionMap("EsperandoOk");
-        //else py.SwitchCurrentActionMap("EsperandoSelect");
     }
 
     public void InstanciarZonas()
     {
         //Zonas Hardcodeadas
-        string[] zCode = {"0_Patio_1_1_2_1_2",
-                          "1_Escaleras_2_0_2_2_0_2",
-                          "2_Terraza_1_1_2_0_1",};
+        string[][] zCode = new string[3][];
+        zCode[0] = new string[3];
+        zCode[0][0] = "0_Patio_1_1_2_1_2";
+        zCode[0][1] = "1_Escaleras_2_0_2_2_0_2";
+        zCode[0][2] = "2_Terraza_1_1_2_0_1";
+
+        zCode[1] = new string[1];
+        zCode[1][0] = "0_Arena_0_0";
+
+        zCode[2] = new string[5];
+        zCode[2][0] = "0_Campo Izquierdo_1_1_4_1_2_3_4";
+        zCode[2][1] = "1_Covertura Izquierda_2_0_2_4_0_2_3_4";
+        zCode[2][2] = "2_Campo Central_2_1_3_4_0_1_3_4";
+        zCode[2][3] = "3_Covertura Derecha_2_2_4_4_0_1_2_4";
+        zCode[2][4] = "4_Campo Derecho_1_3_4_0_1_2_3";
+
         SetUpZonas(zCode);
+
+        cam.transform.position = new Vector3(cam.transform.position.x, 15 + zonas.Count * 2, -22 -zonas.Count * 2);
+
+        //Lo que vamos a necesitar aca es un sistema de movimiento de camara
+        /*es decir que el jugador mpueda mover y zoomearla camara. sin girar, a lo rts.
+         pero que tambien, el juego lleve la camara a quien sea que este actuando o reaccionando
+        ver gameplay de xcom y baldurs gate a ver si es asi como se hace?*/
     }
 
     public void InstanciarCombatientes(List<cPersonajeFlyweight> combatientes)
@@ -1028,8 +1124,7 @@ public class cCombate : MonoBehaviour
                 personajes.Add(nuevoPer.GetComponent<cPersonaje>().NuevoPersonaje(combatientes[i]));
                 personajes[i].OnHeridasChange += uiC.HeridasChangeHandler;
                 personajes[i].OnDañoChange += uiC.DañoChangeHandler;
-                personajes[i].OnDramaChange += uiC.DramaChangeHandler;
-
+                personajes[i].OnDramaChange += uiC.DramaChangeHandler;               
             }
             personajes[i].OnABBonusChange += uiC.ABBonusChangeChangeHandler;    
             nuevoPer.transform.parent = this.transform;
@@ -1056,13 +1151,33 @@ public class cCombate : MonoBehaviour
                 default:
                     break;
             }
-            personajes[i].SetZonaActual(Random.Range(0, 3));  
-            personajes[i].transform.position = new Vector3(personajes[i].GetZonaActual() * 10 - 10, 0, i * 4.5f - 12);
+            personajes[i].SetZonaActual(Random.Range(0, zonas.Count));  
+            personajes[i].transform.position = new Vector3(personajes[i].GetZonaActual() * 10 - (zonas.Count-1)*5, 0, i * 4.5f - 12);
+
+            //
+            /*Ok, pocision de personajes en zonas
+             vamos a cambiar las zonas para que sean circulares/cuadradas
+            y por ahora distribuir los personajes en ellas dependiendo de la cantaidad combatientes que tengas
+            1, 1 en el centro
+            2, ambos desplazados N y -N en el eje X
+            3, traingulo
+            4, rombo
+            5, pentagono
+            6, hexagono
+            como para transmitir que todos estan en rango de todos
+            so, pos zona central por ahora =  Zona* 10 - (zonas.Count-1)*5 
+            vamos a tener que hacer un sistema que dsitribuya las zonas de acuerdo a sus adyacentes, y que eso decida el X y Z de las zonas
+            el Y va a ser 0, salvo para las altas que va a ser... 5?*/
+            //
 
             if (combatientes[i].iA != cAI.PLAYER_CONTROLLED) personajes[i].Drama = false;
             else personajes[i].Drama = combatientes[i].drama;
             personajes[i].SetAI(combatientes[i].iA);
             personajes[i].SetArma(combatientes[i].arma);
+            if (personajes[i].arma is cLaVoluntadDelCreador)
+            {
+            (personajes[i].arma as cLaVoluntadDelCreador).OnDadosDeSedDeSangreChange += uiC.DadosDeSedDeSangreChangeHandler;
+            }
             personajes[i].Heridas = combatientes[i].heridas;
             if (personajes[i].Heridas > 2) personajes[i].vivo = false;
         }
@@ -1128,6 +1243,7 @@ public class cCombate : MonoBehaviour
 
     public void Ataque(cPersonaje objetivo)
     {
+        Debug.Log("Ataque");
         uiC.HideAtras();
         esperandoObjetivo = false;
         personajeObjetivo = objetivo;

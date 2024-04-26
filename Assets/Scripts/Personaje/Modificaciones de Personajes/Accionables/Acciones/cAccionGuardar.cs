@@ -10,9 +10,12 @@ public class cAccionGuardar : cAcciones
     {
         GetObjets();
         nombre = "Guardar";
+        consecuencia = "Reservas tu acción para actuar en el futuro o intervenir en las acciones de otros.";
+        reglas = nombre + ": Especial sin tirar. " + consecuencia;
         categoria = cAcciones.AC_CAT_GUARDAR;
         var root = GameObject.Find("UI").GetComponent<UIDocument>().rootVisualElement;
         boton = root.Q<Button>("ButtonGuardar");
+        icon = c.GetComponent<cIconos>().Guardar;
         esLegal = true;
     }
 

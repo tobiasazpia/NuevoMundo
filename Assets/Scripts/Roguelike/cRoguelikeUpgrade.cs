@@ -25,7 +25,7 @@ public class cRoguelikeUpgrade : MonoBehaviour
     bool recurringEnSubtipo;
     bool recurringDENUEVOEnSubtipo;
 
-    cRoguelikeUpgradeData[] upgrades = new cRoguelikeUpgradeData[3];
+   public cRoguelikeUpgradeData[] upgrades = new cRoguelikeUpgradeData[3];
 
     List<UpgradesHechas> uHechas = new List<UpgradesHechas>();
 
@@ -134,19 +134,22 @@ public class cRoguelikeUpgrade : MonoBehaviour
             }
         }
         //cada 3 las tres son triple upgrade
-        else if (hayEspeacioParaTriples && !alguienTieneDosHeridas && Random.Range(0, 3) == 0)
+        else if (hayEspeacioParaTriples && !alguienTieneDosHeridas && Random.Range(0, 4) == 0)
         {
-            Debug.Log("todas triples");
+            Debug.Log("triples");
             for (int i = 0; i < 3; i++)
             {
                 upgrades[i].tipoDeUpgrade = cRoguelikeUpgradeData.RU_TRIPLE;
+            }
+            for (int i = 0; i < 3; i++)
+            {
                 DefinirUpgrade(i, 3);
                 uHechas[upgrades[i].objetivoDeUpgrade].upgradeHabs = 0;
                 uHechas[upgrades[i].objetivoDeUpgrade].upgradeAtrs = 0;
                 CambiarTexto(i, upgrades[i]);
             }
         }
-        else if (((alguienNecesitaDrama && alguienTieneAlgunaHerida) || alguienTieneDosHeridas) && hayEspacioParaDobles && Random.Range(0, 3) == 0)
+        else if (((alguienNecesitaDrama && alguienTieneAlgunaHerida) || alguienTieneDosHeridas) && hayEspacioParaDobles && Random.Range(0, 5) == 0)
         {
             Debug.Log("sombraaa");
             for (int i = 0; i < 3; i++)
@@ -167,10 +170,36 @@ public class cRoguelikeUpgrade : MonoBehaviour
                 upgrades[i].tipoDeUpgrade = cRoguelikeUpgradeData.RU_SIMPLE;
             }
 
+            bool hayConPesadas = false;
+            bool nadieTieneVoluntad = true;
+            bool nadieTieneJaieiy = true;
+            foreach (var item in rM.party)
+            {
+                if (item.arma == cArma.PESADAS) { hayConPesadas = true; Debug.Log("haypesadas"); }
+                if (item.tradicionMarcialId == 1)
+                {
+                    nadieTieneVoluntad = false; Debug.Log("ya ha yvoluntad ");
+                }
+                else if (item.tradicionMarcialId == 2)
+                {
+                    nadieTieneJaieiy = false; Debug.Log("ya ha yvoluntad ");
+                }
+            }
             if (Random.Range(0, 2) == 0 && hayEspacioParaUnaDoble)
             {
                 upgrades[0].tipoDeUpgrade = cRoguelikeUpgradeData.RU_DOBLE;
                 Debug.Log(" + DOS");
+            }
+            else if (hayConPesadas &&( nadieTieneVoluntad || nadieTieneJaieiy ) && Random.Range(0, 4) == 0)
+            {
+                Debug.Log("up marcail");
+                upgrades[0].tipoDeUpgrade = cRoguelikeUpgradeData.RU_MARCIAL;
+                upgrades[0].upgradesList.Add(new sSingleUpgrade());
+                if (nadieTieneVoluntad || nadieTieneJaieiy) upgrades[0].upgradesList[0].elementoAUpgradear = Random.Range(0, 2);
+                else if (nadieTieneVoluntad) upgrades[0].upgradesList[0].elementoAUpgradear = 0;
+                else upgrades[0].upgradesList[0].elementoAUpgradear = 1;
+                Debug.Log(upgrades[0].upgradesList[0].elementoAUpgradear);
+                ElegirObjetivoDeMarcial(0);
             }
 
             if ((alguienNecesitaDrama && alguienTieneAlgunaHerida) || alguienTieneDosHeridas)
@@ -191,7 +220,7 @@ public class cRoguelikeUpgrade : MonoBehaviour
                 if (upgrades[i].tipoDeUpgrade == cRoguelikeUpgradeData.RU_DOBLE) amount = 2;
                 else amount = 1;
 
-                if (upgrades[i].tipoDeUpgrade != cRoguelikeUpgradeData.RU_DESCANSO_COMPLETO) DefinirUpgrade(i, amount);
+                if (upgrades[i].tipoDeUpgrade != cRoguelikeUpgradeData.RU_DESCANSO_COMPLETO && upgrades[i].tipoDeUpgrade != cRoguelikeUpgradeData.RU_MARCIAL) DefinirUpgrade(i, amount);
                 CambiarTexto(i, upgrades[i]);
             }
         }
@@ -219,8 +248,15 @@ public class cRoguelikeUpgrade : MonoBehaviour
         if (per.atr.ingenio < maxAtr) espaciosEncontrados++;
         if (per.atr.donaire < maxAtr) espaciosEncontrados++;
 
-        if (per.hab.ataqueBasico < maxHabilidad) espaciosEncontrados++;
-        if (per.hab.defensaBasica < maxHabilidad) espaciosEncontrados++;
+        if (per.tradicionMarcial[0] < maxHabilidad) espaciosEncontrados++;
+        if (per.tradicionMarcial[1] < maxHabilidad) espaciosEncontrados++;
+        if (per.tradicionMarcialId > cArma.FUEGO)
+        {
+            if (per.tradicionMarcial[2] < maxHabilidad) espaciosEncontrados++;
+            if (per.tradicionMarcial[3] < maxHabilidad) espaciosEncontrados++;
+            if (per.tradicionMarcial[4] < maxHabilidad) espaciosEncontrados++;
+            if (per.tradicionMarcial[5] < maxHabilidad) espaciosEncontrados++;
+        }
 
         return (espaciosEncontrados >= espaciosNecesarios);
     }
@@ -240,8 +276,15 @@ public class cRoguelikeUpgrade : MonoBehaviour
             if (per.atr.ingenio < maxAtr) espaciosEncontrados++;
             if (per.atr.donaire < maxAtr) espaciosEncontrados++;
 
-            if (per.hab.ataqueBasico < maxHabilidad) espaciosEncontrados++;
-            if (per.hab.defensaBasica < maxHabilidad) espaciosEncontrados++;
+            if (per.tradicionMarcial[0] < maxHabilidad) espaciosEncontrados++;
+            if (per.tradicionMarcial[1] < maxHabilidad) espaciosEncontrados++;
+            if (per.tradicionMarcialId > cArma.FUEGO)
+            {
+                if (per.tradicionMarcial[2] < maxHabilidad) espaciosEncontrados++;
+                if (per.tradicionMarcial[3] < maxHabilidad) espaciosEncontrados++;
+                if (per.tradicionMarcial[4] < maxHabilidad) espaciosEncontrados++;
+                if (per.tradicionMarcial[5] < maxHabilidad) espaciosEncontrados++;
+            }
         }
 
         return (espaciosEncontrados >= espaciosNecesarios);
@@ -264,10 +307,16 @@ public class cRoguelikeUpgrade : MonoBehaviour
             if (per.atr.ingenio < maxAtr) espaciosEncontrados++;
             if (per.atr.donaire < maxAtr) espaciosEncontrados++;
 
-            if (per.hab.ataqueBasico < maxHabilidad) espaciosEncontrados++;
-            if (per.hab.defensaBasica < maxHabilidad) espaciosEncontrados++;
-
-            if (espaciosEncontrados < espaciosNecesarios) return false;
+            if (per.tradicionMarcial[0] < maxHabilidad) espaciosEncontrados++;
+            if (per.tradicionMarcial[1] < maxHabilidad) espaciosEncontrados++;
+            if (per.tradicionMarcialId > cArma.FUEGO)
+            {
+                if (per.tradicionMarcial[2] < maxHabilidad) espaciosEncontrados++;
+                if (per.tradicionMarcial[3] < maxHabilidad) espaciosEncontrados++;
+                if (per.tradicionMarcial[4] < maxHabilidad) espaciosEncontrados++;
+                if (per.tradicionMarcial[5] < maxHabilidad) espaciosEncontrados++;
+            }
+                if (espaciosEncontrados < espaciosNecesarios) return false;
         }
 
         return true;
@@ -299,10 +348,26 @@ public class cRoguelikeUpgrade : MonoBehaviour
         }
     }
 
+    void ElegirObjetivoDeMarcial(int slot)
+    {
+        int objetivo = 0;
+        int guardia = 31;
+        for (int i = 0; i < rM.party.Count; i++)
+        {
+            if(rM.party[i].arma == cArma.PESADAS && rM.party[i].GetGuardia() < guardia)
+            {
+                guardia = rM.party[i].GetGuardia();
+                objetivo = i;
+            } 
+        }
+        upgrades[slot].objetivoDeUpgrade = objetivo;
+    }
+
     void ElegirObjetivo(int slot)
     {
         Debug.Log("Eligiendo Objetivo, slot: " + slot);
-        int max = 20;
+        int max;
+        List<int> maxs = new List<int>();
         if (rM.party.Count == 1) upgrades[slot].objetivoDeUpgrade = 0; // Si hay un solo P, el objetivo es el. si no...
         else
         {
@@ -311,6 +376,9 @@ public class cRoguelikeUpgrade : MonoBehaviour
 
             for (int i = 0; i < rM.party.Count; i++)
             {
+                if (rM.party[i].arma > cArma.FUEGO) max = 40;
+                else max = 20;
+                maxs.Add(max);
                 count = CalcularPuntosEnAtributos(rM.party[i]);
                 count += CalcularPuntosEnHabilidades(rM.party[i]);
                 Debug.Log("tipo de upgrae: " + upgrades[slot].tipoDeUpgrade);
@@ -334,7 +402,7 @@ public class cRoguelikeUpgrade : MonoBehaviour
                 }
             }
 
-            List<int> weightedPoints = WeightearElementos(countPoints, max);
+            List<int> weightedPoints = WeightearElementos(countPoints, maxs);
             //Debug.Log("Hasta este, priemr per " + weightedPoints[0]);
             //Debug.Log("Hasta este, segundo per: " + (weightedPoints[0] + weightedPoints[1]) + " despues 3er per");
             if (weightedPoints.Count > 0)
@@ -348,10 +416,14 @@ public class cRoguelikeUpgrade : MonoBehaviour
     void ElegirSubtipo(int slot, int subUpgradeNum)
     {
         List<int> counts = new List<int>();
+        List<int> maxs = new List<int>();
         //estos cosnt por ahroa estan hardcodeados, hab total va a cambiar, y por lo tanto el max tambien
         //cuando haya tradiciones en el jueego
-        const int max = 10;
-        const int habTotal = 2;
+        const int atrMax = 10;
+        int habMax = 10;
+        if (rM.party[upgrades[slot].objetivoDeUpgrade].arma > cArma.FUEGO) habMax = 30;
+        int habTotal = 2;
+        if (rM.party[upgrades[slot].objetivoDeUpgrade].arma > cArma.FUEGO) habTotal = 6;
         const int atrTotal = 5;
         int objetivo = upgrades[slot].objetivoDeUpgrade;
         if (objetivo == -1)
@@ -364,13 +436,15 @@ public class cRoguelikeUpgrade : MonoBehaviour
         float upgradeAtrs = uHechas[objetivo].upgradeAtrs;
 
         int sum = CalcularPuntosEnHabilidades(rM.party[upgrades[slot].objetivoDeUpgrade]);
-        counts.Add(sum + Mathf.FloorToInt((max - sum) * (upgradeHabs / habTotal)));
+        counts.Add(sum + Mathf.FloorToInt((habMax - sum) * (upgradeHabs / habTotal)));
+        maxs.Add(habMax);
 
         sum = CalcularPuntosEnAtributos(rM.party[upgrades[slot].objetivoDeUpgrade]);
-        counts.Add(sum + Mathf.FloorToInt((max - sum) * (upgradeAtrs / atrTotal)));
+        counts.Add(sum + Mathf.FloorToInt((atrMax - sum) * (upgradeAtrs / atrTotal)));
+        maxs.Add(atrMax);
 
         Debug.Log("Eligiendo Subtipo");
-        List<int> weighted = WeightearElementos(counts, max);
+        List<int> weighted = WeightearElementos(counts, maxs);
         if (weighted.Count > 0)
         {
             upgrades[slot].upgradesList[subUpgradeNum].subTipoDeUpgrade = GetWeightedElement(weighted);
@@ -392,6 +466,7 @@ public class cRoguelikeUpgrade : MonoBehaviour
     {
         Debug.Log("Eligiendo Elemento");
         List<int> counts = new List<int>();
+        List<int> maxValues = new List<int>();
         List<int> weighted;
         int max = 0;
         switch (upgrades[slot].upgradesList[subUpgradeNum].subTipoDeUpgrade)
@@ -400,13 +475,39 @@ public class cRoguelikeUpgrade : MonoBehaviour
                 Debug.Log("case habilidades");
                 max = 5;
                 if (UpgradeYaSeleccionado(slot, subUpgradeNum, 0, 0)) counts.Add(max);
-                else counts.Add(rM.party[upgrades[slot].objetivoDeUpgrade].hab.ataqueBasico);
+                else counts.Add(rM.party[upgrades[slot].objetivoDeUpgrade].tradicionMarcial[0]);
                 if (UpgradeYaSeleccionado(slot, subUpgradeNum, 0, 1)) counts.Add(max);
-                else counts.Add(rM.party[upgrades[slot].objetivoDeUpgrade].hab.defensaBasica);
+                else counts.Add(rM.party[upgrades[slot].objetivoDeUpgrade].tradicionMarcial[1]);
+                if (rM.party[upgrades[slot].objetivoDeUpgrade].arma > cArma.FUEGO)
+                {
+                    for (int i = 0; i < 6; i++)
+                    {
+                        maxValues.Add(max);
+                    }
+                    if (UpgradeYaSeleccionado(slot, subUpgradeNum, 0, 2)) counts.Add(max);
+                    else counts.Add(rM.party[upgrades[slot].objetivoDeUpgrade].tradicionMarcial[2]);
+                    if (UpgradeYaSeleccionado(slot, subUpgradeNum, 0, 3)) counts.Add(max);
+                    else counts.Add(rM.party[upgrades[slot].objetivoDeUpgrade].tradicionMarcial[3]);
+                    if (UpgradeYaSeleccionado(slot, subUpgradeNum, 0, 4)) counts.Add(max);
+                    else counts.Add(rM.party[upgrades[slot].objetivoDeUpgrade].tradicionMarcial[4]);
+                    if (UpgradeYaSeleccionado(slot, subUpgradeNum, 0, 5)) counts.Add(max);
+                    else counts.Add(rM.party[upgrades[slot].objetivoDeUpgrade].tradicionMarcial[5]);
+                }
+                else
+                {
+                    for (int i = 0; i < 2; i++)
+                    {
+                        maxValues.Add(max);
+                    }
+                }
                 break;
             case 1: // atributos
                 Debug.Log("case atributos");
                 max = 2;
+                for (int i = 0; i < 5; i++)
+                {
+                    maxValues.Add(max);
+                }
                 if (UpgradeYaSeleccionado(slot, subUpgradeNum, 1, 0)) counts.Add(max);
                 else counts.Add(rM.party[upgrades[slot].objetivoDeUpgrade].atr.maña);
                 if (UpgradeYaSeleccionado(slot, subUpgradeNum, 1, 1)) counts.Add(max);
@@ -422,7 +523,7 @@ public class cRoguelikeUpgrade : MonoBehaviour
                 break;
         }
 
-        weighted = WeightearElementos(counts, max);
+        weighted = WeightearElementos(counts, maxValues);
 
         //switch (upgrades[slot].upgradesList[subUpgradeNum].subTipoDeUpgrade)
         //{
@@ -569,17 +670,15 @@ public class cRoguelikeUpgrade : MonoBehaviour
         return -9;
     }
 
-    List<int> WeightearElementos(List<int> valores, int maxValue)
+    List<int> WeightearElementos(List<int> valores, List<int> maxValues)
     {
 
         //Debug.Log("valores count: " + valores.Count);
-        Debug.Log("max value " + maxValue);
         List<int> ret = new List<int>();
         int total = 0;
-        foreach (var item in valores)
+        for (int i = 0; i < valores.Count; i++)
         {
-            Debug.Log("item: " + item);
-            total += maxValue - item;
+            total += maxValues[i] - valores[i];
         }
 
         if (total == 0) // lista maxeada. Esto puede pasar por ejemplo, si un p todavia puede recibir 1 upgrade, y esta es la 2da de esta "lest upgrade"
@@ -601,18 +700,25 @@ public class cRoguelikeUpgrade : MonoBehaviour
         //    ret.Add(100 - item * 100 / total);
         //}
         //Debug.Log("total: " + total);
-        foreach (var item in valores)
+        for (int i = 0; i < valores.Count; i++)
         {
-            // Debug.Log("Weight: " + (maxValue - item));
-            ret.Add((maxValue - item) * 100 / total); // Puede ser que el rounding de aca sea un problema?
+            ret.Add((maxValues[i] - valores[i]) * 100 / total);
         }
+
         // if (ret[ret.Count - 1] == 99) ret[ret.Count - 1] = 100;
         return ret;
     }
 
     int CalcularPuntosEnHabilidades(cPersonajeFlyweight p)
     {
-        return p.hab.ataqueBasico + p.hab.defensaBasica;
+        int amount = 2;
+        if (p.arma == cArma.VOLUNTAD_CREADOR) amount = 6;
+        int count = 0;
+        for (int i = 0; i < amount; i++)
+        {
+            count += p.tradicionMarcial[i];
+        }
+        return count;
     }
 
     int CalcularPuntosEnAtributos(cPersonajeFlyweight p)
@@ -651,6 +757,7 @@ public class cRoguelikeUpgrade : MonoBehaviour
         string text = "";
         if (aUpgradear.tipoDeUpgrade == cRoguelikeUpgradeData.RU_NO_UPGRADE) text = "Soy perfecto como soy";
         else if (aUpgradear.tipoDeUpgrade == cRoguelikeUpgradeData.RU_DESCANSO_COMPLETO) text = "¡A recuperar todas nuestras heridas y Drama!";
+        else if (aUpgradear.tipoDeUpgrade == cRoguelikeUpgradeData.RU_MARCIAL) text = "¡" + rM.party[aUpgradear.objetivoDeUpgrade].nombre +" aprende " + cArma.GetString(aUpgradear.upgradesList[0].elementoAUpgradear + cArma.VOLUNTAD_CREADOR) + "!";
         else
         {
             for (int i = 0; i < aUpgradear.upgradesList.Count; i++)
@@ -658,16 +765,22 @@ public class cRoguelikeUpgrade : MonoBehaviour
                 switch (aUpgradear.upgradesList[i].subTipoDeUpgrade)
                 {
                     case cRoguelikeUpgradeData.RUST_HAB: // habs
-                        switch (aUpgradear.upgradesList[i].elementoAUpgradear)
+                        if (rM.party[aUpgradear.objetivoDeUpgrade].arma > cArma.FUEGO)
                         {
-                            case 0:
-                                text += "+1 Ataque Básico";
-                                break;
-                            case 1:
-                                text += "+1 Defensa Básica";
-                                break;
-                            default:
-                                break;
+                            text += "1+ " + cArma.GetHabilidadString(rM.party[aUpgradear.objetivoDeUpgrade].arma, aUpgradear.upgradesList[i].elementoAUpgradear);
+                        }
+                        else {
+                            switch (aUpgradear.upgradesList[i].elementoAUpgradear)
+                            {
+                                case 0:
+                                    text += "+1 Ataque Básico";
+                                    break;
+                                case 1:
+                                    text += "+1 Defensa Básica";
+                                    break;
+                                default:
+                                    break;
+                            }
                         }
                         break;
                     case cRoguelikeUpgradeData.RUST_ATR: //atr
@@ -716,9 +829,9 @@ public class cRoguelikeUpgrade : MonoBehaviour
         string text = p.nombre + " - " + cArma.GetString(p.arma);
 
         // modificar tooltip
+        uiRU.SetUpgradeText(index, text);
         uiRU.UpgradeTooltip(index, upgrade);
 
-        uiRU.SetUpgradeText(index, text);
     }
 
     public void GetEleccion(int eleccion)
@@ -734,11 +847,19 @@ public class cRoguelikeUpgrade : MonoBehaviour
                 break;
             case cRoguelikeUpgradeData.RU_SIMPLE:
                 UpgradeIndividual(upgrade, 0);
+                if (rM.party[upgrade.objetivoDeUpgrade].arma > cArma.FUEGO)
+                {
+                    rM.party[upgrade.objetivoDeUpgrade].maestria = cArma.CalcularMaestria(rM.party[upgrade.objetivoDeUpgrade].tradicionMarcial);
+                }
                 break;
             case cRoguelikeUpgradeData.RU_DOBLE:
                 for (int i = 0; i < 2; i++)
                 {
                     UpgradeIndividual(upgrade, i);
+                }
+                if (rM.party[upgrade.objetivoDeUpgrade].arma > cArma.FUEGO)
+                {
+                    rM.party[upgrade.objetivoDeUpgrade].maestria = cArma.CalcularMaestria(rM.party[upgrade.objetivoDeUpgrade].tradicionMarcial);
                 }
                 break;
             case cRoguelikeUpgradeData.RU_TRIPLE:
@@ -746,11 +867,24 @@ public class cRoguelikeUpgrade : MonoBehaviour
                 {
                     UpgradeIndividual(upgrade, i);
                 }
+                if (rM.party[upgrade.objetivoDeUpgrade].arma > cArma.FUEGO)
+                {
+                    rM.party[upgrade.objetivoDeUpgrade].maestria = cArma.CalcularMaestria(rM.party[upgrade.objetivoDeUpgrade].tradicionMarcial);
+                }
                 break;
             case cRoguelikeUpgradeData.RU_PJ:
                 UpgradePJ(upgrade);
+                if (rM.party[rM.party.Count-1].arma > cArma.FUEGO)
+                {
+                    rM.party[rM.party.Count - 1].maestria = cArma.CalcularMaestria(rM.party[rM.party.Count - 1].tradicionMarcial);
+                }
                 break;
             case cRoguelikeUpgradeData.RU_MARCIAL:
+                UpgradeMarcial(upgrade);
+                if (rM.party[upgrade.objetivoDeUpgrade].arma > cArma.FUEGO)
+                {
+                    rM.party[upgrade.objetivoDeUpgrade].maestria = cArma.CalcularMaestria(rM.party[upgrade.objetivoDeUpgrade].tradicionMarcial);
+                }
                 break;
             case cRoguelikeUpgradeData.RU_ARCANA:
                 break;
@@ -762,6 +896,10 @@ public class cRoguelikeUpgrade : MonoBehaviour
                     item.DescansoParcial();
                 }
                 UpgradeIndividual(upgrade, 0);
+                if (rM.party[upgrade.objetivoDeUpgrade].arma > cArma.FUEGO)
+                {
+                    rM.party[upgrade.objetivoDeUpgrade].maestria = cArma.CalcularMaestria(rM.party[upgrade.objetivoDeUpgrade].tradicionMarcial);
+                }
                 break;
             case cRoguelikeUpgradeData.RU_DESCANSO_COMPLETO:
                 foreach (var item in rM.party)
@@ -778,6 +916,10 @@ public class cRoguelikeUpgrade : MonoBehaviour
                 {
                     UpgradeIndividual(upgrade, i);
                 }
+                if (rM.party[upgrade.objetivoDeUpgrade].arma > cArma.FUEGO)
+                {
+                    rM.party[upgrade.objetivoDeUpgrade].maestria = cArma.CalcularMaestria(rM.party[upgrade.objetivoDeUpgrade].tradicionMarcial);
+                }
                 break;
             default:
                 break;
@@ -785,7 +927,32 @@ public class cRoguelikeUpgrade : MonoBehaviour
         Listorti();
     }
 
-    public void DBUpgrades()
+    public void UpgradeMarcial(cRoguelikeUpgradeData upgrade)
+    {
+        Debug.Log("UM");
+        cPersonajeFlyweight per = rM.party[upgrade.objetivoDeUpgrade];
+        per.tradicionMarcialId = upgrade.upgradesList[0].elementoAUpgradear;
+        per.arma = cArma.VOLUNTAD_CREADOR + per.tradicionMarcialId;
+        Debug.Log(per.arma);
+        int calidad = per.tradicionMarcial[0] + per.tradicionMarcial[1];
+        List<int> ilegales = new List<int>();
+        while(calidad > 0)
+        {
+            calidad--;
+            int r = Random.Range(0, 4-ilegales.Count);
+            foreach (var item in ilegales)
+            {
+                if (r >= item) r++;
+            }
+            if (++per.tradicionMarcial[r + 2] > 4)
+            {
+                ilegales.Add(r);
+                ilegales.Sort();
+            }
+        }
+    }
+
+        public void DBUpgrades()
     {
         for (int i = 0; i < 3; i++)
         {
@@ -811,17 +978,7 @@ public class cRoguelikeUpgrade : MonoBehaviour
         switch (upgrade.upgradesList[subUpgradeNum].subTipoDeUpgrade)
         {
             case cRoguelikeUpgradeData.RUST_HAB: // habs
-                switch (upgrade.upgradesList[subUpgradeNum].elementoAUpgradear)
-                {
-                    case 0:
-                        rM.party[upgrade.objetivoDeUpgrade].hab.ataqueBasico++;
-                        break;
-                    case 1:
-                        rM.party[upgrade.objetivoDeUpgrade].hab.defensaBasica++;
-                        break;
-                    default:
-                        break;
-                }
+                rM.party[upgrade.objetivoDeUpgrade].tradicionMarcial[upgrade.upgradesList[subUpgradeNum].elementoAUpgradear]++;
                 break;
             case cRoguelikeUpgradeData.RUST_ATR: //atr
                 switch (upgrade.upgradesList[subUpgradeNum].elementoAUpgradear)
@@ -868,6 +1025,12 @@ public class cRoguelikeUpgrade : MonoBehaviour
         int lvl = 1;
         if (rM.nivel > pJIntervalo) lvl = 2;
         return rM.rC.templatesPersonajes[lvl][upgrades[index].upgradesList[0].elementoAUpgradear];
+    }
+
+    public bool EsUpgradeTM(int index)
+    {
+        if(index >= 0) return upgrades[index].tipoDeUpgrade == cRoguelikeUpgradeData.RU_MARCIAL;
+        return false;
     }
 
     // Update is called once per frame

@@ -29,9 +29,10 @@ public class cAIAtacantePrecavido : cAI
         {
             enPeligro = (p.Heridas > 1);
         }
-        int dadosExtrasDefensa = p.atr.ingenio + p.hab.defensaBasica + p.defensaBasicaDadosExtra;
+        int dadosExtrasDefensa = p.atr.ingenio + p.tradicionMarcial[1] + p.defensaBasicaDadosExtra;
         if (atq < 20 + dadosExtrasDefensa || enPeligro)
         {
+            p.c.reaccionActiva = cPersonaje.DB_DefensaBasica;
             return true;
         }
         else

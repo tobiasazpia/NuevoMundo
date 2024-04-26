@@ -5,7 +5,9 @@ using UnityEngine;
 public class cRoguelikeCombate : MonoBehaviour
 {
     //Se encarga de generar un combate con la data roguelike manager entre la party, y unos enemigos generados a partir del nivel en el que estamos
+    public const int FINAL_COMBAT = 20;
     const int MAX_LVL = 3;
+    int min_lvl = 0;
     public cCombate combate;
     public cRoguelikeManager rM;
     List<cPersonajeFlyweight> enemigos;
@@ -34,10 +36,17 @@ public class cRoguelikeCombate : MonoBehaviour
         //manda a generar enemigos para armar el equipo
         List<cPersonajeFlyweight> combatientes = new List<cPersonajeFlyweight>();
         int presupuesto = nivel * 5;
-        do
+        if (rM.nivel != FINAL_COMBAT)
         {
-            presupuesto = AgregarEnemigo(presupuesto);
-        } while (presupuesto > 5 && enemigos.Count < 3);
+            do
+            {
+                presupuesto = AgregarEnemigo(presupuesto);
+            } while (presupuesto > 5 && enemigos.Count < 3);
+        }
+        else
+        {
+            AgregarEnemigosCombateFinal();
+        }
         combatientes.AddRange(party);
         combatientes.AddRange(enemigos);
         combate.esRoguelike = true;
@@ -47,6 +56,29 @@ public class cRoguelikeCombate : MonoBehaviour
             Destroy(item);
         }
         enemigos.Clear();
+    }
+
+    void AgregarEnemigosCombateFinal()
+    {
+        cPersonajeFlyweight temp = templatesPersonajes[3][0]; //Terminator
+        temp.equipo = 2;
+        enemigos.Add(temp);
+
+        temp = templatesPersonajes[3][1];  //Marco
+        temp.equipo = 2;
+        enemigos.Add(temp);
+
+        temp = templatesMatones[3][0];  //Guardia Real
+        temp.esMaton = true;
+        temp.equipo = 2;
+        temp.cantidad = 5;
+        enemigos.Add(temp);
+
+        //temp = templatesMatones[0][0];  //testing
+        //temp.esMaton = true;
+        //temp.equipo = 2;
+        //temp.cantidad = 1;
+        //enemigos.Add(temp);
     }
 
     int AgregarEnemigo(int presupuesto)
@@ -97,7 +129,8 @@ public class cRoguelikeCombate : MonoBehaviour
 
     int ElegirNivel(int presupuesto)
     {
-        return Mathf.Min(Random.Range(0, (presupuesto / 10) + 1),MAX_LVL);
+        if (rM.nivel > 10) min_lvl = 1;
+        return Mathf.Min(Random.Range(min_lvl, (presupuesto / 10) + 1),MAX_LVL);
     }
 
     void ElegirMaton(cPersonajeFlyweight maton, ref int presupuesto, int lvl, int accFaltantes)
@@ -288,8 +321,8 @@ public class cRoguelikeCombate : MonoBehaviour
         campesinosLatios.nombre = "Campesinos Latios";
         campesinosLatios.arma = cArma.PESADAS;
         campesinosLatios.iA = cAI.FULL_AGGRO;
-        campesinosLatios.hab.ataqueBasico = 1;
-        campesinosLatios.hab.defensaBasica = 2;
+        campesinosLatios.tradicionMarcial[0] = 1;
+        campesinosLatios.tradicionMarcial[1] = 2;
         campesinosLatios.atr.maña = 1;
         templatesMatones[lvl].Add(campesinosLatios);
 
@@ -297,8 +330,8 @@ public class cRoguelikeCombate : MonoBehaviour
         pandillerosUrqualianos.nombre = "Pandilleros Urqualianos";
         pandillerosUrqualianos.arma = cArma.ARCO;
         pandillerosUrqualianos.iA = cAI.FULL_DEFENSIVO;
-        pandillerosUrqualianos.hab.ataqueBasico = 1;
-        pandillerosUrqualianos.hab.defensaBasica = 1;
+        pandillerosUrqualianos.tradicionMarcial[0] = 1;
+        pandillerosUrqualianos.tradicionMarcial[1] = 1;
         pandillerosUrqualianos.atr.maña = 1;
         pandillerosUrqualianos.atr.ingenio = 2;
         templatesMatones[lvl].Add(pandillerosUrqualianos);
@@ -307,8 +340,8 @@ public class cRoguelikeCombate : MonoBehaviour
         piratasGebedenos.nombre = "Piratas Gebedenos";
         piratasGebedenos.arma = cArma.FUEGO;
         piratasGebedenos.iA = cAI.FULL_AGGRO;
-        piratasGebedenos.hab.ataqueBasico = 1;
-        piratasGebedenos.hab.defensaBasica = 1;
+        piratasGebedenos.tradicionMarcial[0] = 1;
+        piratasGebedenos.tradicionMarcial[1] = 1;
         piratasGebedenos.atr.maña = 2;
         piratasGebedenos.atr.donaire = 1;
         templatesMatones[lvl].Add(piratasGebedenos);
@@ -317,7 +350,7 @@ public class cRoguelikeCombate : MonoBehaviour
         pibesYvyros.nombre = "Pibes Yvyros";
         pibesYvyros.arma = cArma.LIGERAS;
         pibesYvyros.iA = cAI.SMART_DEFENSIVO;
-        pibesYvyros.hab.defensaBasica = 1;
+        pibesYvyros.tradicionMarcial[1] = 1;
         pibesYvyros.atr.maña = 2;
         pibesYvyros.atr.ingenio = 2;
         pibesYvyros.atr.donaire = 1;
@@ -327,8 +360,8 @@ public class cRoguelikeCombate : MonoBehaviour
         tonatiosEnEntrenamiento.nombre = "Tonatios en Entrenamiento";
         tonatiosEnEntrenamiento.arma = cArma.MEDIAS;
         tonatiosEnEntrenamiento.iA = cAI.ATACANTE_PRECAVIDO;
-        tonatiosEnEntrenamiento.hab.ataqueBasico = 1;
-        tonatiosEnEntrenamiento.hab.defensaBasica = 2;
+        tonatiosEnEntrenamiento.tradicionMarcial[0] = 1;
+        tonatiosEnEntrenamiento.tradicionMarcial[1] = 2;
         tonatiosEnEntrenamiento.atr.maña = 1;
         tonatiosEnEntrenamiento.atr.ingenio = 1;
         templatesMatones[lvl].Add(tonatiosEnEntrenamiento);
@@ -337,7 +370,7 @@ public class cRoguelikeCombate : MonoBehaviour
         pendencierosDeKasur.nombre = "Pendencieros de Kasur";
         pendencierosDeKasur.arma = cArma.PELEA;
         pendencierosDeKasur.iA = cAI.FULL_AGGRO;
-        pendencierosDeKasur.hab.ataqueBasico = 3;
+        pendencierosDeKasur.tradicionMarcial[0] = 3;
         pendencierosDeKasur.atr.maña = 1;
         pendencierosDeKasur.atr.musculo = 1;
         templatesMatones[lvl].Add(pendencierosDeKasur);
@@ -350,8 +383,8 @@ public class cRoguelikeCombate : MonoBehaviour
         defensaDeUmivarko.nombre = "Defensa de Umivarko";
         defensaDeUmivarko.arma = cArma.ARCO;
         defensaDeUmivarko.iA = cAI.SMART_DEFENSIVO;
-        defensaDeUmivarko.hab.ataqueBasico = 1;
-        defensaDeUmivarko.hab.defensaBasica = 5;
+        defensaDeUmivarko.tradicionMarcial[0] = 1;
+        defensaDeUmivarko.tradicionMarcial[1] = 5;
         defensaDeUmivarko.atr.maña = 1;
         defensaDeUmivarko.atr.ingenio = 1;
         defensaDeUmivarko.atr.donaire = 1;
@@ -361,8 +394,8 @@ public class cRoguelikeCombate : MonoBehaviour
         batallonLatio.nombre = "Batallon Latio";
         batallonLatio.arma = cArma.FUEGO;
         batallonLatio.iA = cAI.FULL_AGGRO;
-        batallonLatio.hab.ataqueBasico = 4;
-        batallonLatio.hab.defensaBasica = 2;
+        batallonLatio.tradicionMarcial[0] = 4;
+        batallonLatio.tradicionMarcial[1] = 2;
         batallonLatio.atr.maña = 2;
         batallonLatio.atr.donaire = 1;
         templatesMatones[lvl].Add(batallonLatio);
@@ -371,8 +404,8 @@ public class cRoguelikeCombate : MonoBehaviour
         silvidosDeLaEstepa.nombre = "Silvidos de la Estepa";
         silvidosDeLaEstepa.arma = cArma.MEDIAS;
         silvidosDeLaEstepa.iA = cAI.FULL_AGGRO;
-        silvidosDeLaEstepa.hab.ataqueBasico = 4;
-        silvidosDeLaEstepa.hab.defensaBasica = 2;
+        silvidosDeLaEstepa.tradicionMarcial[0] = 4;
+        silvidosDeLaEstepa.tradicionMarcial[1] = 2;
         silvidosDeLaEstepa.atr.brio = 2;
         silvidosDeLaEstepa.atr.donaire = 1;
         templatesMatones[lvl].Add(silvidosDeLaEstepa);
@@ -382,18 +415,18 @@ public class cRoguelikeCombate : MonoBehaviour
         l = new List<cPersonajeFlyweight>();
         templatesMatones.Add(l);
 
-        cPersonajeFlyweight guradiaRealDeUrqualia = gameObject.AddComponent<cPersonajeFlyweight>();
-        guradiaRealDeUrqualia.nombre = "Guardia Real de Urqualia";
-        guradiaRealDeUrqualia.arma = cArma.MEDIAS;
-        guradiaRealDeUrqualia.iA = cAI.SMART_DEFENSIVO;
-        guradiaRealDeUrqualia.hab.ataqueBasico = 5;
-        guradiaRealDeUrqualia.hab.defensaBasica = 5;
-        guradiaRealDeUrqualia.atr.maña = 2;
-        guradiaRealDeUrqualia.atr.musculo = 2;
-        guradiaRealDeUrqualia.atr.ingenio = 2;
-        guradiaRealDeUrqualia.atr.brio = 2;
-        guradiaRealDeUrqualia.atr.donaire = 2;  
-        templatesMatones[lvl].Add(guradiaRealDeUrqualia);
+        cPersonajeFlyweight guardiaRealDeUrqualia = gameObject.AddComponent<cPersonajeFlyweight>();
+        guardiaRealDeUrqualia.nombre = "Guardia Real de Urqualia";
+        guardiaRealDeUrqualia.arma = cArma.MEDIAS;
+        guardiaRealDeUrqualia.iA = cAI.SMART_DEFENSIVO;
+        guardiaRealDeUrqualia.tradicionMarcial[0] = 5;
+        guardiaRealDeUrqualia.tradicionMarcial[1] = 5;
+        guardiaRealDeUrqualia.atr.maña = 2;
+        guardiaRealDeUrqualia.atr.musculo = 0;
+        guardiaRealDeUrqualia.atr.ingenio = 2;
+        guardiaRealDeUrqualia.atr.brio = 2;
+        guardiaRealDeUrqualia.atr.donaire = 2;  
+        templatesMatones[lvl].Add(guardiaRealDeUrqualia);
     }
 
     void LlenarTempatePersonajes()
@@ -423,7 +456,7 @@ public class cRoguelikeCombate : MonoBehaviour
         sombraEnEntrenamiento.nombre = "Sombra en Entrenamiento";
         sombraEnEntrenamiento.arma = cArma.LIGERAS;
         sombraEnEntrenamiento.iA = cAI.SMART_DEFENSIVO;
-        sombraEnEntrenamiento.hab.defensaBasica = 3;
+        sombraEnEntrenamiento.tradicionMarcial[1] = 3;
         sombraEnEntrenamiento.atr.donaire = 1;
         sombraEnEntrenamiento.atr.ingenio = 1;
         templatesPersonajes[lvl].Add(sombraEnEntrenamiento);
@@ -432,34 +465,75 @@ public class cRoguelikeCombate : MonoBehaviour
         heroeTonatio.nombre = "Heroe Tonatio";
         heroeTonatio.arma = cArma.MEDIAS;
         heroeTonatio.iA = cAI.FULL_AGGRO;
-        heroeTonatio.hab.ataqueBasico = 3;
+        heroeTonatio.tradicionMarcial[0] = 3;
         heroeTonatio.atr.musculo = 1;
-        heroeTonatio.atr.maña = 1;
+        heroeTonatio.atr.donaire = 1;
         templatesPersonajes[lvl].Add(heroeTonatio);
 
+        cPersonajeFlyweight jovenAilepen = gameObject.AddComponent<cPersonajeFlyweight>();
+        jovenAilepen.nombre = "Joven de Ailepen";
+        jovenAilepen.arma = cArma.PESADAS;
+        jovenAilepen.iA = cAI.ATACANTE_PRECAVIDO;
+        jovenAilepen.tradicionMarcial[1] = 3;
+        jovenAilepen.atr.musculo = 2;
+        templatesPersonajes[lvl].Add(jovenAilepen);
+        
         cPersonajeFlyweight aspiranteAMartillo = gameObject.AddComponent<cPersonajeFlyweight>();
         aspiranteAMartillo.nombre = "Aspirante a Martillo";
-        aspiranteAMartillo.arma = cArma.PESADAS;
-        aspiranteAMartillo.iA = cAI.ATACANTE_PRECAVIDO;
-        aspiranteAMartillo.hab.defensaBasica = 3;
-        aspiranteAMartillo.atr.musculo = 2;
+        aspiranteAMartillo.arma = cArma.VOLUNTAD_CREADOR;
+        aspiranteAMartillo.iA = cAI.VOLUNTAD_DEL_CREADOR;
+        aspiranteAMartillo.tradicionMarcialId = 1;
+        aspiranteAMartillo.tradicionMarcial[0] = 3;
+        aspiranteAMartillo.tradicionMarcial[1] = 0;
+        aspiranteAMartillo.tradicionMarcial[2] = 0;
+        aspiranteAMartillo.tradicionMarcial[3] = 3;
+        aspiranteAMartillo.tradicionMarcial[4] = 0;
+        aspiranteAMartillo.tradicionMarcial[5] = 1;
+        aspiranteAMartillo.maestria = cArma.CalcularMaestria(aspiranteAMartillo.tradicionMarcial);
+        aspiranteAMartillo.atr.musculo = 1;
+        aspiranteAMartillo.atr.maña = 1;
         templatesPersonajes[lvl].Add(aspiranteAMartillo);
 
+        cPersonajeFlyweight promesaDeAtyYvatevo = gameObject.AddComponent<cPersonajeFlyweight>();
+        promesaDeAtyYvatevo.nombre = "Promesa de Aty Yvatevo";
+        promesaDeAtyYvatevo.arma = cArma.JAIEIY;
+        promesaDeAtyYvatevo.iA = cAI.JAIEIY_NO_IMP;
+        promesaDeAtyYvatevo.tradicionMarcialId = 2;
+        promesaDeAtyYvatevo.tradicionMarcial[0] = 3;
+        promesaDeAtyYvatevo.tradicionMarcial[1] = 2;
+        promesaDeAtyYvatevo.tradicionMarcial[2] = 0;
+        promesaDeAtyYvatevo.tradicionMarcial[3] = 2;
+        promesaDeAtyYvatevo.tradicionMarcial[4] = 0;
+        promesaDeAtyYvatevo.tradicionMarcial[5] = 0;
+        promesaDeAtyYvatevo.maestria = cArma.CalcularMaestria(promesaDeAtyYvatevo.tradicionMarcial);
+        promesaDeAtyYvatevo.atr.donaire = 1;
+        promesaDeAtyYvatevo.atr.musculo = 1;
+        templatesPersonajes[lvl].Add(promesaDeAtyYvatevo);
+
         cPersonajeFlyweight arqueroSikuo = gameObject.AddComponent<cPersonajeFlyweight>();
-        arqueroSikuo.nombre = "Arquero Sikuo";
+        arqueroSikuo.nombre = "Cazador Sikuo";
         arqueroSikuo.arma = cArma.ARCO;
         arqueroSikuo.iA = cAI.FULL_AGGRO;
-        arqueroSikuo.hab.ataqueBasico = 3;
-        arqueroSikuo.atr.brio = 1;
+        arqueroSikuo.tradicionMarcial[0] = 3;
+        arqueroSikuo.atr.musculo = 1;
         arqueroSikuo.atr.maña = 1;
         templatesPersonajes[lvl].Add(arqueroSikuo);
+
+        cPersonajeFlyweight exploradorIntuako = gameObject.AddComponent<cPersonajeFlyweight>();
+        exploradorIntuako.nombre = "Explorador Iñtuako";
+        exploradorIntuako.arma = cArma.ARCO;
+        exploradorIntuako.iA = cAI.SMART_DEFENSIVO;
+        exploradorIntuako.tradicionMarcial[1] = 3;
+        exploradorIntuako.atr.donaire = 1;
+        exploradorIntuako.atr.ingenio = 1;
+        templatesPersonajes[lvl].Add(exploradorIntuako);
 
         cPersonajeFlyweight tiradorDeCaulcaycaja = gameObject.AddComponent<cPersonajeFlyweight>();
         tiradorDeCaulcaycaja.nombre = "Tirador de Caulcaycaja";
         tiradorDeCaulcaycaja.arma = cArma.FUEGO;
         tiradorDeCaulcaycaja.iA = cAI.ATACANTE_PRECAVIDO;
-        tiradorDeCaulcaycaja.hab.ataqueBasico = 2;
-        tiradorDeCaulcaycaja.hab.defensaBasica = 1;
+        tiradorDeCaulcaycaja.tradicionMarcial[0] = 2;
+        tiradorDeCaulcaycaja.tradicionMarcial[1] = 1;
         tiradorDeCaulcaycaja.atr.ingenio = 1;
         tiradorDeCaulcaycaja.atr.maña = 1;
         templatesPersonajes[lvl].Add(tiradorDeCaulcaycaja);
@@ -467,7 +541,7 @@ public class cRoguelikeCombate : MonoBehaviour
         cPersonajeFlyweight marineroGebedeno = gameObject.AddComponent<cPersonajeFlyweight>();
         marineroGebedeno.nombre = "Marinero Gebedeno";
         marineroGebedeno.arma = cArma.PELEA;
-        marineroGebedeno.hab.ataqueBasico = 3;
+        marineroGebedeno.tradicionMarcial[0] = 3;
         marineroGebedeno.atr.musculo = 2;
         marineroGebedeno.iA = cAI.FULL_AGGRO;
         templatesPersonajes[lvl].Add(marineroGebedeno);
@@ -481,8 +555,8 @@ public class cRoguelikeCombate : MonoBehaviour
         cazarecompensasCouroneo.nombre = "Cazarecompensas Couroneo";
         cazarecompensasCouroneo.arma = cArma.MEDIAS;
         cazarecompensasCouroneo.iA = cAI.FULL_AGGRO;
-        cazarecompensasCouroneo.hab.ataqueBasico = 3;
-        cazarecompensasCouroneo.hab.defensaBasica = 3;
+        cazarecompensasCouroneo.tradicionMarcial[0] = 3;
+        cazarecompensasCouroneo.tradicionMarcial[1] = 3;
         cazarecompensasCouroneo.atr.musculo = 1;
         cazarecompensasCouroneo.atr.maña = 1;
         cazarecompensasCouroneo.atr.brio = 1;
@@ -492,8 +566,8 @@ public class cRoguelikeCombate : MonoBehaviour
         guardianDeYsyry.nombre = "Guardian de Ysyry";
         guardianDeYsyry.arma = cArma.ARCO;
         guardianDeYsyry.iA = cAI.SMART_DEFENSIVO;
-        guardianDeYsyry.hab.defensaBasica = 4;
-        guardianDeYsyry.hab.ataqueBasico = 2;
+        guardianDeYsyry.tradicionMarcial[1] = 4;
+        guardianDeYsyry.tradicionMarcial[0] = 2;
         guardianDeYsyry.atr.donaire = 1;
         guardianDeYsyry.atr.ingenio = 2;
         templatesPersonajes[lvl].Add(guardianDeYsyry);
@@ -502,11 +576,72 @@ public class cRoguelikeCombate : MonoBehaviour
         pistoleroDeOzcolto.nombre = "Pistolero de Ozcolto";
         pistoleroDeOzcolto.arma = cArma.FUEGO;
         pistoleroDeOzcolto.iA = cAI.FULL_AGGRO;
-        pistoleroDeOzcolto.hab.ataqueBasico = 3;
-        pistoleroDeOzcolto.hab.defensaBasica = 3;
+        pistoleroDeOzcolto.tradicionMarcial[0] = 3;
+        pistoleroDeOzcolto.tradicionMarcial[1] = 3;
         pistoleroDeOzcolto.atr.maña = 2;
         pistoleroDeOzcolto.atr.brio = 1;
         templatesPersonajes[lvl].Add(pistoleroDeOzcolto);
+
+        cPersonajeFlyweight yolitia = gameObject.AddComponent<cPersonajeFlyweight>();
+        yolitia.nombre = "Yolitia";
+        yolitia.arma = cArma.ARCO;
+        yolitia.iA = cAI.SMART_DEFENSIVO;
+        yolitia.tradicionMarcial[1] = 4;
+        yolitia.tradicionMarcial[0] = 3;
+        yolitia.atr.donaire = 1;
+        yolitia.atr.ingenio = 2;
+        yolitia.atr.maña = 1;
+        yolitia.atr.brio = 1;
+        templatesPersonajes[lvl].Add(yolitia);
+
+
+        cPersonajeFlyweight saranik = gameObject.AddComponent<cPersonajeFlyweight>();
+        saranik.nombre = "Saranik";
+        saranik.arma = cArma.PESADAS;
+        saranik.iA = cAI.ATACANTE_PRECAVIDO;
+        saranik.tradicionMarcial[0] = 3;
+        saranik.tradicionMarcial[1] = 3;
+        saranik.atr.brio = 2;
+        saranik.atr.maña = 1;
+        saranik.atr.ingenio = 1;
+        saranik.atr.donaire = 1;
+        saranik.atr.musculo = 1;
+        templatesPersonajes[lvl].Add(saranik);
+
+        cPersonajeFlyweight padreAsensio = gameObject.AddComponent<cPersonajeFlyweight>();
+        padreAsensio.nombre = "Padre Asensio";
+        padreAsensio.arma = cArma.VOLUNTAD_CREADOR;
+        padreAsensio.iA = cAI.VOLUNTAD_DEL_CREADOR;
+        padreAsensio.tradicionMarcialId = 1;
+        padreAsensio.tradicionMarcial[0] = 3;
+        padreAsensio.tradicionMarcial[1] = 1;
+        padreAsensio.tradicionMarcial[2] = 3;
+        padreAsensio.tradicionMarcial[3] = 4;
+        padreAsensio.tradicionMarcial[4] = 2;
+        padreAsensio.tradicionMarcial[5] = 2;
+        padreAsensio.maestria = cArma.CalcularMaestria(padreAsensio.tradicionMarcial);
+        padreAsensio.atr.musculo = 1;
+        padreAsensio.atr.maña = 1;
+        padreAsensio.atr.brio = 2;
+        templatesPersonajes[lvl].Add(padreAsensio);
+
+
+        cPersonajeFlyweight guerreroDeKañy = gameObject.AddComponent<cPersonajeFlyweight>();
+        guerreroDeKañy.nombre = "Guerrero de Kañy";
+        guerreroDeKañy.arma = cArma.JAIEIY;
+        guerreroDeKañy.iA = cAI.JAIEIY;
+        guerreroDeKañy.tradicionMarcialId = 2;
+        guerreroDeKañy.tradicionMarcial[0] = 2;
+        guerreroDeKañy.tradicionMarcial[1] = 3;
+        guerreroDeKañy.tradicionMarcial[2] = 4;
+        guerreroDeKañy.tradicionMarcial[3] = 3;
+        guerreroDeKañy.tradicionMarcial[4] = 2;
+        guerreroDeKañy.tradicionMarcial[5] = 1;
+        guerreroDeKañy.maestria = cArma.CalcularMaestria(guerreroDeKañy.tradicionMarcial);
+        guerreroDeKañy.atr.ingenio = 1;
+        guerreroDeKañy.atr.donaire = 1;
+        guerreroDeKañy.atr.musculo = 2;
+        templatesPersonajes[lvl].Add(guerreroDeKañy);
 
 
         lvl = 3;
@@ -517,13 +652,68 @@ public class cRoguelikeCombate : MonoBehaviour
         terminator.nombre = "Terminator";
         terminator.arma = cArma.FUEGO;
         terminator.iA = cAI.FULL_AGGRO;
-        terminator.hab.ataqueBasico = 5;
-        terminator.hab.defensaBasica = 5;
+        terminator.tradicionMarcial[0] = 5;
+        terminator.tradicionMarcial[1] = 5;
         terminator.atr.maña = 2;
         terminator.atr.musculo = 2;
-        terminator.atr.ingenio = 2;
+        terminator.atr.ingenio = 0;
         terminator.atr.brio = 2;
         terminator.atr.donaire = 2;
         templatesPersonajes[lvl].Add(terminator);
+
+        cPersonajeFlyweight marco = gameObject.AddComponent<cPersonajeFlyweight>();
+        marco.nombre = "Marco";
+        marco.arma = cArma.VOLUNTAD_CREADOR;
+        marco.iA = cAI.VOLUNTAD_DEL_CREADOR;
+        marco.tradicionMarcialId = 1;
+        marco.tradicionMarcial[0] = 5;
+        marco.tradicionMarcial[1] = 4;
+        marco.tradicionMarcial[2] = 3;
+        marco.tradicionMarcial[3] = 3;
+        marco.tradicionMarcial[4] = 3;
+        marco.tradicionMarcial[5] = 3;
+        marco.maestria = cArma.CalcularMaestria(marco.tradicionMarcial);
+        marco.atr.maña = 1;
+        marco.atr.musculo = 2;
+        marco.atr.ingenio = 1;
+        marco.atr.brio = 1;
+        marco.atr.donaire = 1;
+        templatesPersonajes[lvl].Add(marco);
+
+        cPersonajeFlyweight hory = gameObject.AddComponent<cPersonajeFlyweight>();
+        hory.nombre = "Hory";
+        hory.arma = cArma.JAIEIY;
+        hory.iA = cAI.JAIEIY_NO_IMP;
+        hory.tradicionMarcialId = 2;
+        hory.tradicionMarcial[0] = 4;
+        hory.tradicionMarcial[1] = 3;
+        hory.tradicionMarcial[2] = 3;
+        hory.tradicionMarcial[3] = 3;
+        hory.tradicionMarcial[4] = 5;
+        hory.tradicionMarcial[5] = 3;
+        hory.maestria = cArma.CalcularMaestria(hory.tradicionMarcial);
+        hory.atr.ingenio = 2;
+        hory.atr.maña = 1;
+        hory.atr.brio = 1;
+        hory.atr.donaire = 1;
+        hory.atr.musculo = 1;
+        templatesPersonajes[lvl].Add(hory);
+
+        //lvl = 4;
+        //l = new List<cPersonajeFlyweight>();
+        //templatesPersonajes.Add(l);
+
+        //cPersonajeFlyweight megaSatan = gameObject.AddComponent<cPersonajeFlyweight>();
+        //megaSatan.nombre = "Mega Satan";
+        //megaSatan.arma = cArma.VOLUNTAD_CREADOR;
+        //megaSatan.iA = cAI.VOLUNTAD_DEL_CREADOR;
+        //megaSatan.tradicionMarcial[0] = 5;
+        //megaSatan.tradicionMarcial[1] = 5;
+        //megaSatan.atr.maña = 2;
+        //megaSatan.atr.musculo = 2;
+        //megaSatan.atr.ingenio = 2;
+        //megaSatan.atr.brio = 2;
+        //megaSatan.atr.donaire = 2;
+        //templatesPersonajes[lvl].Add(megaSatan);
     }
 }

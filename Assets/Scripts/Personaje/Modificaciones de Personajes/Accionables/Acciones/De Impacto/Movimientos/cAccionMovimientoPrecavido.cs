@@ -14,10 +14,13 @@ public class cAccionMovimientoPrecavido : cAccionMovimiento
     void Start()
     {
         GetObjets();
-        nombre = "Movimiento Precavido";
+        nombre = "Escabullirse";
+        consecuencia = "Todos tiran -1 al Atacarte hasta que vuelvas a actuar.";
+        reglas = nombre + ": Movimiento. " + consecuencia;
         categoria = cAcciones.AC_CAT_MOVIMIENTO;
         var root = GameObject.Find("UI").GetComponent<UIDocument>().rootVisualElement;
         boton = root.Q<Button>("ButtonMoverPrec");
+        icon = c.GetComponent<cIconos>().Escabullirse;
         esLegal = true;
     }
 
@@ -74,10 +77,14 @@ public class cAccionMovimientoPrecavido : cAccionMovimiento
         }
         else
         {
+
             posiblesReacciones.Clear();
             uiC.DejarDePedirReaccion();
             if (mostrarMensaje2)
             {
+                personaje.c.effect.clip = personaje.c.effectWalk;
+                personaje.c.effect.Play();
+
                 uiC.SetText("Nadie detiene a " + UIInterface.NombreDePersonajeEnNegrita(c.personajeActivo) + " y se mueve a " + c.zonas[c.zonaObjetiva].nombre + ". Todos tiran -1d al atacar a " + UIInterface.NombreDePersonajeEnNegrita(c.personajeActivo) + " hasta que vuelva a actuar.");
                 c.personajeActivo.SetZonaActual(c.zonaObjetiva);
                 c.personajeActivo.transform.position = new Vector3(c.personajeActivo.GetZonaActual() * 10 - 10, 0, c.personajeActivo.transform.position.z);

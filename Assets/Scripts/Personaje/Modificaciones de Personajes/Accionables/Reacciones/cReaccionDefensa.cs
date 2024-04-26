@@ -11,11 +11,14 @@ public class cReaccionDefensa : cReacciones
     public int dadosATirar;
     public int defensa;
     public bool exito;
+    public bool pidiendoDrama = false;
 
-    public void SetUp()
+    override public void SetUp()
     {
         GetObjets();
         reroleandoState = DB_TIRANDO;
+        if (personaje.tieneTradicionMarcial) reroleandoState = DB_DETERMINANDO_DADOS;
+        else reroleandoState = DB_TIRANDO;
     }
 
     override public void Ejecutar()
@@ -36,7 +39,7 @@ public class cReaccionDefensa : cReacciones
                 break;
         }
         acc_state++;
-        c.EsperandoOkOn(true);
+        if(!pidiendoDrama) c.EsperandoOkOn(true);
     }
 
     protected void DeterminadoDados()
@@ -59,7 +62,7 @@ public class cReaccionDefensa : cReacciones
                 (personaje.arma as cArmasPelea).PerderArmaImprovisada();
                 armasImprovisadas = " " + UIInterface.NombreDePersonajeEnNegrita(personaje) + " lanza su arma improvisada.";
             }
-            uiC.SetText(UIInterface.NombreDePersonajeEnNegrita(personaje) + " trata de defender con " + dadosATirar + " dados contra el ataque de " + UIInterface.NombreDePersonajeEnNegrita(c.personajeActivo) + " de " + UIInterface.IntEnNegrita(c.jugadorAtq) + "." + armasImprovisadas);
+            uiC.SetText(UIInterface.NombreDePersonajeEnNegrita(personaje) + " trata de defender con " + nombre + " tirando " + dadosATirar + " dados contra el ataque de " + UIInterface.NombreDePersonajeEnNegrita(c.personajeActivo) + " de " + UIInterface.IntEnNegrita(c.jugadorAtq) + "." + armasImprovisadas);
         }
     }
 
@@ -74,6 +77,11 @@ public class cReaccionDefensa : cReacciones
         if (c.atacando)
         {
             exito = defensa >= c.jugadorAtq;
+            //To Do - Jaieiy: decirle al ataque si tuvo exito o no, para que sepa que bonus de Jairiy tiene que aplicar
+            //sabes el p activo, del cueal sabes su lista de acciones
+            //combate tambien
+            // si no, la otra seria no interactaur ocn el ataque, y en toda defensa al determinar el exito, chequear si la escuela del otro es Jaieiy, y si lo es, updatear sus bonus segun corresponda.
+            // Esto requeriria tambien updetearlos cuando un ataque falla de una y cuando nadie decide trata de defender
             if (exito)
             {
                 resultado = "deteniendo";
@@ -101,7 +109,7 @@ public class cReaccionDefensa : cReacciones
             }
             uiC.SetText(UIInterface.NombreDePersonajeEnNegrita(personaje) + " saca " + def + ", " + resultado + " el movimiento de " + UIInterface.NombreDePersonajeEnNegrita(c.personajeActivo) + ".");
         }
-        if (personaje.Drama && !exito) uiC.PedirDrama();
+        if (personaje.Drama && !exito) { uiC.PedirDrama(); pidiendoDrama = true; }
     }
 
     public virtual void Consecuencias()
@@ -110,6 +118,9 @@ public class cReaccionDefensa : cReacciones
         string curar = "";
         if (exito)
         {
+            personaje.c.effect.clip = personaje.c.effectDefensa;
+            personaje.c.effect.Play();
+
 
             int dif = 0;
             if (c.atacando)
@@ -149,5 +160,11 @@ public class cReaccionDefensa : cReacciones
         cEventManager.StartPersonajeActuoEvent(personaje);
         uiC.ActualizarIniciativa(c.personajes);
         acc_state = DB_DETERMINANDO_DADOS - 1;
+    }
+
+    protected void PlaySoundEffect()
+    {
+        personaje.c.effect.clip = personaje.c.effectDefensa;
+        personaje.c.effect.Play();
     }
 }

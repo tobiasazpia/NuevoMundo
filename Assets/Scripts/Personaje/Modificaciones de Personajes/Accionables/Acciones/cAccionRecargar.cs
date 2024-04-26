@@ -10,9 +10,13 @@ public class cAccionRecargar : cAcciones
     {
         GetObjets();
         nombre = "Recargar";
+        consecuencia = "Tu arma de fuego pasa a estar cargada, y podes volver a Atcar, Defender a otros, y Detener Movimiento.";
+        reglas = nombre + ": Especial sin tirar. " + consecuencia;
+
         categoria = cAcciones.AC_CAT_MARCIAL;
         var root = GameObject.Find("UI").GetComponent<UIDocument>().rootVisualElement;
         boton = root.Q<Button>("ButtonRecargar");
+        icon = c.GetComponent<cIconos>().Recargar;
     }
 
     override public void Ejecutar()
